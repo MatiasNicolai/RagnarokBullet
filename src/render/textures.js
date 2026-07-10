@@ -12,22 +12,29 @@ export function makeGrassTexture(renderer) {
   return renderer.generateTexture(g);
 }
 
-// Danmaku enemy bullet: soft glow halo + colored rim + bright core.
-// Solid and readable against any background.
+// Danmaku enemy bullet. Readability is critical: bullets must pop against busy
+// map art AND against falling loot (which shares warm/cool color families).
+// The recipe (glow → DARK contrast ring → saturated body → bright inner →
+// white-hot center) is the standard danmaku trick — the dark ring separates the
+// bullet from anything behind it, and the white center reads instantly as
+// "danger", so bullets never blend into potions/gems/zeny.
 const BULLET_COLORS = {
-  red: [0xff3b4e, 0xffb0b8],
-  cyan: [0x2fd4ff, 0xc9f4ff],
-  orange: [0xff9430, 0xffe0b0],
-  purple: [0xc95bff, 0xeac9ff],
+  red: [0xff3040, 0xffc0c6],
+  cyan: [0x1fd0ff, 0xd6f6ff],
+  orange: [0xff8c1a, 0xffe6bc],
+  purple: [0xc84dff, 0xeecbff],
 };
+const BULLET_EDGE = 0x0a0c16; // near-black contrast ring
 
 export function makeBulletTextures(renderer) {
   const out = {};
   for (const [name, [rim, core]] of Object.entries(BULLET_COLORS)) {
     const g = new Graphics();
-    g.circle(12, 12, 11).fill({ color: rim, alpha: 0.35 });
-    g.circle(12, 12, 8).fill(rim);
-    g.circle(12, 12, 4.5).fill(core);
+    g.circle(12, 12, 12).fill({ color: rim, alpha: 0.30 });      // soft colored glow
+    g.circle(12, 12, 10).fill({ color: BULLET_EDGE, alpha: 0.9 }); // dark contrast ring
+    g.circle(12, 12, 8).fill(rim);                                // saturated body
+    g.circle(12, 12, 5).fill(core);                               // bright inner
+    g.circle(12, 12, 2.6).fill(0xffffff);                         // white-hot center
     out[name] = renderer.generateTexture(g);
   }
   return out;
