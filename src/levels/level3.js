@@ -2,7 +2,7 @@
 // mid-boss Baphomet Jr. (giant) → approach → Baphomet (final). Deterministic.
 import { FIELD_W, FIELD_H } from '../sim/constants.js';
 import { spawnBoss, baphomet } from '../sim/boss.js';
-import { ring, fan, aimed, angleTo } from '../sim/patterns.js';
+import { ring, fan, aimed, rain, angleTo } from '../sim/patterns.js';
 
 // --- behaviors ---
 function evildruidShoot(sim, e) {
@@ -50,18 +50,38 @@ function baphoJrShoot(sim, e) {
   if (e.t % 70 === 30) fan(sim, e.x, e.y, { n: 4, angle: Math.PI / 2, spread: 1.4, speed: 3.0, color: 'purple' });
 }
 
-// mid-boss: giant Baphomet Jr. — fast cross-scythe volleys.
+// mid-boss: giant Baphomet Jr. Two alternating stances you learn to read:
+// A) spinning cross-scythe volleys while it sweeps side to side;
+// B) it recenters and hurls SCYTHE RAIN — two crossing waves of falling
+//    blades sweeping the field edge-to-edge (ride the moving gap between them).
 function bigBaphoJrStep(sim, e) {
-  if (e.y < 155) { e.vy = 1.3; return; }
+  // cycle clocked from arrival (e.at), consistent with the other mid-bosses
+  if (e.y < 155) { e.vy = 1.3; e.at = -1; return; }
   e.vy = 0;
-  e.x = FIELD_W / 2 + Math.sin(e.t / 42) * 165;
-  if (e.t % 70 === 50) e.tele = 18;
-  if (e.t % 70 === 0 && e.t > 0) {
-    for (const a of [0, Math.PI / 2, Math.PI, -Math.PI / 2]) {
-      fan(sim, e.x, e.y, { n: 3, angle: a + e.t * 0.05, spread: 0.4, speed: 2.6, color: 'red' });
+  e.at = (e.at ?? -1) + 1;
+  const cyc = e.at % 280;
+  if (cyc < 150) {
+    // stance A: spinning cross
+    e.x = FIELD_W / 2 + Math.sin(e.t / 42) * 165;
+    if (cyc % 70 === 50) e.tele = 18;
+    if (cyc % 70 === 0 && e.t > 0) {
+      for (const a of [0, Math.PI / 2, Math.PI, -Math.PI / 2]) {
+        fan(sim, e.x, e.y, { n: 3, angle: a + e.t * 0.05, spread: 0.4, speed: 2.4, color: 'red' });
+      }
+    }
+    if (cyc % 40 === 20) aimed(sim, e.x, e.y, { speed: 3.0, color: 'purple' });
+  } else {
+    // stance B: scythe rain — crossing sweeps
+    e.x += (FIELD_W / 2 - e.x) * 0.08;
+    const k = cyc - 150;
+    if (k === 0) e.tele = 20;
+    if (k >= 16 && k % 5 === 0) {
+      const frac = (k - 16) / (280 - 150 - 16);
+      const sweepX = 30 + frac * (FIELD_W - 60);
+      rain(sim, sweepX, { speed: 2.8, color: 'red', r: 6 });
+      rain(sim, FIELD_W - sweepX, { speed: 2.8, color: 'purple', r: 6 });
     }
   }
-  if (e.t % 40 === 20) aimed(sim, e.x, e.y, { speed: 3.4, color: 'purple' });
 }
 
 function nearest(sim, e) {

@@ -4,7 +4,7 @@
 // Orc Baby) for a cohesive look. Phase machine, deterministic (rng/tick only).
 import { FIELD_W } from '../sim/constants.js';
 import { spawnBoss, orcHero } from '../sim/boss.js';
-import { ring, fan, aimed, angleTo } from '../sim/patterns.js';
+import { ring, ringWithGap, fan, aimed, angleTo, nearestPlayer } from '../sim/patterns.js';
 
 // --- enemy behaviors (each telegraphs ~20 ticks before firing) ---
 
@@ -45,19 +45,38 @@ function lunaticShoot(sim, e) {
   if (e.t > 560) e.vy = 1.6;
 }
 
-// mid-boss Mastering: giant poring that sways, spits porings + rings.
+// mid-boss Mastering: a giant poring — its signature is the HOP & SLAM.
+// Cycle: sway spitting baby porings → telegraph → hop onto the player's x →
+// landing shockwave (gapped double ring: read the gap, slip through).
 function masteringStep(sim, e) {
-  if (e.y < 150) { e.vy = 1.2; return; }
+  // cycle clocked from arrival (e.at) so the hop never runs without its
+  // telegraph having set slamX (descent early-returns would skip it).
+  if (e.y < 150) { e.vy = 1.2; e.at = -1; return; }
   e.vy = 0;
-  e.x = FIELD_W / 2 + Math.sin(e.t / 45) * 160;
-  if (e.t % 150 === 120) e.tele = 24;
-  if (e.t % 150 === 0 && e.t > 0) ring(sim, e.x, e.y, { n: 14, speed: 2.0, baseAngle: sim.rng.range(0, 6.28), color: 'red' });
-  if (e.t % 90 === 45) {
-    sim.spawnEnemy({
-      x: e.x + sim.rng.range(-30, 30), y: e.y + 20,
-      vx: sim.rng.range(-1, 1), vy: sim.rng.range(1, 1.8),
-      hp: 5, r: 15, skin: 'poring', score: 100,
-    });
+  e.at = (e.at ?? -1) + 1;
+  const cyc = e.at % 180;
+  if (cyc < 110) {
+    // sway phase (lerped so the post-slam return doesn't snap)
+    const target = FIELD_W / 2 + Math.sin(e.t / 45) * 160;
+    e.x += (target - e.x) * 0.08;
+    if (cyc % 90 === 45) {
+      sim.spawnEnemy({
+        x: e.x + sim.rng.range(-30, 30), y: e.y + 20,
+        vx: sim.rng.range(-1, 1), vy: sim.rng.range(1, 1.8),
+        hp: 5, r: 15, skin: 'poring', score: 100,
+      });
+    }
+  } else if (cyc === 110) {
+    e.tele = 26;                                   // squash: the hop is coming
+    const p = nearestPlayer(sim, e.x, e.y);
+    e.slamX = p ? p.x : FIELD_W / 2;
+  } else if (cyc >= 136 && cyc < 156) {
+    e.x += (e.slamX - e.x) * 0.3;                  // the hop
+  } else if (cyc === 156) {
+    // SLAM: shockwave rings with a readable escape gap
+    const gap = sim.rng.range(0, Math.PI * 2);
+    ringWithGap(sim, e.x, e.y, { n: 22, speed: 1.9, gapAngle: gap, gapWidth: 0.6, color: 'red' });
+    ringWithGap(sim, e.x, e.y, { n: 22, speed: 1.5, gapAngle: gap, gapWidth: 0.6, color: 'orange' });
   }
 }
 

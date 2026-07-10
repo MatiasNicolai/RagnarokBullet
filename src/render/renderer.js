@@ -183,7 +183,10 @@ export class Renderer {
         this.enemyBulletLayer.addChild(dot);
         this.hitboxDots[p.index] = dot;
       }
-      dot.visible = p.focused;
+      // always show the hitbox point — subtle while unfocused, full in focus —
+      // so you never lose track of your true vulnerable pixel mid-dodge.
+      dot.visible = true;
+      dot.alpha = p.focused ? 1 : 0.55;
       dot.position.set(p.x, p.y);
     }
 

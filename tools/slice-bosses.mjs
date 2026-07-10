@@ -190,18 +190,21 @@ const MID_BOSSES = [
 
 const midManifest = { sheet: 'bosses.png', size: { w: W, h: H }, monsters: {} };
 for (const b of MID_BOSSES) {
-  const boxes = sliceGrid(b.gx0, b.gx1, MID_COLS, MID_ROW_Y, 0);
+  // Use the same robust run-detection as the main bosses (banner strips and
+  // label-tag fragments get filtered / clipped), keeping the first valid frame;
+  // fall back to the even-division cell if a row defeats detection.
+  const fallback = sliceGrid(b.gx0, b.gx1, MID_COLS, MID_ROW_Y, 0);
+  const boxes = MID_ROW_Y.map((cy, r) => rowFrames(b.gx0, b.gx1, cy)[0] ?? fallback[r]);
   const entry = { down: {}, up: {} };
   boxes.forEach((box, r) => {
     if (r < 5) entry.down[MID_DOWN_KEYS[r]] = box;
     else entry.up[b.upKeys[r - 5]] = box;
     debug.push(box);
   });
-  // bapho_jr_giant's panel has a tall title banner ("GIANT BAPHOMET JR.")
-  // that opaquely occludes the down.idle row in the source art, so that
-  // row's bbox picks up banner text instead of the character. moveL is the
-  // next row down (clean) and visually near-identical to idle, so reuse it.
-  if (b.name === 'bapho_jr_giant') entry.down.idle = { ...entry.down.moveL };
+  // Both mid-boss panels' ornate title banners dip into their DOWN IDLE row,
+  // so that row extracts banner art instead of (or fused with) the character.
+  // moveL is the next row down (clean) and visually near-identical to idle.
+  entry.down.idle = { ...entry.down.moveL };
   midManifest.monsters[b.name] = entry;
 }
 fs.writeFileSync(path.join(outDir, 'monsters5.json'), JSON.stringify(midManifest, null, 2));

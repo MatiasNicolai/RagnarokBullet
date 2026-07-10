@@ -40,16 +40,34 @@ function zombieRevive(sim, e) {
 }
 function zombieMove(sim, e) { /* just shambles down */ }
 
-// mid-boss Doppelganger: mirrors the player's horizontal position with dense
-// aimed fans + rings — a duel against your own shadow.
+// mid-boss Doppelganger: a duel against your own shadow. It mirrors your x
+// while throwing knife fans, then telegraphs and DASHES onto your position,
+// shedding a trail of falling blades along its path — sidestep the drawn line.
 function doppelStep(sim, e) {
-  if (e.y < 150) { e.vy = 1.4; return; }
+  // clock the cycle from ARRIVAL (e.at), not from spawn (e.t): the telegraph
+  // step that captures dashX must never be skipped by the descent early-return.
+  if (e.y < 150) { e.vy = 1.4; e.at = -1; return; }
   e.vy = 0;
-  const p = nearest(sim, e);
-  if (p) e.x += ((FIELD_W - p.x) - e.x) * 0.04; // mirror the player across the arena
-  if (e.t % 40 === 24) e.tele = 16;
-  if (e.t % 40 === 0 && e.t > 0) fan(sim, e.x, e.y, { n: 5, angle: angleTo(sim, e.x, e.y), spread: 0.6, speed: 3.2, color: 'purple' });
-  if (e.t % 120 === 60) ring(sim, e.x, e.y, { n: 18, speed: 2.0, baseAngle: sim.rng.range(0, 6.28), color: 'red' });
+  e.at = (e.at ?? -1) + 1;
+  const cyc = e.at % 200;
+  if (cyc < 120) {
+    // mirror stalk + aimed knife fans
+    const p = nearest(sim, e);
+    if (p) e.x += ((FIELD_W - p.x) - e.x) * 0.04;
+    if (cyc % 40 === 24) e.tele = 16;
+    if (cyc % 40 === 0 && cyc > 0) fan(sim, e.x, e.y, { n: 5, angle: angleTo(sim, e.x, e.y), spread: 0.6, speed: 2.9, color: 'purple' });
+  } else if (cyc === 120) {
+    e.tele = 22;                                   // afterimage flicker: dash incoming
+    const p = nearest(sim, e);
+    e.dashX = p ? p.x : FIELD_W / 2;
+  } else if (cyc >= 142 && cyc < 162) {
+    // the dash: fast slide onto the marked x, shedding a blade trail that rains
+    e.x += (e.dashX - e.x) * 0.28;
+    if (cyc % 2 === 0) sim.spawnEnemyBullet({ x: e.x, y: e.y + 8, vx: 0, vy: 2.3, color: 'purple', r: 5 });
+  } else if (cyc === 170) {
+    // flourish after the dash
+    ring(sim, e.x, e.y, { n: 16, speed: 1.9, baseAngle: sim.rng.range(0, 6.28), color: 'red' });
+  }
 }
 
 function nearest(sim, e) {

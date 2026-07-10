@@ -157,9 +157,9 @@ export const viri = {
   fire(sim, p) {
     // short-range fists: high damage but bullets expire quickly
     if (p.focused) {
-      shot(sim, p, { every: 6, spread: [0], dmg: 7, r: 10, speed: 10, skin: 'viri:3', ttl: 22 });
+      shot(sim, p, { every: 6, spread: [0], dmg: 7, r: 10, speed: 10, skin: 'viri:3', ttl: 33 });
     } else {
-      shot(sim, p, { every: 8, spread: [-0.12, 0.12], dmg: 4, r: 9, speed: 9, skin: 'viri:2', ttl: 20 });
+      shot(sim, p, { every: 8, spread: [-0.12, 0.12], dmg: 4, r: 9, speed: 9, skin: 'viri:2', ttl: 30 });
     }
   },
   // Asura Strike: baseline clear + a forward cone whose damage scales with
