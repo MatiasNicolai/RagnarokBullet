@@ -32,6 +32,11 @@ async function boot() {
   fit();
 
   const atlas = await loadAtlas();
+  // essentials are in — drop the HTML loading screen and warm the remaining
+  // (heavy) map sets in the background so levels 2/3 are ready by the time we
+  // get there without blocking the title on 44 MB of maps.
+  document.getElementById('loading')?.remove();
+  atlas.ensureMapSet('geffen').then(() => atlas.ensureMapSet('glastheim')).catch(() => {});
   const input = new Input();
 
   const muteButtons = new MuteButtons(app, APP_W);

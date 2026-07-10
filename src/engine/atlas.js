@@ -8,28 +8,27 @@ import { Assets, Rectangle, Texture } from 'pixi.js';
 // asset paths it processes at build time, not these hardcoded fetch strings).
 const BASE = import.meta.env.BASE_URL;
 
-export async function loadAtlas() {
-  // scrolling map backdrops, one set per themed level
-  const MAP_SETS = { prontera: 'prontera', geffen: 'geffen', glastheim: 'glastheim' };
-  const loadMapSet = (base2) =>
-    Promise.all([1, 2, 3, 4, 5].map((n) => Assets.load(`${BASE}assets/maps/${base2}00${n}.png`).catch(() => null)));
+// One themed level's 5 scrolling backdrop tiles. Loaded lazily (44 MB across
+// all three sets) so first paint isn't blocked on maps the player can't see yet.
+const loadMapSet = (name) =>
+  Promise.all([1, 2, 3, 4, 5].map((n) => Assets.load(`${BASE}assets/maps/${name}00${n}.png`).catch(() => null)))
+    .then((set) => set.filter(Boolean));
 
+export async function loadAtlas() {
   const monJson = (n) => fetch(`${BASE}assets/${n}.json`).then((r) => r.json()).catch(() => null);
   const monPng = (n) => Assets.load(`${BASE}assets/${n}.png`).catch(() => null);
   const [
     manifest, base,
     monManifest, monBase, mon2Manifest, mon2Base, mon3Manifest, mon3Base, mon4Manifest, mon4Base,
-    prontera, geffen, glastheim,
+    prontera,
   ] = await Promise.all([
-    fetch('/assets/manifest.json').then((r) => r.json()),
-    Assets.load('/assets/sheet.png'),
+    fetch(`${BASE}assets/manifest.json`).then((r) => r.json()),
+    Assets.load(`${BASE}assets/sheet.png`),
     monJson('monsters'), monPng('monsters'),
     monJson('monsters2'), monPng('monsters2'),
     monJson('monsters3'), monPng('monsters3'),
     monJson('monsters4'), monPng('monsters4'),
-    loadMapSet(MAP_SETS.prontera),
-    loadMapSet(MAP_SETS.geffen),
-    loadMapSet(MAP_SETS.glastheim),
+    loadMapSet('prontera'),        // only level 1's maps up front; rest lazy
   ]);
   const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => null);
   const [bossManifest, bossBase, mon5Manifest, skillManifest, skillBase] = await Promise.all([
@@ -66,11 +65,14 @@ export async function loadAtlas() {
   addMonsters(mon4Manifest, mon4Base); // Glast Heim: Evil Druid, Dark Priest, Raydric, Khalitzburg, Gargoyle, Ghoul, Whisper, Baphomet Jr.
   addMonsters(mon5Manifest, bossBase); // mid-bosses: Doppelganger, Giant Baphomet Jr. (rects live in bosses.png)
 
-  // map backdrops keyed by set (level 1 = prontera, level 2 = geffen, level 3 = glastheim)
-  const maps = {
-    prontera: prontera.filter(Boolean),
-    geffen: geffen.filter(Boolean),
-    glastheim: glastheim.filter(Boolean),
+  // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
+  // glastheim load lazily via ensureMapSet (kicked off in the background after
+  // boot) so the title appears without waiting on 44 MB of maps.
+  const maps = { prontera, geffen: null, glastheim: null };
+  const ensureMapSet = async (name) => {
+    if (maps[name]) return maps[name];
+    maps[name] = await loadMapSet(name);
+    return maps[name];
   };
 
   // real boss sprites (Orc Hero, Dark Lord, Baphomet), down/up pose sets
@@ -92,5 +94,5 @@ export async function loadAtlas() {
     }
   }
 
-  return { characters, monsters, maps, startMenu, bosses, skills };
+  return { characters, monsters, maps, startMenu, bosses, skills, ensureMapSet };
 }
