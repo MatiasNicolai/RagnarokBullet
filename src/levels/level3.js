@@ -71,15 +71,17 @@ function bigBaphoJrStep(sim, e) {
     }
     if (cyc % 40 === 20) aimed(sim, e.x, e.y, { speed: 3.0, color: 'purple' });
   } else {
-    // stance B: scythe rain — crossing sweeps
+    // stance B: scythe rain — crossing sweeps. Drop cadence sets the weave
+    // density: every 8 ticks ≈ 38 px between blades of one wave (~26 px true
+    // gap), threadable mid-screen; the field edges stay the calm read.
     e.x += (FIELD_W / 2 - e.x) * 0.08;
     const k = cyc - 150;
     if (k === 0) e.tele = 20;
-    if (k >= 16 && k % 5 === 0) {
+    if (k >= 16 && k % 8 === 0) {
       const frac = (k - 16) / (280 - 150 - 16);
       const sweepX = 30 + frac * (FIELD_W - 60);
-      rain(sim, sweepX, { speed: 2.8, color: 'red', r: 6 });
-      rain(sim, FIELD_W - sweepX, { speed: 2.8, color: 'purple', r: 6 });
+      rain(sim, sweepX, { speed: 2.8, color: 'red', r: 5 });
+      rain(sim, FIELD_W - sweepX, { speed: 2.8, color: 'purple', r: 5 });
     }
   }
 }
