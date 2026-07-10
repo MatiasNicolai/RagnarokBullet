@@ -3,14 +3,19 @@
 // placeholder art for final art never touches game code.
 import { Assets, Rectangle, Texture } from 'pixi.js';
 
+// Asset base: '/' in dev, '/RagnarokBullet/' on GitHub Pages. Runtime asset URLs
+// must include it so they resolve under any deploy subpath (Vite only rewrites
+// asset paths it processes at build time, not these hardcoded fetch strings).
+const BASE = import.meta.env.BASE_URL;
+
 export async function loadAtlas() {
   // scrolling map backdrops, one set per themed level
   const MAP_SETS = { prontera: 'prontera', geffen: 'geffen', glastheim: 'glastheim' };
   const loadMapSet = (base2) =>
-    Promise.all([1, 2, 3, 4, 5].map((n) => Assets.load(`/assets/maps/${base2}00${n}.png`).catch(() => null)));
+    Promise.all([1, 2, 3, 4, 5].map((n) => Assets.load(`${BASE}assets/maps/${base2}00${n}.png`).catch(() => null)));
 
-  const monJson = (n) => fetch(`/assets/${n}.json`).then((r) => r.json()).catch(() => null);
-  const monPng = (n) => Assets.load(`/assets/${n}.png`).catch(() => null);
+  const monJson = (n) => fetch(`${BASE}assets/${n}.json`).then((r) => r.json()).catch(() => null);
+  const monPng = (n) => Assets.load(`${BASE}assets/${n}.png`).catch(() => null);
   const [
     manifest, base,
     monManifest, monBase, mon2Manifest, mon2Base, mon3Manifest, mon3Base, mon4Manifest, mon4Base,
@@ -26,7 +31,7 @@ export async function loadAtlas() {
     loadMapSet(MAP_SETS.geffen),
     loadMapSet(MAP_SETS.glastheim),
   ]);
-  const startMenu = await Assets.load('/assets/images/startmenu.png').catch(() => null);
+  const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => null);
   const [bossManifest, bossBase, mon5Manifest, skillManifest, skillBase] = await Promise.all([
     monJson('bosses'), monPng('bosses'),
     monJson('monsters5'), // mid-bosses (Doppelganger, Giant Baphomet Jr.) — shares bosses.png as its sheet

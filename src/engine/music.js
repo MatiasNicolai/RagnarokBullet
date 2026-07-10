@@ -18,11 +18,13 @@ const _ = 0; // rest
 
 // Recorded tracks (mp3) that replace the chiptune for specific stages.
 // Boss / victory still use the synthesized sequencer below.
+// BASE ('/' in dev, '/RagnarokBullet/' on Pages) keeps URLs valid under any subpath.
+const BASE = import.meta.env.BASE_URL;
 const MP3_TRACKS = {
-  menu: '/assets/music/menu.mp3',
-  level1: '/assets/music/prontera.mp3',
-  level2: '/assets/music/geffen.mp3',
-  level3: '/assets/music/glastheim.mp3',
+  menu: `${BASE}assets/music/menu.mp3`,
+  level1: `${BASE}assets/music/prontera.mp3`,
+  level2: `${BASE}assets/music/geffen.mp3`,
+  level3: `${BASE}assets/music/glastheim.mp3`,
 };
 
 // Melodies (16 steps) + bass. Kept short and loopable.
