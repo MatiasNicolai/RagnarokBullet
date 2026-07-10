@@ -1,0 +1,14 @@
+{
+  "name": "ragnarok-barrage-relay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal WebSocket relay for Ragnarok Bullet Hell online co-op. Forwards input bytes between the two peers in a room; never simulates the game.",
+  "scripts": {
+    "start": "node relay.js",
+    "test": "node test-netplay.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

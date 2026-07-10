@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+server/node_modules/
+
+# build output
+dist/
+*.local
+
+# local editor / agent config
+.claude/
+
+# dev QA artifacts (regenerable)
+tools/shots/
+tools/debug-*.png
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*
