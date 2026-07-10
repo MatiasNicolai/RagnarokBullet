@@ -75,14 +75,15 @@ export async function loadAtlas() {
     return maps[name];
   };
 
-  // real boss sprites (Orc Hero, Dark Lord, Baphomet), down/up pose sets
+  // real boss sprites (Orc Hero, Dark Lord, Baphomet). Each pose is an ARRAY of
+  // animation frame textures (idle/move carry 2-3 frames; hit/attack a single).
   const bosses = {};
   if (bossManifest && bossBase) {
+    const poseSet = (side) => Object.fromEntries(
+      Object.entries(side).map(([k, frames]) => [k, frames.map((r) => sub(bossBase, r))]),
+    );
     for (const [name, m] of Object.entries(bossManifest.bosses)) {
-      bosses[name] = {
-        down: Object.fromEntries(Object.entries(m.down).map(([k, r]) => [k, sub(bossBase, r)])),
-        up: Object.fromEntries(Object.entries(m.up).map(([k, r]) => [k, sub(bossBase, r)])),
-      };
+      bosses[name] = { down: poseSet(m.down), up: poseSet(m.up) };
     }
   }
 

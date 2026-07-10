@@ -294,7 +294,7 @@ export class Renderer {
 
   syncBoss(sim) {
     const b = sim.boss;
-    if (!b) { if (this.bossSprite) this.bossSprite.visible = false; return; }
+    if (!b) { if (this.bossSprite) this.bossSprite.visible = false; this.bossPrevX = null; return; }
     if (!this.bossSprite) {
       this.bossSprite = new Sprite();
       this.bossSprite.anchor.set(0.5);
@@ -304,13 +304,24 @@ export class Renderer {
     const art = this.atlas.bosses?.[key];
     let tex;
     if (art) {
-      // real sprite: attack pose during phase change / death throes, else idle
-      tex = (b.transition > 0 || b.dying > 0) ? art.down.attack : art.down.idle;
+      // real animated sprite: pick the pose set by state (attack during phase
+      // change / death throes, strafe poses while sweeping, else idle) and
+      // cycle its frames for a living walk/breathe loop.
+      const dx = this.bossPrevX == null ? 0 : b.x - this.bossPrevX;
+      let frames;
+      if (b.transition > 0 || b.dying > 0) frames = art.down.attack;
+      else if (dx < -0.5) frames = art.down.moveL;
+      else if (dx > 0.5) frames = art.down.moveR;
+      else frames = art.down.idle;
+      tex = frames[((sim.tick / 9) | 0) % frames.length];
     } else {
       tex = this.bossTex[key] ?? this.bossTex.orcHero; // procedural fallback
     }
+    this.bossPrevX = b.x;
     if (this.bossSprite.texture !== tex) {
       this.bossSprite.texture = tex;
+      // scale by the frame's own height so the on-screen size stays constant
+      // even though animation frames have slightly different crop sizes
       this.bossSprite.scale.set((b.r * 2.9) / tex.frame.height);
     }
     this.bossSprite.visible = true;

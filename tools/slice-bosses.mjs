@@ -83,10 +83,89 @@ function sliceGrid(gx0, gx1, cols, rowY, frame = 0) {
   return rowY.map((cy) => bbox(cx0, cy - 32, cx1, cy + 30) ?? { x: cx0, y: cy - 20, w: 4, h: 4 });
 }
 
+// The extraction band overlaps the row above, so a frame can start with a WIDE
+// strip of the neighbour sprite's feet/shadow before the boss's narrow head
+// begins (occupancy profile: ~60% wide rows, sharp drop to horn tips, then the
+// body widens again). Trim leading rows while they stay suspiciously wide.
+function clipTopResidue(box, cy) {
+  const wide = box.w * 0.38;
+  let top = box.y;
+  while (top < cy - 15) {
+    let c = 0;
+    for (let x = box.x; x < box.x + box.w; x++) if (A(x, top) > ALPHA_MIN) c++;
+    if (c < wide) break;
+    top++;
+  }
+  if (top === box.y) return box;
+  return bbox(box.x, top, box.x + box.w - 1, box.y + box.h - 1) ?? box;
+}
+
+// Detect the animation frames of one pose row by the transparent gaps between
+// the sprite copies (the art is packed tighter than an even 3-way division —
+// fixed cells slice through capes). Runs of content columns are split at gaps,
+// then size-filtered: some rows carry a lying weapon / detached slash effect as
+// their last "frame" (Baphomet's scythe), which is wide-but-flat or huge — not
+// a boss frame. Falls back to the even-division frame 0 if detection finds
+// nothing sensible.
+function rowFrames(gx0, gx1, cy) {
+  const y0 = cy - 32, y1 = cy + 30;
+  const counts = new Array(gx1 - gx0 + 1).fill(0);
+  for (let x = gx0; x <= gx1; x++) for (let y = y0; y <= y1; y++) if (A(x, y) > ALPHA_MIN) counts[x - gx0]++;
+  // content runs, tolerating tiny holes (<=2 px)
+  const runs = [];
+  let start = -1, hole = 0;
+  for (let i = 0; i <= counts.length; i++) {
+    const on = i < counts.length && counts[i] > 0;
+    if (on) { if (start < 0) start = i; hole = 0; }
+    else if (start >= 0 && ++hole > 2) { runs.push([start, i - hole]); start = -1; }
+  }
+  if (start >= 0) runs.push([start, counts.length - 1]);
+  // A boss frame can fuse with its lying weapon via a thin handle (Baphomet's
+  // scythe): inside over-wide runs, cut at the first sustained thin valley
+  // (>=8 consecutive columns under 12 px of content) after real body columns,
+  // and keep only the body segment.
+  const split = [];
+  for (const [a, b] of runs) {
+    if (b - a + 1 <= 130) { split.push([a, b]); continue; }
+    let body = 0, thin = 0, cut = -1;
+    for (let i = a; i <= b; i++) {
+      if (counts[i] >= 12) { body++; thin = 0; }
+      else if (body >= 30 && ++thin >= 8) { cut = i - thin; break; }
+    }
+    if (cut > 0) split.push([a, cut]); else split.push([a, b]);
+  }
+  const frames = [];
+  for (const [a, b] of split) {
+    if (b - a < 30) continue;                       // specks / stray pixels
+    let box = bbox(gx0 + a, y0, gx0 + b, y1);
+    if (!box) continue;
+    box = clipTopResidue(box, cy);
+    if (box.h < 38) continue;                       // lying weapon strip, not a boss
+    if (box.w > 130) continue;                      // fused slash effect spanning cells
+    frames.push(box);
+  }
+  return frames.slice(0, 3);
+}
+
+// Main bosses are ANIMATED on idle/move poses: the manifest stores an array of
+// frames per pose. attack/hit keep a single (frame 0) rect — their extra cells
+// hold detached slash effects that would flash badly if cycled.
+const ANIMATED = new Set(['idle', 'moveL', 'moveR']);
 for (const b of BOSSES) {
-  const boxes = sliceGrid(b.gx0, b.gx1, COLS, ROW_Y, FRAME);
+  const frame0 = sliceGrid(b.gx0, b.gx1, COLS, ROW_Y, FRAME);
   const entry = { down: {}, up: {} };
-  boxes.forEach((box, r) => { (r < 5 ? entry.down : entry.up)[POSE_KEYS[r % 5]] = box; debug.push(box); });
+  for (let r = 0; r < ROW_Y.length; r++) {
+    const pose = POSE_KEYS[r % 5];
+    let frames;
+    if (ANIMATED.has(pose)) {
+      frames = rowFrames(b.gx0, b.gx1, ROW_Y[r]);
+      if (frames.length < 2) frames = [frame0[r]];
+    } else {
+      frames = [frame0[r]];
+    }
+    (r < 5 ? entry.down : entry.up)[pose] = frames;
+    debug.push(...frames);
+  }
   manifest.bosses[b.name] = entry;
 }
 
@@ -132,6 +211,6 @@ const put = (x, y) => { if (x < 0 || y < 0 || x >= W || y >= H) return; const i 
 for (const r of debug) { if (!r) continue; for (let x = r.x; x < r.x + r.w; x++) { put(x, r.y); put(x, r.y + r.h - 1); } for (let y = r.y; y < r.y + r.h; y++) { put(r.x, y); put(r.x + r.w - 1, y); } }
 fs.writeFileSync(path.join(ROOT, 'tools', 'debug-bosses.png'), PNG.sync.write(png));
 
-for (const [n, e] of Object.entries(manifest.bosses)) console.log(`${n}: down ${Object.keys(e.down).length} up ${Object.keys(e.up).length}`);
+for (const [n, e] of Object.entries(manifest.bosses)) console.log(n, ['idle','moveL','moveR','hit','attack'].map(p=>p+':'+e.down[p].length).join(' '));
 for (const [n, e] of Object.entries(midManifest.monsters)) console.log(`${n}: down ${Object.keys(e.down).length} up ${Object.keys(e.up).length}`);
 console.log('wrote public/assets/bosses.png + bosses.json + monsters5.json (shares bosses.png as its sheet)');
