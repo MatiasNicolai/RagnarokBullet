@@ -27,6 +27,32 @@ const isB = (i) => { const r = data[i], g = data[i + 1], b = data[i + 2]; return
     if (reg.length > 400) for (const p of reg) data[p * 4 + 3] = 0;
   }
 }
+
+// Expansion pass: some panel interiors shade from bright to MID-gray (e.g. Dark
+// Lord's), so the bright-neutral pass only strips half the backdrop. Grow the
+// transparency from already-keyed pixels into adjacent neutral grays; sprite
+// outlines are dark/saturated, so the erosion stops at the character edge.
+{
+  const isGray = (i) => {
+    const r = data[i], g = data[i + 1], b = data[i + 2];
+    return Math.min(r, g, b) > 110 && Math.max(r, g, b) - Math.min(r, g, b) < 16;
+  };
+  const q = new Uint32Array(W * H);
+  let t = 0;
+  const inQ = new Uint8Array(W * H);
+  for (let p = 0; p < W * H; p++) if (data[p * 4 + 3] === 0) { q[t++] = p; inQ[p] = 1; }
+  let h = 0;
+  while (h < t) {
+    const p = q[h++]; const x = p % W, y = (p / W) | 0;
+    const nb = [];
+    if (x > 0) nb.push(p - 1); if (x < W - 1) nb.push(p + 1);
+    if (y > 0) nb.push(p - W); if (y < H - 1) nb.push(p + W);
+    for (const n of nb) {
+      if (inQ[n] || data[n * 4 + 3] === 0) continue;
+      if (isGray(n * 4)) { data[n * 4 + 3] = 0; inQ[n] = 1; q[t++] = n; }
+    }
+  }
+}
 const A = (x, y) => data[(y * W + x) * 4 + 3];
 
 function bbox(x0, y0, x1, y1) {

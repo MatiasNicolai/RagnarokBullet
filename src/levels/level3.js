@@ -117,7 +117,7 @@ export function level3(sim) {
         sim.events.push({ type: 'warning', name: 'Baphomet Jr.' });
         L.midAlive = true;
         sim.spawnEnemy({
-          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 360, r: 38,
+          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 600, r: 38,
           skin: 'bapho_jr_giant', score: 15000, shoot: bigBaphoJrStep,
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });

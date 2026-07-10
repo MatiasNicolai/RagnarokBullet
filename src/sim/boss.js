@@ -5,9 +5,13 @@ import { FIELD_W } from './constants.js';
 import { ring, ringWithGap, fan, aimed, spiralArm, rain, angleTo } from './patterns.js';
 
 export function spawnBoss(sim, def) {
-  const maxHp = def.cards.reduce((s, c) => s + c.hp, 0);
+  // Co-op nearly doubles party DPS; scale card HP so the fight keeps its
+  // intended length (learn the pattern, find the flow) with 2 players too.
+  const hpMult = sim.players.filter(Boolean).length > 1 ? 1.7 : 1;
+  const maxHp = Math.round(def.cards.reduce((s, c) => s + c.hp, 0) * hpMult);
   sim.boss = {
     def,
+    hpMult,
     name: def.name,
     x: FIELD_W / 2, y: -90,
     r: def.r ?? 42,
@@ -15,8 +19,8 @@ export function spawnBoss(sim, def) {
     intro: true,
     t: 0,
     cardIndex: 0,
-    cardHp: def.cards[0].hp,
-    cardMax: def.cards[0].hp,
+    cardHp: Math.round(def.cards[0].hp * hpMult),
+    cardMax: Math.round(def.cards[0].hp * hpMult),
     cardName: def.cards[0].name,
     maxHp,
     hp: maxHp,
@@ -85,8 +89,8 @@ export function damageBoss(sim, dmg) {
     if (b.cardIndex < b.def.cards.length - 1) {
       b.cardIndex++;
       const card = b.def.cards[b.cardIndex];
-      b.cardHp = card.hp;
-      b.cardMax = card.hp;
+      b.cardHp = Math.round(card.hp * b.hpMult);
+      b.cardMax = Math.round(card.hp * b.hpMult);
       b.cardName = card.name;
       b.transition = 70;
       sim.enemyBullets.clear();
@@ -102,6 +106,10 @@ export function damageBoss(sim, dmg) {
 
 // --- Orc Hero: level 1 boss, 3 spell cards ---
 
+// Card HP is tuned for ~30-45 s of active fight per boss at realistic solo DPS
+// (~60-70/s with dodging downtime); co-op scales via hpMult in spawnBoss.
+// Bullets run ~13% slower than the old values: slower bullets → more alive on
+// screen at once → readable walls to weave through instead of reflex checks.
 export const orcHero = {
   name: 'Orc Hero',
   r: 44,
@@ -109,44 +117,49 @@ export const orcHero = {
   cards: [
     {
       // Grito de Guerra: sways and pumps out rotating gapped rings (shockwaves).
+      // The lesson: read the gap early and commit to it.
       name: 'Grito de Guerra',
-      hp: 220,
+      hp: 550,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.sin(b.t / 55) * 150;
-        if (b.t % 55 === 0) {
+        if (b.t % 50 === 0) {
           const gap = sim.rng.range(0, Math.PI * 2);
-          ringWithGap(sim, b.x, b.y, { n: 26, speed: 2.1, gapAngle: gap, gapWidth: 0.55, color: 'orange' });
-          ringWithGap(sim, b.x, b.y, { n: 26, speed: 2.1, gapAngle: gap + Math.PI, gapWidth: 0.55, color: 'red' });
+          ringWithGap(sim, b.x, b.y, { n: 26, speed: 1.8, gapAngle: gap, gapWidth: 0.55, color: 'orange' });
+          ringWithGap(sim, b.x, b.y, { n: 26, speed: 1.8, gapAngle: gap + Math.PI, gapWidth: 0.55, color: 'red' });
         }
-        if (b.t % 90 === 45) aimed(sim, b.x, b.y, { speed: 3.4, color: 'red' });
+        if (b.t % 90 === 45) aimed(sim, b.x, b.y, { speed: 3.0, color: 'red' });
       },
     },
     {
       // Hacha Tormenta: spinning axes that ricochet off the walls.
+      // The lesson: track ricochets, don't camp the bottom corners.
       name: 'Hacha Tormenta',
-      hp: 260,
+      hp: 650,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.cos(b.t / 40) * 170;
-        if (b.t % 10 === 0) {
+        if (b.t % 12 === 0) {
           const base = b.t / 22;
           for (let k = 0; k < 4; k++) {
             const a = base + (k / 4) * Math.PI * 2;
             sim.spawnEnemyBullet({
-              x: b.x, y: b.y, vx: Math.cos(a) * 3.0, vy: Math.sin(a) * 3.0,
+              x: b.x, y: b.y, vx: Math.cos(a) * 2.6, vy: Math.sin(a) * 2.6,
               color: 'purple', r: 7, bounce: 2, spin: 0.4,
             });
           }
         }
-        if (b.t % 120 === 60) fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.7, speed: 3.4, color: 'red' });
+        if (b.t % 120 === 60) fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.7, speed: 3.0, color: 'red' });
       },
     },
     {
       // Carga del Héroe: dashes toward the player while spears rain from above.
+      // Desperation: below 35% the rain thickens and the cycle shortens.
       name: 'Carga del Héroe',
-      hp: 300,
+      hp: 750,
       step(sim, b) {
+        const desperate = b.cardHp < b.cardMax * 0.35;
         // charge cycle: wind up, dash to player x, recover
-        const cyc = b.t % 150;
+        const cycLen = desperate ? 120 : 150;
+        const cyc = b.t % cycLen;
         if (cyc === 0) b.chargeX = null;
         if (cyc < 40) {
           // wind up: track player x slowly
@@ -155,11 +168,11 @@ export const orcHero = {
         } else if (cyc < 70) {
           if (b.chargeX == null) b.chargeX = nearestX(sim, b.x);
           b.x += (b.chargeX - b.x) * 0.25;
-          if (cyc % 6 === 0) fan(sim, b.x, b.y, { n: 3, angle: Math.PI / 2, spread: 0.5, speed: 3.6, color: 'orange' });
+          if (cyc % 6 === 0) fan(sim, b.x, b.y, { n: 3, angle: Math.PI / 2, spread: 0.5, speed: 3.1, color: 'orange' });
         }
         // constant spear rain from the top
-        if (b.t % 9 === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 3.4, color: 'red', r: 5 });
-        if (b.t % 70 === 0) ring(sim, b.x, b.y, { n: 16, speed: 2.0, baseAngle: sim.rng.range(0, 1), color: 'purple' });
+        if (b.t % (desperate ? 8 : 11) === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 2.9, color: 'red', r: 5 });
+        if (b.t % 70 === 0) ring(sim, b.x, b.y, { n: 16, speed: 1.8, baseAngle: sim.rng.range(0, 1), color: 'purple' });
       },
     },
   ],
@@ -183,40 +196,53 @@ export const darkLord = {
   targetY: 175,
   cards: [
     {
-      // Meteor Storm: telegraphed meteors + slow drifting rings.
+      // Meteor Storm: meteors fall in COLUMNS. A slow purple marker leads each
+      // column, then the burst hammers the same x — read the marker, sidestep
+      // the column. Sparse random drizzle keeps you honest between columns.
       name: 'Meteor Storm',
-      hp: 300,
+      hp: 650,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.sin(b.t / 60) * 150;
-        if (b.t % 8 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.6, color: 'orange', r: 6 });
-        if (b.t % 70 === 0) ring(sim, b.x, b.y, { n: 18, speed: 1.7, baseAngle: sim.rng.range(0, 6.28), color: 'purple' });
+        const cyc = b.t % 70;
+        if (cyc === 0) b.meteorX = sim.rng.range(40, FIELD_W - 40);
+        if (cyc === 0) rain(sim, b.meteorX, { speed: 2.0, color: 'purple', r: 8 }); // telegraph marker
+        if (cyc >= 22 && cyc < 46 && cyc % 4 === 0) {
+          rain(sim, b.meteorX + sim.rng.range(-14, 14), { speed: 3.3, color: 'orange', r: 6 }); // the column
+        }
+        if (b.t % 17 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 2.7, color: 'orange', r: 5 });
+        if (b.t % 70 === 35) ring(sim, b.x, b.y, { n: 18, speed: 1.5, baseAngle: sim.rng.range(0, 6.28), color: 'purple' });
       },
     },
     {
       // Hell Judgement: dense multi-layer rings pulsing from the center.
+      // Desperation: a third ring layer joins below 35%.
       name: 'Hell Judgement',
-      hp: 340,
+      hp: 780,
       step(sim, b) {
         b.x += (FIELD_W / 2 - b.x) * 0.06;
+        const desperate = b.cardHp < b.cardMax * 0.35;
         if (b.t % 36 === 0) {
           const base = (b.t / 36) * 0.4;
-          ring(sim, b.x, b.y, { n: 22, speed: 2.4, baseAngle: base, color: 'red' });
-          ring(sim, b.x, b.y, { n: 22, speed: 1.7, baseAngle: -base + 0.14, color: 'purple' });
+          ring(sim, b.x, b.y, { n: 22, speed: 2.0, baseAngle: base, color: 'red' });
+          ring(sim, b.x, b.y, { n: 22, speed: 1.5, baseAngle: -base + 0.14, color: 'purple' });
+          if (desperate) ring(sim, b.x, b.y, { n: 14, speed: 2.4, baseAngle: base + 0.07, color: 'orange' });
         }
-        if (b.t % 100 === 50) fan(sim, b.x, b.y, { n: 7, angle: angleTo(sim, b.x, b.y), spread: 0.9, speed: 3.2, color: 'orange' });
+        if (b.t % 100 === 50) fan(sim, b.x, b.y, { n: 7, angle: angleTo(sim, b.x, b.y), spread: 0.9, speed: 2.8, color: 'orange' });
       },
     },
     {
       // Tinieblas Eternas: rotating twin spirals + spear rain; darkens the arena.
+      // Desperation: the spirals spin faster below 35%.
       name: 'Tinieblas Eternas',
-      hp: 380,
+      hp: 910,
       step(sim, b) {
         if (b.t === 0) sim.events.push({ type: 'darken', on: true });
         b.x = FIELD_W / 2 + Math.cos(b.t / 50) * 160;
-        const ph = b.t * 0.16;
-        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.5, color: 'purple' });
-        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph + Math.PI, speed: 2.5, color: 'red' });
-        if (b.t % 12 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.2, color: 'orange', r: 5 });
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        const ph = b.t * (desperate ? 0.2 : 0.16);
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.2, color: 'purple' });
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph + Math.PI, speed: 2.2, color: 'red' });
+        if (b.t % 14 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 2.8, color: 'orange', r: 5 });
       },
     },
   ],
@@ -231,22 +257,24 @@ export const baphomet = {
   cards: [
     {
       // Guadaña Dimensional: crossing diagonal scythe-waves in an X.
+      // The lesson: the crossing point sweeps down — ride between the blades.
       name: 'Guadaña Dimensional',
-      hp: 340,
+      hp: 760,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.sin(b.t / 55) * 150;
-        if (b.t % 14 === 0) {
-          const s = 3.2;
+        if (b.t % 13 === 0) {
+          const s = 2.8;
           sim.spawnEnemyBullet({ x: 0, y: (b.t % 300) * 2.6 - 40, vx: s, vy: s, color: 'purple', r: 6 });
           sim.spawnEnemyBullet({ x: FIELD_W, y: (b.t % 300) * 2.6 - 40, vx: -s, vy: s, color: 'red', r: 6 });
         }
-        if (b.t % 80 === 40) ring(sim, b.x, b.y, { n: 16, speed: 2.2, baseAngle: sim.rng.range(0, 6.28), color: 'orange' });
+        if (b.t % 80 === 40) ring(sim, b.x, b.y, { n: 16, speed: 1.9, baseAngle: sim.rng.range(0, 6.28), color: 'orange' });
       },
     },
     {
       // Invocación Demoníaca: summons orbiting Baphomet Jr. minions + aimed fans.
+      // The lesson: prioritize the adds without losing the fan rhythm.
       name: 'Invocación Demoníaca',
-      hp: 380,
+      hp: 860,
       step(sim, b) {
         b.x += (FIELD_W / 2 - b.x) * 0.05;
         if (b.t % 200 === 30 && sim.enemies.active.length < 6) {
@@ -254,31 +282,31 @@ export const baphomet = {
             sim.spawnEnemy({
               x: b.x + (k ? 60 : -60), y: b.y + 20, vx: 0, vy: 1.2,
               hp: 24, r: 15, skin: 'bapho_jr', score: 800,
-              shoot: (s, e) => { if (e.t % 60 === 30) aimed(s, e.x, e.y, { speed: 3.2, color: 'red' }); },
+              shoot: (s, e) => { if (e.t % 60 === 30) aimed(s, e.x, e.y, { speed: 2.8, color: 'red' }); },
             });
           }
           sim.events.push({ type: 'summon', x: b.x, y: b.y });
         }
-        if (b.t % 50 === 0) fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.7, speed: 3.0, color: 'purple' });
+        if (b.t % 50 === 0) fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.7, speed: 2.7, color: 'purple' });
       },
     },
     {
       // Juicio Final: the hardest — layered rings + spiral + rain. Speeds up
       // as HP drops (desperation).
       name: 'Juicio Final',
-      hp: 460,
+      hp: 980,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.sin(b.t / 40) * 140;
         const desperate = b.cardHp < b.cardMax * 0.35;
         const period = desperate ? 26 : 40;
         if (b.t % period === 0) {
           const base = sim.rng.range(0, 6.28);
-          ringWithGap(sim, b.x, b.y, { n: 30, speed: 2.5, gapAngle: base, gapWidth: 0.5, color: 'red' });
-          ring(sim, b.x, b.y, { n: 18, speed: 1.8, baseAngle: base, color: 'purple' });
+          ringWithGap(sim, b.x, b.y, { n: 30, speed: 2.2, gapAngle: base, gapWidth: 0.5, color: 'red' });
+          ring(sim, b.x, b.y, { n: 18, speed: 1.6, baseAngle: base, color: 'purple' });
         }
         const ph = b.t * (desperate ? 0.22 : 0.16);
-        spiralArm(sim, b.x, b.y, { arms: 3, phase: ph, speed: 2.6, color: 'orange' });
-        if (b.t % 10 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.4, color: 'purple', r: 5 });
+        spiralArm(sim, b.x, b.y, { arms: 3, phase: ph, speed: 2.3, color: 'orange' });
+        if (b.t % 12 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.0, color: 'purple', r: 5 });
       },
     },
   ],

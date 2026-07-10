@@ -153,7 +153,7 @@ export function level1(sim) {
         sim.events.push({ type: 'warning', name: 'Mastering' });
         L.midAlive = true;
         sim.spawnEnemy({
-          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 260, r: 42,
+          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 420, r: 42,
           skin: 'mastering', score: 8000, shoot: masteringStep,
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });

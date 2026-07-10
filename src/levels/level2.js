@@ -105,7 +105,7 @@ export function level2(sim) {
         sim.events.push({ type: 'warning', name: 'Doppelganger' });
         L.midAlive = true;
         sim.spawnEnemy({
-          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 320, r: 40,
+          x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 520, r: 40,
           skin: 'doppelganger', score: 12000, shoot: doppelStep,
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });
