@@ -48,6 +48,7 @@ export class GameScene {
       LEVEL_SEEDS[this.levelIndex] ?? 0xc0ffee,
       this.chars, campaign.carry, campaign.score ?? 0, this.diffIndex,
     );
+    this.sim.continues = campaign.continues ?? 0; // arcade continues carry across levels
     if (this.practice) this.sim.biome = 1; // show the boss's final biome
     // levels with a real map set (Prontera, Geffen) use the scrolling backdrop;
     // the rest fall back to the procedural living theme.
@@ -177,6 +178,13 @@ export class GameScene {
       case 'spellCard': audio.play('spellcard'); this.showBanner(ev.name, 90, GOLD); break;
       case 'bossPhase': this.shake = Math.max(this.shake, 8); this.hitstop = Math.max(this.hitstop, 5); break;
       case 'bossDown': audio.play('bossDown'); this.slowmo = 90; this.shake = 24; break;
+      case 'continue':
+        // the sim revived the run (arcade continue): drop the game-over overlay
+        if (this.overlay) { this.overlay.destroy({ children: true }); this.overlay = null; }
+        this.overlayKey = null;
+        audio.play('clear');
+        this.showBanner(`CONTINUE ×${ev.count}\n(score reiniciado)`, 110, GOLD);
+        break;
       case 'levelClear': audio.play('clear'); music.play('victory'); break;
       default: break;
     }
@@ -276,10 +284,11 @@ export class GameScene {
   }
 
   updateTopBar() {
-    if (this.sim.boss) { this.topLeft.text = `${this.level.title} — ${this.sim.boss.name}`; return; }
+    const cont = this.sim.continues > 0 ? `  ·  CONTINUE ×${this.sim.continues}` : '';
+    if (this.sim.boss) { this.topLeft.text = `${this.level.title} — ${this.sim.boss.name}${cont}`; return; }
     let name = this.level.biomeNames[0][1];
     for (const [th, n] of this.level.biomeNames) if (this.sim.biome >= th) name = n;
-    this.topLeft.text = `${this.level.title} — ${name}`;
+    this.topLeft.text = `${this.level.title} — ${name}${cont}`;
   }
 
   updateProgress() {
@@ -366,6 +375,7 @@ export class GameScene {
     const next = {
       chars: this.chars, levelIndex: this.levelIndex + 1,
       score: this.sim.score, carry, difficulty: this.diffIndex,
+      continues: this.sim.continues,
     };
     if (this.online) {
       next.net = { client: this.net.client, localSlot: this.net.localSlot, epoch: (this.net.epoch ?? 0) + 1 };
@@ -455,13 +465,30 @@ export class GameScene {
     });
     sc.anchor.set(0.5); sc.position.set(FIELD_W / 2, 390);
     this.overlay.addChild(sc);
-    const hint = new Text({
-      text: 'ENTER para volver al título', style: { fill: 0x9aa4c0, fontSize: 16, fontFamily: 'monospace' },
+    // arcade continue: FIRE flows through the sim (and lockstep online), so
+    // both peers revive in sync; ENTER surrender is local/offline only.
+    const cont = new Text({
+      text: 'DISPARO (J) — CONTINUAR  ·  el score vuelve a 0',
+      style: { fill: 0xf2c14e, fontSize: 17, fontFamily: 'monospace', fontWeight: 'bold' },
     });
-    hint.anchor.set(0.5); hint.position.set(FIELD_W / 2, 440);
+    cont.anchor.set(0.5); cont.position.set(FIELD_W / 2, 440);
+    this.overlay.addChild(cont);
+    const hint = new Text({
+      text: this.online ? 'ESC salir de la partida' : 'ENTER rendirse y volver al título',
+      style: { fill: 0x9aa4c0, fontSize: 15, fontFamily: 'monospace' },
+    });
+    hint.anchor.set(0.5); hint.position.set(FIELD_W / 2, 474);
     this.overlay.addChild(hint);
+    if (this.sim.continues > 0) {
+      const used = new Text({
+        text: `continues usados: ${this.sim.continues}`,
+        style: { fill: 0x5a648a, fontSize: 13, fontFamily: 'monospace' },
+      });
+      used.anchor.set(0.5); used.position.set(FIELD_W / 2, 504);
+      this.overlay.addChild(used);
+    }
     this.container.addChild(this.overlay);
-    this.overlayKey = (e) => { if (e.code === 'Enter') this.endRun(false); };
+    this.overlayKey = (e) => { if (e.code === 'Enter' && !this.online) this.endRun(false); };
   }
 
   destroy() {

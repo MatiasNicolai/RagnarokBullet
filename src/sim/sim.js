@@ -29,6 +29,7 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
     tick: 0,
     rng: new Rng(seed),
     score: startScore,
+    continues: 0,            // arcade continues used this run (set by the scene from the campaign)
     diff,
     bulletScale: diff.bulletScale,
     gameOver: false,
@@ -140,6 +141,20 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
 
 function addMeter(p, amount) {
   p.meter = Math.min(METER_MAX, p.meter + amount);
+}
+
+// Viri also charges spirit spheres by landing fist hits on bosses/mid-bosses
+// (those fights have no kills, which starved Asura exactly when it matters).
+// Every 30 hits -> +1 sphere; his focused fists land ~10/s, so ~1 sphere / 3 s
+// of sustained close-range pressure.
+function chargeSphereOnHit(sim, ownerIdx) {
+  const p = sim.players[ownerIdx];
+  if (!p || p.down || p.char.id !== 'viri') return;
+  p.sphereHits = (p.sphereHits ?? 0) + 1;
+  if (p.sphereHits >= 30) {
+    p.sphereHits = 0;
+    p.spheres = Math.min(5, p.spheres + 1);
+  }
 }
 
 function playerHit(sim, p) {
@@ -287,8 +302,42 @@ function updateSpecials(sim, p) {
   }
 }
 
+// Arcade continue: the run resumes but the score resets to 0 and the counter
+// climbs. Everyone revives with full lives/bombs; the field is cleared.
+function doContinue(sim) {
+  sim.continues++;
+  sim.score = 0;
+  sim.enemyBullets.clear();
+  const multi = sim.players.filter(Boolean).length > 1;
+  for (const p of sim.players) {
+    if (!p) continue;
+    p.down = false;
+    p.lives = Math.max(1, p.char.lives + sim.diff.livesBonus);
+    p.bombs = 3;
+    p.iframes = RESPAWN_IFRAMES;
+    p.x = FIELD_W * (multi ? (p.index === 0 ? 0.35 : 0.65) : 0.5);
+    p.y = FIELD_H - 90;
+  }
+  sim.events.push({ type: 'continue', count: sim.continues });
+}
+
 export function tickSim(sim, inputs, stage) {
-  if (sim.gameOver) return;
+  if (sim.gameOver) {
+    // Continue on a FRESH press of FIRE from any seat (rising edge, so the
+    // held-down fire button you died with doesn't insta-continue). Runs inside
+    // the tick so it flows through lockstep inputs and stays synced online.
+    for (const p of sim.players) {
+      if (!p) continue;
+      const mask = inputs[p.index] ?? 0;
+      if ((mask & BTN.FIRE) && !(p.prevMask & BTN.FIRE)) {
+        sim.gameOver = false;
+        doContinue(sim);
+        break;
+      }
+      p.prevMask = mask;
+    }
+    if (sim.gameOver) return;
+  }
   sim.tick++;
 
   // --- players ---
@@ -384,6 +433,7 @@ export function tickSim(sim, inputs, stage) {
       e.hp -= b.dmg;
       e.hitFlash = 4;
       e.lastHitBy = b.owner;
+      if (e.r >= 38) chargeSphereOnHit(sim, b.owner); // mid-bosses count as boss hits
       if (b.pierce > 0) b.pierce--;
       else spent = true;
     });
@@ -391,6 +441,7 @@ export function tickSim(sim, inputs, stage) {
     if (!spent && sim.boss && !sim.boss.intro && sim.boss.dying === 0
         && circleHit(b, sim.boss, b.r, sim.boss.r)) {
       damageBoss(sim, b.dmg);
+      chargeSphereOnHit(sim, b.owner);
       if (b.pierce > 0) b.pierce--;
       else spent = true;
     }

@@ -48,9 +48,9 @@ export const zeos = {
   speed: 4.2, focusSpeed: 2.1, hitR: 4, lives: 3,
   fire(sim, p) {
     if (p.focused) {
-      shot(sim, p, { every: 3, spread: [0], dmg: 3, r: 5, speed: 15, skin: 'zeos:1' });
+      shot(sim, p, { every: 3, spread: [0], dmg: 3.5, r: 5, speed: 15, skin: 'zeos:1' });
     } else {
-      shot(sim, p, { every: 7, spread: [-0.5, -0.06, 0.06, 0.5], dmg: 2, r: 6, speed: 13, skin: 'zeos:3' });
+      shot(sim, p, { every: 7, spread: [-0.5, -0.06, 0.06, 0.5], dmg: 2.3, r: 6, speed: 13, skin: 'zeos:3' });
     }
   },
   // Meteor Assault: baseline clear + every enemy on screen is poisoned.
@@ -77,9 +77,9 @@ export const eric = {
   speed: 2.8, focusSpeed: 1.4, hitR: 5, lives: 3,
   fire(sim, p) {
     if (p.focused) {
-      shot(sim, p, { every: 10, spread: [0], dmg: 8, r: 11, speed: 12, skin: 'eric:2', pierce: 1 });
+      shot(sim, p, { every: 10, spread: [0], dmg: 9, r: 11, speed: 12, skin: 'eric:2', pierce: 1 });
     } else {
-      shot(sim, p, { every: 13, spread: [-0.18, 0.18], dmg: 6, r: 12, speed: 7, skin: 'eric:1' });
+      shot(sim, p, { every: 13, spread: [-0.18, 0.18], dmg: 7, r: 12, speed: 7, skin: 'eric:1' });
     }
   },
   // Storm Gust: baseline clear + freeze everything for 4 s.
@@ -100,9 +100,9 @@ export const dposada = {
   speed: 3.0, focusSpeed: 1.5, hitR: 5, lives: 3,
   fire(sim, p) {
     if (p.focused) {
-      shot(sim, p, { every: 6, spread: [0], dmg: 4, r: 8, speed: 13, skin: 'dposada:2' });
+      shot(sim, p, { every: 6, spread: [0], dmg: 4.6, r: 8, speed: 13, skin: 'dposada:2' });
     } else {
-      shot(sim, p, { every: 10, spread: [-0.45, 0, 0.45], dmg: 3, r: 9, speed: 9, skin: 'dposada:1' });
+      shot(sim, p, { every: 10, spread: [-0.45, 0, 0.45], dmg: 3.5, r: 9, speed: 9, skin: 'dposada:1' });
     }
   },
   // Magnus Exorcismus: baseline clear + persistent holy field where she stands.
@@ -129,9 +129,9 @@ export const chel_snip = {
   speed: 3.4, focusSpeed: 1.7, hitR: 4, lives: 3,
   fire(sim, p) {
     if (p.focused) {
-      shot(sim, p, { every: 6, spread: [0], dmg: 5, r: 5, speed: 18, skin: 'chel_snip:3', pierce: 2 });
+      shot(sim, p, { every: 6, spread: [0], dmg: 5.8, r: 5, speed: 18, skin: 'chel_snip:3', pierce: 2 });
     } else {
-      shot(sim, p, { every: 8, spread: [-0.06, 0.06], dmg: 3, r: 5, speed: 16, skin: 'chel_snip:1' });
+      shot(sim, p, { every: 8, spread: [-0.06, 0.06], dmg: 3.5, r: 5, speed: 16, skin: 'chel_snip:1' });
     }
   },
   // Arrow Storm: baseline clear + heavy damage to everything on screen.
@@ -157,9 +157,9 @@ export const viri = {
   fire(sim, p) {
     // short-range fists: high damage but bullets expire quickly
     if (p.focused) {
-      shot(sim, p, { every: 6, spread: [0], dmg: 7, r: 10, speed: 10, skin: 'viri:3', ttl: 33 });
+      shot(sim, p, { every: 6, spread: [0], dmg: 8, r: 10, speed: 10, skin: 'viri:3', ttl: 33 });
     } else {
-      shot(sim, p, { every: 8, spread: [-0.12, 0.12], dmg: 4, r: 9, speed: 9, skin: 'viri:2', ttl: 30 });
+      shot(sim, p, { every: 8, spread: [-0.12, 0.12], dmg: 4.6, r: 9, speed: 9, skin: 'viri:2', ttl: 30 });
     }
   },
   // Asura Strike: baseline clear + a forward cone whose damage scales with
