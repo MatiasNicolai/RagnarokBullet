@@ -52,6 +52,7 @@ export class Renderer {
     this.bulletTex = makeBulletTextures(app.renderer);
     this.itemTex = makeItemTextures(app.renderer);
     this.hitboxDots = [];
+    this.playerMarkers = [];   // co-op P1/P2 identity markers (ring + tag)
     this.sprites = new WeakMap();
 
     this.particles = [];
@@ -159,6 +160,7 @@ export class Renderer {
   sync(sim) {
     this.bg.update(sim.biome);
 
+    const coop = sim.players.filter(Boolean).length > 1;
     for (const p of sim.players) {
       if (!p) continue;
       if (p.down) {
@@ -166,6 +168,8 @@ export class Renderer {
         if (hidden) hidden.visible = false;
         const d = this.hitboxDots[p.index];
         if (d) d.visible = false;
+        const mk = this.playerMarkers[p.index];
+        if (mk) mk.root.visible = false;
         continue;
       }
       const s = this.spriteFor(p, this.playerLayer);
@@ -188,6 +192,19 @@ export class Renderer {
       dot.visible = true;
       dot.alpha = p.focused ? 1 : 0.55;
       dot.position.set(p.x, p.y);
+
+      // co-op identity marker: a colored ground ring + P1/P2 tag (gold P1 /
+      // blue P2, matching the lobby and sidebar) so you can tell the two apart.
+      if (coop) {
+        let mk = this.playerMarkers[p.index];
+        if (!mk) { mk = this.makePlayerMarker(p.index); this.playerMarkers[p.index] = mk; }
+        mk.root.visible = true;
+        mk.root.position.set(p.x, p.y);
+        mk.ring.alpha = (p.focused ? 1 : 0.7) * (p.iframes > 0 && (sim.tick & 4) ? 0.4 : 1);
+      } else {
+        const mk = this.playerMarkers[p.index];
+        if (mk) mk.root.visible = false;
+      }
     }
 
     for (const e of sim.enemies.active) {
@@ -296,6 +313,28 @@ export class Renderer {
     for (const pool of [sim.bullets, sim.enemies, sim.enemyBullets, sim.items]) {
       for (const e of pool.free) { const s = this.sprites.get(e); if (s) s.visible = false; }
     }
+  }
+
+  // A per-player identity marker for co-op: a colored ellipse at the feet plus
+  // a small "P1"/"P2" tag above the head. Added to the player layer once.
+  makePlayerMarker(index) {
+    const color = index === 0 ? 0xf2c14e : 0x5aa0ff; // gold P1 / blue P2
+    const root = new Container();
+    const ring = new Graphics();
+    ring.ellipse(0, PLAYER_HEIGHT * 0.42, 18, 7)
+      .stroke({ color, width: 2.5, alpha: 0.9 })
+      .ellipse(0, PLAYER_HEIGHT * 0.42, 18, 7)
+      .fill({ color, alpha: 0.14 });
+    root.addChild(ring);
+    const tag = new Text({
+      text: `P${index + 1}`,
+      style: { fill: color, fontSize: 12, fontFamily: 'monospace', fontWeight: 'bold', stroke: { color: 0x000000, width: 3 } },
+    });
+    tag.anchor.set(0.5, 1);
+    tag.position.set(0, -PLAYER_HEIGHT * 0.5);
+    root.addChild(tag);
+    this.playerLayer.addChild(root);
+    return { root, ring, tag };
   }
 
   syncBoss(sim) {
