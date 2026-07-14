@@ -204,6 +204,9 @@ export class Renderer {
         else if (e.vx < -0.3) tex = set.moveL ?? set.idle;
         else if (e.vx > 0.3) tex = set.moveR ?? set.idle;
         else tex = set.idle;
+        // animated poses (mid-bosses) are frame arrays — cycle them; static
+        // mobs are a single texture used directly.
+        if (Array.isArray(tex)) tex = tex[((e.t / 9) | 0) % tex.length];
         if (s.baseTex !== tex) { s.texture = tex; s.baseTex = tex; }
         s.tint = e.frozen > 0 ? 0x9fd8ff : (e.poison > 0 ? 0xa9f09a : 0xffffff);
         // gentle idle bob for liveliness

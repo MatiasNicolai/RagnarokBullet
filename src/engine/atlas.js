@@ -48,14 +48,17 @@ export async function loadAtlas() {
     };
   }
 
-  // real animated monster sprites, merged from all monster sheets
+  // real animated monster sprites, merged from all monster sheets. A pose value
+  // is either a single rect (static mob) or an array of rects (animated frames,
+  // used by the mid-bosses) — the renderer cycles arrays and uses singles as-is.
   const monsters = {};
   const addMonsters = (mf, src) => {
     if (!mf || !src) return;
+    const toTex = (v) => (Array.isArray(v) ? v.map((r) => sub(src, r)) : sub(src, v));
     for (const [name, m] of Object.entries(mf.monsters)) {
       monsters[name] = {
-        down: Object.fromEntries(Object.entries(m.down).map(([k, r]) => [k, sub(src, r)])),
-        up: Object.fromEntries(Object.entries(m.up).map(([k, r]) => [k, sub(src, r)])),
+        down: Object.fromEntries(Object.entries(m.down).map(([k, v]) => [k, toTex(v)])),
+        up: Object.fromEntries(Object.entries(m.up).map(([k, v]) => [k, toTex(v)])),
       };
     }
   };

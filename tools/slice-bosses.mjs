@@ -107,7 +107,7 @@ function clipTopResidue(box, cy) {
 // their last "frame" (Baphomet's scythe), which is wide-but-flat or huge — not
 // a boss frame. Falls back to the even-division frame 0 if detection finds
 // nothing sensible.
-function rowFrames(gx0, gx1, cy) {
+function rowFrames(gx0, gx1, cy, maxFrames = 3) {
   const y0 = cy - 32, y1 = cy + 30;
   const counts = new Array(gx1 - gx0 + 1).fill(0);
   for (let x = gx0; x <= gx1; x++) for (let y = y0; y <= y1; y++) if (A(x, y) > ALPHA_MIN) counts[x - gx0]++;
@@ -144,7 +144,7 @@ function rowFrames(gx0, gx1, cy) {
     if (box.w > 130) continue;                      // fused slash effect spanning cells
     frames.push(box);
   }
-  return frames.slice(0, 3);
+  return frames.slice(0, maxFrames);
 }
 
 // Main bosses are ANIMATED on idle/move poses: the manifest stores an array of
@@ -184,27 +184,42 @@ const MID_ROW_Y = [824, 871, 919, 966, 1013, 1061, 1110, 1157, 1201];
 const MID_DOWN_KEYS = ['idle', 'moveL', 'moveR', 'hit', 'attack'];
 const MID_COLS = 4;
 const MID_BOSSES = [
-  { name: 'doppelganger', gx0: 80, gx1: 566, upKeys: ['idle', 'moveR', 'hit', 'attack'] },
+  // Doppelganger gx0 nudged right of 80 to clear the "MOVE L" label-tag arrow
+  // that pokes into frame 0's left edge.
+  { name: 'doppelganger', gx0: 98, gx1: 566, upKeys: ['idle', 'moveR', 'hit', 'attack'] },
   { name: 'bapho_jr_giant', gx0: 650, gx1: 1114, upKeys: ['idle', 'moveL', 'hit', 'attack'] },
 ];
 
+// Mid-bosses are animated too. Unlike the packed main-boss art, their 4 frames
+// sit on an EVEN 4-column grid — but the Doppelganger's afterimage/dash trails
+// bleed a faint streak across the gaps, which defeats gap-run detection (it
+// merges the whole row). So use fixed 4-column cells, bbox-tightened per cell
+// with the top-residue clip; the minor trail bleed into a cell reads as motion.
+// idle/moveL/moveR become frame arrays; hit/attack + up poses stay single.
+const MID_ANIM = new Set(['idle', 'moveL', 'moveR']);
 const midManifest = { sheet: 'bosses.png', size: { w: W, h: H }, monsters: {} };
 for (const b of MID_BOSSES) {
-  // Use the same robust run-detection as the main bosses (banner strips and
-  // label-tag fragments get filtered / clipped), keeping the first valid frame;
-  // fall back to the even-division cell if a row defeats detection.
-  const fallback = sliceGrid(b.gx0, b.gx1, MID_COLS, MID_ROW_Y, 0);
-  const boxes = MID_ROW_Y.map((cy, r) => rowFrames(b.gx0, b.gx1, cy)[0] ?? fallback[r]);
+  // 4 grid columns, but only the first 3 are character animation frames — the
+  // 4th cell is an effect (Doppelganger's afterimage bar / Baphomet's lying
+  // scythe), just like the main bosses' detached-weapon cells.
+  const cells = [0, 1, 2].map((f) => sliceGrid(b.gx0, b.gx1, MID_COLS, MID_ROW_Y, f));
   const entry = { down: {}, up: {} };
-  boxes.forEach((box, r) => {
-    if (r < 5) entry.down[MID_DOWN_KEYS[r]] = box;
-    else entry.up[b.upKeys[r - 5]] = box;
-    debug.push(box);
+  MID_ROW_Y.forEach((cy, r) => {
+    const key = r < 5 ? MID_DOWN_KEYS[r] : b.upKeys[r - 5];
+    const side = r < 5 ? entry.down : entry.up;
+    const clip = (box) => (box.w > 8 ? clipTopResidue(box, cy) : box);
+    if (r < 5 && MID_ANIM.has(key)) {
+      const frames = cells.map((cell) => clip(cell[r])).filter((box) => box.w > 8 && box.h >= 24);
+      side[key] = frames.length >= 2 ? frames : [clip(cells[0][r])];       // array
+    } else {
+      side[key] = clip(cells[0][r]);                                       // single rect
+    }
+    debug.push(...(Array.isArray(side[key]) ? side[key] : [side[key]]));
   });
   // Both mid-boss panels' ornate title banners dip into their DOWN IDLE row,
-  // so that row extracts banner art instead of (or fused with) the character.
-  // moveL is the next row down (clean) and visually near-identical to idle.
-  entry.down.idle = { ...entry.down.moveL };
+  // so that row extracts banner art. moveL is the next row down (clean) and
+  // visually near-identical to idle — reuse its frame strip.
+  entry.down.idle = entry.down.moveL;
   midManifest.monsters[b.name] = entry;
 }
 fs.writeFileSync(path.join(outDir, 'monsters5.json'), JSON.stringify(midManifest, null, 2));
