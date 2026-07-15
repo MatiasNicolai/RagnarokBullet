@@ -59,7 +59,9 @@ function rowFrames(y0, y1) {
   return frames;
 }
 
-const ITEMS = ['card', 'zeny', 'potion']; // row order in the sheet
+// Row order in the sheet. The blue bottle maps to the POWER gem (Blue Gemstone),
+// not the life potion — the life potion keeps its procedural red sprite.
+const ITEMS = ['card', 'zeny', 'gem'];
 const manifest = { sheet: 'items.png', size: { w: W, h: H }, items: {} };
 const debug = [];
 rows.forEach(([y0, y1], i) => {
