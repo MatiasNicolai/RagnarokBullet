@@ -148,13 +148,16 @@ export class Renderer {
 
   playerPose(p) {
     const poses = this.atlas.characters[p.char.id].poses;
-    const up = p.vy < -0.01;
+    // Default facing is UP (the way the field scrolls) — you fly forward into
+    // the level, showing your back. The down-facing poses only appear while
+    // actively descending, so a still or advancing character never looks like
+    // it's walking backwards against the scroll.
+    const down = p.vy > 0.01;
     if (Math.abs(p.vx) > 0.01) {
-      if (up) return p.vx < 0 ? poses.upMoveL : poses.upMoveR;
-      return p.vx < 0 ? poses.moveL : poses.moveR;
+      if (down) return p.vx < 0 ? poses.moveL : poses.moveR;
+      return p.vx < 0 ? poses.upMoveL : poses.upMoveR;
     }
-    if (up) return poses.upIdle;
-    return poses.idle;
+    return down ? poses.idle : poses.upIdle;
   }
 
   sync(sim) {
