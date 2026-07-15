@@ -19,6 +19,12 @@ const METER_PER_GRAZE = 4;
 const METER_PER_KILL = 2;
 const MAGNET_R = 90;
 const POC_LINE = FIELD_H * 0.3; // above this, items auto-collect (Point of Collection)
+export const BOMB_MAX = 5;      // you can now bank up to 5 bombs (was a hard 3)
+const LIFE_OVERHEAL = 2;        // potions/extends can bank this many over the char's base max
+// Score extends (1-ups): first at 300k, then every +700k. Deterministic, since
+// score is deterministic. Gives a way to earn lives by playing well.
+const EXTEND_BASE = 300000;
+const EXTEND_STEP = 700000;
 
 // `carry` (optional) seeds per-player state from the previous level:
 // [{ lives, bombs, power, spheres }, ...]. `startScore` continues the tally.
@@ -29,6 +35,7 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
     tick: 0,
     rng: new Rng(seed),
     score: startScore,
+    extends: 0,              // 1-ups awarded this run (drives the next threshold)
     continues: 0,            // arcade continues used this run (set by the scene from the campaign)
     diff,
     bulletScale: diff.bulletScale,
@@ -143,6 +150,25 @@ function addMeter(p, amount) {
   p.meter = Math.min(METER_MAX, p.meter + amount);
 }
 
+// Add a life if under the banked cap (base max + overheal). Returns whether a
+// life was actually granted (false → the caller converts it to score instead).
+function grantLife(p) {
+  const cap = p.char.lives + LIFE_OVERHEAL;
+  if (p.lives >= cap) return false;
+  p.lives++;
+  return true;
+}
+
+// Award score-based extends (1-ups) to whoever is alive. Deterministic.
+function checkExtends(sim) {
+  const threshold = EXTEND_BASE + sim.extends * EXTEND_STEP;
+  if (sim.score < threshold) return;
+  sim.extends++;
+  let granted = false;
+  for (const p of sim.players) if (p && !p.down && grantLife(p)) granted = true;
+  sim.events.push({ type: 'extend', got: granted });
+}
+
 // Viri also charges spirit spheres by landing fist hits on bosses/mid-bosses
 // (those fights have no kills, which starved Asura exactly when it matters).
 // Every 30 hits -> +1 sphere; his focused fists land ~10/s, so ~1 sphere / 3 s
@@ -209,6 +235,7 @@ function killEnemy(sim, e) {
     const it = sim.spawnItem(e.x, e.y, 'card');
     it.cardId = e.skin;
   } else if (e.drop) sim.spawnItem(e.x, e.y, e.drop);
+  else if (sim.rng.next() < 0.012) sim.spawnItem(e.x, e.y, 'bomb'); // occasional bomb from a kill
   else if (sim.rng.next() < 0.25) sim.spawnItem(e.x, e.y, 'zeny');
 }
 
@@ -223,12 +250,13 @@ function openChest(sim, p, x, y) {
   }
   const roll = sim.rng.next();
   const anyDown = sim.players.some((q) => q && q.down);
-  let bonus = roll < 0.34 ? 'gem'
-    : roll < 0.5 ? 'potion'
-      : roll < 0.64 ? 'awakening'
-        : roll < 0.78 ? 'speed'
-          : roll < 0.9 ? 'kafra'
-            : 'leaf';
+  let bonus = roll < 0.28 ? 'gem'
+    : roll < 0.44 ? 'potion'
+      : roll < 0.60 ? 'bomb'
+        : roll < 0.72 ? 'awakening'
+          : roll < 0.84 ? 'speed'
+            : roll < 0.92 ? 'kafra'
+              : 'leaf';
   if (bonus === 'leaf' && !anyDown && sim.players.filter(Boolean).length < 2) bonus = 'potion';
   const it = sim.spawnItem(x, y - 10, bonus);
   it.vy = -2.6;
@@ -241,8 +269,10 @@ function collectItem(sim, p, it) {
     if (p.power < 2) p.power++;
     else sim.addScore(1000);
   } else if (it.kind === 'potion') {
-    if (p.lives < p.char.lives) p.lives++;
-    else sim.addScore(2000);
+    if (!grantLife(p)) sim.addScore(2000);   // banks up to base max + LIFE_OVERHEAL
+  } else if (it.kind === 'bomb') {
+    if (p.bombs < BOMB_MAX) p.bombs++;
+    else sim.addScore(1500);
   } else if (it.kind === 'leaf') {
     const downed = sim.players.find((q) => q && q.down);
     if (downed) revive(sim, downed);
@@ -259,7 +289,7 @@ function collectItem(sim, p, it) {
     if (!sim.cards.includes(it.cardId)) {
       sim.cards.push(it.cardId);
       sim.stats.cards++;
-      p.bombs = Math.min(3, p.bombs + 1);  // basic passive: refund a bomb
+      p.bombs = Math.min(BOMB_MAX, p.bombs + 1);  // basic passive: refund a bomb
       sim.addScore(3000);
     } else {
       sim.addScore(1000);
@@ -339,6 +369,7 @@ export function tickSim(sim, inputs, stage) {
     if (sim.gameOver) return;
   }
   sim.tick++;
+  checkExtends(sim);
 
   // --- players ---
   for (const p of sim.players) {

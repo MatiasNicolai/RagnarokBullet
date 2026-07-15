@@ -89,6 +89,13 @@ export function makeItemTextures(renderer) {
   card.circle(10, 8, 2.5).fill(0xff6a8a);
   card.rect(6, 14, 8, 2).fill(0xf2c14e);
 
+  // bomb pickup — dark bomb with a lit gold fuse (grants +1 bomb)
+  const bomb = new Graphics();
+  bomb.circle(10, 13, 7).fill(0x2a2f3e).stroke({ color: 0xf2c14e, width: 2 });
+  bomb.circle(7.5, 10.5, 2).fill(0x9aa4c0);           // highlight
+  bomb.rect(12, 3, 2, 4).fill(0x8a6a2a);              // fuse stem
+  bomb.circle(14, 3, 2.4).fill(0xffd24a).stroke({ color: 0xff7a30, width: 1 }); // spark
+
   return {
     zeny: renderer.generateTexture(zeny),
     gem: renderer.generateTexture(gem),
@@ -99,6 +106,7 @@ export function makeItemTextures(renderer) {
     speed: renderer.generateTexture(speed),
     kafra: renderer.generateTexture(kafra),
     card: renderer.generateTexture(card),
+    bomb: renderer.generateTexture(bomb),
   };
 }
 

@@ -168,11 +168,13 @@ export class Sidebar {
     this.root.addChild(sub);
     y += 20;
 
-    // hearts
+    // hearts (room for banked overheal lives beyond the base max)
     const hearts = [];
-    for (let i = 0; i < char.lives; i++) {
+    const maxHearts = char.lives + 2;
+    const hspace = maxHearts > 5 ? 28 : 34;
+    for (let i = 0; i < maxHearts; i++) {
       const h = heart();
-      h.position.set(cx + (i - (char.lives - 1) / 2) * 34, y + 8);
+      h.position.set(cx + (i - (maxHearts - 1) / 2) * hspace, y + 8);
       this.root.addChild(h);
       hearts.push(h);
     }
@@ -206,9 +208,9 @@ export class Sidebar {
         const bar = new Graphics();
         bar.roundRect(4, 60, 92, 8, 3).fill(0x0d1220).stroke({ color: GOLD_DARK, width: 1 });
         slot.addChild(bar);
-        for (let s = 0; s < 3; s++) {
+        for (let s = 0; s < 5; s++) {   // up to BOMB_MAX bombs
           const pip = new Graphics();
-          pip.roundRect(9 + s * 30, 62, 24, 4, 2).fill(GOLD);
+          pip.roundRect(7 + s * 18, 62, 15, 4, 2).fill(GOLD);
           slot.addChild(pip);
           bombPips.push(pip);
         }
@@ -297,9 +299,10 @@ export class Sidebar {
       block.addChild(cls);
 
       const hearts = [];
-      for (let i = 0; i < char.lives; i++) {
+      const maxHearts = char.lives + 2;
+      for (let i = 0; i < maxHearts; i++) {
         const h = heart(0.7);
-        h.position.set(92 + i * 24, 58);
+        h.position.set(92 + i * 19, 58);
         block.addChild(h);
         hearts.push(h);
       }
@@ -311,9 +314,9 @@ export class Sidebar {
       bombLabel.position.set(26, 78);
       block.addChild(bombLabel);
       const bombPips = [];
-      for (let s = 0; s < 3; s++) {
+      for (let s = 0; s < 5; s++) {   // up to BOMB_MAX bombs
         const pip = new Graphics();
-        pip.roundRect(78 + s * 30, 80, 24, 5, 2).fill(GOLD);
+        pip.roundRect(76 + s * 20, 80, 16, 5, 2).fill(GOLD);
         block.addChild(pip);
         bombPips.push(pip);
       }

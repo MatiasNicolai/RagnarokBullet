@@ -178,6 +178,10 @@ export class GameScene {
       case 'spellCard': audio.play('spellcard'); this.showBanner(ev.name, 90, GOLD); break;
       case 'bossPhase': this.shake = Math.max(this.shake, 8); this.hitstop = Math.max(this.hitstop, 5); break;
       case 'bossDown': audio.play('bossDown'); this.slowmo = 90; this.shake = 24; break;
+      case 'extend':
+        audio.play('clear');
+        this.showBanner(ev.got ? '¡EXTEND!\n+1 vida' : '¡EXTEND!\n(vidas al máximo)', 90, GOLD);
+        break;
       case 'continue':
         // the sim revived the run (arcade continue): drop the game-over overlay
         if (this.overlay) { this.overlay.destroy({ children: true }); this.overlay = null; }
@@ -371,7 +375,7 @@ export class GameScene {
   // campaign for the next level, carrying player state + score forward.
   nextCampaign() {
     const carry = this.sim.players.map((p) => p && ({
-      lives: Math.max(1, p.lives), bombs: 3, power: p.power, spheres: p.spheres,
+      lives: Math.max(1, p.lives), bombs: Math.max(3, p.bombs), power: p.power, spheres: p.spheres,
     }));
     const next = {
       chars: this.chars, levelIndex: this.levelIndex + 1,
