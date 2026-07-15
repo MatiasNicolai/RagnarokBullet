@@ -258,16 +258,20 @@ export const baphomet = {
     {
       // Guadaña Dimensional: crossing diagonal scythe-waves in an X.
       // The lesson: the crossing point sweeps down — ride between the blades.
+      // Tuned from playtest feedback: the diagonals were too fast/dense, so the
+      // only safe pocket was hugging the boss up top (right in the ring). Slower
+      // blades, wider spacing (bigger spawn-y step) and a lighter ring keep the
+      // mid/lower field navigable so you don't have to camp under Baphomet.
       name: 'Guadaña Dimensional',
       hp: 760,
       step(sim, b) {
         b.x = FIELD_W / 2 + Math.sin(b.t / 55) * 150;
-        if (b.t % 13 === 0) {
-          const s = 2.8;
+        if (b.t % 18 === 0) {
+          const s = 2.0;
           sim.spawnEnemyBullet({ x: 0, y: (b.t % 300) * 2.6 - 40, vx: s, vy: s, color: 'purple', r: 6 });
           sim.spawnEnemyBullet({ x: FIELD_W, y: (b.t % 300) * 2.6 - 40, vx: -s, vy: s, color: 'red', r: 6 });
         }
-        if (b.t % 80 === 40) ring(sim, b.x, b.y, { n: 16, speed: 1.9, baseAngle: sim.rng.range(0, 6.28), color: 'orange' });
+        if (b.t % 90 === 45) ring(sim, b.x, b.y, { n: 14, speed: 1.7, baseAngle: sim.rng.range(0, 6.28), color: 'orange' });
       },
     },
     {
