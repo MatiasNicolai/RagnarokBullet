@@ -42,7 +42,10 @@ export async function loadAtlas() {
     monJson('bosses'), monPng('bosses'),
     monJson('monsters5'), // mid-bosses (Doppelganger, Giant Baphomet Jr.) — shares bosses.png as its sheet
     monJson('skills'), monPng('skills'), // per-character skill icons (6 chars x 4 skills)
-    monJson('items'), monPng('items'),   // animated pickups: card / zeny / potion
+    monJson('items'), monPng('items'),   // animated pickups: card / zeny / gem
+  ]);
+  const [item2Manifest, item2Base] = await Promise.all([
+    monJson('items2'), monPng('items2'), // potion / chest / leaf / awakening / speed / kafra / bomb
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -106,14 +109,15 @@ export async function loadAtlas() {
     }
   }
 
-  // animated item pickups: items[kind] = [frame textures]. Kinds present here
-  // (card / zeny / potion) override the procedural item textures in the renderer.
+  // animated item pickups: items[kind] = [frame textures], merged from both item
+  // sheets. Any kind present here overrides the procedural item texture.
   const items = {};
-  if (itemManifest && itemBase) {
-    for (const [kind, frames] of Object.entries(itemManifest.items)) {
-      items[kind] = frames.map((r) => sub(itemBase, r));
-    }
-  }
+  const addItems = (mf, src) => {
+    if (!mf || !src) return;
+    for (const [kind, frames] of Object.entries(mf.items)) items[kind] = frames.map((r) => sub(src, r));
+  };
+  addItems(itemManifest, itemBase);   // card / zeny / gem
+  addItems(item2Manifest, item2Base); // potion / chest / leaf / awakening / speed / kafra / bomb
 
   return { characters, monsters, maps, startMenu, bosses, skills, items, ensureMapSet };
 }
