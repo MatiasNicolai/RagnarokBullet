@@ -274,10 +274,27 @@ export class Renderer {
 
     for (const it of sim.items.active) {
       const s = this.spriteFor(it, this.itemLayer);
-      const tex = this.itemTex[it.kind] ?? this.itemTex.zeny;
-      if (s.texture !== tex) s.texture = tex;
-      s.position.set(it.x, it.y);
-      s.rotation = Math.sin(sim.tick / 12 + it.x) * 0.25;
+      const frames = this.atlas.items?.[it.kind];
+      if (frames) {
+        // real animated pickup: cycle frames, scale by a fixed reference height
+        // (the item's tallest frame) so a spinning card thins in place instead
+        // of resizing. No wobble — the frames are the animation.
+        const tex = frames[((sim.tick / 7) | 0) % frames.length];
+        if (s.baseTex !== tex) {
+          s.texture = tex; s.baseTex = tex;
+          s.anchor.set(0.5);
+          this._itemRefH ??= {};
+          const refH = this._itemRefH[it.kind] ??= Math.max(...frames.map((f) => f.frame.height));
+          s.scale.set(34 / refH);
+        }
+        s.rotation = 0;
+        s.position.set(it.x, it.y);
+      } else {
+        const tex = this.itemTex[it.kind] ?? this.itemTex.zeny;
+        if (s.texture !== tex) { s.texture = tex; s.baseTex = tex; s.scale.set(1); }
+        s.position.set(it.x, it.y);
+        s.rotation = Math.sin(sim.tick / 12 + it.x) * 0.25;
+      }
     }
 
     this.bombRing.clear();

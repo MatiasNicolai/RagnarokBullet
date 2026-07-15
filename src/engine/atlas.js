@@ -38,10 +38,11 @@ export async function loadAtlas() {
     loadMapSet('prontera'),        // only level 1's maps up front; rest lazy
   ]);
   const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => null);
-  const [bossManifest, bossBase, mon5Manifest, skillManifest, skillBase] = await Promise.all([
+  const [bossManifest, bossBase, mon5Manifest, skillManifest, skillBase, itemManifest, itemBase] = await Promise.all([
     monJson('bosses'), monPng('bosses'),
     monJson('monsters5'), // mid-bosses (Doppelganger, Giant Baphomet Jr.) — shares bosses.png as its sheet
     monJson('skills'), monPng('skills'), // per-character skill icons (6 chars x 4 skills)
+    monJson('items'), monPng('items'),   // animated pickups: card / zeny / potion
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -105,5 +106,14 @@ export async function loadAtlas() {
     }
   }
 
-  return { characters, monsters, maps, startMenu, bosses, skills, ensureMapSet };
+  // animated item pickups: items[kind] = [frame textures]. Kinds present here
+  // (card / zeny / potion) override the procedural item textures in the renderer.
+  const items = {};
+  if (itemManifest && itemBase) {
+    for (const [kind, frames] of Object.entries(itemManifest.items)) {
+      items[kind] = frames.map((r) => sub(itemBase, r));
+    }
+  }
+
+  return { characters, monsters, maps, startMenu, bosses, skills, items, ensureMapSet };
 }
