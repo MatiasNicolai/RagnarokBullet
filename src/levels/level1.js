@@ -138,7 +138,7 @@ export function level1(sim) {
 
   switch (L.phase) {
     case 'fields': {
-      approach(0.2, 0.01);
+      approach(0.15, 0.01);
       if (t % 40 === 0) spawnPoring(sim);
       if (t % 220 === 120) spawnPickyFlock(sim);
       if (t > 500 && t % 160 === 0) spawnChonchon(sim);
@@ -146,7 +146,7 @@ export function level1(sim) {
       break;
     }
     case 'gate': {
-      approach(0.55, 0.012);
+      approach(0.38, 0.012);
       if (t % 55 === 0) spawnPoring(sim);
       if (t % 180 === 40) spawnPupa(sim);
       if (t % 150 === 90) spawnChonchon(sim);
@@ -155,7 +155,7 @@ export function level1(sim) {
       break;
     }
     case 'avenue': {
-      approach(0.85, 0.012);
+      approach(0.56, 0.012);
       if (t % 90 === 0) spawnOrcBaby(sim);
       if (t % 150 === 60) spawnPupa(sim);
       if (t % 170 === 90) spawnPickyFlock(sim);
@@ -167,7 +167,8 @@ export function level1(sim) {
       break;
     }
     case 'midboss': {
-      approach(0.92, 0.01);
+      // mid-boss lands at ~60% of the level; the royal-approach screens fill 60→100%
+      approach(0.62, 0.01);
       if (t === 30) {
         sim.events.push({ type: 'warning', name: 'Mastering' });
         L.midAlive = true;
@@ -177,7 +178,20 @@ export function level1(sim) {
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });
       }
-      if (t > 60 && !L.midAlive) { L.phase = 'approach'; L.t = 0; }
+      if (t > 60 && !L.midAlive) { L.phase = 'royal'; L.t = 0; }
+      break;
+    }
+    case 'royal': {
+      // final approach up the Royal Avenue (the two new screens): a fresh wave
+      // gauntlet before the plaza, scrolling 0.62 -> 0.9.
+      approach(0.9, 0.008);
+      if (t % 85 === 0) spawnOrcBaby(sim);
+      if (t % 130 === 40) spawnPupa(sim);
+      if (t % 160 === 90) spawnLunatic(sim);
+      if (t % 200 === 20) spawnPickyFlock(sim);
+      if (t > 300 && t % 240 === 0) spawnChonchon(sim);
+      if (t === 650) { const it = sim.spawnItem(FIELD_W / 2, -20, 'chest'); it.vy = 1.2; }
+      if (t >= 1500) { L.phase = 'approach'; L.t = 0; }
       break;
     }
     case 'approach': {

@@ -6,9 +6,9 @@ import { level1Theme, level2Theme, level3Theme } from '../render/themes.js';
 
 export const LEVELS = [
   {
-    script: level1, theme: level1Theme, mapSet: 'prontera',
+    script: level1, theme: level1Theme, mapSet: 'prontera', midProgress: 0.6,
     title: 'Nivel 1', name: 'Campos de Prontera → Plaza de Prontera',
-    biomeNames: [[0, 'Campos de Prontera'], [0.3, 'Puerta de la ciudad'], [0.6, 'Avenida real'], [0.85, 'Plaza de Prontera']],
+    biomeNames: [[0, 'Campos de Prontera'], [0.25, 'Puerta de la ciudad'], [0.5, 'Avenida real'], [0.9, 'Plaza de Prontera']],
   },
   {
     script: level2, theme: level2Theme, mapSet: 'geffen',

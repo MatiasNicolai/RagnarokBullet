@@ -53,7 +53,7 @@ export class GameScene {
     // levels with a real map set (Prontera, Geffen) use the scrolling backdrop;
     // the rest fall back to the procedural living theme.
     const mapSet = baseLevel.mapSet ? ctx.atlas.maps?.[baseLevel.mapSet] : null;
-    const maps = (mapSet && mapSet.length === 5) ? mapSet : null;
+    const maps = (mapSet && mapSet.length >= 5) ? mapSet : null; // Prontera now has 7 tiles
     this.renderer = new Renderer(ctx.app, ctx.atlas, this.container, this.level.theme, maps);
 
     // progress rail (left edge)
@@ -297,9 +297,10 @@ export class GameScene {
     this.progressFill.clear();
     const frac = Math.min(1, this.sim.biome);
     this.progressFill.roundRect(6, top + barH * (1 - frac), 4, barH * frac, 2).fill(0xf2c14e);
-    // mid-boss marker at 0.8, boss diamond at top
-    const midY = top + barH * (1 - 0.8);
-    this.progressFill.rect(2, midY, 12, 2).fill(this.sim.biome >= 0.8 ? 0xf2c14e : 0x5a648a);
+    // mid-boss marker (per-level; ~60% on Prontera with its extended avenue)
+    const midP = this.level.midProgress ?? 0.8;
+    const midY = top + barH * (1 - midP);
+    this.progressFill.rect(2, midY, 12, 2).fill(this.sim.biome >= midP ? 0xf2c14e : 0x5a648a);
     const bossReached = !!this.sim.boss || this.sim.levelComplete;
     this.progressFill.poly([8, top - 8, 14, top - 2, 8, top + 4, 2, top - 2])
       .fill(bossReached ? 0xe0472e : 0x5a648a).stroke({ color: GOLD, width: 1 });

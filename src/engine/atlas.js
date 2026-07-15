@@ -8,10 +8,17 @@ import { Assets, Rectangle, Texture } from 'pixi.js';
 // asset paths it processes at build time, not these hardcoded fetch strings).
 const BASE = import.meta.env.BASE_URL;
 
-// One themed level's 5 scrolling backdrop tiles. Loaded lazily (44 MB across
-// all three sets) so first paint isn't blocked on maps the player can't see yet.
+// A themed level's scrolling backdrop tiles, in scroll order (first = start /
+// bottom, last = boss arena / top). Prontera inserts two extra "royal approach"
+// screens between the avenue (004) and the plaza arena (005) so the level runs
+// longer after the mid-boss. Loaded lazily so first paint isn't blocked on maps.
+const MAP_FILES = {
+  prontera: ['prontera001', 'prontera002', 'prontera003', 'prontera004', 'pronteraNewA', 'pronteraNewB', 'prontera005'],
+  geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffen005'],
+  glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheim005'],
+};
 const loadMapSet = (name) =>
-  Promise.all([1, 2, 3, 4, 5].map((n) => Assets.load(`${BASE}assets/maps/${name}00${n}.png`).catch(() => null)))
+  Promise.all((MAP_FILES[name] ?? []).map((f) => Assets.load(`${BASE}assets/maps/${f}.png`).catch(() => null)))
     .then((set) => set.filter(Boolean));
 
 export async function loadAtlas() {
