@@ -11,13 +11,13 @@ export const LEVELS = [
     biomeNames: [[0, 'Campos de Prontera'], [0.25, 'Puerta de la ciudad'], [0.5, 'Avenida real'], [0.9, 'Plaza de Prontera']],
   },
   {
-    script: level2, theme: level2Theme, mapSet: 'geffen',
+    script: level2, theme: level2Theme, mapSet: 'geffen', midProgress: 0.6,
     title: 'Nivel 2', name: 'Mazmorra de Geffen → Geffenia',
-    biomeNames: [[0, 'Entrada de la mazmorra'], [0.3, 'Corredor maldito'], [0.6, 'Cripta'], [0.85, 'Santuario de Geffenia']],
+    biomeNames: [[0, 'Entrada de la mazmorra'], [0.25, 'Corredor maldito'], [0.5, 'Cripta'], [0.9, 'Santuario de Geffenia']],
   },
   {
-    script: level3, theme: level3Theme, mapSet: 'glastheim',
+    script: level3, theme: level3Theme, mapSet: 'glastheim', midProgress: 0.6,
     title: 'Nivel 3', name: 'Glast Heim',
-    biomeNames: [[0, 'Patio de Glast Heim'], [0.35, 'Salones malditos'], [0.75, 'Santuario interior']],
+    biomeNames: [[0, 'Patio de Glast Heim'], [0.3, 'Salones malditos'], [0.55, 'Cripta profunda'], [0.9, 'Santuario interior']],
   },
 ];

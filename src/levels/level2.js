@@ -102,7 +102,7 @@ export function level2(sim) {
       if (t >= 1300) { L.phase = 'descent'; L.t = 0; }
       break;
     case 'descent':
-      approach(0.5, 0.012);
+      approach(0.38, 0.012);
       if (t % 70 === 0) ninetails(sim);
       if (t % 100 === 40) zombie(sim);
       if (t % 130 === 70) deviruchi(sim);
@@ -110,7 +110,7 @@ export function level2(sim) {
       if (t >= 1400) { L.phase = 'geffenia'; L.t = 0; }
       break;
     case 'geffenia':
-      approach(0.85, 0.012);
+      approach(0.56, 0.012);
       if (t % 80 === 0) deviruchi(sim);
       if (t % 100 === 50) wraith(sim);
       if (t % 120 === 30) marionette(sim);
@@ -118,7 +118,8 @@ export function level2(sim) {
       if (t >= 1300) { L.phase = 'midboss'; L.t = 0; }
       break;
     case 'midboss':
-      approach(0.9, 0.01);
+      // mid-boss at ~60%; the crypt-approach screens fill 60->100%
+      approach(0.62, 0.01);
       if (t === 30) {
         sim.events.push({ type: 'warning', name: 'Doppelganger' });
         L.midAlive = true;
@@ -128,8 +129,19 @@ export function level2(sim) {
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });
       }
-      if (t > 60 && !L.midAlive) { L.phase = 'approach'; L.t = 0; }
+      if (t > 60 && !L.midAlive) { L.phase = 'crypt'; L.t = 0; }
       break;
+    case 'crypt': {
+      // final descent through the two new crypt screens toward the rune gate.
+      approach(0.9, 0.008);
+      if (t % 90 === 0) deviruchi(sim);
+      if (t % 120 === 40) wraith(sim);
+      if (t % 150 === 80) marionette(sim);
+      if (t % 110 === 20) ninetails(sim);
+      if (t === 650) { const it = sim.spawnItem(FIELD_W / 2, -20, 'chest'); it.vy = 1.2; }
+      if (t >= 1500) { L.phase = 'approach'; L.t = 0; }
+      break;
+    }
     case 'approach':
       approach(1.0, 0.02);
       if (t >= 150) { L.phase = 'boss'; L.t = 0; spawnBoss(sim, darkLord); }

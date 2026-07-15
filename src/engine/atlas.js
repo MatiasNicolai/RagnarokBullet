@@ -14,8 +14,8 @@ const BASE = import.meta.env.BASE_URL;
 // longer after the mid-boss. Loaded lazily so first paint isn't blocked on maps.
 const MAP_FILES = {
   prontera: ['prontera001', 'prontera002', 'prontera003', 'prontera004', 'pronteraNewA', 'pronteraNewB', 'prontera005'],
-  geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffen005'],
-  glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheim005'],
+  geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffenNewA', 'geffenNewB', 'geffen005'],
+  glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheimNewA', 'glastheimNewB', 'glastheim005'],
 };
 const loadMapSet = (name) =>
   Promise.all((MAP_FILES[name] ?? []).map((f) => Assets.load(`${BASE}assets/maps/${f}.png`).catch(() => null)))

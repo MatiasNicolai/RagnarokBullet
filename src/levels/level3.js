@@ -118,7 +118,7 @@ export function level3(sim) {
       if (t >= 1300) { L.phase = 'halls'; L.t = 0; }
       break;
     case 'halls':
-      approach(0.5, 0.012);
+      approach(0.38, 0.012);
       if (t % 80 === 0) raydric(sim);
       if (t % 110 === 40) darkpriest(sim);
       if (t % 140 === 70) khalitzburg(sim);
@@ -126,7 +126,7 @@ export function level3(sim) {
       if (t >= 1400) { L.phase = 'sanctum'; L.t = 0; }
       break;
     case 'sanctum':
-      approach(0.85, 0.012);
+      approach(0.56, 0.012);
       if (t % 90 === 0) baphoJr(sim);
       if (t % 100 === 40) whisper(sim);
       if (t % 120 === 60) darkpriest(sim);
@@ -134,7 +134,8 @@ export function level3(sim) {
       if (t >= 1300) { L.phase = 'midboss'; L.t = 0; }
       break;
     case 'midboss':
-      approach(0.9, 0.01);
+      // mid-boss at ~60%; the cathedral-approach screens fill 60->100%
+      approach(0.62, 0.01);
       if (t === 30) {
         sim.events.push({ type: 'warning', name: 'Baphomet Jr.' });
         L.midAlive = true;
@@ -144,8 +145,21 @@ export function level3(sim) {
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });
       }
-      if (t > 60 && !L.midAlive) { L.phase = 'approach'; L.t = 0; }
+      if (t > 60 && !L.midAlive) { L.phase = 'cathedral'; L.t = 0; }
       break;
+    case 'cathedral': {
+      // final march through the two new cathedral screens toward the sanctum.
+      approach(0.9, 0.008);
+      if (t % 95 === 0) raydric(sim);
+      if (t % 120 === 40) darkpriest(sim);
+      if (t % 100 === 70) whisper(sim);
+      if (t % 150 === 30) baphoJr(sim);
+      if (t === 650) { const it = sim.spawnItem(FIELD_W / 2, -20, 'chest'); it.vy = 1.2; }
+      if (t >= 1500) { L.phase = 'approach'; L.t = 0; }
+      break;
+    }
+    case 'approach':
+      approach(1.0, 0.02);
     case 'approach':
       approach(1.0, 0.02);
       if (t >= 150) { L.phase = 'boss'; L.t = 0; spawnBoss(sim, baphomet); }
