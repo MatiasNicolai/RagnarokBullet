@@ -49,6 +49,12 @@ const TRACKS = {
     lead: ['D4', _, 'F4', 'D4', 'A4', 'G4', 'F4', 'D4', 'C4', _, 'E4', 'C4', 'A3', 'C4', 'D4', _],
     bass: ['D2', _, 'D2', 'A1', 'Bb2', _, 'Bb1', _, 'C2', _, 'C1', _, 'D2', _, 'A1', _],
   },
+  level4: {
+    // Juperos — eerie mechanical march (no mp3 yet; chiptune stand-in)
+    bpm: 120, wave: 'square',
+    lead: ['E4', _, 'B3', 'E4', 'G4', 'F#4', 'E4', 'B3', 'A3', _, 'C4', 'E4', 'D4', 'B3', 'A3', _],
+    bass: ['E2', _, 'E1', _, 'C2', _, 'C1', _, 'A2', _, 'A1', _, 'B1', _, 'B2', _],
+  },
   boss: {
     bpm: 148, wave: 'sawtooth',
     lead: ['E4', 'E4', 'G4', 'E4', 'B4', 'A4', 'G4', 'E4', 'D4', 'D4', 'F4', 'A4', 'G4', 'E4', 'D4', 'B3'],

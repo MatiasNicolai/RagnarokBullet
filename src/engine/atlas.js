@@ -16,6 +16,7 @@ const MAP_FILES = {
   prontera: ['prontera001', 'prontera002', 'prontera003', 'prontera004', 'pronteraNewA', 'pronteraNewB', 'prontera005'],
   geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffenNewA', 'geffenNewB', 'geffen005'],
   glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheimNewA', 'glastheimNewB', 'glastheim005'],
+  juperos: ['juperos001', 'juperos002', 'juperos003', 'juperos004', 'juperos005', 'juperos006', 'juperos007'], // native 7-tile set (007 = Vesper arena)
 };
 const loadMapSet = (name) =>
   Promise.all((MAP_FILES[name] ?? []).map((f) => Assets.load(`${BASE}assets/maps/${f}.png`).catch(() => null)))
@@ -27,6 +28,7 @@ export async function loadAtlas() {
   const [
     manifest, base,
     monManifest, monBase, mon2Manifest, mon2Base, mon3Manifest, mon3Base, mon4Manifest, mon4Base,
+    mon6Manifest, mon6Base,
     prontera,
   ] = await Promise.all([
     fetch(`${BASE}assets/manifest.json`).then((r) => r.json()),
@@ -35,6 +37,7 @@ export async function loadAtlas() {
     monJson('monsters2'), monPng('monsters2'),
     monJson('monsters3'), monPng('monsters3'),
     monJson('monsters4'), monPng('monsters4'),
+    monJson('monsters6'), monPng('monsters6'), // Juperos mobs
     loadMapSet('prontera'),        // only level 1's maps up front; rest lazy
   ]);
   const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => null);
@@ -44,8 +47,10 @@ export async function loadAtlas() {
     monJson('skills'), monPng('skills'), // per-character skill icons (6 chars x 4 skills)
     monJson('items'), monPng('items'),   // animated pickups: card / zeny / gem
   ]);
-  const [item2Manifest, item2Base] = await Promise.all([
+  const [item2Manifest, item2Base, boss2Manifest, boss2Base, mon7Manifest] = await Promise.all([
     monJson('items2'), monPng('items2'), // potion / chest / leaf / awakening / speed / kafra / bomb
+    monJson('bosses2'), monPng('bosses2'), // Juperos: Vesper (boss)
+    monJson('monsters7'), // Juperos: Archdam (mid-boss) — shares bosses2.png
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -78,28 +83,32 @@ export async function loadAtlas() {
   addMonsters(mon3Manifest, mon3Base); // Geffen: Willow, Zombie, Munak, Bongun, Nine Tails, Deviruchi, Marionette, Wraith
   addMonsters(mon4Manifest, mon4Base); // Glast Heim: Evil Druid, Dark Priest, Raydric, Khalitzburg, Gargoyle, Ghoul, Whisper, Baphomet Jr.
   addMonsters(mon5Manifest, bossBase); // mid-bosses: Doppelganger, Giant Baphomet Jr. (rects live in bosses.png)
+  addMonsters(mon6Manifest, mon6Base); // Juperos: Dimik, Venatu, Cell, Sentry, Plasma Wisp, Guardian, Repair Drone, Spark Beetle
+  addMonsters(mon7Manifest, boss2Base); // Juperos mid-boss: Archdam (rects live in bosses2.png)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
   // glastheim load lazily via ensureMapSet (kicked off in the background after
   // boot) so the title appears without waiting on 44 MB of maps.
-  const maps = { prontera, geffen: null, glastheim: null };
+  const maps = { prontera, geffen: null, glastheim: null, juperos: null };
   const ensureMapSet = async (name) => {
     if (maps[name]) return maps[name];
     maps[name] = await loadMapSet(name);
     return maps[name];
   };
 
-  // real boss sprites (Orc Hero, Dark Lord, Baphomet). Each pose is an ARRAY of
-  // animation frame textures (idle/move carry 2-3 frames; hit/attack a single).
+  // real boss sprites (Orc Hero, Dark Lord, Baphomet, Vesper). Each pose is an
+  // ARRAY of animation frame textures (idle/move carry 2-3 frames; hit/attack a
+  // single). Merged from both boss sheets.
   const bosses = {};
-  if (bossManifest && bossBase) {
+  const addBosses = (mf, src) => {
+    if (!mf || !src) return;
     const poseSet = (side) => Object.fromEntries(
-      Object.entries(side).map(([k, frames]) => [k, frames.map((r) => sub(bossBase, r))]),
+      Object.entries(side).map(([k, frames]) => [k, frames.map((r) => sub(src, r))]),
     );
-    for (const [name, m] of Object.entries(bossManifest.bosses)) {
-      bosses[name] = { down: poseSet(m.down), up: poseSet(m.up) };
-    }
-  }
+    for (const [name, m] of Object.entries(mf.bosses)) bosses[name] = { down: poseSet(m.down), up: poseSet(m.up) };
+  };
+  addBosses(bossManifest, bossBase);   // Orc Hero, Dark Lord, Baphomet
+  addBosses(boss2Manifest, boss2Base); // Vesper (Juperos)
 
   // per-character skill icons: skills[charId] = [shot, focus, bomb, special]
   const skills = {};

@@ -1,7 +1,7 @@
 // Boss practice: pick a character, then a boss, and fight it directly.
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { ROSTER } from '../characters/index.js';
-import { orcHero, darkLord, baphomet } from '../sim/boss.js';
+import { orcHero, darkLord, baphomet, vesper } from '../sim/boss.js';
 import { audio } from '../engine/audio.js';
 
 const GOLD = 0xf2c14e;
@@ -9,6 +9,7 @@ const BOSSES = [
   { def: orcHero, level: 0, tag: 'Nivel 1' },
   { def: darkLord, level: 1, tag: 'Nivel 2' },
   { def: baphomet, level: 2, tag: 'Nivel 3' },
+  { def: vesper, level: 3, tag: 'Nivel 4' },
 ];
 
 export class PracticeScene {

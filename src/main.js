@@ -36,7 +36,10 @@ async function boot() {
   // (heavy) map sets in the background so levels 2/3 are ready by the time we
   // get there without blocking the title on 44 MB of maps.
   document.getElementById('loading')?.remove();
-  atlas.ensureMapSet('geffen').then(() => atlas.ensureMapSet('glastheim')).catch(() => {});
+  atlas.ensureMapSet('geffen')
+    .then(() => atlas.ensureMapSet('glastheim'))
+    .then(() => atlas.ensureMapSet('juperos'))
+    .catch(() => {});
   const input = new Input();
 
   const muteButtons = new MuteButtons(app, APP_W);

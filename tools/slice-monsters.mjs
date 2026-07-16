@@ -130,7 +130,11 @@ for (const panel of panels) {
   const entry = { down: {}, up: {} };
   for (const { band, key } of rows) {
     const cc = colCounts(band[0], band[1], panel.x0, panel.x1);
-    let cols = mergeToCount(runs(cc, 8, 3, 6, panel.x0), 5);
+    // drop thin runs whose content is short (the "DOWN"/"UP" row label text, or
+    // decorations) — real poses are tall; keeping the label as a column would
+    // shift small-sprite mobs by one pose.
+    const raw = runs(cc, 8, 3, 6, panel.x0).filter(([a, b]) => bbox(a, band[0], b, band[1]).h >= 24);
+    let cols = mergeToCount(raw, 5);
     cols = splitToCount(cols, cc, panel.x0, 5);
     cols.forEach(([a, b], i) => {
       const r = bbox(a, band[0], b, band[1]);
@@ -207,5 +211,21 @@ processSheet({
     { name: 'ghoul', x0: 567, x1: 1114, y0: 704, y1: 1050 },
     { name: 'whisper', x0: 8, x1: 555, y0: 1054, y1: 1398 },
     { name: 'bapho_jr', x0: 567, x1: 1114, y0: 1054, y1: 1398 },
+  ],
+});
+
+// Sheet 5: the 8 Juperos mobs (1122x1402 — 4x2 grid).
+processSheet({
+  sheet: 'Monsters/Juperos monsters 001.png',
+  outPng: 'monsters6.png', outJson: 'monsters6.json', debugPng: 'debug-monsters6.png',
+  panels: [
+    { name: 'dimik', x0: 8, x1: 555, y0: 4, y1: 348 },
+    { name: 'venatu', x0: 567, x1: 1114, y0: 4, y1: 348 },
+    { name: 'cell', x0: 8, x1: 555, y0: 352, y1: 700 },
+    { name: 'sentry', x0: 567, x1: 1114, y0: 352, y1: 700 },
+    { name: 'plasma', x0: 8, x1: 555, y0: 704, y1: 1050 },
+    { name: 'guardian', x0: 567, x1: 1114, y0: 704, y1: 1050 },
+    { name: 'repairdrone', x0: 8, x1: 555, y0: 1054, y1: 1398 },
+    { name: 'sparkbeetle', x0: 567, x1: 1114, y0: 1054, y1: 1398 },
   ],
 });

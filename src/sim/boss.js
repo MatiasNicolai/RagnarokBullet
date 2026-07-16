@@ -315,3 +315,72 @@ export const baphomet = {
     },
   ],
 };
+
+// --- Vesper: level 4 final boss (Juperos), 3 spell cards + desperation ---
+
+export const vesper = {
+  name: 'Vesper',
+  r: 52,
+  targetY: 175,
+  cards: [
+    {
+      // Cañón Iónico: sweeps side to side firing telegraphed aimed ion beams and
+      // a gapped ion ring — read the beam windups.
+      name: 'Cañón Iónico',
+      hp: 820,
+      step(sim, b) {
+        b.x = FIELD_W / 2 + Math.sin(b.t / 52) * 155;
+        if (b.t % 70 === 44) b.tele = 22;
+        if (b.t % 70 === 0 && b.t > 0) {
+          fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.5, speed: 3.2, color: 'cyan' });
+        }
+        if (b.t % 44 === 0) {
+          const gap = sim.rng.range(0, Math.PI * 2);
+          ringWithGap(sim, b.x, b.y, { n: 24, speed: 1.8, gapAngle: gap, gapWidth: 0.6, color: 'cyan' });
+        }
+      },
+    },
+    {
+      // Andanada Alada: twin rotating "wing" spirals + aimed volleys; recenters.
+      name: 'Andanada Alada',
+      hp: 920,
+      step(sim, b) {
+        b.x += (FIELD_W / 2 - b.x) * 0.05;
+        const ph = b.t * 0.17;
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.4, color: 'cyan' });
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph + Math.PI, speed: 2.4, color: 'purple' });
+        if (b.t % 90 === 60) b.tele = 20;
+        if (b.t % 90 === 0 && b.t > 0) fan(sim, b.x, b.y, { n: 7, angle: angleTo(sim, b.x, b.y), spread: 0.8, speed: 3.0, color: 'orange' });
+      },
+    },
+    {
+      // Núcleo Ancestral: layered rings + spiral + ion rain, and summons Venatu
+      // sentries. Speeds up below 35% HP (desperation).
+      name: 'Núcleo Ancestral',
+      hp: 1080,
+      step(sim, b) {
+        b.x = FIELD_W / 2 + Math.sin(b.t / 42) * 140;
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        const period = desperate ? 28 : 42;
+        if (b.t % period === 0) {
+          const base = sim.rng.range(0, 6.28);
+          ringWithGap(sim, b.x, b.y, { n: 30, speed: 2.3, gapAngle: base, gapWidth: 0.5, color: 'cyan' });
+          ring(sim, b.x, b.y, { n: 16, speed: 1.6, baseAngle: base, color: 'purple' });
+        }
+        const ph = b.t * (desperate ? 0.24 : 0.17);
+        spiralArm(sim, b.x, b.y, { arms: 3, phase: ph, speed: 2.4, color: 'orange' });
+        if (b.t % 12 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.0, color: 'cyan', r: 5 });
+        if (b.t % 260 === 40 && sim.enemies.active.length < 5) {
+          for (let k = 0; k < 2; k++) {
+            sim.spawnEnemy({
+              x: b.x + (k ? 80 : -80), y: b.y + 10, vx: 0, vy: 1.1,
+              hp: 26, r: 14, skin: 'venatu', score: 700,
+              shoot: (s, e2) => { if (e2.t % 70 === 40) aimed(s, e2.x, e2.y, { speed: 3.0, color: 'cyan' }); },
+            });
+          }
+          sim.events.push({ type: 'summon', x: b.x, y: b.y });
+        }
+      },
+    },
+  ],
+};

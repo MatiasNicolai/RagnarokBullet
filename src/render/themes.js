@@ -123,4 +123,47 @@ export const level3Theme = {
   },
 };
 
-export const THEMES = [level1Theme, level2Theme, level3Theme];
+// --- Level 4: Juperos (ancient buried machine civilization) ---
+export const level4Theme = {
+  tiles: [
+    { base: 0x1c2630, mid: 0x24323e, specks: [0x2f4a52, 0x141c24] },      // dark metal deck
+    { base: 0x1a2832, mid: 0x223a42, specks: [0x2a5560, 0x121e26] },      // energized plating
+    { base: 0x14232e, mid: 0x1c3540, specks: [0x2f6672, 0x0e1820] },      // reactor core floor
+  ],
+  light: [0xbfe8ff, 0x8fd8f0, 0x5fd0e8],
+  weather: 'none',
+  biomeProps: [
+    ['pipe', 'panel', 'conduit', 'pillar', 'panel'],
+    ['conduit', 'core', 'pipe', 'panel', 'pillar'],
+    ['core', 'core', 'conduit', 'pillar', 'core'],
+  ],
+  props: {
+    pillar(g) {
+      g.rect(10, 4, 24, 66).fill(0x3a444e).stroke({ color: 0x1c242c, width: 2 });
+      g.rect(8, 2, 28, 8).fill(0x48545e); g.rect(8, 62, 28, 8).fill(0x48545e);
+      g.rect(20, 12, 4, 50).fill({ color: 0x4fd0e8, alpha: 0.8 }); // energy vein
+    },
+    panel(g) {
+      g.rect(4, 8, 44, 58).fill(0x2a343e).stroke({ color: 0x141c24, width: 2 });
+      for (let i = 0; i < 3; i++) g.rect(10, 14 + i * 16, 32, 3).fill(0x3f8a9a);
+      g.circle(38, 56, 4).fill(0x5fe0f0); g.circle(14, 20, 3).fill(0xffcf6a);
+    },
+    conduit(g) {
+      g.rect(18, 2, 12, 66).fill(0x323c46).stroke({ color: 0x1a2028, width: 2 });
+      g.rect(22, 6, 4, 58).fill({ color: 0x5fd0e8, alpha: 0.9 });
+      g.circle(24, 16, 5).fill(0x8fe8ff); g.circle(24, 40, 5).fill(0x8fe8ff);
+    },
+    pipe(g) {
+      g.rect(2, 20, 48, 12).fill(0x3a444e).stroke({ color: 0x1c242c, width: 2 });
+      g.rect(2, 44, 48, 10).fill(0x323c46).stroke({ color: 0x1a2028, width: 2 });
+      g.circle(10, 26, 3).fill(0x4fd0e8); g.circle(40, 49, 3).fill(0xffcf6a);
+    },
+    core(g) {
+      g.poly([24, 2, 44, 24, 24, 60, 4, 24]).fill(0x223a42).stroke({ color: 0x1c2a30, width: 2 });
+      g.circle(24, 28, 13).fill({ color: 0x2f6672, alpha: 0.9 }).stroke({ color: 0x7fe8ff, width: 2 });
+      g.circle(24, 28, 6).fill(0xbfeeff);
+    },
+  },
+};
+
+export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme];

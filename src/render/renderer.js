@@ -14,7 +14,7 @@ import {
 
 const PLAYER_HEIGHT = 64;
 
-const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet' };
+const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper' };
 
 export class Renderer {
   constructor(app, atlas, parent, theme = level1Theme, mapTextures = null) {
