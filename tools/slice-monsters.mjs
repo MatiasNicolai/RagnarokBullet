@@ -117,6 +117,26 @@ const manifest = { sheet: path.basename(outPng), size: { w: W, h: H }, monsters:
 const debug = [];
 
 for (const panel of panels) {
+  // Fixed-grid mode: for panels the auto-detector can't handle (a light/sparse
+  // sprite like Lunatic, whose keyed rabbit rows fall below the density
+  // threshold), slice the two given sprite bands into 5 even columns and
+  // bbox-tighten each cell. panel.grid = { down:[y0,y1], up:[y0,y1] }.
+  if (panel.grid) {
+    const entry = { down: {}, up: {} };
+    for (const key of ['down', 'up']) {
+      const [gy0, gy1] = panel.grid[key];
+      const cw = (panel.x1 - panel.x0 + 1) / 5;
+      for (let i = 0; i < 5; i++) {
+        const cx0 = Math.round(panel.x0 + i * cw) + 2;
+        const cx1 = Math.round(panel.x0 + (i + 1) * cw) - 2;
+        const r = bbox(cx0, gy0, cx1, gy1);
+        entry[key][POSES[i]] = r;
+        debug.push(r);
+      }
+    }
+    manifest.monsters[panel.name] = entry;
+    continue;
+  }
   // sprite rows = tall bands that split into ~5 sprite-width columns. A high
   // row threshold (90) keeps thin decorations (puppet strings, chains) from
   // bridging the banner into the sprite rows.
@@ -178,7 +198,9 @@ processSheet({
   outPng: 'monsters2.png', outJson: 'monsters2.json', debugPng: 'debug-monsters2.png',
   panels: [
     { name: 'mastering', x0: 8, x1: 716, y0: 8, y1: 1082 },
-    { name: 'lunatic', x0: 732, x1: 1440, y0: 8, y1: 1082 },
+    // Lunatic is a white rabbit — auto row-detection can't find its sparse keyed
+    // rows, so slice it on a fixed grid (measured DOWN/UP sprite bands).
+    { name: 'lunatic', x0: 732, x1: 1440, y0: 8, y1: 1082, grid: { down: [210, 356], up: [460, 645] } },
   ],
 });
 
