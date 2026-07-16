@@ -25,6 +25,7 @@ const MP3_TRACKS = {
   level1: `${BASE}assets/music/prontera.mp3`,
   level2: `${BASE}assets/music/geffen.mp3`,
   level3: `${BASE}assets/music/glastheim.mp3`,
+  level4: `${BASE}assets/music/juperos.mp3`,
 };
 
 // Melodies (16 steps) + bass. Kept short and loopable.
