@@ -468,8 +468,9 @@ export function tickSim(sim, inputs, stage) {
       if (b.pierce > 0) b.pierce--;
       else spent = true;
     });
-    // boss takes hits too (it lives outside the enemy pool)
-    if (!spent && sim.boss && !sim.boss.intro && sim.boss.dying === 0
+    // boss takes hits too (it lives outside the enemy pool; not during the
+    // intro pose, so shots pass over it while the dialogue is up)
+    if (!spent && sim.boss && !sim.boss.intro && !sim.boss.introHold && sim.boss.dying === 0
         && circleHit(b, sim.boss, b.r, sim.boss.r)) {
       damageBoss(sim, b.dmg);
       chargeSphereOnHit(sim, b.owner);
@@ -531,7 +532,7 @@ export function tickSim(sim, inputs, stage) {
     for (const e of enemies) {
       if (circleHit(p, e, p.hitR, e.r)) { playerHit(sim, p); hit = true; break; }
     }
-    if (!hit && sim.boss && !sim.boss.intro && sim.boss.dying === 0
+    if (!hit && sim.boss && !sim.boss.intro && !sim.boss.introHold && sim.boss.dying === 0
         && circleHit(p, sim.boss, p.hitR, sim.boss.r - 12)) {
       playerHit(sim, p);
     }

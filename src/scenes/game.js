@@ -176,6 +176,12 @@ export class GameScene {
         this.showDialogue(ev.name);
         break;
       case 'spellCard': audio.play('spellcard'); this.showBanner(ev.name, 90, GOLD); break;
+      case 'bossReady':
+        // intro pose over — clear the dialogue box + banner so they don't
+        // obstruct the view once bullets start flying.
+        if (this.dialogueBox) { this.dialogueBox.destroy({ children: true }); this.dialogueBox = null; }
+        this.bannerT = Math.min(this.bannerT, 12);
+        break;
       case 'bossPhase': this.shake = Math.max(this.shake, 8); this.hitstop = Math.max(this.hitstop, 5); break;
       case 'bossDown': audio.play('bossDown'); this.slowmo = 90; this.shake = 24; break;
       case 'extend':
@@ -342,9 +348,10 @@ export class GameScene {
     bLine.anchor.set(1, 0); bLine.position.set(FIELD_W - 40, FIELD_H - 80); box.addChild(bLine);
 
     this.container.addChild(box);
-    // auto-dismiss after the boss finishes flying in (counted down in update)
+    // stays up through the boss intro pose; dismissed by the 'bossReady' event
+    // when the fight actually starts. The timer is only a safety fallback.
     this.dialogueBox = box;
-    this.dialogueTimer = 260;
+    this.dialogueTimer = 420;
   }
 
   showResults() {

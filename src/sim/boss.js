@@ -4,6 +4,11 @@
 import { FIELD_W } from './constants.js';
 import { ring, ringWithGap, fan, aimed, spiralArm, rain, angleTo } from './patterns.js';
 
+// After arriving, the boss poses (invulnerable, no attacks) for this many ticks
+// while the intro dialogue is readable — then the box clears and the fight
+// begins. Deterministic, so co-op peers start the fight on the same tick.
+const INTRO_HOLD = 120; // ~2 s at 60 Hz
+
 export function spawnBoss(sim, def) {
   // Co-op nearly doubles party DPS; scale card HP so the fight keeps its
   // intended length (learn the pattern, find the flow) with 2 players too.
@@ -25,6 +30,7 @@ export function spawnBoss(sim, def) {
     maxHp,
     hp: maxHp,
     hitFlash: 0,
+    introHold: 0,
     transition: 0,
     dying: 0,
     dead: false,
@@ -40,7 +46,14 @@ export function stepBoss(sim) {
 
   if (b.intro) {
     b.y += 2.2;
-    if (b.y >= b.targetY) { b.y = b.targetY; b.intro = false; b.t = 0; }
+    if (b.y >= b.targetY) { b.y = b.targetY; b.intro = false; b.introHold = INTRO_HOLD; }
+    return;
+  }
+
+  // pose while the intro dialogue is up; when it ends, clear the box + start.
+  if (b.introHold > 0) {
+    b.introHold--;
+    if (b.introHold === 0) { b.t = 0; sim.events.push({ type: 'bossReady' }); }
     return;
   }
 
@@ -81,7 +94,7 @@ export function stepBoss(sim) {
 // Player bullet dealt `dmg` to the boss. Handles card transitions + death.
 export function damageBoss(sim, dmg) {
   const b = sim.boss;
-  if (!b || b.intro || b.dying > 0 || b.transition > 0) return;
+  if (!b || b.intro || b.introHold > 0 || b.dying > 0 || b.transition > 0) return;
   b.cardHp -= dmg;
   b.hp = Math.max(0, b.hp - dmg);
   b.hitFlash = 3;
