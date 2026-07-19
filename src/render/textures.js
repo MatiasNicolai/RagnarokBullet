@@ -23,6 +23,7 @@ const BULLET_COLORS = {
   cyan: [0x1fd0ff, 0xd6f6ff],
   orange: [0xff8c1a, 0xffe6bc],
   purple: [0xc84dff, 0xeecbff],
+  green: [0x3fe07a, 0xd6ffe0],
 };
 const BULLET_EDGE = 0x0a0c16; // near-black contrast ring
 

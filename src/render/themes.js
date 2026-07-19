@@ -166,4 +166,45 @@ export const level4Theme = {
   },
 };
 
-export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme];
+// Lighthalzen Biolab — sterile lab turned toxic. Sickly green fluorescence,
+// specimen tanks, biohazard plating. Fallback theme for the biolab map set.
+export const level5Theme = {
+  tiles: [
+    { base: 0x14201a, mid: 0x1c2c22, specks: [0x2f5a3a, 0x0e1712] },       // lab floor tiling
+    { base: 0x162418, mid: 0x203222, specks: [0x3a7a44, 0x101a12] },       // contaminated deck
+    { base: 0x121e20, mid: 0x1a2e2c, specks: [0x2f6a66, 0x0c1616] },       // reactor / tank room
+  ],
+  light: [0xbfffcf, 0x8ff0b0, 0x6fe8d0],
+  weather: 'none',
+  biomeProps: [
+    ['vat', 'panel', 'pipe', 'pillar', 'panel'],
+    ['pipe', 'vat', 'panel', 'pillar', 'vat'],
+    ['vat', 'vat', 'pipe', 'pillar', 'vat'],
+  ],
+  props: {
+    pillar(g) {
+      g.rect(10, 4, 24, 66).fill(0x2a3a30).stroke({ color: 0x141c18, width: 2 });
+      g.rect(8, 2, 28, 8).fill(0x38504a); g.rect(8, 62, 28, 8).fill(0x38504a);
+      g.rect(20, 12, 4, 50).fill({ color: 0x5fe8a0, alpha: 0.8 }); // bio vein
+    },
+    panel(g) {
+      g.rect(4, 8, 44, 58).fill(0x22322a).stroke({ color: 0x121a14, width: 2 });
+      for (let i = 0; i < 3; i++) g.rect(10, 14 + i * 16, 32, 3).fill(0x3f9a6a);
+      g.circle(38, 56, 4).fill(0x5ff0a0); g.circle(14, 20, 3).fill(0xffcf6a);
+    },
+    vat(g) {
+      // specimen tank: glass cylinder with glowing green fluid
+      g.roundRect(12, 6, 24, 60, 8).fill(0x18261e).stroke({ color: 0x2a4a38, width: 2 });
+      g.roundRect(15, 14, 18, 48, 6).fill({ color: 0x2f8a5a, alpha: 0.7 });
+      g.circle(24, 30, 4).fill({ color: 0xbfffcf, alpha: 0.9 });
+      g.circle(20, 46, 3).fill({ color: 0x8ff0b0, alpha: 0.8 });
+    },
+    pipe(g) {
+      g.rect(2, 20, 48, 12).fill(0x2e3e34).stroke({ color: 0x141c18, width: 2 });
+      g.rect(2, 44, 48, 10).fill(0x263630).stroke({ color: 0x121a14, width: 2 });
+      g.circle(10, 26, 3).fill(0x4fe8a0); g.circle(40, 49, 3).fill(0xffcf6a);
+    },
+  },
+};
+
+export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme, level5Theme];

@@ -9,16 +9,15 @@ import { ring, ringWithGap, fan, aimed, spiralArm, rain, angleTo } from './patte
 // begins. Deterministic, so co-op peers start the fight on the same tick.
 const INTRO_HOLD = 120; // ~2 s at 60 Hz
 
-export function spawnBoss(sim, def) {
-  // Co-op nearly doubles party DPS; scale card HP so the fight keeps its
-  // intended length (learn the pattern, find the flow) with 2 players too.
-  const hpMult = sim.players.filter(Boolean).length > 1 ? 1.7 : 1;
+// Build a boss object anchored at homeX. hpMult scales card HP for co-op.
+function makeBoss(def, homeX, hpMult) {
   const maxHp = Math.round(def.cards.reduce((s, c) => s + c.hp, 0) * hpMult);
-  sim.boss = {
+  return {
     def,
     hpMult,
     name: def.name,
-    x: FIELD_W / 2, y: -90,
+    homeX,
+    x: homeX, y: -90,
     r: def.r ?? 42,
     targetY: def.targetY ?? 170,
     intro: true,
@@ -35,13 +34,45 @@ export function spawnBoss(sim, def) {
     dying: 0,
     dead: false,
   };
+}
+
+export function spawnBoss(sim, def) {
+  // Co-op nearly doubles party DPS; scale card HP so the fight keeps its
+  // intended length (learn the pattern, find the flow) with 2 players too.
+  const hpMult = sim.players.filter(Boolean).length > 1 ? 1.7 : 1;
+  const b = makeBoss(def, FIELD_W / 2, hpMult);
+  sim.bosses = [b];
+  sim.boss = b; // primary — music/tension and legacy reads
   sim.events.push({ type: 'bossWarning', name: def.name });
 }
 
-// Called each tick from the sim. Returns nothing; mutates sim.boss / sim.
+// Two (or more) simultaneous bosses, spread across the field, each with its own
+// HP bar. HP is scaled down a touch per boss since their danmaku overlaps.
+export function spawnBosses(sim, defs) {
+  const hpMult = (sim.players.filter(Boolean).length > 1 ? 1.7 : 1) * (defs.length > 1 ? 0.7 : 1);
+  const xs = defs.length === 2 ? [FIELD_W * 0.32, FIELD_W * 0.68] : defs.map((_, i) => FIELD_W * (i + 1) / (defs.length + 1));
+  sim.bosses = defs.map((def, i) => makeBoss(def, xs[i], hpMult));
+  sim.boss = sim.bosses[0];
+  sim.events.push({ type: 'bossWarning', name: defs.map((d) => d.name).join(' & '), dual: defs.length > 1 });
+}
+
+// Advance every active boss one tick; complete the level when the last one dies.
 export function stepBoss(sim) {
-  const b = sim.boss;
-  if (!b) return;
+  const list = sim.bosses;
+  if (!list || list.length === 0) return;
+  for (const b of list) stepOne(sim, b);
+  // reap bosses whose death throes finished
+  const before = list.length;
+  sim.bosses = list.filter((b) => !b.dead);
+  sim.boss = sim.bosses[0] ?? null;
+  if (sim.bosses.length === 0 && before > 0) {
+    sim.enemyBullets.clear();
+    sim.levelComplete = true;
+    sim.events.push({ type: 'levelClear' });
+  }
+}
+
+function stepOne(sim, b) {
   if (b.hitFlash > 0) b.hitFlash--;
 
   if (b.intro) {
@@ -66,20 +97,14 @@ export function stepBoss(sim) {
         y: b.y + sim.rng.range(-b.r, b.r),
       });
     }
-    if (b.dying === 0) {
-      b.dead = true;
-      sim.boss = null;
-      sim.enemyBullets.clear();
-      sim.levelComplete = true;
-      sim.events.push({ type: 'levelClear' });
-    }
+    if (b.dying === 0) b.dead = true; // reaped in stepBoss
     return;
   }
 
   if (b.transition > 0) {
     b.transition--;
-    // drift back to center during the card break
-    b.x += (FIELD_W / 2 - b.x) * 0.05;
+    // drift back to its home position during the card break
+    b.x += (b.homeX - b.x) * 0.05;
     if (b.transition === 0) {
       b.t = 0;
       sim.events.push({ type: 'spellCard', name: b.cardName });
@@ -91,10 +116,10 @@ export function stepBoss(sim) {
   b.t++;
 }
 
-// Player bullet dealt `dmg` to the boss. Handles card transitions + death.
-export function damageBoss(sim, dmg) {
-  const b = sim.boss;
+// Player bullet dealt `dmg` to a specific boss `b`. Card transitions + death.
+export function damageBoss(sim, dmg, b = sim.boss) {
   if (!b || b.intro || b.introHold > 0 || b.dying > 0 || b.transition > 0) return;
+  const solo = (sim.bosses?.length ?? 1) === 1; // only clear the field for solo bosses
   b.cardHp -= dmg;
   b.hp = Math.max(0, b.hp - dmg);
   b.hitFlash = 3;
@@ -106,11 +131,11 @@ export function damageBoss(sim, dmg) {
       b.cardMax = Math.round(card.hp * b.hpMult);
       b.cardName = card.name;
       b.transition = 70;
-      sim.enemyBullets.clear();
+      if (solo) sim.enemyBullets.clear();
       sim.events.push({ type: 'bossPhase', x: b.x, y: b.y });
     } else {
       b.dying = 90;
-      sim.enemyBullets.clear();
+      if (solo) sim.enemyBullets.clear();
       sim.addScore(50000);
       sim.events.push({ type: 'bossDown', x: b.x, y: b.y });
     }
@@ -393,6 +418,95 @@ export const vesper = {
           }
           sim.events.push({ type: 'summon', x: b.x, y: b.y });
         }
+      },
+    },
+  ],
+};
+
+// --- Seyren Windsor & Magaleta: level 5 dual boss (Biolab). Two bosses on the
+// field at once, each 2 cards. Movement sways around b.homeX so they hold their
+// own lane instead of both crowding the center. Balanced by spawnBosses' 0.7x
+// per-boss HP scaling since their danmaku overlaps. ---
+
+export const seyren = {
+  name: 'Seyren Windsor',
+  r: 46,
+  targetY: 165,
+  cards: [
+    {
+      // Espada Sangrienta: fast aimed red slashes + a gapped ring. Aggressive
+      // melee knight — the aimed fans punish standing still.
+      name: 'Espada Sangrienta',
+      hp: 700,
+      step(sim, b) {
+        b.x = b.homeX + Math.sin(b.t / 46) * 90;
+        if (b.t % 56 === 34) b.tele = 18;
+        if (b.t % 56 === 0 && b.t > 0) {
+          fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.5, speed: 3.4, color: 'red' });
+        }
+        if (b.t % 40 === 0) {
+          const gap = sim.rng.range(0, Math.PI * 2);
+          ringWithGap(sim, b.x, b.y, { n: 20, speed: 1.8, gapAngle: gap, gapWidth: 0.7, color: 'orange' });
+        }
+      },
+    },
+    {
+      // Carga Berserker: lunges toward the player's column then rains spears —
+      // desperation card, speeds up below 35% HP.
+      name: 'Carga Berserker',
+      hp: 820,
+      step(sim, b) {
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        const targetX = sim.players.find(Boolean)?.x ?? b.homeX;
+        b.x += (targetX - b.x) * (desperate ? 0.06 : 0.04);
+        b.x = Math.max(40, Math.min(FIELD_W - 40, b.x));
+        const period = desperate ? 32 : 46;
+        if (b.t % period === 0) {
+          const base = sim.rng.range(0, 6.28);
+          ring(sim, b.x, b.y, { n: 14, speed: 2.2, baseAngle: base, color: 'red' });
+          fan(sim, b.x, b.y, { n: 3, angle: angleTo(sim, b.x, b.y), spread: 0.35, speed: 3.8, color: 'orange' });
+        }
+        if (b.t % (desperate ? 9 : 14) === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.2, color: 'red', r: 5 });
+      },
+    },
+  ],
+};
+
+export const magaleta = {
+  name: 'Magaleta',
+  r: 44,
+  targetY: 165,
+  cards: [
+    {
+      // Danza de Almas: a slow rotating skull spiral plus aimed dark bolts.
+      // The lesson: the spiral is readable — weave through it while dodging bolts.
+      name: 'Danza de Almas',
+      hp: 700,
+      step(sim, b) {
+        b.x = b.homeX + Math.sin(b.t / 50) * 90;
+        const ph = b.t * 0.15;
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.1, color: 'purple' });
+        if (b.t % 74 === 0 && b.t > 0) {
+          fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.6, speed: 2.9, color: 'cyan' });
+        }
+      },
+    },
+    {
+      // Réquiem: layered gapped rings + counter-spiral + rain. Desperation card.
+      name: 'Réquiem',
+      hp: 820,
+      step(sim, b) {
+        b.x += (b.homeX - b.x) * 0.05;
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        const period = desperate ? 30 : 44;
+        if (b.t % period === 0) {
+          const base = sim.rng.range(0, 6.28);
+          ringWithGap(sim, b.x, b.y, { n: 26, speed: 2.2, gapAngle: base, gapWidth: 0.55, color: 'purple' });
+          ring(sim, b.x, b.y, { n: 14, speed: 1.5, baseAngle: base, color: 'cyan' });
+        }
+        const ph = b.t * (desperate ? 0.22 : 0.16);
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph, speed: 2.3, color: 'orange' });
+        if (b.t % 13 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.0, color: 'purple', r: 5 });
       },
     },
   ],

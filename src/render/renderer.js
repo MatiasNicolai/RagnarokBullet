@@ -14,7 +14,7 @@ import {
 
 const PLAYER_HEIGHT = 64;
 
-const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper' };
+const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta' };
 
 export class Renderer {
   constructor(app, atlas, parent, theme = level1Theme, mapTextures = null) {
@@ -358,43 +358,38 @@ export class Renderer {
   }
 
   syncBoss(sim) {
-    const b = sim.boss;
-    if (!b) { if (this.bossSprite) this.bossSprite.visible = false; this.bossPrevX = null; return; }
-    if (!this.bossSprite) {
-      this.bossSprite = new Sprite();
-      this.bossSprite.anchor.set(0.5);
-      this.bossLayer.addChild(this.bossSprite);
+    this.bossSprites ??= [];       // one sprite per active boss (dual-boss ready)
+    this.bossRenderX ??= new WeakMap();
+    const list = sim.bosses;
+    for (let i = 0; i < list.length; i++) {
+      const b = list[i];
+      let s = this.bossSprites[i];
+      if (!s) { s = new Sprite(); s.anchor.set(0.5); this.bossLayer.addChild(s); this.bossSprites[i] = s; }
+      const key = BOSS_TEX[b.name] ?? 'orcHero';
+      const art = this.atlas.bosses?.[key];
+      let tex;
+      if (art) {
+        // real animated sprite: pose set by state (attack during phase change /
+        // death throes, strafe while sweeping, else idle), frames cycled.
+        const prev = this.bossRenderX.get(b);
+        const dx = prev == null ? 0 : b.x - prev;
+        let frames;
+        if (b.transition > 0 || b.dying > 0) frames = art.down.attack;
+        else if (dx < -0.5) frames = art.down.moveL;
+        else if (dx > 0.5) frames = art.down.moveR;
+        else frames = art.down.idle;
+        tex = frames[((sim.tick / 9) | 0) % frames.length];
+      } else {
+        tex = this.bossTex[key] ?? this.bossTex.orcHero; // procedural fallback
+      }
+      this.bossRenderX.set(b, b.x);
+      if (s.texture !== tex) { s.texture = tex; s.scale.set((b.r * 2.9) / tex.frame.height); }
+      s.visible = true;
+      s.alpha = b.hitFlash > 0 ? 0.7 : 1;
+      const bob = Math.sin(sim.tick / 20 + i) * 3;
+      s.position.set(b.x, b.y + bob + (b.dying > 0 ? Math.sin(sim.tick) * 4 : 0));
     }
-    const key = BOSS_TEX[b.name] ?? 'orcHero';
-    const art = this.atlas.bosses?.[key];
-    let tex;
-    if (art) {
-      // real animated sprite: pick the pose set by state (attack during phase
-      // change / death throes, strafe poses while sweeping, else idle) and
-      // cycle its frames for a living walk/breathe loop.
-      const dx = this.bossPrevX == null ? 0 : b.x - this.bossPrevX;
-      let frames;
-      if (b.transition > 0 || b.dying > 0) frames = art.down.attack;
-      else if (dx < -0.5) frames = art.down.moveL;
-      else if (dx > 0.5) frames = art.down.moveR;
-      else frames = art.down.idle;
-      tex = frames[((sim.tick / 9) | 0) % frames.length];
-    } else {
-      tex = this.bossTex[key] ?? this.bossTex.orcHero; // procedural fallback
-    }
-    this.bossPrevX = b.x;
-    if (this.bossSprite.texture !== tex) {
-      this.bossSprite.texture = tex;
-      // scale by the frame's own height so the on-screen size stays constant
-      // even though animation frames have slightly different crop sizes
-      this.bossSprite.scale.set((b.r * 2.9) / tex.frame.height);
-    }
-    this.bossSprite.visible = true;
-    this.bossSprite.position.set(b.x, b.y);
-    this.bossSprite.alpha = b.hitFlash > 0 ? 0.7 : 1;
-    // gentle bob + dying shudder
-    const bob = Math.sin(sim.tick / 20) * 3;
-    this.bossSprite.y = b.y + bob + (b.dying > 0 ? Math.sin(sim.tick) * 4 : 0);
+    for (let i = list.length; i < this.bossSprites.length; i++) if (this.bossSprites[i]) this.bossSprites[i].visible = false;
   }
 
   destroy() {

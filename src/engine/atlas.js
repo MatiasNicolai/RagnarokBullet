@@ -17,6 +17,7 @@ const MAP_FILES = {
   geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffenNewA', 'geffenNewB', 'geffen005'],
   glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheimNewA', 'glastheimNewB', 'glastheim005'],
   juperos: ['juperos001', 'juperos002', 'juperos003', 'juperos004', 'juperos005', 'juperos006', 'juperos007'], // native 7-tile set (007 = Vesper arena)
+  biolab: ['biolab001', 'biolab002', 'biolab003', 'biolab004', 'biolab005', 'biolab006', 'biolab007'], // native 7-tile set (007 = core lab arena)
 };
 const loadMapSet = (name) =>
   Promise.all((MAP_FILES[name] ?? []).map((f) => Assets.load(`${BASE}assets/maps/${f}.png`).catch(() => null)))
@@ -47,10 +48,13 @@ export async function loadAtlas() {
     monJson('skills'), monPng('skills'), // per-character skill icons (6 chars x 4 skills)
     monJson('items'), monPng('items'),   // animated pickups: card / zeny / gem
   ]);
-  const [item2Manifest, item2Base, boss2Manifest, boss2Base, mon7Manifest] = await Promise.all([
+  const [item2Manifest, item2Base, boss2Manifest, boss2Base, mon7Manifest,
+    mon8Manifest, mon8Base, boss3Manifest, boss3Base] = await Promise.all([
     monJson('items2'), monPng('items2'), // potion / chest / leaf / awakening / speed / kafra / bomb
     monJson('bosses2'), monPng('bosses2'), // Juperos: Vesper (boss)
     monJson('monsters7'), // Juperos: Archdam (mid-boss) — shares bosses2.png
+    monJson('monsters8'), monPng('monsters8'), // Biolab mobs
+    monJson('bosses3'), monPng('bosses3'),     // Biolab: Seyren + Magaleta (dual bosses)
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -85,11 +89,12 @@ export async function loadAtlas() {
   addMonsters(mon5Manifest, bossBase); // mid-bosses: Doppelganger, Giant Baphomet Jr. (rects live in bosses.png)
   addMonsters(mon6Manifest, mon6Base); // Juperos: Dimik, Venatu, Cell, Sentry, Plasma Wisp, Guardian, Repair Drone, Spark Beetle
   addMonsters(mon7Manifest, boss2Base); // Juperos mid-boss: Archdam (rects live in bosses2.png)
+  addMonsters(mon8Manifest, mon8Base); // Biolab: Failed Experiment, Remover, Lab Drone, Test Subject, Spore Cloud, Mutant Hound, Serum Turret, Bio-Sludge
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
   // glastheim load lazily via ensureMapSet (kicked off in the background after
   // boot) so the title appears without waiting on 44 MB of maps.
-  const maps = { prontera, geffen: null, glastheim: null, juperos: null };
+  const maps = { prontera, geffen: null, glastheim: null, juperos: null, biolab: null };
   const ensureMapSet = async (name) => {
     if (maps[name]) return maps[name];
     maps[name] = await loadMapSet(name);
@@ -109,6 +114,7 @@ export async function loadAtlas() {
   };
   addBosses(bossManifest, bossBase);   // Orc Hero, Dark Lord, Baphomet
   addBosses(boss2Manifest, boss2Base); // Vesper (Juperos)
+  addBosses(boss3Manifest, boss3Base); // Seyren + Magaleta (Biolab)
 
   // per-character skill icons: skills[charId] = [shot, focus, bomb, special]
   const skills = {};

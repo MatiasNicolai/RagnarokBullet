@@ -56,6 +56,12 @@ const TRACKS = {
     lead: ['E4', _, 'B3', 'E4', 'G4', 'F#4', 'E4', 'B3', 'A3', _, 'C4', 'E4', 'D4', 'B3', 'A3', _],
     bass: ['E2', _, 'E1', _, 'C2', _, 'C1', _, 'A2', _, 'A1', _, 'B1', _, 'B2', _],
   },
+  level5: {
+    // Biolab — cold, clinical, faintly menacing pulse (chiptune stand-in)
+    bpm: 126, wave: 'square',
+    lead: ['A3', _, 'C4', 'E4', 'D4', 'C4', 'A3', _, 'G3', _, 'B3', 'D4', 'C4', 'A3', 'G3', _],
+    bass: ['A1', _, 'A2', _, 'F2', _, 'F1', _, 'G1', _, 'G2', _, 'E2', _, 'E1', _],
+  },
   boss: {
     bpm: 148, wave: 'sawtooth',
     lead: ['E4', 'E4', 'G4', 'E4', 'B4', 'A4', 'G4', 'E4', 'D4', 'D4', 'F4', 'A4', 'G4', 'E4', 'D4', 'B3'],

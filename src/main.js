@@ -39,6 +39,7 @@ async function boot() {
   atlas.ensureMapSet('geffen')
     .then(() => atlas.ensureMapSet('glastheim'))
     .then(() => atlas.ensureMapSet('juperos'))
+    .then(() => atlas.ensureMapSet('biolab'))
     .catch(() => {});
   const input = new Input();
 

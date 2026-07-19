@@ -3,7 +3,8 @@ import { level1 } from './level1.js';
 import { level2 } from './level2.js';
 import { level3 } from './level3.js';
 import { level4 } from './level4.js';
-import { level1Theme, level2Theme, level3Theme, level4Theme } from '../render/themes.js';
+import { level5 } from './level5.js';
+import { level1Theme, level2Theme, level3Theme, level4Theme, level5Theme } from '../render/themes.js';
 
 export const LEVELS = [
   {
@@ -26,5 +27,11 @@ export const LEVELS = [
     script: level4, theme: level4Theme, mapSet: 'juperos', midProgress: 0.6,
     title: 'Nivel 4', name: 'Juperos — la civilización perdida',
     biomeNames: [[0, 'Entrada a las ruinas'], [0.3, 'Corredor ancestral'], [0.55, 'Gran sala de máquinas'], [0.9, 'Núcleo de Vesper']],
+  },
+  {
+    // Lighthalzen Biolab — native 7-tile map set; dual final boss Seyren & Magaleta.
+    script: level5, theme: level5Theme, mapSet: 'biolab', midProgress: 0.6,
+    title: 'Nivel 5', name: 'Laboratorio de Lighthalzen',
+    biomeNames: [[0, 'Zona de contención'], [0.3, 'Laboratorios'], [0.55, 'Sala del reactor'], [0.9, 'Santuario interior']],
   },
 ];

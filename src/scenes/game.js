@@ -21,7 +21,7 @@ import { FIELD_W, FIELD_H, TICK_RATE } from '../sim/constants.js';
 
 const TICK_MS = 1000 / TICK_RATE;
 const GOLD = 0xd9a94a;
-const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5];
+const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5, 0xb10a5e];
 
 // Practice: a synthetic level that just drops the chosen boss in immediately.
 function practiceScript(bossDef) {

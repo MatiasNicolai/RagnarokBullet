@@ -25,6 +25,16 @@ export const DIALOGUE = {
     chel_snip: { p: 'Un tiro. Entre los cuernos. Fin de la historia.', b: '¿Crees que una flecha detiene al terror de Glast Heim?' },
     viri: { p: '¡Toda mi vida entrenando para este Asura!', b: '¡JA! ¡Ven, monje! ¡Que tu golpe valga la eternidad!' },
   },
+  // Level 5 finale: two Rune-Midgarts Knights at once. Keyed by the combined
+  // name spawnBosses() emits ("A & B"). Boss line speaks for both.
+  'Seyren Windsor & Magaleta': {
+    aramir: { p: 'Dos Caballeros de Runa... el laboratorio termina aquí.', b: 'Somos el escudo y la espada de Rune-Midgarts. No pasarás.' },
+    zeos: { p: 'Dos objetivos. Misma hoja. Mismo desenlace.', b: '¿Solo contra ambos? Tu arrogancia será tu tumba.' },
+    eric: { p: 'Calculé sus movimientos... a los dos a la vez.', b: 'Ningún cálculo sobrevive al acero de los Windsor.' },
+    dposada: { p: 'Que la luz caiga sobre este lugar profanado.', b: 'Guardamos secretos que ninguna diosa debe conocer.' },
+    chel_snip: { p: 'Dos blancos. Tengo flechas de sobra.', b: 'Apunta a uno y el otro te partirá en dos.' },
+    viri: { p: '¡Dos jefes! ¡El doble de gloria para mi Asura!', b: '¡Contén el aliento, monje! Esto no durará mucho.' },
+  },
 };
 
 export function bossDialogue(bossName, charId) {

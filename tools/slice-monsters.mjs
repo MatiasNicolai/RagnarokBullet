@@ -110,7 +110,10 @@ function bbox(x0, y0, x1, y1) {
 function bigColCount(band, x0, x1) {
   const cc = colCounts(band[0], band[1], x0, x1);
   const r = runs(cc, 10, 2, 6, x0);
-  return r.filter(([a, b]) => { const w = b - a + 1; return w >= 45 && w <= 210; }).length;
+  // scale the min sprite-column width with the panel width so narrow 4-column
+  // sheets (each pose ~50px) still register their ~5 sprite columns.
+  const minW = Math.min(45, (x1 - x0) / 8);
+  return r.filter(([a, b]) => { const w = b - a + 1; return w >= minW && w <= 210; }).length;
 }
 
 const manifest = { sheet: path.basename(outPng), size: { w: W, h: H }, monsters: {} };
@@ -249,5 +252,21 @@ processSheet({
     { name: 'guardian', x0: 567, x1: 1114, y0: 704, y1: 1050 },
     { name: 'repairdrone', x0: 8, x1: 555, y0: 1054, y1: 1398 },
     { name: 'sparkbeetle', x0: 567, x1: 1114, y0: 1054, y1: 1398 },
+  ],
+});
+
+// Sheet 6: the 8 Biolab mobs (1122x1402 — 4 columns x 2 rows).
+processSheet({
+  sheet: 'Monsters/Biolab monsters 001.png',
+  outPng: 'monsters8.png', outJson: 'monsters8.json', debugPng: 'debug-monsters8.png',
+  panels: [
+    { name: 'failedexp', x0: 8, x1: 276, y0: 8, y1: 690 },
+    { name: 'remover', x0: 284, x1: 556, y0: 8, y1: 690 },
+    { name: 'labdrone', x0: 564, x1: 836, y0: 8, y1: 690 },
+    { name: 'testsubject', x0: 844, x1: 1114, y0: 8, y1: 690 },
+    { name: 'sporecloud', x0: 8, x1: 276, y0: 702, y1: 1394 },
+    { name: 'mutanthound', x0: 284, x1: 556, y0: 702, y1: 1394 },
+    { name: 'serumturret', x0: 564, x1: 836, y0: 702, y1: 1394 },
+    { name: 'biosludge', x0: 844, x1: 1114, y0: 702, y1: 1394 },
   ],
 });

@@ -41,7 +41,8 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
     bulletScale: diff.bulletScale,
     gameOver: false,
     levelComplete: false,
-    boss: null,              // active boss (see boss.js)
+    boss: null,              // primary active boss (see boss.js)
+    bosses: [],              // all active bosses (1 normally, 2 for dual-boss fights)
     biome: 0,                // level progress 0..1 (drives living background)
     lastBomb: null,          // { tick, x, y } for render feedback
     magnus: null,            // Dposada bomb field { x, y, t }
@@ -468,11 +469,13 @@ export function tickSim(sim, inputs, stage) {
       if (b.pierce > 0) b.pierce--;
       else spent = true;
     });
-    // boss takes hits too (it lives outside the enemy pool; not during the
-    // intro pose, so shots pass over it while the dialogue is up)
-    if (!spent && sim.boss && !sim.boss.intro && !sim.boss.introHold && sim.boss.dying === 0
-        && circleHit(b, sim.boss, b.r, sim.boss.r)) {
-      damageBoss(sim, b.dmg);
+    // bosses take hits too (they live outside the enemy pool; not during the
+    // intro pose, so shots pass over them while the dialogue is up)
+    for (const boss of sim.bosses) {
+      if (spent && b.pierce <= 0) break;
+      if (boss.intro || boss.introHold > 0 || boss.dying > 0) continue;
+      if (!circleHit(b, boss, b.r, boss.r)) continue;
+      damageBoss(sim, b.dmg, boss);
       chargeSphereOnHit(sim, b.owner);
       if (b.pierce > 0) b.pierce--;
       else spent = true;
@@ -532,9 +535,11 @@ export function tickSim(sim, inputs, stage) {
     for (const e of enemies) {
       if (circleHit(p, e, p.hitR, e.r)) { playerHit(sim, p); hit = true; break; }
     }
-    if (!hit && sim.boss && !sim.boss.intro && !sim.boss.introHold && sim.boss.dying === 0
-        && circleHit(p, sim.boss, p.hitR, sim.boss.r - 12)) {
-      playerHit(sim, p);
+    if (!hit) {
+      for (const boss of sim.bosses) {
+        if (boss.intro || boss.introHold > 0 || boss.dying > 0) continue;
+        if (circleHit(p, boss, p.hitR, boss.r - 12)) { playerHit(sim, p); break; }
+      }
     }
   }
 
