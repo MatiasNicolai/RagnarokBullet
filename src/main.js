@@ -1,6 +1,6 @@
 // Boot + scene manager. Flow: title -> character select -> game.
 // The canvas is field + sidebar wide; scenes swap on ctx callbacks.
-import { Application } from 'pixi.js';
+import { Application, TextureSource } from 'pixi.js';
 import { loadAtlas } from './engine/atlas.js';
 import { Input } from './engine/input.js';
 import { TitleScene } from './scenes/title.js';
@@ -19,6 +19,11 @@ import { music } from './engine/music.js';
 const APP_W = FIELD_W + SIDEBAR_W;
 
 async function boot() {
+  // Pixel-art game: sample every texture with nearest-neighbour. This keeps
+  // sprites crisp (no bilinear blur) AND removes atlas edge-bleed — bilinear
+  // sampling reaches into neighbouring atlas frames at the edges, which shows
+  // up as seams/ghosting (worst on the tightly-packed additive bomb FX).
+  TextureSource.defaultOptions.scaleMode = 'nearest';
   const app = new Application();
   await app.init({ width: APP_W, height: FIELD_H, background: 0x0a0a12, antialias: false });
   document.getElementById('game').appendChild(app.canvas);

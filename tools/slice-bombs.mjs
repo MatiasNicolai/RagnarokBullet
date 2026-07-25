@@ -12,6 +12,8 @@ import { PNG } from 'pngjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const S = 320;          // per-frame output size (square)
+const PAD = 8;          // black gutter between frames so sampling can't bleed
+const CELL = S + PAD * 2;
 const FRAMES = 4;
 
 // source sheet -> atlas key (Zeos reuses aramir's slash, tinted in-engine)
@@ -43,7 +45,10 @@ function blit(src, sx0, sy0, sw, sh, dst, dx0, dy0) {
   }
 }
 
-const out = new PNG({ width: S * FRAMES, height: S * SHEETS.length });
+const out = new PNG({ width: CELL * FRAMES, height: CELL * SHEETS.length });
+// background stays black (0,0,0,255); additive blend renders black as nothing,
+// so the PAD gutter is invisible in-engine but stops any edge-sample bleed.
+for (let i = 3; i < out.data.length; i += 4) out.data[i] = 255;
 const frames = {};
 
 SHEETS.forEach((sheet, row) => {
@@ -52,7 +57,7 @@ SHEETS.forEach((sheet, row) => {
   const fh = src.height;                        // 627
   frames[sheet.key] = [];
   for (let f = 0; f < FRAMES; f++) {
-    const dx = f * S, dy = row * S;
+    const dx = f * CELL + PAD, dy = row * CELL + PAD;   // inset by PAD inside the cell
     blit(src, f * fw, 0, fw, fh, out, dx, dy);
     frames[sheet.key].push({ x: dx, y: dy, w: S, h: S });
   }

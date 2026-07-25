@@ -75,6 +75,7 @@ export class Renderer {
     if (!s) {
       s = new Sprite();
       s.anchor.set(0.5);
+      s.roundPixels = true;   // snap to integer pixels -> no subpixel shimmer
       this.sprites.set(e, s);
       layer.addChild(s);
     }
@@ -111,6 +112,7 @@ export class Renderer {
     if (!frames || !frames.length) return;
     const s = new Sprite(frames[0]);
     s.anchor.set(0.5);
+    s.roundPixels = true;
     s.blendMode = 'add';
     s.position.set(opts.x ?? 0, opts.y ?? 0);
     s.rotation = opts.rot ?? 0;
@@ -473,7 +475,7 @@ export class Renderer {
     for (let i = 0; i < list.length; i++) {
       const b = list[i];
       let s = this.bossSprites[i];
-      if (!s) { s = new Sprite(); s.anchor.set(0.5); this.bossLayer.addChild(s); this.bossSprites[i] = s; }
+      if (!s) { s = new Sprite(); s.anchor.set(0.5); s.roundPixels = true; this.bossLayer.addChild(s); this.bossSprites[i] = s; }
       const key = BOSS_TEX[b.name] ?? 'orcHero';
       const art = this.atlas.bosses?.[key];
       let tex;
