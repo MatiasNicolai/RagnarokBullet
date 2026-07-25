@@ -102,7 +102,7 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
       p.bombs--;
       this.stats.bombs++;
       this.lastBomb = { tick: this.tick, x: p.x, y: p.y };
-      this.events.push({ type: 'bomb', x: p.x, y: p.y });
+      this.events.push({ type: 'bomb', x: p.x, y: p.y, id: p.char.id });
       this.addScore(this.enemyBullets.active.length * 10);
       this.enemyBullets.clear();
       p.iframes = Math.max(p.iframes, BOMB_IFRAMES);

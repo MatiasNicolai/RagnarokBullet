@@ -60,7 +60,10 @@ export class Renderer {
     this.floaterPool = [];
     this.bombRing = new Graphics();
     this.magnusG = new Graphics();
-    this.fxLayer.addChild(this.magnusG, this.bombRing);
+    this.bombFx = [];               // animated additive bomb sprites (slash/arrow/ki)
+    this.bombFxLayer = new Container();
+    this.magnusSprite = null;       // persistent cross sprite over Dposada's field
+    this.fxLayer.addChild(this.magnusG, this.bombRing, this.bombFxLayer);
 
     this.bossSprite = null;
   }
@@ -99,6 +102,23 @@ export class Renderer {
     }
   }
 
+  // Play a one-shot animated bomb FX (a class's 4-frame strip) at (x,y), drawn
+  // additively so its black background reads as transparent. opts: size (px),
+  // dur (ticks), tint, rot, spin, vx/vy (drift), grow (extra scale over life).
+  playBombFx(frames, opts = {}) {
+    if (!frames || !frames.length) return;
+    const s = new Sprite(frames[0]);
+    s.anchor.set(0.5);
+    s.blendMode = 'add';
+    s.position.set(opts.x ?? 0, opts.y ?? 0);
+    s.rotation = opts.rot ?? 0;
+    const px = opts.size ?? 220;
+    s.scale.set(px / frames[0].frame.height);
+    if (opts.tint != null) s.tint = opts.tint;
+    this.bombFxLayer.addChild(s);
+    this.bombFx.push({ s, frames, t: 0, dur: opts.dur ?? 30, vx: opts.vx ?? 0, vy: opts.vy ?? 0, spin: opts.spin ?? 0, grow: opts.grow ?? 0, basePx: px });
+  }
+
   // Particle/floater feedback for a sim event. Banners/UI are the scene's job.
   onEvent(ev) {
     const ITEM_LABEL = {
@@ -124,14 +144,41 @@ export class Renderer {
       case 'death': this.burst(ev.x, ev.y, 0xff3b4e, 20, 4); break;
       case 'downed': this.spawnFloat(ev.x, ev.y - 20, 'P' + (ev.index + 1) + ' CAÍDO', 0xff3b4e); break;
       case 'revive': this.burst(ev.x, ev.y, 0x6fce5a, 24, 4); this.spawnFloat(ev.x, ev.y - 20, '¡DE VUELTA!', 0x6fce5a); break;
-      case 'bomb': this.burst(ev.x, ev.y, 0xfff2b0, 30, 6); break;
+      case 'bomb': {
+        this.burst(ev.x, ev.y, 0xfff2b0, 22, 5); // universal clear flash
+        const slash = this.atlas.bombs?.aramir;
+        // Aramir's Bowling Bash: a big golden slash sweep. Zeos's Meteor Assault
+        // reuses the same slash, tinted violet and spun the other way.
+        if (ev.id === 'aramir') this.playBombFx(slash, { x: ev.x, y: ev.y, size: 260, dur: 30, spin: 0.05, grow: 0.25 });
+        else if (ev.id === 'zeos') this.playBombFx(slash, { x: ev.x, y: ev.y, size: 240, dur: 28, tint: 0xc98bff, rot: Math.PI, spin: -0.06, grow: 0.25 });
+        break;
+      }
       case 'special': this.burst(ev.x, ev.y, 0xffffff, 16, 4); break;
       case 'meteor': this.burst(ev.x, ev.y, 0xff9430, 14, 4); break;
       case 'falcon': this.burst(ev.x, ev.y, 0x8fb5ff, 3, 2); break;
       case 'stormgust': this.burst(ev.x, ev.y, 0x9fd8ff, 40, 7); break;
-      case 'arrowstorm': this.burst(ev.x, ev.y, 0x8fb5ff, 40, 7); break;
+      case 'arrowstorm': {
+        // Chel's Arrow Storm: a volley raining straight down across the field.
+        const arrow = this.atlas.bombs?.chel_snip;
+        this.burst(ev.x, ev.y, 0x8fb5ff, 16, 5);
+        for (let k = 0; k < 11; k++) {
+          this.playBombFx(arrow, {
+            x: 30 + Math.random() * (FIELD_W - 60),
+            y: -60 - Math.random() * 260,           // staggered above the screen
+            size: 130, dur: 30, vy: 15 + Math.random() * 4,
+          });
+        }
+        break;
+      }
       case 'sanctuary': this.burst(ev.x, ev.y, 0x6fce5a, 30, 5); break;
-      case 'asura': this.burst(ev.x, ev.y - 40, 0xff7a55, 30 + ev.spheres * 6, 7); break;
+      case 'asura': {
+        // Viri's Asura Strike: a ki column erupting upward, scaled by spirit spheres.
+        const ki = this.atlas.bombs?.viri;
+        const size = 220 + ev.spheres * 46;
+        this.playBombFx(ki, { x: ev.x, y: ev.y - size * 0.22, size, dur: 34, grow: 0.15 });
+        this.burst(ev.x, ev.y - 40, 0xff7a55, 20 + ev.spheres * 4, 7);
+        break;
+      }
       case 'summon': this.burst(ev.x, ev.y, 0x9f6aff, 24, 5); break;
       case 'bossPhase': this.burst(ev.x, ev.y, 0xffffff, 40, 8); break;
       case 'bossExplode': this.burst(ev.x, ev.y, 0xffb060, 14, 4); break;
@@ -309,12 +356,41 @@ export class Renderer {
 
     this.magnusG.clear();
     if (sim.magnus) {
+      // faint ring marks the actual damage radius (130) so the safe zone reads
       const pulse = 1 + Math.sin(sim.magnus.t / 5) * 0.06;
       const alpha = sim.magnus.t > 150 ? (180 - sim.magnus.t) / 30 : 1;
       this.magnusG.circle(sim.magnus.x, sim.magnus.y, 130 * pulse)
-        .fill({ color: 0xffe08a, alpha: 0.12 * alpha }).stroke({ color: 0xffe08a, width: 3, alpha: 0.7 * alpha });
-      this.magnusG.circle(sim.magnus.x, sim.magnus.y, 90 * pulse)
-        .stroke({ color: 0xffffff, width: 1.5, alpha: 0.5 * alpha });
+        .fill({ color: 0xffe08a, alpha: 0.08 * alpha }).stroke({ color: 0xffe08a, width: 2, alpha: 0.4 * alpha });
+      // Dposada's Magnus Exorcismus: the holy cross sigil looping over the field
+      const cross = this.atlas.bombs?.dposada;
+      if (cross) {
+        if (!this.magnusSprite) {
+          this.magnusSprite = new Sprite(cross[0]);
+          this.magnusSprite.anchor.set(0.5); this.magnusSprite.blendMode = 'add';
+          this.bombFxLayer.addChild(this.magnusSprite);
+        }
+        const seq = [0, 1, 2, 3, 2, 1];
+        this.magnusSprite.texture = cross[seq[Math.floor(sim.magnus.t / 7) % seq.length]];
+        this.magnusSprite.position.set(sim.magnus.x, sim.magnus.y);
+        this.magnusSprite.scale.set((300 * pulse) / cross[0].frame.height);
+        this.magnusSprite.alpha = Math.max(0, alpha);
+        this.magnusSprite.visible = true;
+      }
+    } else if (this.magnusSprite) {
+      this.magnusSprite.visible = false;
+    }
+
+    // animated bomb FX (slash / arrow rain / ki column): advance frames, drift, fade
+    for (let i = this.bombFx.length - 1; i >= 0; i--) {
+      const fx = this.bombFx[i];
+      fx.t++;
+      const prog = fx.t / fx.dur;
+      const fi = Math.min(fx.frames.length - 1, Math.floor(prog * fx.frames.length));
+      if (fx.s.texture !== fx.frames[fi]) fx.s.texture = fx.frames[fi];
+      fx.s.x += fx.vx; fx.s.y += fx.vy; fx.s.rotation += fx.spin;
+      if (fx.grow) fx.s.scale.set((fx.basePx * (1 + prog * fx.grow)) / fx.frames[0].frame.height);
+      fx.s.alpha = prog > 0.7 ? Math.max(0, 1 - (prog - 0.7) / 0.3) : 1;
+      if (fx.t >= fx.dur) { fx.s.destroy(); this.bombFx.splice(i, 1); }
     }
 
     for (let i = this.particles.length - 1; i >= 0; i--) {

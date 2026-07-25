@@ -49,12 +49,13 @@ export async function loadAtlas() {
     monJson('items'), monPng('items'),   // animated pickups: card / zeny / gem
   ]);
   const [item2Manifest, item2Base, boss2Manifest, boss2Base, mon7Manifest,
-    mon8Manifest, mon8Base, boss3Manifest, boss3Base] = await Promise.all([
+    mon8Manifest, mon8Base, boss3Manifest, boss3Base, bombManifest, bombBase] = await Promise.all([
     monJson('items2'), monPng('items2'), // potion / chest / leaf / awakening / speed / kafra / bomb
     monJson('bosses2'), monPng('bosses2'), // Juperos: Vesper (boss)
     monJson('monsters7'), // Juperos: Archdam (mid-boss) — shares bosses2.png
     monJson('monsters8'), monPng('monsters8'), // Biolab mobs
     monJson('bosses3'), monPng('bosses3'),     // Biolab: Seyren + Magaleta (dual bosses)
+    monJson('bombsfx'), monPng('bombsfx'),     // per-class bomb FX (4-frame strips, additive)
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -134,5 +135,13 @@ export async function loadAtlas() {
   addItems(itemManifest, itemBase);   // card / zeny / gem
   addItems(item2Manifest, item2Base); // potion / chest / leaf / awakening / speed / kafra / bomb
 
-  return { characters, monsters, maps, startMenu, bosses, skills, items, ensureMapSet };
+  // per-class bomb FX: bombs[key] = [4 frame textures]. Rendered additively.
+  const bombs = {};
+  if (bombManifest && bombBase) {
+    for (const [key, rects] of Object.entries(bombManifest.frames)) {
+      bombs[key] = rects.map((r) => sub(bombBase, r));
+    }
+  }
+
+  return { characters, monsters, maps, startMenu, bosses, skills, items, bombs, ensureMapSet };
 }
