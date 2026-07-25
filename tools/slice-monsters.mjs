@@ -262,11 +262,14 @@ processSheet({
   panels: [
     { name: 'failedexp', x0: 8, x1: 276, y0: 8, y1: 690 },
     { name: 'remover', x0: 284, x1: 556, y0: 8, y1: 690 },
-    { name: 'labdrone', x0: 564, x1: 836, y0: 8, y1: 690 },
+    // labdrone / mutanthound / serumturret are light/metallic sprites the
+    // bright-neutral keying thins out, so auto column-detection sliced them to
+    // slivers. Grid mode divides each panel into 5 even columns (like Lunatic).
+    { name: 'labdrone', x0: 588, x1: 816, y0: 8, y1: 690, grid: { down: [180, 292], up: [382, 496] } },
     { name: 'testsubject', x0: 844, x1: 1114, y0: 8, y1: 690 },
     { name: 'sporecloud', x0: 8, x1: 276, y0: 702, y1: 1394 },
-    { name: 'mutanthound', x0: 284, x1: 556, y0: 702, y1: 1394 },
-    { name: 'serumturret', x0: 564, x1: 836, y0: 702, y1: 1394 },
+    { name: 'mutanthound', x0: 306, x1: 536, y0: 702, y1: 1394, grid: { down: [888, 1008], up: [1118, 1244] } },
+    { name: 'serumturret', x0: 588, x1: 816, y0: 702, y1: 1394, grid: { down: [888, 1008], up: [1118, 1244] } },
     { name: 'biosludge', x0: 844, x1: 1114, y0: 702, y1: 1394 },
   ],
 });
