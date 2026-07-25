@@ -63,7 +63,9 @@ export class Renderer {
     this.bombFx = [];               // animated additive bomb sprites (slash/arrow/ki)
     this.bombFxLayer = new Container();
     this.magnusSprite = null;       // persistent cross sprite over Dposada's field
-    this.fxLayer.addChild(this.magnusG, this.bombRing, this.bombFxLayer);
+    this.stormG = new Graphics();   // Eric's procedural Storm Gust vortex
+    this.storms = [];               // active vortices { x, y, t }
+    this.fxLayer.addChild(this.magnusG, this.bombRing, this.stormG, this.bombFxLayer);
 
     this.bossSprite = null;
   }
@@ -156,7 +158,7 @@ export class Renderer {
       case 'special': this.burst(ev.x, ev.y, 0xffffff, 16, 4); break;
       case 'meteor': this.burst(ev.x, ev.y, 0xff9430, 14, 4); break;
       case 'falcon': this.burst(ev.x, ev.y, 0x8fb5ff, 3, 2); break;
-      case 'stormgust': this.burst(ev.x, ev.y, 0x9fd8ff, 40, 7); break;
+      case 'stormgust': this.burst(ev.x, ev.y, 0x9fd8ff, 18, 5); this.storms.push({ x: ev.x, y: ev.y, t: 0 }); break;
       case 'arrowstorm': {
         // Chel's Arrow Storm: a volley raining straight down across the field.
         const arrow = this.atlas.bombs?.chel_snip;
@@ -391,6 +393,37 @@ export class Renderer {
       if (fx.grow) fx.s.scale.set((fx.basePx * (1 + prog * fx.grow)) / fx.frames[0].frame.height);
       fx.s.alpha = prog > 0.7 ? Math.max(0, 1 - (prog - 0.7) / 0.3) : 1;
       if (fx.t >= fx.dur) { fx.s.destroy(); this.bombFx.splice(i, 1); }
+    }
+
+    // Eric's Storm Gust: a procedural ice vortex — concentric frost rings +
+    // snow spiralling inward + a cold tint + an outburst flash. Freezing itself
+    // is handled in the sim; this is the readable "blizzard" flourish.
+    this.stormG.clear();
+    for (let i = this.storms.length - 1; i >= 0; i--) {
+      const st = this.storms[i]; st.t++;
+      const t = st.t, DUR = 58;
+      const fade = t > 42 ? Math.max(0, (DUR - t) / (DUR - 42)) : 1;
+      const rad = t < 16 ? 8 + t * 1.6 : 40 + (t - 16) * 5.2;
+      // cold screen tint (ramps in, then fades)
+      const tint = 0.12 * fade * (t < 8 ? t / 8 : 1);
+      if (tint > 0.002) this.stormG.rect(0, 0, FIELD_W, FIELD_H).fill({ color: 0x8fd0ff, alpha: tint });
+      // concentric frost rings
+      for (let ri = 0; ri < 4; ri++) {
+        const rr = rad * (0.5 + ri * 0.17);
+        if (rr < 3) continue;
+        const a = (0.55 - ri * 0.08) * fade * (0.7 + 0.3 * Math.sin(t * 0.4 + ri));
+        this.stormG.circle(st.x, st.y, rr).stroke({ color: ri % 2 ? 0xbfeeff : 0x6fc8ff, width: 2.2, alpha: Math.max(0, a) });
+      }
+      // snow spiralling inward
+      for (let k = 0; k < 26; k++) {
+        const ang = k * 0.55 + t * 0.13;
+        const r = rad * (0.35 + (k % 7) / 7 * 0.7);
+        const sx = st.x + Math.cos(ang) * r, sy = st.y + Math.sin(ang) * r * 0.9;
+        this.stormG.rect(sx - 1.5, sy - 1.5, 3, 3).fill({ color: 0xe6f8ff, alpha: 0.7 * fade });
+      }
+      // outburst flash
+      if (t >= 30 && t <= 40) this.stormG.circle(st.x, st.y, rad).fill({ color: 0xd8f4ff, alpha: (40 - t) / 40 * 0.22 });
+      if (t >= DUR) this.storms.splice(i, 1);
     }
 
     for (let i = this.particles.length - 1; i >= 0; i--) {
