@@ -119,7 +119,11 @@ function stepOne(sim, b) {
 // Player bullet dealt `dmg` to a specific boss `b`. Card transitions + death.
 export function damageBoss(sim, dmg, b = sim.boss) {
   if (!b || b.intro || b.introHold > 0 || b.dying > 0 || b.transition > 0) return;
-  const solo = (sim.bosses?.length ?? 1) === 1; // only clear the field for solo bosses
+  // Card transitions only clear the field for a solo boss — in a dual fight we
+  // must not wipe the OTHER boss's active pattern mid-card. A boss DEATH always
+  // clears, though: it's the relief/"phase change" beat, and making both deaths
+  // clear keeps the dual fight symmetric (killing either boss first feels the same).
+  const solo = (sim.bosses?.length ?? 1) === 1;
   b.cardHp -= dmg;
   b.hp = Math.max(0, b.hp - dmg);
   b.hitFlash = 3;
@@ -135,7 +139,7 @@ export function damageBoss(sim, dmg, b = sim.boss) {
       sim.events.push({ type: 'bossPhase', x: b.x, y: b.y });
     } else {
       b.dying = 90;
-      if (solo) sim.enemyBullets.clear();
+      sim.enemyBullets.clear();
       sim.addScore(50000);
       sim.events.push({ type: 'bossDown', x: b.x, y: b.y });
     }
@@ -428,45 +432,51 @@ export const vesper = {
 // own lane instead of both crowding the center. Balanced by spawnBosses' 0.7x
 // per-boss HP scaling since their danmaku overlaps. ---
 
+// Design note (dual-boss fairness): both bosses fire at once, so every ring
+// here is a ringWithGap whose gap faces the player — that guarantees at least
+// one escape lane through each ring no matter where the other boss is shooting
+// from. Spirals and rain run at ~half the density of a solo boss and on
+// offset periods so the two curtains never fuse into an inescapable wall.
 export const seyren = {
   name: 'Seyren Windsor',
   r: 46,
   targetY: 165,
   cards: [
     {
-      // Espada Sangrienta: fast aimed red slashes + a gapped ring. Aggressive
-      // melee knight — the aimed fans punish standing still.
+      // Espada Sangrienta: telegraphed aimed slashes + a player-facing gapped ring.
       name: 'Espada Sangrienta',
       hp: 700,
       step(sim, b) {
-        b.x = b.homeX + Math.sin(b.t / 46) * 90;
-        if (b.t % 56 === 34) b.tele = 18;
-        if (b.t % 56 === 0 && b.t > 0) {
-          fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.5, speed: 3.4, color: 'red' });
+        b.x = b.homeX + Math.sin(b.t / 46) * 80;
+        if (b.t % 60 === 38) b.tele = 18;
+        if (b.t % 60 === 0 && b.t > 0) {
+          fan(sim, b.x, b.y, { n: 4, angle: angleTo(sim, b.x, b.y), spread: 0.45, speed: 3.2, color: 'red' });
         }
-        if (b.t % 40 === 0) {
-          const gap = sim.rng.range(0, Math.PI * 2);
-          ringWithGap(sim, b.x, b.y, { n: 20, speed: 1.8, gapAngle: gap, gapWidth: 0.7, color: 'orange' });
+        // gap always points at the player -> a guaranteed slot to slip through
+        if (b.t % 52 === 0) {
+          ringWithGap(sim, b.x, b.y, { n: 18, speed: 1.9, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.85, color: 'orange' });
         }
       },
     },
     {
-      // Carga Berserker: lunges toward the player's column then rains spears —
-      // desperation card, speeds up below 35% HP.
+      // Carga Berserker: drifts toward the player's column (but never camps on
+      // top of them) and fires gapped rings + telegraphed spears. Speeds up <35%.
       name: 'Carga Berserker',
       hp: 820,
       step(sim, b) {
         const desperate = b.cardHp < b.cardMax * 0.35;
+        // gentle tracking + clamp so it can't sit on the player and point-blank a ring
         const targetX = sim.players.find(Boolean)?.x ?? b.homeX;
-        b.x += (targetX - b.x) * (desperate ? 0.06 : 0.04);
-        b.x = Math.max(40, Math.min(FIELD_W - 40, b.x));
-        const period = desperate ? 32 : 46;
-        if (b.t % period === 0) {
-          const base = sim.rng.range(0, 6.28);
-          ring(sim, b.x, b.y, { n: 14, speed: 2.2, baseAngle: base, color: 'red' });
-          fan(sim, b.x, b.y, { n: 3, angle: angleTo(sim, b.x, b.y), spread: 0.35, speed: 3.8, color: 'orange' });
+        b.x += (targetX - b.x) * (desperate ? 0.035 : 0.025);
+        b.x = Math.max(70, Math.min(FIELD_W - 70, b.x));
+        const period = desperate ? 42 : 54;
+        if (b.t % period === 30) b.tele = 16;
+        if (b.t % period === 0 && b.t > 0) {
+          ringWithGap(sim, b.x, b.y, { n: 16, speed: 2.1, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.8, color: 'red' });
+          fan(sim, b.x, b.y, { n: 3, angle: angleTo(sim, b.x, b.y), spread: 0.3, speed: 3.6, color: 'orange' });
         }
-        if (b.t % (desperate ? 9 : 14) === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.2, color: 'red', r: 5 });
+        // sparse rain, cadence offset from Magaleta's so the columns don't align
+        if (b.t % (desperate ? 18 : 26) === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 3.0, color: 'red', r: 5 });
       },
     },
   ],
@@ -478,35 +488,32 @@ export const magaleta = {
   targetY: 165,
   cards: [
     {
-      // Danza de Almas: a slow rotating skull spiral plus aimed dark bolts.
-      // The lesson: the spiral is readable — weave through it while dodging bolts.
+      // Danza de Almas: a slow, readable skull spiral (half-rate) + aimed bolts.
       name: 'Danza de Almas',
       hp: 700,
       step(sim, b) {
-        b.x = b.homeX + Math.sin(b.t / 50) * 90;
-        const ph = b.t * 0.15;
-        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.1, color: 'purple' });
-        if (b.t % 74 === 0 && b.t > 0) {
-          fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.6, speed: 2.9, color: 'cyan' });
+        b.x = b.homeX + Math.sin(b.t / 50) * 80;
+        if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: b.t * 0.16, speed: 2.0, color: 'purple' });
+        if (b.t % 80 === 0 && b.t > 0) {
+          fan(sim, b.x, b.y, { n: 4, angle: angleTo(sim, b.x, b.y), spread: 0.55, speed: 2.8, color: 'cyan' });
         }
       },
     },
     {
-      // Réquiem: layered gapped rings + counter-spiral + rain. Desperation card.
+      // Réquiem: a player-facing gapped ring + a slow wide-gap filler ring, a
+      // half-rate counter-spiral, and sparse rain. Desperation speeds it up <35%.
       name: 'Réquiem',
       hp: 820,
       step(sim, b) {
         b.x += (b.homeX - b.x) * 0.05;
         const desperate = b.cardHp < b.cardMax * 0.35;
-        const period = desperate ? 30 : 44;
+        const period = desperate ? 40 : 52;
         if (b.t % period === 0) {
-          const base = sim.rng.range(0, 6.28);
-          ringWithGap(sim, b.x, b.y, { n: 26, speed: 2.2, gapAngle: base, gapWidth: 0.55, color: 'purple' });
-          ring(sim, b.x, b.y, { n: 14, speed: 1.5, baseAngle: base, color: 'cyan' });
+          ringWithGap(sim, b.x, b.y, { n: 22, speed: 2.1, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.7, color: 'purple' });
+          ringWithGap(sim, b.x, b.y, { n: 12, speed: 1.5, gapAngle: sim.rng.range(0, 6.28), gapWidth: 0.9, color: 'cyan' });
         }
-        const ph = b.t * (desperate ? 0.22 : 0.16);
-        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph, speed: 2.3, color: 'orange' });
-        if (b.t % 13 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.0, color: 'purple', r: 5 });
+        if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: -b.t * (desperate ? 0.2 : 0.15), speed: 2.2, color: 'orange' });
+        if (b.t % (desperate ? 20 : 28) === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 2.9, color: 'purple', r: 5 });
       },
     },
   ],

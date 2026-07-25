@@ -26,6 +26,7 @@ const MP3_TRACKS = {
   level2: `${BASE}assets/music/geffen.mp3`,
   level3: `${BASE}assets/music/glastheim.mp3`,
   level4: `${BASE}assets/music/juperos.mp3`,
+  level5: `${BASE}assets/music/biolab.mp3`,
 };
 
 // Melodies (16 steps) + bass. Kept short and loopable.

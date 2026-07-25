@@ -242,9 +242,15 @@ export class GameScene {
     // switch to boss music once the boss is fighting; raise tension in its last card
     if (this.sim.boss && !this.sim.boss.intro) {
       if (!this.bossMusic) { music.play('boss'); this.bossMusic = true; }
-      const b = this.sim.boss;
-      const last = b.cardIndex === b.def.cards.length - 1;
-      music.setTension(last ? 1 - Math.max(0, b.cardHp / b.cardMax) : 0);
+      // tension = highest threat across all living bosses (a boss on its last
+      // card, low HP) so a dual fight ramps regardless of which one you kill first
+      let tension = 0;
+      for (const b of this.sim.bosses) {
+        if (b.intro || b.introHold > 0) continue;
+        const last = b.cardIndex === b.def.cards.length - 1;
+        if (last) tension = Math.max(tension, 1 - Math.max(0, b.cardHp / b.cardMax));
+      }
+      music.setTension(tension);
     }
 
     this.renderer.sync(this.sim);
