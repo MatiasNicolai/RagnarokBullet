@@ -20,7 +20,9 @@ hosts and shares its 4-letter code, the other joins).
 ## Tests
 
 ```bash
-npm test           # headless: relay + lockstep + determinism (checksums must match)
+npm test           # headless: static checks (sim determinism, dual-boss
+                   # practice, epoch isolation, asset inventory) + relay +
+                   # lockstep + determinism (checksums must match)
 ```
 
 `_guestbot.mjs` is a manual helper — a headless guest that joins a room by code

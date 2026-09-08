@@ -2,46 +2,81 @@
 // All game art resolves through here (manifest-driven), so swapping
 // placeholder art for final art never touches game code.
 import { Assets, Rectangle, Texture } from 'pixi.js';
+import { mapTileFiles, mapTileDir, missingMapTiles } from './mapsets.js';
 
 // Asset base: '/' in dev, '/RagnarokBullet/' on GitHub Pages. Runtime asset URLs
 // must include it so they resolve under any deploy subpath (Vite only rewrites
 // asset paths it processes at build time, not these hardcoded fetch strings).
 const BASE = import.meta.env.BASE_URL;
 
-// A themed level's scrolling backdrop tiles, in scroll order (first = start /
-// bottom, last = boss arena / top). Prontera inserts two extra "royal approach"
-// screens between the avenue (004) and the plaza arena (005) so the level runs
-// longer after the mid-boss. Loaded lazily so first paint isn't blocked on maps.
-const MAP_FILES = {
-  prontera: ['prontera001', 'prontera002', 'prontera003', 'prontera004', 'pronteraNewA', 'pronteraNewB', 'prontera005'],
-  geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffenNewA', 'geffenNewB', 'geffen005'],
-  glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheimNewA', 'glastheimNewB', 'glastheim005'],
-  juperos: ['juperos001', 'juperos002', 'juperos003', 'juperos004', 'juperos005', 'juperos006', 'juperos007'], // native 7-tile set (007 = Vesper arena)
-  biolab: ['biolab001', 'biolab002', 'biolab003', 'biolab004', 'biolab005', 'biolab006', 'biolab007'], // native 7-tile set (007 = core lab arena)
+// Tile inventory lives in mapsets.js (single source of truth, shared with
+// the node-testable selection logic).
+const loadMapSet = (name, warn) => {
+  const files = mapTileFiles(name);
+  const dir = mapTileDir(name);
+  if (!files.length || !dir) return Promise.resolve(null);
+  return Promise.all(files.map((f) => Assets.load(`${BASE}${dir}/${f}.png`).catch(() => null)))
+    .then((set) => {
+      // Diagnose every failed tile by filename, then fall back ATOMICALLY:
+      // a partial set never renders (it would show missing/reordered
+      // progression) — callers use the procedural theme instead.
+      const missing = missingMapTiles(name, set);
+      for (const f of missing) warn(`missing map tile: ${dir}/${f}.png`);
+      if (missing.length) {
+        warn(`map set '${name}' incomplete (${set.length - missing.length}/${files.length}); procedural theme fallback`);
+        return null;
+      }
+      return set;
+    });
 };
-const loadMapSet = (name) =>
-  Promise.all((MAP_FILES[name] ?? []).map((f) => Assets.load(`${BASE}assets/maps/${f}.png`).catch(() => null)))
-    .then((set) => set.filter(Boolean));
 
 export async function loadAtlas() {
-  const monJson = (n) => fetch(`${BASE}assets/${n}.json`).then((r) => r.json()).catch(() => null);
-  const monPng = (n) => Assets.load(`${BASE}assets/${n}.png`).catch(() => null);
+  // Missing files fall back to procedural art (renderers check for null), but
+  // that used to be completely silent — warn once per file so a broken/renamed
+  // asset shows up in the console instead of a mysterious visual regression.
+  const warn = (m) => { try { console.warn(`[atlas] ${m}`); } catch { /* ignore */ } };
+  // Clean-Art V2.1 preview (opt-in): ?art=v2 loads the cleaned sheets from
+  // public/assets-v2/ (geffen/ for Geffen mobs, bosses/ for all bosses and
+  // midbosses) instead of public/assets/. Redirected: monsters3, monsters2,
+  // monsters8, bosses, bosses2, bosses3, monsters5, monsters7; everything
+  // else loads normally. Back to normal: open the game without ?art=v2 (or
+  // ?art= with any other value). No gameplay impact: cleaned manifests keep
+  // identical IDs/rects, only the sheet file differs.
+  const ART_V2 = (() => {
+    try { return new URLSearchParams(window.location.search).get('art') === 'v2'; } catch { return false; }
+  })();
+  if (ART_V2) warn('preview: Clean-Art V2.1 sheets (?art=v2)');
+  const V2_REMAP = {
+    monsters3: ['geffen', 'monsters3.clean'],
+    monsters2: ['bosses', 'monsters2.clean'],
+    monsters8: ['bosses', 'monsters8.clean'],
+    bosses: ['bosses', 'bosses.clean'],
+    bosses2: ['bosses', 'bosses2.clean'],
+    bosses3: ['bosses', 'bosses3.clean'],
+    monsters5: ['bosses', 'monsters5.clean'],
+    monsters7: ['bosses', 'monsters7.clean'],
+  };
+  const v2url = (n, ext) => (ART_V2 && V2_REMAP[n])
+    ? `${BASE}assets-v2/${V2_REMAP[n][0]}/${V2_REMAP[n][1]}.${ext}`
+    : `${BASE}assets/${n}.${ext}`;
+  const monJson = (n) => fetch(v2url(n, 'json')).then((r) => r.json()).catch(() => { warn(`missing manifest: ${v2url(n, 'json')} (procedural fallback)`); return null; });
+  const monPng = (n) => Assets.load(v2url(n, 'png')).catch(() => { warn(`missing sheet: ${v2url(n, 'png')} (procedural fallback)`); return null; });
   const [
     manifest, base,
     monManifest, monBase, mon2Manifest, mon2Base, mon3Manifest, mon3Base, mon4Manifest, mon4Base,
     mon6Manifest, mon6Base,
     prontera,
   ] = await Promise.all([
-    fetch(`${BASE}assets/manifest.json`).then((r) => r.json()),
-    Assets.load(`${BASE}assets/sheet.png`),
+    fetch(`${BASE}assets/manifest.json`).then((r) => r.json()).catch((e) => { warn(`CRITICAL: assets/manifest.json failed (${e?.message ?? e})`); throw e; }),
+    Assets.load(`${BASE}assets/sheet.png`).catch((e) => { warn(`CRITICAL: assets/sheet.png failed (${e?.message ?? e})`); throw e; }),
     monJson('monsters'), monPng('monsters'),
     monJson('monsters2'), monPng('monsters2'),
     monJson('monsters3'), monPng('monsters3'),
     monJson('monsters4'), monPng('monsters4'),
     monJson('monsters6'), monPng('monsters6'), // Juperos mobs
-    loadMapSet('prontera'),        // only level 1's maps up front; rest lazy
+    loadMapSet('prontera', warn), // only level 1's maps up front; rest lazy
   ]);
-  const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => null);
+  const startMenu = await Assets.load(`${BASE}assets/images/startmenu.png`).catch(() => { warn('missing art: assets/images/startmenu.png (plain title fallback)'); return null; });
   const [bossManifest, bossBase, mon5Manifest, skillManifest, skillBase, itemManifest, itemBase] = await Promise.all([
     monJson('bosses'), monPng('bosses'),
     monJson('monsters5'), // mid-bosses (Doppelganger, Giant Baphomet Jr.) — shares bosses.png as its sheet
@@ -56,6 +91,42 @@ export async function loadAtlas() {
     monJson('monsters8'), monPng('monsters8'), // Biolab mobs
     monJson('bosses3'), monPng('bosses3'),     // Biolab: Seyren + Magaleta (dual bosses)
     monJson('bombsfx'), monPng('bombsfx'),     // per-class bomb FX (4-frame strips, additive)
+  ]);
+  // Pyramid of the Sun (level 6): new content, no originals to fall back to —
+  // always served from assets-v2/pyramid (see tools/slice-pyramid.py). The
+  // monJson/monPng null-fallbacks keep this safe: a missing pyramid file just
+  // means procedural fallbacks, never a boot crash.
+  const pyrDir = `${BASE}assets-v2/pyramid`;
+  const pyrJson = (n) => fetch(`${pyrDir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing pyramid manifest: assets-v2/pyramid/${n}.json`); return null; });
+  const pyrPng = (n) => Assets.load(`${pyrDir}/${n}.png`).catch(() => { warn(`missing pyramid sheet: assets-v2/pyramid/${n}.png`); return null; });
+  const [mon9Manifest, mon9Base, mon10Manifest, boss4Manifest, boss4Base] = await Promise.all([
+    pyrJson('monsters9'), pyrPng('monsters9'), // Pyramid mobs (8)
+    pyrJson('monsters10'), // Pyramid mid-boss Osiris (rects live in bosses4.png)
+    pyrJson('bosses4'), pyrPng('bosses4'),     // Pyramid final boss Amon-Ra
+  ]);
+  // Niflheim (level 7): new content, no originals to fall back to — always
+  // served from assets-v2/niflheim (see tools/slice-niflheim.py). Same
+  // null-safe loaders: missing files mean procedural fallbacks, never a
+  // boot crash.
+  const nijDir = `${BASE}assets-v2/niflheim`;
+  const nijJson = (n) => fetch(`${nijDir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing niflheim manifest: assets-v2/niflheim/${n}.json`); return null; });
+  const nijPng = (n) => Assets.load(`${nijDir}/${n}.png`).catch(() => { warn(`missing niflheim sheet: assets-v2/niflheim/${n}.png`); return null; });
+  const [mon11Manifest, mon11Base, mon12Manifest, boss5Manifest, boss5Base] = await Promise.all([
+    nijJson('monsters11'), nijPng('monsters11'), // Niflheim mobs (6)
+    nijJson('monsters12'), // Niflheim mid-boss Loli Ruri (rects live in bosses5.png)
+    nijJson('bosses5'), nijPng('bosses5'),     // Niflheim bosses: Loli Ruri + Lord of Death
+  ]);
+
+  // Prontera V3 (default override, NOT ?art=v2-gated): approved GPT sheet
+  // extracted by tools/slice-prontera-v3.py, served from assets-v2/prontera.
+  // Merged after base monsters so these six IDs override only Prontera mobs
+  // (V3 Lunatic wins over monsters2). Missing files fall back to base
+  // monsters.json + procedural Lunatic, never a boot crash.
+  const v3Dir = `${BASE}assets-v2/prontera`;
+  const v3Json = (n) => fetch(`${v3Dir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing V3 manifest: assets-v2/prontera/${n}.json`); return null; });
+  const v3Png = (n) => Assets.load(`${v3Dir}/${n}.png`).catch(() => { warn(`missing V3 sheet: assets-v2/prontera/${n}.png`); return null; });
+  const [monV3Manifest, monV3Base] = await Promise.all([
+    v3Json('monsters-v3'), v3Png('monsters-v3'),
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -91,14 +162,20 @@ export async function loadAtlas() {
   addMonsters(mon6Manifest, mon6Base); // Juperos: Dimik, Venatu, Cell, Sentry, Plasma Wisp, Guardian, Repair Drone, Spark Beetle
   addMonsters(mon7Manifest, boss2Base); // Juperos mid-boss: Archdam (rects live in bosses2.png)
   addMonsters(mon8Manifest, mon8Base); // Biolab: Failed Experiment, Remover, Lab Drone, Test Subject, Spore Cloud, Mutant Hound, Serum Turret, Bio-Sludge
+  addMonsters(mon9Manifest, mon9Base); // Pyramid: Familiar, Soldier/Archer Skeleton, Mummy, Verit, Matyr, Isis, Ancient Mummy
+  addMonsters(mon10Manifest, boss4Base); // Pyramid mid-boss: Osiris (rects live in bosses4.png)
+  addMonsters(mon11Manifest, mon11Base); // Niflheim: Lude, Quve, Heirozoist, Gibbet, Dullahan, Bloody Murderer
+  addMonsters(mon12Manifest, boss5Base); // Niflheim mid-boss: Loli Ruri (rects live in bosses5.png)
+  addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
   // glastheim load lazily via ensureMapSet (kicked off in the background after
   // boot) so the title appears without waiting on 44 MB of maps.
-  const maps = { prontera, geffen: null, glastheim: null, juperos: null, biolab: null };
+  const maps = { prontera, geffen: null, glastheim: null, juperos: null, biolab: null, pyramid: null, niflheim: null };
   const ensureMapSet = async (name) => {
     if (maps[name]) return maps[name];
-    maps[name] = await loadMapSet(name);
+    maps[name] = await loadMapSet(name, warn);
+    if (!maps[name] || maps[name].length === 0) warn(`map set '${name}' failed to load (procedural theme fallback)`);
     return maps[name];
   };
 
@@ -116,6 +193,8 @@ export async function loadAtlas() {
   addBosses(bossManifest, bossBase);   // Orc Hero, Dark Lord, Baphomet
   addBosses(boss2Manifest, boss2Base); // Vesper (Juperos)
   addBosses(boss3Manifest, boss3Base); // Seyren + Magaleta (Biolab)
+  addBosses(boss4Manifest, boss4Base); // Amon-Ra (Pyramid; null-safe when missing)
+  addBosses(boss5Manifest, boss5Base); // Loli Ruri + Lord of Death (Niflheim; null-safe when missing)
 
   // per-character skill icons: skills[charId] = [shot, focus, bomb, special]
   const skills = {};

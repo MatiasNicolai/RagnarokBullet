@@ -1,0 +1,18 @@
+Create a finished production environment map image, not a concept sheet and not an explanation. Transform the supplied flat layout guide into one cohesive hand-painted top-down 3/4 bird's-eye dungeon map for a 2D MMORPG / bullet-hell game, visually compatible with the supplied Biolab and Juperos map references and inspired by the richly painted fantasy environment language of classic Ragnarok Online while remaining an original composition.
+
+SUBJECT: the ancient PYRAMID dungeon beneath the Morroc desert. Make a single extremely tall continuous portrait strip intended to be sliced into seven stacked gameplay screens, with seamless visual flow from bottom to top. Preserve a clear navigable path running vertically through the center, approximately one third of the width, calm, low-contrast, and mostly free of props so brightly colored bullet patterns remain readable. Put dense architecture, storytelling detail, shadows, and decoration along the side margins.
+
+PROGRESSION BOTTOM TO TOP:
+1) buried desert entrance: windblown sand spilling over broken sandstone steps and a dark threshold;
+2) torch-lit sandstone corridor with worn pillars, cracked paving, and modest funerary reliefs;
+3) sarcophagus gallery with sealed stone coffins and burial alcoves framing the sides;
+4) embalming chamber opening into a broader circular combat clearing, ritual tables and jars kept near the walls;
+5) cursed royal crypt and Osiris encounter clearing, monumental tomb architecture, turquoise ghost-fire, no character;
+6) ascending solar temple with oxidized-gold inlays, lapis accents, shafts of amber light and ceremonial columns;
+7) huge circular Amon-Ra sanctuary / boss arena at the top, monumental sun-disk floor design, raised throne or altar architecture at the far top edge, broad uncluttered circular fighting floor.
+
+ART DIRECTION: aged warm sandstone and deep umber shadows; restrained oxidized gold, lapis blue and turquoise accents; amber torchlight and sparse turquoise ghost-fire; painterly high-detail texture, believable worn stone, sand drift, pillars, carved symbolic reliefs, sarcophagi, ritual architecture, atmospheric depth, coherent funerary lighting. Match the reference maps' fixed camera, grounded environmental scale, natural asymmetry, edge density, and centered readable corridor. The central lane must not be a perfectly flat rectangular hallway; use subtle irregularities and transitions while keeping it functionally clear.
+
+AVOID the source guide's flat vector geometry, repeated coffins, hard black voids, thin diagram lines, perfect bilateral symmetry, icon-like marks, or procedural patterning. Avoid obvious seams between the seven zones.
+
+STRICT NEGATIVES: no characters, monsters, enemies, corpses, silhouettes, projectiles, UI, HUD, labels, readable text, letters, numbers, captions, logos, frames, borders, watermarks, signatures, isometric cutaway walls, or modern technology. One uninterrupted environment map only.

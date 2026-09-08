@@ -1,7 +1,7 @@
 // Boss practice: pick a character, then a boss, and fight it directly.
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { ROSTER } from '../characters/index.js';
-import { orcHero, darkLord, baphomet, vesper } from '../sim/boss.js';
+import { orcHero, darkLord, baphomet, vesper, seyren, magaleta, amonRa, loliRuri, lordOfDeath } from '../sim/boss.js';
 import { audio } from '../engine/audio.js';
 
 const GOLD = 0xf2c14e;
@@ -10,6 +10,10 @@ const BOSSES = [
   { def: darkLord, level: 1, tag: 'Nivel 2' },
   { def: baphomet, level: 2, tag: 'Nivel 3' },
   { def: vesper, level: 3, tag: 'Nivel 4' },
+  { def: [seyren, magaleta], level: 4, tag: 'Nivel 5 · dual' },
+  { def: amonRa, level: 5, tag: 'Nivel 6' },
+  { def: loliRuri, level: 6, tag: 'Nivel 7 · midboss' },
+  { def: lordOfDeath, level: 6, tag: 'Nivel 7' },
 ];
 
 export class PracticeScene {
@@ -49,20 +53,22 @@ export class PracticeScene {
       this.charCards.push({ cur });
     });
 
-    // boss row
+    // boss row (8 entries now — narrower cards still fit 840px: 8*96+7*6=810)
     this.bossCards = [];
-    const bw = 200, bgap = 30, btotal = BOSSES.length * bw + (BOSSES.length - 1) * bgap;
+    const bw = 96, bgap = 6, btotal = BOSSES.length * bw + (BOSSES.length - 1) * bgap;
     const bx0 = (W - btotal) / 2;
     BOSSES.forEach((b, i) => {
+      const defs = Array.isArray(b.def) ? b.def : [b.def];
       const card = new Container();
       card.position.set(bx0 + i * (bw + bgap), 290);
       const fr = new Graphics();
       fr.roundRect(0, 0, bw, 120, 8).fill(0x2a1830).stroke({ color: 0x5a3a4a, width: 2 });
       card.addChild(fr);
-      const nm = new Text({ text: b.def.name, style: { fill: 0xff8a6a, fontSize: 20, fontFamily: 'Georgia, serif', fontWeight: 'bold' } });
-      nm.anchor.set(0.5); nm.position.set(bw / 2, 46); card.addChild(nm);
-      const tag = new Text({ text: b.tag + ` · ${b.def.cards.length} spell cards`, style: { fill: 0x9aa4c0, fontSize: 12, fontFamily: 'monospace' } });
-      tag.anchor.set(0.5); tag.position.set(bw / 2, 80); card.addChild(tag);
+      const nm = new Text({ text: defs.map((d) => d.name).join(' & '), style: { fill: 0xff8a6a, fontSize: defs.length > 1 ? 13 : 17, fontFamily: 'Georgia, serif', fontWeight: 'bold', wordWrap: true, wordWrapWidth: bw - 12, align: 'center' } });
+      nm.anchor.set(0.5); nm.position.set(bw / 2, 44); card.addChild(nm);
+      const cards = defs.reduce((s, d) => s + d.cards.length, 0);
+      const tag = new Text({ text: b.tag + ` · ${cards} cards`, style: { fill: 0x9aa4c0, fontSize: 11, fontFamily: 'monospace', wordWrap: true, wordWrapWidth: bw - 12, align: 'center' } });
+      tag.anchor.set(0.5); tag.position.set(bw / 2, 82); card.addChild(tag);
       const cur = new Graphics(); cur.roundRect(-3, -3, bw + 6, 126, 10).stroke({ color: GOLD, width: 4 }); cur.visible = false;
       card.addChild(cur);
       this.container.addChild(card);

@@ -14,7 +14,7 @@ import {
 
 const PLAYER_HEIGHT = 64;
 
-const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta' };
+const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta', 'Amon-Ra': 'amonRa', 'Loli Ruri': 'loliRuri', 'Lord of Death': 'lordOfDeath' };
 
 export class Renderer {
   constructor(app, atlas, parent, theme = level1Theme, mapTextures = null) {
@@ -68,6 +68,20 @@ export class Renderer {
     this.fxLayer.addChild(this.magnusG, this.bombRing, this.stormG, this.bombFxLayer);
 
     this.bossSprite = null;
+  }
+
+  // Late map upgrade: swap the procedural backdrop for the real map set once
+  // it finishes warming (GameScene triggers this when entering a level whose
+  // maps weren't ready at construction, e.g. an immediate practice jump).
+  // One-way and idempotent; both backdrops share the update(biome) shape.
+  setMapTextures(mapTextures) {
+    if (!mapTextures || !mapTextures.length || this.bg instanceof MapBackground) return false;
+    this.world.removeChild(this.bg.root);
+    this.bg.root.destroy({ children: true });
+    this.bg = new MapBackground(this.app, this.world, mapTextures);
+    this.world.removeChild(this.bg.root);
+    this.world.addChildAt(this.bg.root, 0);
+    return true;
   }
 
   spriteFor(e, layer) {
@@ -481,11 +495,13 @@ export class Renderer {
       let tex;
       if (art) {
         // real animated sprite: pose set by state (attack during phase change /
-        // death throes, strafe while sweeping, else idle), frames cycled.
+        // death throes, telegraph wind-up, strafe while sweeping, else idle),
+        // frames cycled. The telegraph mirrors the enemy e.tele treatment.
         const prev = this.bossRenderX.get(b);
         const dx = prev == null ? 0 : b.x - prev;
         let frames;
         if (b.transition > 0 || b.dying > 0) frames = art.down.attack;
+        else if (b.tele > 0) frames = art.down.attack;
         else if (dx < -0.5) frames = art.down.moveL;
         else if (dx > 0.5) frames = art.down.moveR;
         else frames = art.down.idle;

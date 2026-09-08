@@ -27,6 +27,8 @@ const MP3_TRACKS = {
   level3: `${BASE}assets/music/glastheim.mp3`,
   level4: `${BASE}assets/music/juperos.mp3`,
   level5: `${BASE}assets/music/biolab.mp3`,
+  level6: `${BASE}assets/music/pyramid.mp3`,
+  level7: `${BASE}assets/music/niflheim.mp3`,
 };
 
 // Melodies (16 steps) + bass. Kept short and loopable.
@@ -62,6 +64,22 @@ const TRACKS = {
     bpm: 126, wave: 'square',
     lead: ['A3', _, 'C4', 'E4', 'D4', 'C4', 'A3', _, 'G3', _, 'B3', 'D4', 'C4', 'A3', 'G3', _],
     bass: ['A1', _, 'A2', _, 'F2', _, 'F1', _, 'G1', _, 'G2', _, 'E2', _, 'E1', _],
+  },
+  level6: {
+    // Pyramid — phrygian desert groove (E-F-G rub), caravan pulse underneath
+    // (chiptune fallback only: the approved Sunken Sun Temple recording plays
+    // as pyramid.mp3, falling back here if that file is missing/corrupt)
+    bpm: 132, wave: 'triangle',
+    lead: ['E4', _, 'F4', _, 'G4', _, 'F4', 'E4', _, 'D4', _, 'E4', 'D4', _, 'B3', _],
+    bass: ['E2', _, 'E2', _, 'F2', _, 'E2', _, 'G2', _, 'E2', _, 'D2', _, 'B1', _],
+  },
+  level7: {
+    // Niflheim — cold dorian mist (D-E-F lift), slow bell pulse underneath.
+    // (chiptune fallback only: the approved Niflheim recording plays
+    // as niflheim.mp3, falling back here if that file is missing/corrupt)
+    bpm: 96, wave: 'triangle',
+    lead: ['D5', _, 'E5', _, 'F5', _, 'E5', 'D5', _, 'C5', _, 'D5', 'C5', _, 'A4', _],
+    bass: ['D2', _, _, _, 'C2', _, _, _, 'B1', _, _, _, 'A1', _, _, _],
   },
   boss: {
     bpm: 148, wave: 'sawtooth',
@@ -103,7 +121,7 @@ class Music {
     this.tension = 0;
 
     const url = MP3_TRACKS[name];
-    if (url) { this.playMp3(url); return; }
+    if (url) { this.playMp3(url, name); return; }
 
     // chiptune (sequencer) track
     this.stopMp3();
@@ -116,9 +134,25 @@ class Music {
     if (!this.timer) this.timer = setInterval(() => this.schedule(), 25);
   }
 
-  playMp3(url) {
+  playMp3(url, name = null) {
     this.stopSequencer();
     if (!this.mp3El) { this.mp3El = new Audio(); this.mp3El.loop = true; this.mp3El.volume = 0.4; }
+    // A missing/corrupt mp3 used to mean silence (the chiptune below never ran).
+    // Fall back to the sequencer track of the same name once, so music keeps
+    // playing; every TRACKS entry doubles as the mp3's stand-in.
+    this.mp3El.onerror = () => {
+      try { console.warn(`[music] mp3 failed: ${url} (chiptune fallback)`); } catch { /* ignore */ }
+      this.stopMp3();
+      this.mp3El.onerror = null;
+      if (name && TRACKS[name]) {
+        this.track = TRACKS[name];
+        this.step = 0;
+        const ctx = audio.ensure();
+        if (!ctx) { this.stopSequencer(); return; }
+        this.nextTime = ctx.currentTime + 0.06;
+        if (!this.timer) this.timer = setInterval(() => this.schedule(), 25);
+      }
+    };
     this.mp3El.muted = this.muted;
     if (this.mp3El.src.indexOf(url) < 0) this.mp3El.src = url;
     this.mp3El.currentTime = 0;

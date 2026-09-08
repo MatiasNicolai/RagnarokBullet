@@ -1,0 +1,1410 @@
+// Static + sim-level tests: determinism guard, dual-boss practice, lockstep
+// epoch isolation, and asset-manifest inventory.
+//
+// Run: node server/test-static.mjs   (or `npm test` in server/)
+// Needs no browser, no relay port, no PixiJS: only the deterministic sim,
+// the lockstep driver (with a stub net), and the filesystem.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(HERE, '..');
+
+let passed = 0;
+const ok = (name) => { passed++; console.log(`ok - ${name}`); };
+
+// --- 1. determinism guard: the sim may never read wall-clock or Math.random ---
+// (render/audio code may; anything the lockstep sim touches may not).
+const SIM_DIRS = ['src/sim', 'src/levels', 'src/characters', 'src/data'];
+const SIM_FILES = ['src/net/lockstep.js'];
+const FORBIDDEN = [/Math\.random/, /Date\.now/, /performance\.now/, /new Date\(/];
+
+function jsFiles(dir) {
+  return fs.readdirSync(path.join(ROOT, dir))
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => path.join(dir, f));
+}
+
+function stripComments(src) {
+  // block comments first, then full-line // comments (header docs mention
+  // Math.random/Date.now precisely to forbid them — those must not trip us).
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .split('\n')
+    .filter((ln) => !ln.trimStart().startsWith('//'))
+    .join('\n');
+}
+
+{
+  const files = [...SIM_DIRS.flatMap(jsFiles), ...SIM_FILES];
+  assert.ok(files.length > 10, `expected sim files, found ${files.length}`);
+  for (const f of files) {
+    const code = stripComments(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+    for (const re of FORBIDDEN) {
+      assert.ok(!re.test(code), `${f} must not use ${re} (breaks lockstep determinism)`);
+    }
+  }
+  ok(`determinism guard (${files.length} sim files clean)`);
+}
+
+// --- 2. dual-boss practice: Seyren & Magaleta spawn, die, and clear the level ---
+{
+  const { createSim } = await import('../src/sim/sim.js');
+  const { spawnBosses, damageBoss, stepBoss } = await import('../src/sim/boss.js');
+  const { ROSTER } = await import('../src/characters/index.js');
+  const { seyren, magaleta } = await import('../src/sim/boss.js');
+
+  const sim = createSim(0xc0ffee, [ROSTER[0]]);
+  spawnBosses(sim, [seyren, magaleta]);
+  assert.equal(sim.bosses.length, 2, 'dual spawn must create two bosses');
+  assert.ok(sim.bosses.every((b) => b.def.cards.length === 2), 'each dual boss has 2 cards');
+
+  // grind through every card/transition/death deterministically (no stage ticks)
+  let guard = 5000;
+  while (!sim.levelComplete && guard-- > 0) {
+    for (const b of [...sim.bosses]) damageBoss(sim, 1e6, b);
+    stepBoss(sim);
+    sim.events.length = 0;
+  }
+  assert.ok(sim.levelComplete, 'killing both bosses must complete the level');
+  assert.equal(sim.bosses.length, 0, 'dead bosses must be reaped');
+  assert.ok(sim.events.length === 0, 'events drained each step');
+  ok('dual-boss practice sim (spawn -> cards -> levelClear)');
+}
+
+// --- 3. epoch isolation: stale frames from another level must be ignored ---
+{
+  const { LockstepDriver } = await import('../src/net/lockstep.js');
+  const { createSim } = await import('../src/sim/sim.js');
+  const { ROSTER } = await import('../src/characters/index.js');
+
+  const handlers = new Map();
+  const stubNet = {
+    sent: [],
+    sendInput(tick, mask, epoch) { this.sent.push({ tick, mask, epoch }); },
+    sendSync() {},
+    on(type, fn) {
+      if (!handlers.has(type)) handlers.set(type, []);
+      handlers.get(type).push(fn);
+      return () => {};
+    },
+  };
+  const sim = createSim(0xc0ffee, [ROSTER[0], ROSTER[1]]);
+  const driver = new LockstepDriver({
+    net: stubNet, sim, stage: null, localSlot: 0, epoch: 7,
+    sampleLocal: () => 0,
+  });
+  const emit = (type, m) => { for (const fn of handlers.get(type) ?? []) fn(m); };
+
+  emit('input', { t: 'input', tick: 0, mask: 3, epoch: 999 }); // previous level's frame
+  assert.equal(driver.remote.size, 0, 'wrong-epoch input must be dropped');
+  emit('input', { t: 'input', tick: 0, mask: 3, epoch: 7 });
+  assert.equal(driver.remote.get(0), 3, 'current-epoch input must be accepted');
+  emit('sync', { t: 'sync', tick: 0, sum: 1234, epoch: 999 });
+  assert.equal(driver.peerChecks.size, 0, 'wrong-epoch checksum must be dropped');
+  assert.ok(stubNet.sent.length >= 3, 'seed inputs are sent on construction');
+  assert.ok(stubNet.sent.every((s) => s.epoch === 7), 'seed inputs carry our epoch');
+  driver.destroy();
+  ok('lockstep epoch isolation (stale level frames ignored)');
+}
+
+// --- 4. asset inventory: every sheet the atlas loads must exist on disk ---
+// (monsters5/monsters7 are JSON-only: they share bosses.png / bosses2.png.)
+{
+  const A = (...p) => path.join(ROOT, 'public', 'assets', ...p);
+  const mustFile = (p) => assert.ok(fs.existsSync(A(p)), `missing asset: public/assets/${p}`);
+  for (const n of ['manifest.json', 'sheet.png']) mustFile(n);
+  for (const n of ['monsters', 'monsters2', 'monsters3', 'monsters4', 'monsters6', 'monsters8']) {
+    mustFile(`${n}.json`); mustFile(`${n}.png`);
+  }
+  for (const n of ['monsters5', 'monsters7']) mustFile(`${n}.json`);
+  for (const n of ['bosses', 'bosses2', 'bosses3']) { mustFile(`${n}.json`); mustFile(`${n}.png`); }
+  for (const n of ['skills', 'items', 'items2', 'bombsfx']) { mustFile(`${n}.json`); mustFile(`${n}.png`); }
+  mustFile('images/startmenu.png');
+  for (const [set, files] of Object.entries({
+    prontera: ['prontera001', 'prontera002', 'prontera003', 'prontera004', 'pronteraNewA', 'pronteraNewB', 'prontera005'],
+    geffen: ['geffen001', 'geffen002', 'geffen003', 'geffen004', 'geffenNewA', 'geffenNewB', 'geffen005'],
+    glastheim: ['glastheim001', 'glastheim002', 'glastheim003', 'glastheim004', 'glastheimNewA', 'glastheimNewB', 'glastheim005'],
+    juperos: ['juperos001', 'juperos002', 'juperos003', 'juperos004', 'juperos005', 'juperos006', 'juperos007'],
+    biolab: ['biolab001', 'biolab002', 'biolab003', 'biolab004', 'biolab005', 'biolab006', 'biolab007'],
+  })) {
+    for (const f of files) mustFile(`maps/${f}.png`);
+    void set;
+  }
+  for (const m of ['menu', 'prontera', 'geffen', 'glastheim', 'juperos', 'biolab', 'pyramid', 'niflheim']) {
+    mustFile(`music/${m}.mp3`);
+  }
+  ok('asset inventory (sheets, maps, music all present)');
+}
+
+// --- 5. Clean-Art Geffen V2.1 preview set (?art=v2): files + IDs/rects ---
+// (boss sheets live in assets-v2/bosses since the bosses phase; covered in 6)
+{
+  const P = (...p) => path.join(ROOT, 'public', 'assets-v2', 'geffen', ...p);
+  for (const f of ['monsters3.clean.png', 'monsters3.clean.json']) {
+    assert.ok(fs.existsSync(P(f)), `missing preview asset: assets-v2/geffen/${f}`);
+  }
+  const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+  const o3 = read(path.join(ROOT, 'public', 'assets', 'monsters3.json'));
+  const c3 = read(P('monsters3.clean.json'));
+  assert.deepEqual(Object.keys(c3.monsters), Object.keys(o3.monsters));
+  for (const k of Object.keys(o3.monsters)) assert.deepEqual(c3.monsters[k], o3.monsters[k]);
+  ok('v2.1 preview set present, Geffen IDs/rects identical');
+}
+
+// --- 6. Clean-Art bosses V2.1 preview set: presence + exact manifest compat ---
+// (bosses/monsters5 now resolve to assets-v2/bosses, not the Geffen dir.)
+{
+  const A = (...p) => path.join(ROOT, 'public', 'assets', ...p);
+  const P = (...p) => path.join(ROOT, 'public', 'assets-v2', 'bosses', ...p);
+  for (const f of ['monsters2.clean.png', 'monsters2.clean.json',
+                   'bosses.clean.png', 'bosses.clean.json',
+                   'monsters5.clean.json', 'bosses2.clean.png',
+                   'bosses2.clean.json', 'monsters7.clean.json',
+                   'monsters8.clean.png', 'monsters8.clean.json',
+                   'bosses3.clean.png', 'bosses3.clean.json']) {
+    assert.ok(fs.existsSync(P(f)), `missing boss preview: assets-v2/bosses/${f}`);
+  }
+  const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+  // whole-manifest deep equality (roommates like lunatic included), except
+  // the sheet filename which must point at the cleaned sheet.
+  const pairs = [
+    ['monsters2.json', 'monsters2.clean.json', 'monsters2.clean.png'],
+    ['bosses.json', 'bosses.clean.json', 'bosses.clean.png'],
+    ['monsters5.json', 'monsters5.clean.json', 'bosses.clean.png'],
+    ['bosses2.json', 'bosses2.clean.json', 'bosses2.clean.png'],
+    ['monsters7.json', 'monsters7.clean.json', 'bosses2.clean.png'],
+    ['monsters8.json', 'monsters8.clean.json', 'monsters8.clean.png'],
+    ['bosses3.json', 'bosses3.clean.json', 'bosses3.clean.png'],
+  ];
+  for (const [src, dst, sheet] of pairs) {
+    const a = read(A(src)), b = read(P(dst));
+    assert.equal(b.sheet, sheet, `${dst} sheet field`);
+    const { sheet: _s1, ...ra } = a, { sheet: _s2, ...rb } = b;
+    assert.deepEqual(rb, ra, `${dst} rects/IDs identical`);
+  }
+  // every boss/midboss encounter skin resolves to a cleaned manifest entry
+  const skins = { mastering: 'monsters2.clean.json', doppelganger: 'monsters5.clean.json',
+    bapho_jr_giant: 'monsters5.clean.json', archdam: 'monsters7.clean.json',
+    failedexp: 'monsters8.clean.json' };
+  for (const [skin, file] of Object.entries(skins)) {
+    const m = read(P(file));
+    assert.ok(m.monsters[skin], `${file} must contain ${skin}`);
+  }
+  for (const b of ['orcHero', 'darkLord', 'baphomet']) {
+    assert.ok(read(P('bosses.clean.json')).bosses[b], `bosses.clean.json: ${b}`);
+  }
+  assert.ok(read(P('bosses2.clean.json')).bosses.vesper, 'bosses2.clean.json: vesper');
+  for (const b of ['seyren', 'magaleta']) {
+    assert.ok(read(P('bosses3.clean.json')).bosses[b], `bosses3.clean.json: ${b}`);
+  }
+  ok('bosses V2.1 preview set present, manifests exactly compatible');
+}
+
+// --- 7. Art Lab (?artlab=1): route wiring, scene hygiene, clean routes ---
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  assert.ok(fs.existsSync(path.join(ROOT, 'src/scenes/artlab.js')), 'artlab scene file');
+  const art = src('src/scenes/artlab.js');
+  for (const sym of ['export async function loadCleanTables', 'export function buildCatalog',
+                     'export class ArtLabScene', 'REVIEW_STATES', 'sin versión clean',
+                     "removeEventListener('keydown'", 'goToTitle', 'localStorage']) {
+    assert.ok(art.includes(sym), `artlab.js must contain: ${sym}`);
+  }
+  // no new dependencies: only pixi.js imports
+  const imports = [...art.matchAll(/^import .* from '([^']+)'/gm)].map((m) => m[1]);
+  assert.ok(imports.length > 0 && imports.every((m) => m === 'pixi.js'), `artlab imports only pixi.js, got: ${imports}`);
+  // scene never writes reviews anywhere except localStorage + download
+  assert.ok(!/fetch\(.*(POST|PUT)/.test(art), 'artlab must not POST reviews anywhere');
+  const main = src('src/main.js');
+  assert.ok(main.includes('artlab') && main.includes('goToArtLab'), 'main.js artlab branch');
+  assert.ok(main.includes('ctx.goToTitle()'), 'normal boot path preserved');
+  assert.ok(fs.existsSync(path.join(ROOT, 'ARTLAB.md')), 'ARTLAB.md docs');
+  const docs = src('ARTLAB.md');
+  assert.ok(docs.includes('?artlab=1'), 'docs document the URL');
+  // every clean manifest the lab can request exists on disk
+  for (const [dir, files] of [['geffen', ['monsters3.clean.json']],
+                              ['bosses', ['monsters2.clean.json', 'monsters8.clean.json',
+                                          'bosses.clean.json', 'bosses2.clean.json',
+                                          'bosses3.clean.json', 'monsters5.clean.json',
+                                          'monsters7.clean.json']]]) {
+    for (const f of files) {
+      const m = JSON.parse(fs.readFileSync(path.join(ROOT, 'public', 'assets-v2', dir, f), 'utf8'));
+      assert.ok(m.sheet && (m.monsters || m.bosses), `${dir}/${f} is a valid atlas manifest`);
+    }
+  }
+  ok('art lab wiring, hygiene, docs, clean routes');
+}
+
+// --- 8. Pyramid (level 6): assets, registry, dialogue, boss, full run ---
+{
+  const P = (...p) => path.join(ROOT, 'public', 'assets-v2', 'pyramid', ...p);
+  for (const f of ['monsters9.png', 'monsters9.json', 'monsters10.json',
+                   'bosses4.png', 'bosses4.json',
+                   ...[1, 2, 3, 4, 5, 6, 7].map((i) => `maps/pyramid00${i}.png`)]) {
+    assert.ok(fs.existsSync(P(f)), `missing pyramid asset: assets-v2/pyramid/${f}`);
+  }
+  const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+  const m9 = read(P('monsters9.json'));
+  assert.deepEqual(Object.keys(m9.monsters).sort(),
+    ['ancient', 'archer', 'familiar', 'isis', 'matyr', 'mummy', 'soldier', 'verit']);
+  for (const [name, e] of Object.entries(m9.monsters)) {
+    for (const side of ['down', 'up']) {
+      assert.deepEqual(Object.keys(e[side]).sort(), ['attack', 'hit', 'idle', 'moveL', 'moveR'], `${name}.${side} poses`);
+      for (const r of Object.values(e[side])) {
+        assert.ok(r.w > 0 && r.h > 0 && r.x + r.w <= m9.size.w && r.y + r.h <= m9.size.h, `${name} rect in-bounds`);
+      }
+    }
+  }
+  const m10 = read(P('monsters10.json'));
+  assert.equal(m10.sheet, 'bosses4.png');
+  assert.deepEqual(Object.keys(m10.monsters), ['osiris']);
+  const b4 = read(P('bosses4.json'));
+  assert.equal(b4.sheet, 'bosses4.png');
+  assert.deepEqual(Object.keys(b4.bosses), ['amonRa']);
+  for (const [file, sec, name] of [[m10, 'monsters', 'osiris'], [b4, 'bosses', 'amonRa']]) {
+    for (const side of ['down', 'up']) {
+      const poses = file[sec][name][side];
+      assert.deepEqual(Object.keys(poses).sort(), ['attack', 'hit', 'idle', 'moveL', 'moveR']);
+      for (const pose of ['idle', 'moveL', 'moveR']) {
+        assert.ok(Array.isArray(poses[pose]) && poses[pose].length >= 1, `${name}.${side}.${pose} frames`);
+      }
+      // attack holds 3 individual frames (never a merged full-row crop),
+      // hit holds the single isolated figure.
+      assert.equal(poses.attack.length, 3, `${name}.${side}.attack is 3 frames`);
+      for (const r of poses.attack) assert.ok(r.w < 300, `${name}.${side}.attack frame not row-wide`);
+      assert.equal(poses.hit.length, 1, `${name}.${side}.hit is 1 figure`);
+      assert.ok(poses.hit[0].w < 300, `${name}.${side}.hit not row-wide`);
+    }
+  }
+  for (const [name, e] of Object.entries(m9.monsters)) {
+    for (const side of ['down', 'up']) {
+      for (const [pose, r] of Object.entries(e[side])) {
+        assert.ok(r.w >= 20 && r.w <= 120, `${name}.${side}.${pose} plausible width (w=${r.w})`);
+      }
+    }
+  }
+  ok('pyramid assets + manifest IDs/rects');
+
+  // registry + wiring (source-text: these files import PixiJS, skip node import)
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  assert.ok(src('src/levels/index.js').includes("mapSet: 'pyramid'"), 'LEVELS has pyramid entry');
+  assert.ok(src('src/scenes/game.js').includes('0x9a7d51'), 'LEVEL_SEEDS has level 6 seed');
+  assert.ok(src('src/scenes/practice.js').includes('amonRa'), 'practice has Amon-Ra');
+  assert.ok(src('src/render/renderer.js').includes("'Amon-Ra': 'amonRa'"), 'BOSS_TEX has Amon-Ra');
+  assert.ok(src('src/render/themes.js').includes('level6Theme'), 'level6Theme exists');
+  assert.ok(src('src/engine/atlas.js').includes('monsters9') && src('src/engine/atlas.js').includes('bosses4'), 'atlas loads pyramid sheets');
+  assert.ok(src('src/engine/music.js').includes('level6:'), 'music has level6 track');
+  // Pyramid map music: approved recording wired as the runtime MP3, with the
+  // level6 chiptune retained strictly as missing/corrupt-file fallback.
+  const musicSrc = src('src/engine/music.js');
+  assert.ok(musicSrc.includes('level6: `${BASE}assets/music/pyramid.mp3`'),
+    'MP3_TRACKS wires the Pyramid recording for level6');
+  assert.ok(!musicSrc.includes('no recorded track approved for this level'),
+    'stale no-recording comment is gone');
+  assert.ok(musicSrc.includes("name === 'boss' && this.mp3El"),
+    'recorded stage track keeps playing through midboss/final boss');
+  assert.ok(src('src/scenes/game.js').includes('`level${this.levelIndex + 1}`'),
+    'campaign and direct-level runs request the per-level track');
+  ok('pyramid registry wiring');
+
+  const { DIALOGUE } = await import('../src/data/dialogue.js');
+  for (const boss of ['Osiris', 'Amon-Ra']) {
+    for (const c of ['aramir', 'zeos', 'eric', 'dposada', 'chel_snip', 'viri']) {
+      assert.ok(DIALOGUE[boss]?.[c]?.p && DIALOGUE[boss]?.[c]?.b, `dialogue ${boss}/${c}`);
+    }
+  }
+  ok('pyramid dialogue (2 bosses x 6 chars)');
+
+  // Amon-Ra def: 3 cards, spawns, dies, clears (solo, like the dual test)
+  const { createSim, tickSim } = await import('../src/sim/sim.js');
+  const { spawnBoss, damageBoss, stepBoss } = await import('../src/sim/boss.js');
+  const { amonRa } = await import('../src/sim/boss.js');
+  const { ROSTER } = await import('../src/characters/index.js');
+  const { level6 } = await import('../src/levels/level6.js');
+  assert.deepEqual(amonRa.cards.map((c) => c.name), ['Corona Solar', 'Eclipse', 'Ira del Santuario']);
+  {
+    const sim = createSim(0x9a7d51, [ROSTER[0]]);
+    spawnBoss(sim, amonRa);
+    assert.equal(sim.bosses[0].name, 'Amon-Ra');
+    let guard = 20000;
+    while (!sim.levelComplete && guard-- > 0) {
+      for (const b of [...sim.bosses]) damageBoss(sim, 1e6, b);
+      stepBoss(sim);
+      sim.events.length = 0;
+    }
+    assert.ok(sim.levelComplete, 'Amon-Ra kill must complete the level');
+    ok('amonRa boss def (spawn -> 3 cards -> levelClear)');
+  }
+
+  // Amon-Ra Eclipse telegraph lifecycle: tele arms, ticks down deterministically,
+  // expires, and only then does the volley fire (same idiom as enemy e.tele).
+  {
+    const sim = createSim(0x9a7d51, [ROSTER[0]]);
+    spawnBoss(sim, amonRa);
+    const b = sim.bosses[0];
+    let guard = 500;
+    while ((b.intro || b.introHold > 0) && guard-- > 0) stepBoss(sim);
+    assert.ok(!b.intro && b.introHold === 0, 'Amon-Ra leaves intro');
+    assert.equal(b.tele, 0, 'no telegraph during intro');
+    damageBoss(sim, 901, b); // burn Corona Solar -> transition into Eclipse
+    assert.equal(b.cardIndex, 1, 'advanced to Eclipse');
+    guard = 200;
+    while (b.transition > 0 && guard-- > 0) stepBoss(sim);
+    assert.equal(b.t, 0, 'Eclipse starts at b.t=0');
+    const teles = [];
+    const bullets = [];
+    for (let k = 0; k < 120; k++) {
+      stepBoss(sim);
+      teles.push(b.tele);
+      bullets.push(sim.enemyBullets.active.length);
+    }
+    const peak = teles.indexOf(20);
+    assert.ok(peak >= 0, 'telegraph arms to 20');
+    for (let k = 1; k <= 20; k++) assert.equal(teles[peak + k], 20 - k, `tele ticks down to ${20 - k}`);
+    assert.ok(teles.slice(peak + 21, peak + 41).every((v) => v === 0), 'telegraph expires to 0');
+    assert.ok(bullets[peak + 22] > bullets[peak], 'volley fires after the telegraph');
+    ok('amonRa Eclipse telegraph lifecycle (arm -> decay -> volley)');
+  }
+
+  // full headless campaign run: constant fire (brief releases let arcade
+  // continues trigger on a fresh FIRE press), through Osiris to Amon-Ra.
+  {
+    const sim = createSim(0x9a7d51, [ROSTER[0]]);
+    const seen = new Set();
+    // NOTE: the mask runs on the loop counter, not sim.tick — tick freezes
+    // while gameOver, which would otherwise lock the release windows shut and
+    // starve the continue-on-fresh-FIRE edge forever.
+    assert.equal(sim.biome, 0, 'biome starts at 0');
+    let guard = 60000, i = 0, maxBiome = 0, finiteBiome = true;
+    while (!sim.levelComplete && guard-- > 0) {
+      const mask = (i++ % 600 < 590) ? 16 : 0; // FIRE, with release windows
+      tickSim(sim, [mask], level6);
+      if (!Number.isFinite(sim.biome)) finiteBiome = false;
+      if (sim.biome > maxBiome) maxBiome = sim.biome;
+      for (const e of sim.events) {
+        if (e.type === 'bossWarning' || e.type === 'warning') seen.add(e.name);
+      }
+      sim.events.length = 0;
+    }
+    assert.ok(seen.has('Osiris'), `midboss warning seen (got: ${[...seen]})`);
+    assert.ok(seen.has('Amon-Ra'), `final warning seen (got: ${[...seen]})`);
+    assert.ok(sim.levelComplete, `level 6 completes (tick=${sim.tick} over=${sim.gameOver})`);
+    assert.ok(finiteBiome, 'sim.biome stays finite through the full run');
+    assert.ok(maxBiome > 0.3, `sim.biome advances with level progress (max=${maxBiome})`);
+    ok(`pyramid full run (tick=${sim.tick} score=${sim.score} biome=${maxBiome.toFixed(3)})`);
+  }
+
+  // Level 6 script timeline: pre-increment clock pins spawn cadence, edge
+  // spawns enter symmetrically, and every phase boundary lands on time
+  // (oasis 1300 / entrance 1400 / descent 1300 / midboss kill / tomb 1500 /
+  // approach 150 -> Amon-Ra warning).
+  {
+    const { FIELD_W } = await import('../src/sim/constants.js');
+    const sim = createSim(0x9a7d51, [ROSTER[0]]);
+    sim.players[0].lives = 999; // deaths never stall the script via gameOver
+    const step = (n) => {
+      for (let k = 0; k < n; k++) tickSim(sim, [16], level6);
+      sim.events.length = 0;
+    };
+    const phase = () => sim.level.phase;
+    step(99);
+    assert.ok(!sim.enemies.active.some((e) => e.t === 1), 'nothing spawns before t=100');
+    step(1); // oasis t=100: first familiar, right edge
+    let fam = sim.enemies.active.find((e) => e.skin === 'familiar' && e.t === 1);
+    assert.ok(fam, 'familiar spawns at t=100');
+    assert.ok(fam.vx < 0 && fam.x > FIELD_W - 100, 'right-edge familiar heads inward');
+    step(100); // oasis t=200: second familiar, left edge
+    fam = sim.enemies.active.find((e) => e.skin === 'familiar' && e.t === 1);
+    assert.ok(fam, 'second familiar spawns at t=200');
+    assert.ok(fam.vx > 0 && fam.x < 100, 'left-edge familiar heads inward');
+    step(1100); // oasis t=1300
+    assert.equal(phase(), 'entrance', 'oasis -> entrance at t=1300');
+    step(20); // entrance t=20: verit, left edge
+    const ver = sim.enemies.active.find((e) => e.skin === 'verit' && e.t === 1);
+    assert.ok(ver, 'verit spawns at entrance t=20');
+    assert.ok(ver.vx > 0 && ver.x < 100, 'left-edge verit heads inward');
+    step(1380); // entrance t=1400
+    assert.equal(phase(), 'descent', 'entrance -> descent at t=1400');
+    step(1300); // descent t=1300
+    assert.equal(phase(), 'midboss', 'descent -> midboss at t=1300');
+    step(100); // let Osiris arrive, then fell it like a player would
+    const os = sim.enemies.active.find((e) => e.skin === 'osiris');
+    if (os) os.hp = 0; // reaped next tick; player fire may have done it already
+    step(61); // reap + pass the t>60 gate
+    assert.equal(phase(), 'tomb', 'midboss -> tomb after the kill');
+    step(1441); // tomb t=1500
+    assert.equal(phase(), 'approach', 'tomb -> approach at t=1500');
+    const seen = new Set();
+    for (let k = 0; k < 160 && phase() !== 'boss'; k++) {
+      tickSim(sim, [16], level6);
+      for (const e of sim.events) if (e.type === 'bossWarning') seen.add(e.name);
+      sim.events.length = 0;
+    }
+    assert.equal(phase(), 'boss', 'approach -> boss at t=150');
+    assert.ok(seen.has('Amon-Ra'), 'Amon-Ra warning fires');
+    ok('level6 timeline (clock, edge entry, phase boundaries)');
+  }
+
+  // Level 6 replay determinism: two sims, same seed + inputs, identical
+  // checksums at the entrance and midboss phase transitions.
+  {
+    const checksum = (sim) => {
+      const r3 = (n) => Math.round(n * 1000);
+      const parts = [sim.tick, sim.score, r3(sim.biome), sim.level.phase, sim.level.t,
+        ...sim.players.flatMap((p) => (p ? [r3(p.x), r3(p.y), p.lives, p.power, p.bombs] : ['x'])),
+        sim.enemies.active.length,
+        ...sim.enemies.active.flatMap((e) => [e.skin, r3(e.x), r3(e.y), Math.round(e.hp * 1000), e.t]),
+        sim.bullets.active.length, sim.enemyBullets.active.length,
+        ...sim.bullets.active.flatMap((b) => [r3(b.x), r3(b.y)]),
+        ...sim.enemyBullets.active.flatMap((b) => [r3(b.x), r3(b.y), b.color])];
+      const s = JSON.stringify(parts);
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return (h >>> 0).toString(16);
+    };
+    const runTo = (ticks) => {
+      const sim = createSim(0x9a7d51, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      const marks = [];
+      for (let k = 0; k < ticks; k++) {
+        tickSim(sim, [16], level6);
+        if (k + 1 === 1300 || k + 1 === 4000) marks.push(checksum(sim));
+        sim.events.length = 0;
+      }
+      return marks;
+    };
+    const [a, b] = [runTo(4100), runTo(4100)];
+    assert.equal(a.length, 2, 'both transitions marked');
+    assert.deepEqual(a, b, 'level 6 replays bit-identically through midboss');
+    ok('level6 replay checksum (two sims, phase transitions)');
+  }
+}
+
+// --- 9. Pyramid map readiness: inventory, atomic selection, warmup flow ---
+{
+  const mapsets = await import('../src/engine/mapsets.js');
+  assert.deepEqual(mapsets.mapTileFiles('pyramid'),
+    ['pyramid001', 'pyramid002', 'pyramid003', 'pyramid004', 'pyramid005', 'pyramid006', 'pyramid007']);
+  assert.equal(mapsets.mapTileDir('pyramid'), 'assets-v2/pyramid/maps');
+  assert.deepEqual(mapsets.missingMapTiles('pyramid', [1, 1, null, 1, 1, 1, 1]), ['pyramid003']);
+  assert.deepEqual(mapsets.missingMapTiles('pyramid', [1, 1, 1, 1, 1, 1, 1]), []);
+  const full = ['t1', 't2', 't3', 't4', 't5', 't6', 't7'];
+  assert.equal(mapsets.selectMapTextures(null, 'pyramid'), null, 'no maps -> procedural');
+  assert.equal(mapsets.selectMapTextures({}, 'pyramid'), null, 'set missing -> procedural');
+  assert.equal(mapsets.selectMapTextures({ pyramid: ['t1', 't2', 't3', 't4', 't5'] }, 'pyramid'), null, 'partial set rejected');
+  assert.equal(mapsets.selectMapTextures({ pyramid: ['t1', 't2', 't3', 't4', 't5', 't6', null] }, 'pyramid'), null, 'holed set rejected');
+  assert.equal(mapsets.selectMapTextures({ pyramid: full }, 'pyramid'), full, 'complete set selected');
+  assert.equal(mapsets.selectMapTextures({ pyramid: full }, 'nope'), null, 'unknown set rejected');
+  // readiness flow against a fake atlas (same shape as the real atlas object):
+  // still-warming -> warmed complete, and partial loads fall back atomically.
+  const fake = { maps: { pyramid: null }, ensureMapSet: async (n) => (fake.maps[n] = full) };
+  assert.equal(await mapsets.resolveLevelMaps(fake, 'pyramid'), full, 'warmed set resolves');
+  fake.maps.pyramid = ['t1', 't2', 't3'];
+  fake.ensureMapSet = async (n) => fake.maps[n];
+  assert.equal(await mapsets.resolveLevelMaps(fake, 'pyramid'), null, 'partial load falls back atomically');
+  let warmed = false;
+  const fake2 = { maps: { pyramid: full }, ensureMapSet: async () => { warmed = true; return full; } };
+  assert.equal(await mapsets.resolveLevelMaps(fake2, 'pyramid'), full, 'ready set resolves');
+  assert.ok(!warmed, 'ready set never re-warms');
+  ok('pyramid map selection + readiness (atomic, no partial sets)');
+}
+
+// --- 10. Level select (direct-level review mode): title wiring, LEVELS choices,
+// exact campaign payload, and completion/non-advance/non-score behavior ---
+// (scene files import PixiJS, so UI wiring is asserted via source text like
+// test 7; ROSTER is headless-safe and imported for real.)
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const { ROSTER } = await import('../src/characters/index.js');
+  assert.equal(ROSTER.length, 6, 'review roster holds six characters');
+
+  // LEVELS is the single source of truth: six entries, no duplicate registry.
+  const levelsSrc = src('src/levels/index.js');
+  assert.deepEqual([...levelsSrc.matchAll(/title: '(Nivel \d)'/g)].map((m) => m[1]),
+    ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6', 'Nivel 7']);
+  assert.ok(fs.existsSync(path.join(ROOT, 'src/scenes/levelselect.js')), 'levelselect scene file');
+  const sel = src('src/scenes/levelselect.js');
+  assert.ok(sel.includes('export class LevelSelectScene'), 'levelselect exports LevelSelectScene');
+  assert.ok(sel.includes('LEVELS'), 'level choices read LEVELS');
+  assert.ok(sel.includes('LEVELS.length'), 'six choices derive from LEVELS length');
+  assert.ok(!/mapSet:\s*'/.test(sel), 'no duplicate six-level registry in levelselect');
+  assert.ok(sel.includes('LEVELS[this.li].title') && sel.includes('LEVELS[this.li].name'),
+    'cards show the level number and name from LEVELS');
+  assert.ok(sel.includes('ELEGIR NIVEL'), 'levelselect heading');
+  assert.ok(sel.includes('startDirectLevel([ROSTER[this.ci]], this.li)'),
+    'confirm starts the exact chosen character + level');
+  for (const k of ['ArrowLeft', 'KeyA', 'ArrowRight', 'KeyD', 'Enter', 'KeyJ', 'Escape']) {
+    assert.ok(sel.includes(k), `levelselect handles ${k}`);
+  }
+  assert.ok(sel.includes('goToTitle'), 'levelselect escapes back to the title');
+  const imports = [...sel.matchAll(/^import .* from '([^']+)'/gm)].map((m) => m[1]);
+  assert.ok(imports.length > 0 && imports.every((m) => m === 'pixi.js' || m.startsWith('../')),
+    `levelselect imports only pixi.js + relatives, got: ${imports}`);
+  ok('level select scene (LEVELS-derived six choices, no duplicate registry)');
+
+  // title: ELEGIR NIVEL joins the menu in visual Y order with a readable
+  // overlay plate; keyboard/WASD navigation and difficulty switching intact.
+  const title = src('src/scenes/title.js');
+  const acts = [...title.matchAll(/act: \(ctx\) => ctx\.(goTo\w+)\(\)/g)].map((m) => m[1]);
+  assert.deepEqual(acts,
+    ['goToSelect', 'goToPractice', 'goToRecords', 'goToLevelSelect', 'goToOnline'],
+    'menu nav order matches visual Y order');
+  assert.ok(title.includes('ELEGIR NIVEL'), 'title overlays ELEGIR NIVEL text');
+  assert.ok(title.indexOf('ELEGIR NIVEL') < title.indexOf('CO-OP ONLINE'),
+    'ELEGIR NIVEL plate sits above CO-OP ONLINE');
+  assert.equal((title.match(/optY\.push/g) || []).length, 2, 'five navigable options');
+  for (const k of ['ArrowUp', 'KeyW', 'ArrowDown', 'KeyS', 'ArrowLeft', 'KeyA',
+                   'ArrowRight', 'KeyD', 'Enter', 'KeyJ']) {
+    assert.ok(title.includes(`'${k}'`), `title still handles ${k}`);
+  }
+  ok('title menu wiring (ELEGIR NIVEL in Y order, nav + difficulty intact)');
+
+  // main.js: selector route + exact direct-run campaign payload — the full
+  // real level from its start, fresh score/carry, current difficulty, and a
+  // review marker. Never boss practice.
+  const main = src('src/main.js');
+  assert.ok(main.includes('LevelSelectScene') && main.includes('goToLevelSelect'),
+    'main.js routes the level selector');
+  const m = main.match(/startDirectLevel: \(chars, levelIndex\) => setScene\(\(\) => new GameScene\(ctx, \{([^}]*)\}\)\)/);
+  assert.ok(m, 'startDirectLevel builds a GameScene campaign');
+  for (const kv of ['chars', 'levelIndex', 'score: 0', 'carry: null',
+                    'difficulty: ctx.difficulty', 'direct: true']) {
+    assert.ok(m[1].includes(kv), `direct payload carries ${kv}`);
+  }
+  assert.ok(!m[1].includes('practice'), 'direct run is not boss practice');
+  ok('direct-run campaign payload (exact level, fresh score/carry, review marker)');
+
+  // game.js: a direct run completes on the results screen but Enter returns
+  // to the selector (never the next campaign level); game over / endRun
+  // returns to the selector before any high-score check (never submitted).
+  const game = src('src/scenes/game.js');
+  const showBlock = game.slice(game.indexOf('showResults()'), game.indexOf('nextCampaign()'));
+  assert.ok(showBlock.includes('if (this.direct)'), 'results handles direct runs');
+  const branch = showBlock.slice(showBlock.indexOf('if (this.direct)'),
+    showBlock.indexOf('if (this.direct)') + 600);
+  assert.ok(branch.includes('goToLevelSelect'), 'direct results return to the selector');
+  assert.ok(!branch.includes('nextCampaign'), 'direct completion never advances the campaign');
+  const endBlock = game.slice(game.indexOf('endRun(cleared)'), game.indexOf('showNameEntry'));
+  assert.ok(endBlock.includes('this.direct'), 'endRun handles direct runs');
+  assert.ok(endBlock.includes('goToLevelSelect'), 'direct game over returns to the selector');
+  assert.ok(endBlock.indexOf('this.direct') < endBlock.indexOf('qualifies('),
+    'direct path exits before any high-score check');
+  assert.ok(!/qualifies\(this\.sim\.score\)[\s\S]*?this\.direct/.test(endBlock),
+    'no score submission reachable on the direct path');
+  ok('direct-run completion/non-advance/non-score behavior');
+}
+
+// --- 11. Pyramid Isis regression harness: a parked Isis must cast a
+// telegraphed spiral BURST cadence (not a bullet every tick), and the
+// descent/tomb phases must stay far below the layered-spiral spike.
+// Baselines measured 2026-09-08 on the every-tick build: single Isis 240
+// cyan/240 ticks (60/sec, never silent, never telegraphed); phase peak 2460
+// live enemy bullets (2150 cyan) with 14 concurrent Isis (tomb, tick 8343).
+{
+  const { createSim: mkSim, tickSim: stepSim } = await import('../src/sim/sim.js');
+  const { ROSTER: ROS } = await import('../src/characters/index.js');
+  const { level6: lv6 } = await import('../src/levels/level6.js');
+
+  // Isolate one parked Isis (kill everything else, no player fire) and count
+  // its cyan production over 240 ticks via the spawn funnel. Deterministic:
+  // two fresh runs must agree exactly.
+  const measureIsis = () => {
+    const sim = mkSim(0x9a7d51, [ROS[0]]);
+    sim.players[0].lives = 999; // deaths never freeze the clock mid-harness
+    let target = null, guard = 20000;
+    while (guard-- > 0 && !target) {
+      stepSim(sim, [16], lv6);
+      sim.events.length = 0;
+      target = sim.enemies.active.find((e) => e.skin === 'isis' && e.vy === 0 && e.y > 200);
+    }
+    assert.ok(target, 'an Isis parks overhead');
+    for (const e of sim.enemies.active) if (e !== target) e.hp = 0;
+    stepSim(sim, [0], lv6);
+    sim.events.length = 0;
+    assert.equal(sim.enemies.active.length, 1, 'harness isolates one Isis');
+    let cyan = 0, teleMax = 0;
+    const per = [];
+    const fire = sim.spawnEnemyBullet.bind(sim);
+    sim.spawnEnemyBullet = (props) => {
+      if (props.color === 'cyan') cyan++;
+      return fire(props);
+    };
+    for (let k = 0; k < 240; k++) {
+      const c0 = cyan;
+      stepSim(sim, [0], lv6);
+      sim.events.length = 0;
+      per.push(cyan - c0);
+      if (target.tele > teleMax) teleMax = target.tele;
+    }
+    let run = 0, silence = 0;
+    for (const n of per) { run = n === 0 ? run + 1 : 0; if (run > silence) silence = run; }
+    return { total: cyan, silence, teleMax };
+  };
+  const a = measureIsis(), b = measureIsis();
+  assert.deepEqual(a, b, 'single-Isis measurement is deterministic');
+  assert.ok(a.total <= 80, `single Isis cyan <= 80 per 240 ticks (<=20/sec, got ${a.total})`);
+  assert.ok(a.silence >= 30, `spiral bursts have recovery gaps (longest silence ${a.silence})`);
+  assert.ok(a.teleMax > 0, 'spiral bursts are telegraphed (e.tele raised)');
+  ok('isis spiral cadence (burst rate, gaps, telegraph)');
+
+  // Full headless run on the exact campaign recipe: peak live enemy-bullet
+  // count across the descent/tomb phases plus peak concurrent Isis.
+  {
+    const sim = mkSim(0x9a7d51, [ROS[0]]);
+    let guard = 60000, i = 0, peak = 0, maxIsis = 0;
+    while (!sim.levelComplete && guard-- > 0) {
+      const mask = (i++ % 600 < 590) ? 16 : 0;
+      stepSim(sim, [mask], lv6);
+      if (sim.level.phase === 'descent' || sim.level.phase === 'tomb') {
+        if (sim.enemyBullets.active.length > peak) peak = sim.enemyBullets.active.length;
+        let ni = 0;
+        for (const e of sim.enemies.active) if (e.skin === 'isis') ni++;
+        if (ni > maxIsis) maxIsis = ni;
+      }
+      sim.events.length = 0;
+    }
+    assert.ok(sim.levelComplete, 'density harness run completes the level');
+    assert.ok(peak <= 1353, `descent/tomb peak ${peak} <= 1353 (45% below baseline 2460)`);
+    assert.ok(maxIsis <= 2, `isis concurrency bounded by safeguard (peak ${maxIsis})`);
+    ok('pyramid isis density bound (phase peak, concurrency)');
+  }
+}
+
+// --- 12. Prontera V3 monster atlas: approved six-monster sheet extracted to a
+// versioned runtime atlas (60 rects), wired as the default Prontera override
+// with fallback to base monsters.json + procedural Lunatic when V3 is absent.
+{
+  const V3PNG = path.join(ROOT, 'public/assets-v2/prontera/monsters-v3.png');
+  const V3JSON = path.join(ROOT, 'public/assets-v2/prontera/monsters-v3.json');
+  assert.ok(fs.existsSync(V3PNG), 'V3 runtime sheet exists');
+  assert.ok(fs.existsSync(V3JSON), 'V3 runtime manifest exists');
+  const v3 = JSON.parse(fs.readFileSync(V3JSON, 'utf8'));
+  assert.deepEqual(Object.keys(v3.monsters),
+    ['poring', 'pupa', 'picky', 'chonchon', 'orcbaby', 'lunatic'],
+    'V3 holds exactly the six Prontera IDs in order (nothing else)');
+  const POSES = ['idle', 'moveL', 'moveR', 'hit', 'attack'];
+  let rects = 0;
+  const heights = {};
+  for (const [id, m] of Object.entries(v3.monsters)) {
+    for (const side of ['down', 'up']) {
+      assert.deepEqual(Object.keys(m[side]), POSES, `${id}.${side} has five poses`);
+      heights[`${id}.${side}`] = [];
+      for (const p of POSES) {
+        const r = m[side][p];
+        assert.deepEqual(Object.keys(r).sort(), ['h', 'w', 'x', 'y'], `${id}.${side}.${p} is a plain rect`);
+        for (const k of ['x', 'y', 'w', 'h']) assert.ok(Number.isInteger(r[k]), `${id}.${side}.${p}.${k} is int`);
+        assert.ok(r.w >= 20 && r.h >= 20, `${id}.${side}.${p} is no sliver (${r.w}x${r.h})`);
+        assert.ok(r.w <= 260 && r.h <= 260, `${id}.${side}.${p} is no fused crop (${r.w}x${r.h})`);
+        assert.ok(r.x >= 0 && r.y >= 0 && r.x + r.w <= v3.size.w && r.y + r.h <= v3.size.h,
+          `${id}.${side}.${p} inside the sheet`);
+        heights[`${id}.${side}`].push(r.h);
+        rects++;
+      }
+    }
+  }
+  assert.equal(rects, 60, 'V3 holds exactly 60 runtime rects');
+  for (const [k, hs] of Object.entries(heights)) {
+    assert.ok(Math.max(...hs) / Math.min(...hs) <= 2.0, `${k} heights stay consistent (no jitter/shrink)`);
+  }
+  ok('prontera V3 manifest (six IDs, 60 rects, schema, anchors)');
+
+  // The sheet is real RGBA with the gray matte keyed out (not an opaque
+  // rectangle) and real art preserved (not an empty sheet).
+  const { inflateSync } = await import('node:zlib');
+  const d = fs.readFileSync(V3PNG);
+  const W = d.readUInt32BE(16), H = d.readUInt32BE(20);
+  assert.equal(d[24], 8, 'V3 sheet is 8-bit');
+  assert.equal(d[25], 6, 'V3 sheet is RGBA (matte keyed to alpha)');
+  let pos = 8; const parts = [];
+  while (pos < d.length) {
+    const len = d.readUInt32BE(pos), typ = d.toString('ascii', pos + 4, pos + 8);
+    if (typ === 'IDAT') parts.push(d.subarray(pos + 8, pos + 8 + len));
+    pos += 12 + len;
+  }
+  const px = inflateSync(Buffer.concat(parts));
+  const stride = W * 4;
+  let prev = Buffer.alloc(stride), transparent = 0;
+  const paeth = (a, b, c) => {
+    const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+    return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+  };
+  for (let y = 0; y < H; y++) {
+    const f = px[y * (stride + 1)];
+    const line = Buffer.from(px.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
+    for (let i = 0; i < stride; i++) {
+      const a = i >= 4 ? line[i - 4] : 0, b = prev[i], c = i >= 4 ? prev[i - 4] : 0;
+      if (f === 1) line[i] = (line[i] + a) & 255;
+      else if (f === 2) line[i] = (line[i] + b) & 255;
+      else if (f === 3) line[i] = (line[i] + ((a + b) >> 1)) & 255;
+      else if (f === 4) line[i] = (line[i] + paeth(a, b, c)) & 255;
+    }
+    for (let x = 3; x < stride; x += 4) if (line[x] < 128) transparent++;
+    prev = line;
+  }
+  const frac = transparent / (W * H);
+  assert.ok(frac > 0.3 && frac < 0.99, `V3 matte keyed out, art kept (transparent ${frac.toFixed(2)})`);
+  ok('prontera V3 sheet alpha (matte removed, silhouettes kept)');
+
+  // QA artifacts: labeled contact sheet plus metrics report.
+  const qaPng = path.join(ROOT, 'art-clean/prontera-gpt/qa/contact-prontera-v3.png');
+  const qaJson = path.join(ROOT, 'art-clean/prontera-gpt/qa/report-v3.json');
+  assert.ok(fs.existsSync(qaPng), 'V3 contact sheet exists');
+  const rep = JSON.parse(fs.readFileSync(qaJson, 'utf8'));
+  assert.equal(rep.rects.length, 60, 'V3 report covers 60 rects');
+  ok('prontera V3 QA artifacts (contact sheet, metrics report)');
+
+  // atlas.js merges V3 after monsters2 (so V3 Lunatic wins) but after nothing
+  // else it could disturb; missing V3 files fall back to base + procedural.
+  const atlas = fs.readFileSync(path.join(ROOT, 'src/engine/atlas.js'), 'utf8');
+  assert.ok(atlas.includes('monsters-v3'), 'atlas loads the V3 atlas');
+  const iBase = atlas.indexOf("addMonsters(monManifest, monBase)");
+  const iMon2 = atlas.indexOf('addMonsters(mon2Manifest, mon2Base)');
+  const iV3 = atlas.indexOf('addMonsters(monV3Manifest, monV3Base)');
+  assert.ok(iBase >= 0 && iMon2 > iBase && iV3 > iMon2, 'V3 merges after base and monsters2');
+  const rend = fs.readFileSync(path.join(ROOT, 'src/render/renderer.js'), 'utf8');
+  assert.ok(rend.includes('this.enemyTex[e.skin] ?? this.enemyTex.poring'),
+    'procedural Lunatic fallback intact');
+  ok('prontera V3 atlas wiring (default override, fallback intact)');
+}
+
+// --- 13. Prontera V3 semantic panels: the approved sheet is two columns
+// split at the grid half (x=561, left: poring/picky/orcbaby, right:
+// pupa/chonchon/lunatic). No rect may cross that boundary (the slicer once
+// aliased picky.attack into chonchon.down.idle at x439), left/right rects of
+// a row must not overlap, and every chonchon crop holds exactly one body
+// (attack keeps only its compact orb, hit only its stars).
+{
+  const COL = 561;
+  const v3 = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/assets-v2/prontera/monsters-v3.json'), 'utf8'));
+  const LEFT_IDS = ['poring', 'picky', 'orcbaby'];
+  const RIGHT_IDS = ['pupa', 'chonchon', 'lunatic'];
+  assert.deepEqual(Object.keys(v3.monsters),
+    ['poring', 'pupa', 'picky', 'chonchon', 'orcbaby', 'lunatic'],
+    'V3 ID order unchanged (row pairs align with columns)');
+  const rectsOf = (id) => Object.values(v3.monsters[id].down).concat(Object.values(v3.monsters[id].up));
+  for (const id of LEFT_IDS)
+    for (const r of rectsOf(id))
+      assert.ok(r.x + r.w <= COL, `${id} rect stays left of the column split (x+w=${r.x + r.w} <= ${COL})`);
+  ok('prontera V3 left-column rects stay left of x=561');
+  for (const id of RIGHT_IDS)
+    for (const r of rectsOf(id))
+      assert.ok(r.x >= COL, `${id} rect stays right of the column split (x=${r.x} >= ${COL})`);
+  ok('prontera V3 right-column rects stay right of x=561');
+  const pairs = [['poring', 'pupa'], ['picky', 'chonchon'], ['orcbaby', 'lunatic']];
+  for (const [l, rgt] of pairs)
+    for (const a of rectsOf(l))
+      for (const b of rectsOf(rgt)) {
+        const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+        assert.ok(!overlap, `${l} rect never overlaps ${rgt} rect (no cross-panel crop)`);
+      }
+  ok('prontera V3 row pairs never overlap across panels');
+
+  // chonchon widths stay near their median (a fused double body reads ~2x).
+  const cw = [];
+  for (const [id, m] of Object.entries(v3.monsters))
+    if (id === 'chonchon')
+      for (const side of ['down', 'up'])
+        for (const p of ['idle', 'moveL', 'moveR', 'hit', 'attack']) cw.push(m[side][p].w);
+  assert.equal(cw.length, 10, 'ten chonchon crops');
+  const cmed = [...cw].sort((a, b) => a - b)[5];
+  for (const wdt of cw) {
+    assert.ok(wdt <= 1.65 * cmed, `chonchon width ${wdt} within 1.65x median ${cmed} (no fused double body)`);
+    assert.ok(wdt >= 0.5 * cmed, `chonchon width ${wdt} within 0.5x median ${cmed} (no sliver)`);
+  }
+  ok('prontera V3 chonchon widths near median (no fusion, no slivers)');
+
+  // each chonchon crop holds exactly one body: decode the sheet and count
+  // large opaque components per rect (hit stars and orb bits stay small).
+  const { inflateSync } = await import('node:zlib');
+  const d = fs.readFileSync(path.join(ROOT, 'public/assets-v2/prontera/monsters-v3.png'));
+  const W = d.readUInt32BE(16), H = d.readUInt32BE(20);
+  let pos = 8; const parts = [];
+  while (pos < d.length) {
+    const len = d.readUInt32BE(pos), typ = d.toString('ascii', pos + 4, pos + 8);
+    if (typ === 'IDAT') parts.push(d.subarray(pos + 8, pos + 8 + len));
+    pos += 12 + len;
+  }
+  const rawPx = inflateSync(Buffer.concat(parts));
+  const stride = W * 4;
+  const alpha = Buffer.alloc(W * H);
+  let prev = Buffer.alloc(stride);
+  const paeth = (a, b, c) => {
+    const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+    return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+  };
+  for (let y = 0; y < H; y++) {
+    const f = rawPx[y * (stride + 1)];
+    const line = Buffer.from(rawPx.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
+    for (let i = 0; i < stride; i++) {
+      const a = i >= 4 ? line[i - 4] : 0, b = prev[i], c = i >= 4 ? prev[i - 4] : 0;
+      if (f === 1) line[i] = (line[i] + a) & 255;
+      else if (f === 2) line[i] = (line[i] + b) & 255;
+      else if (f === 3) line[i] = (line[i] + ((a + b) >> 1)) & 255;
+      else if (f === 4) line[i] = (line[i] + paeth(a, b, c)) & 255;
+    }
+    for (let x = 0; x < W; x++) alpha[y * W + x] = line[x * 4 + 3] > 128 ? 1 : 0;
+    prev = line;
+  }
+  const bigComps = (r) => {
+    const seen = new Uint8Array(r.w * r.h);
+    let big = 0;
+    for (let yy = 0; yy < r.h; yy++) for (let xx = 0; xx < r.w; xx++) {
+      if (!alpha[(r.y + yy) * W + r.x + xx] || seen[yy * r.w + xx]) continue;
+      let n = 0; const st = [yy * r.w + xx]; seen[yy * r.w + xx] = 1;
+      while (st.length) {
+        const c = st.pop(); n++;
+        const cx = c % r.w, cy = (c / r.w) | 0;
+        for (const [nx, ny] of [[cx - 1, cy], [cx + 1, cy], [cx, cy - 1], [cx, cy + 1]]) {
+          if (nx < 0 || ny < 0 || nx >= r.w || ny >= r.h || seen[ny * r.w + nx]) continue;
+          if (!alpha[(r.y + ny) * W + r.x + nx]) continue;
+          seen[ny * r.w + nx] = 1; st.push(ny * r.w + nx);
+        }
+      }
+      if (n >= 2500) big++;
+    }
+    return big;
+  };
+  for (const side of ['down', 'up'])
+    for (const p of ['idle', 'moveL', 'moveR', 'hit', 'attack']) {
+      const r = v3.monsters.chonchon[side][p];
+      assert.equal(bigComps(r), 1, `chonchon.${side}.${p} holds exactly one body`);
+    }
+  ok('prontera V3 chonchon crops each hold one body (orb/stars stay small)');
+}
+
+// --- 14. Niflheim (level 7): approved sheets sliced to versioned runtime
+// atlases (6 mobs + Loli Ruri + Lord of Death + 7 map tiles), wired as the
+// seventh campaign level with the approved Niflheim recording wired as the
+// runtime MP3 (level7 chiptune retained strictly as fallback).
+{
+  const N = (...p) => path.join(ROOT, 'public', 'assets-v2', 'niflheim', ...p);
+  for (const f of ['monsters11.png', 'monsters11.json', 'monsters12.json',
+                   'bosses5.png', 'bosses5.json',
+                   ...[1, 2, 3, 4, 5, 6, 7].map((i) => `maps/niflheim00${i}.png`)]) {
+    assert.ok(fs.existsSync(N(f)), `missing niflheim asset: assets-v2/niflheim/${f}`);
+  }
+  const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+  // exact asset IDs + pose inventory: 6 mobs x down/up x 5 poses.
+  const m11 = read(N('monsters11.json'));
+  assert.equal(m11.sheet, 'monsters11.png');
+  assert.deepEqual(Object.keys(m11.monsters).sort(),
+    ['dullahan', 'gibbet', 'heirozoist', 'lude', 'murderer', 'quve']);
+  const seenRects = new Set();
+  for (const [name, e] of Object.entries(m11.monsters)) {
+    for (const side of ['down', 'up']) {
+      assert.deepEqual(Object.keys(e[side]).sort(), ['attack', 'hit', 'idle', 'moveL', 'moveR'], `${name}.${side} poses`);
+      for (const [pose, r] of Object.entries(e[side])) {
+        assert.ok(r.w >= 20 && r.h >= 30 && r.x >= 0 && r.y >= 0 &&
+          r.x + r.w <= m11.size.w && r.y + r.h <= m11.size.h, `${name}.${side}.${pose} in-bounds, non-degenerate`);
+        const key = `${r.x},${r.y},${r.w},${r.h}`;
+        assert.ok(!seenRects.has(key), `${name}.${side}.${pose} rect unique`);
+        seenRects.add(key);
+      }
+    }
+  }
+  assert.equal(seenRects.size, 60, '60 unique mob rects');
+  // semantic panel ownership: 2 columns split at the sheet half (x=768);
+  // left column dullahan/gibbet/lude, right column heirozoist/quve/murderer.
+  const COL = 768;
+  for (const id of ['dullahan', 'gibbet', 'lude'])
+    for (const side of ['down', 'up']) for (const r of Object.values(m11.monsters[id][side]))
+      assert.ok(r.x + r.w <= COL, `${id} rect stays left of the column split`);
+  for (const id of ['heirozoist', 'quve', 'murderer'])
+    for (const side of ['down', 'up']) for (const r of Object.values(m11.monsters[id][side]))
+      assert.ok(r.x >= COL, `${id} rect stays right of the column split`);
+  for (const [l, rgt] of [['dullahan', 'heirozoist'], ['gibbet', 'quve'], ['lude', 'murderer']])
+    for (const s of ['down', 'up']) for (const a of Object.values(m11.monsters[l][s]))
+      for (const b of Object.values(m11.monsters[rgt][s])) {
+        const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+        assert.ok(!overlap, `${l} rect never overlaps ${rgt} rect`);
+      }
+  ok('niflheim mob assets + IDs + semantic panels (60 unique rects)');
+
+  // Loli Ruri shares the boss sheet (mob-shape manifest, like Osiris).
+  const m12 = read(N('monsters12.json'));
+  assert.equal(m12.sheet, 'bosses5.png');
+  assert.deepEqual(Object.keys(m12.monsters), ['loliruri']);
+  // Bosses: pose arrays for the renderer cycler; hit is one isolated figure.
+  const b5 = read(N('bosses5.json'));
+  assert.equal(b5.sheet, 'bosses5.png');
+  assert.deepEqual(Object.keys(b5.bosses).sort(), ['loliRuri', 'lordOfDeath']);
+  for (const name of ['loliRuri', 'lordOfDeath']) {
+    const e = b5.bosses[name];
+    for (const side of ['down', 'up']) {
+      assert.deepEqual(Object.keys(e[side]).sort(), ['attack', 'hit', 'idle', 'moveL', 'moveR'], `${name}.${side} poses`);
+      for (const pose of ['idle', 'moveL', 'moveR', 'hit', 'attack']) {
+        const v = e[side][pose];
+        assert.ok(Array.isArray(v) && v.length >= 1 && v.length <= 3, `${name}.${side}.${pose} frames 1..3`);
+        for (const r of v)
+          assert.ok(r.x >= 0 && r.y >= 0 && r.x + r.w <= b5.size.w && r.y + r.h <= b5.size.h, `${name}.${side}.${pose} in-bounds`);
+      }
+      assert.equal(e[side].hit.length, 1, `${name}.${side}.hit is 1 figure`);
+    }
+  }
+  // boss sheet halves: Loli Ruri left, Lord of Death right. The semantic
+  // split is the measured inter-boss gutter (x813-838), not the arithmetic
+  // half: LoD idle legitimately starts at x830 (its own scythe), Loli's
+  // attack burst ends at x824 — 6px apart, never overlapping.
+  const loliAll = [], lodAll = [];
+  for (const side of ['down', 'up']) {
+    for (const v of Object.values(b5.bosses.loliRuri[side])) for (const r of v) {
+      assert.ok(r.x + r.w <= 830, 'loliRuri stays in the left boss half');
+      loliAll.push(r);
+    }
+    for (const v of Object.values(b5.bosses.lordOfDeath[side])) for (const r of v) {
+      assert.ok(r.x >= 824, 'lordOfDeath stays in the right boss half');
+      lodAll.push(r);
+    }
+  }
+  for (const a of loliAll) for (const b of lodAll) {
+    const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    assert.ok(!overlap, 'loliRuri rect never overlaps lordOfDeath rect');
+  }
+  ok('niflheim boss assets + halves (loliRuri left, lordOfDeath right)');
+
+  // QA report: slicer metrics, gates summary, deterministic inputs.
+  const rep = read(path.join(ROOT, 'art-clean', 'niflheim-gpt', 'qa', 'report-niflheim.json'));
+  assert.equal(rep.counts.mobs, 6, 'report covers 6 mobs');
+  assert.equal(rep.counts.mob_poses, 60, 'report covers 60 mob poses');
+  assert.equal(rep.counts.map_tiles, 7, 'report covers 7 map tiles');
+  assert.ok(rep.worst_bn <= 0.16, `report worst bright-neutral ${rep.worst_bn} <= 0.16`);
+  assert.ok(rep.worst_edge <= 100, `report worst edge mass ${rep.worst_edge} <= 100px`);
+  assert.ok(Array.isArray(rep.warnings), 'report warnings list');
+  for (const f of ['contact-niflheim-mobs.png', 'contact-niflheim-bosses.png'])
+    assert.ok(fs.existsSync(path.join(ROOT, 'art-clean', 'niflheim-gpt', 'qa', f)), `QA sheet ${f} exists`);
+  ok('niflheim QA report + contact sheets');
+
+  // alpha: keyed sheets are real RGBA with matte removed, art preserved.
+  const { inflateSync } = await import('node:zlib');
+  const alphaFrac = (p) => {
+    const d = fs.readFileSync(p);
+    const W = d.readUInt32BE(16), H = d.readUInt32BE(20);
+    assert.equal(d[25], 6, `${p} is RGBA`);
+    let pos = 8; const parts = [];
+    while (pos < d.length) {
+      const len = d.readUInt32BE(pos), typ = d.toString('ascii', pos + 4, pos + 8);
+      if (typ === 'IDAT') parts.push(d.subarray(pos + 8, pos + 8 + len));
+      pos += 12 + len;
+    }
+    const px = inflateSync(Buffer.concat(parts));
+    const stride = W * 4;
+    let prev = Buffer.alloc(stride), transparent = 0;
+    const paeth = (a, b, c) => {
+      const q = a + b - c, pa = Math.abs(q - a), pb = Math.abs(q - b), pc = Math.abs(q - c);
+      return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+    };
+    for (let y = 0; y < H; y++) {
+      const f = px[y * (stride + 1)];
+      const line = Buffer.from(px.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
+      for (let i = 0; i < stride; i++) {
+        const a = i >= 4 ? line[i - 4] : 0, b = prev[i], c = i >= 4 ? prev[i - 4] : 0;
+        if (f === 1) line[i] = (line[i] + a) & 255;
+        else if (f === 2) line[i] = (line[i] + b) & 255;
+        else if (f === 3) line[i] = (line[i] + ((a + b) >> 1)) & 255;
+        else if (f === 4) line[i] = (line[i] + paeth(a, b, c)) & 255;
+      }
+      for (let x = 3; x < stride; x += 4) if (line[x] < 128) transparent++;
+      prev = line;
+    }
+    return transparent / (W * H);
+  };
+  for (const f of ['monsters11.png', 'bosses5.png']) {
+    const frac = alphaFrac(N(f));
+    assert.ok(frac > 0.2 && frac < 0.99, `${f} matte keyed out, art kept (transparent ${frac.toFixed(2)})`);
+  }
+  ok('niflheim sheet alpha (matte removed, silhouettes kept)');
+
+  // registry + wiring (source-text: these files import PixiJS, skip node import)
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  assert.ok(src('src/levels/index.js').includes("mapSet: 'niflheim'"), 'LEVELS has niflheim entry');
+  assert.ok(src('src/levels/index.js').includes("title: 'Nivel 7'"), 'LEVELS has Nivel 7');
+  assert.ok(src('src/scenes/game.js').includes('0x51f47e'), 'LEVEL_SEEDS has level 7 seed');
+  assert.ok(src('src/scenes/practice.js').includes('loliRuri'), 'practice has Loli Ruri');
+  assert.ok(src('src/scenes/practice.js').includes('lordOfDeath'), 'practice has Lord of Death');
+  assert.ok(src('src/render/renderer.js').includes("'Loli Ruri': 'loliRuri'"), 'BOSS_TEX has Loli Ruri');
+  assert.ok(src('src/render/renderer.js').includes("'Lord of Death': 'lordOfDeath'"), 'BOSS_TEX has Lord of Death');
+  assert.ok(src('src/render/themes.js').includes('level7Theme'), 'level7Theme exists');
+  assert.ok(src('src/engine/atlas.js').includes('monsters11') && src('src/engine/atlas.js').includes('bosses5'), 'atlas loads niflheim sheets');
+  assert.ok(src('src/engine/atlas.js').includes('niflheim'), 'atlas loads niflheim maps');
+  const musicSrc = src('src/engine/music.js');
+  assert.ok(musicSrc.includes('level7:'), 'music has level7 chiptune track');
+  // Niflheim map music: approved recording wired as the runtime MP3, with the
+  // level7 chiptune retained strictly as missing/corrupt-file fallback.
+  assert.ok(musicSrc.includes('level7: `${BASE}assets/music/niflheim.mp3`'),
+    'MP3_TRACKS wires the Niflheim recording for level7');
+  assert.ok(!musicSrc.includes('No MP3 was supplied for this stage'),
+    'stale no-recording comment is gone');
+  assert.ok(musicSrc.includes("name === 'boss' && this.mp3El"),
+    'recorded stage track keeps playing through midboss/final boss');
+  ok('niflheim registry wiring (7th level, practice, theme, atlas, recording)');
+
+  // dialogue: both bosses x 6 characters.
+  const { DIALOGUE } = await import('../src/data/dialogue.js');
+  for (const boss of ['Loli Ruri', 'Lord of Death']) {
+    for (const c of ['aramir', 'zeos', 'eric', 'dposada', 'chel_snip', 'viri']) {
+      assert.ok(DIALOGUE[boss]?.[c]?.p && DIALOGUE[boss]?.[c]?.b, `dialogue ${boss}/${c}`);
+    }
+  }
+  ok('niflheim dialogue (2 bosses x 6 chars)');
+
+  // boss defs: Loli Ruri midboss cards, Lord of Death 3 phases; solo kill
+  // completes the level (practice shape), cards advance deterministically.
+  const { createSim, tickSim } = await import('../src/sim/sim.js');
+  const { spawnBoss, damageBoss, stepBoss, loliRuri, lordOfDeath } = await import('../src/sim/boss.js');
+  const { ROSTER } = await import('../src/characters/index.js');
+  const { level7 } = await import('../src/levels/level7.js');
+  assert.deepEqual(loliRuri.cards.map((c) => c.name), ['Alas de Murciélago', 'Hechizo de Rosas']);
+  assert.deepEqual(lordOfDeath.cards.map((c) => c.name), ['Guadaña Espectral', 'Rito Nigromante', 'Eclipse Final']);
+  {
+    const sim = createSim(0x51f47e, [ROSTER[0]]);
+    spawnBoss(sim, lordOfDeath);
+    assert.equal(sim.bosses[0].name, 'Lord of Death');
+    let guard = 30000, phases = 0;
+    while (!sim.levelComplete && guard-- > 0) {
+      for (const b of [...sim.bosses]) damageBoss(sim, 1e6, b);
+      if (sim.bosses[0]) phases = Math.max(phases, sim.bosses[0].cardIndex);
+      stepBoss(sim);
+      sim.events.length = 0;
+    }
+    assert.ok(sim.levelComplete, 'Lord of Death kill must complete the level');
+    assert.equal(phases, 2, 'all three phases advance');
+    ok('lordOfDeath boss def (spawn -> 3 cards -> levelClear)');
+  }
+
+  // level 7 timeline: phase boundaries land on time, edge spawns symmetric,
+  // midboss gates on the kill, approach spawns the final boss.
+  {
+    const { FIELD_W } = await import('../src/sim/constants.js');
+    const sim = createSim(0x51f47e, [ROSTER[0]]);
+    sim.players[0].lives = 999;
+    const step = (n) => {
+      for (let k = 0; k < n; k++) tickSim(sim, [16], level7);
+      sim.events.length = 0;
+    };
+    const phase = () => sim.level.phase;
+    step(99);
+    assert.ok(!sim.enemies.active.some((e) => e.t === 1), 'nothing spawns before its first tick');
+    step(111); // gyoll t=210: first right-edge quve (t=70 spawns left)
+    let qv = sim.enemies.active.find((e) => e.skin === 'quve' && e.t === 1);
+    assert.ok(qv, 'quve spawns at t=210');
+    assert.ok(qv.vx < 0 && qv.x > FIELD_W - 100, 'right-edge quve heads inward');
+    step(1090); // gyoll t=1300
+    assert.equal(phase(), 'forest', 'gyoll -> forest at t=1300');
+    step(1400); // forest t=1400
+    assert.equal(phase(), 'lanes', 'forest -> lanes at t=1400');
+    step(1300); // lanes t=1300
+    assert.equal(phase(), 'square', 'lanes -> square at t=1300');
+    step(1400); // square t=1400
+    assert.equal(phase(), 'midboss', 'square -> midboss at t=1400');
+    step(100); // let Loli Ruri arrive, then fell her like a player would
+    const loli = sim.enemies.active.find((e) => e.skin === 'loliruri');
+    assert.ok(loli, 'Loli Ruri elite holds the arena');
+    loli.hp = 0;
+    step(61); // reap + pass the t>60 gate
+    assert.equal(phase(), 'fortress', 'midboss -> fortress after the kill');
+    step(1400); // fortress t=1400
+    assert.equal(phase(), 'approach', 'fortress -> approach at t=1400');
+    const seen = new Set();
+    for (let k = 0; k < 200 && phase() !== 'boss'; k++) {
+      tickSim(sim, [16], level7);
+      for (const e of sim.events) if (e.type === 'bossWarning') seen.add(e.name);
+      sim.events.length = 0;
+    }
+    assert.equal(phase(), 'boss', 'approach -> boss at t=150');
+    assert.ok(seen.has('Lord of Death'), 'Lord of Death warning fires');
+    ok('level7 timeline (clock, edge entry, phase boundaries, both bosses)');
+  }
+
+  // level 7 replay determinism: two sims, same seed + inputs, identical
+  // checksums at two phase transitions.
+  {
+    const checksum = (sim) => {
+      const r3 = (n) => Math.round(n * 1000);
+      const parts = [sim.tick, sim.score, r3(sim.biome), sim.level.phase, sim.level.t,
+        ...sim.players.flatMap((p) => (p ? [r3(p.x), r3(p.y), p.lives, p.power, p.bombs] : ['x'])),
+        sim.enemies.active.length,
+        ...sim.enemies.active.flatMap((e) => [e.skin, r3(e.x), r3(e.y), Math.round(e.hp * 1000), e.t]),
+        sim.bullets.active.length, sim.enemyBullets.active.length,
+        ...sim.bullets.active.flatMap((b) => [r3(b.x), r3(b.y)]),
+        ...sim.enemyBullets.active.flatMap((b) => [r3(b.x), r3(b.y), b.color])];
+      const s = JSON.stringify(parts);
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return (h >>> 0).toString(16);
+    };
+    const runTo = (ticks) => {
+      const sim = createSim(0x51f47e, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      const marks = [];
+      for (let k = 0; k < ticks; k++) {
+        tickSim(sim, [16], level7);
+        if (k + 1 === 1300 || k + 1 === 4100) marks.push(checksum(sim));
+        sim.events.length = 0;
+      }
+      return marks;
+    };
+    const [a, b] = [runTo(4200), runTo(4200)];
+    assert.equal(a.length, 2, 'both transitions marked');
+    assert.deepEqual(a, b, 'level 7 replays bit-identically');
+    ok('level7 replay checksum (two sims, phase transitions)');
+  }
+
+  // bounded pressure: full headless run on the campaign recipe; peak live
+  // enemy bullets and per-skin concurrency stay capped (no per-tick spam,
+  // high-pressure elites gated like the Isis pair rule).
+  {
+    const sim = createSim(0x51f47e, [ROSTER[0]]);
+    sim.players[0].lives = 999;
+    const seen = new Set();
+    let guard = 60000, i = 0, peak = 0, finiteBiome = true, maxBiome = 0;
+    const conc = {};
+    while (!sim.levelComplete && guard-- > 0) {
+      const mask = (i++ % 600 < 590) ? 16 : 0;
+      tickSim(sim, [16], level7);
+      if (!Number.isFinite(sim.biome)) finiteBiome = false;
+      if (sim.biome > maxBiome) maxBiome = sim.biome;
+      if (sim.enemyBullets.active.length > peak) peak = sim.enemyBullets.active.length;
+      const per = {};
+      for (const e of sim.enemies.active) per[e.skin] = (per[e.skin] || 0) + 1;
+      for (const [k, v] of Object.entries(per)) conc[k] = Math.max(conc[k] || 0, v);
+      for (const e of sim.events) {
+        if (e.type === 'bossWarning' || e.type === 'warning') seen.add(e.name);
+      }
+      sim.events.length = 0;
+    }
+    assert.ok(seen.has('Loli Ruri'), `midboss warning seen (got: ${[...seen]})`);
+    assert.ok(seen.has('Lord of Death'), `final warning seen (got: ${[...seen]})`);
+    assert.ok(sim.levelComplete, `level 7 completes (tick=${sim.tick} over=${sim.gameOver})`);
+    assert.ok(finiteBiome, 'sim.biome stays finite through the full run');
+    assert.ok(maxBiome > 0.3, `sim.biome advances (max=${maxBiome})`);
+    assert.ok(peak <= 1200, `full-run bullet peak ${peak} <= 1200`);
+    for (const [skin, cap] of [['heirozoist', 2], ['dullahan', 2], ['quve', 3], ['murderer', 2], ['gibbet', 3], ['lude', 4]]) {
+      assert.ok((conc[skin] || 0) <= cap, `${skin} concurrency ${(conc[skin] || 0)} <= ${cap}`);
+    }
+    ok(`niflheim full run (tick=${sim.tick} score=${sim.score} peak=${peak} biome=${maxBiome.toFixed(3)})`);
+  }
+
+  // Niflheim hardening: pacifist Lude bound, Gibbet pooling hygiene, Loli
+  // phase coverage at controlled HP, finite positions, both warning types.
+  {
+    // pacifist Lude bound: no player fire, drifters still cap at 4.
+    {
+      const sim = createSim(0x51f47e, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      let maxLude = 0;
+      for (let k = 0; k < 3000; k++) {
+        tickSim(sim, [0], level7);
+        let n = 0;
+        for (const e of sim.enemies.active) if (e.skin === 'lude') n++;
+        if (n > maxLude) maxLude = n;
+        sim.events.length = 0;
+      }
+      assert.ok(maxLude <= 4, `pacifist lude concurrency ${maxLude} <= 4`);
+      ok('niflheim pacifist lude bound (no-fire drift stays <= 4)');
+    }
+
+    // Gibbet pooling: fresh spawn starts unrooted with finite laneX, reuse
+    // cannot leak rooted/laneX, and every bullet stays finite.
+    {
+      const sim = createSim(0x51f47e, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      sim.level = { phase: 'forest', t: 79, midAlive: false };
+      tickSim(sim, [0], level7);
+      sim.events.length = 0;
+      const g0 = sim.enemies.active.find((e) => e.skin === 'gibbet');
+      assert.ok(g0, 'forest spawns a gibbet');
+      assert.equal(g0.rooted, false, 'fresh gibbet starts unrooted');
+      assert.ok(Number.isFinite(g0.laneX), 'fresh gibbet laneX finite');
+      g0.y = 200; g0.vy = 0;
+      for (let k = 0; k < 160; k++) { tickSim(sim, [0], level7); sim.events.length = 0; }
+      assert.equal(g0.rooted, true, 'gibbet roots after parking');
+      sim.level = { phase: 'approach', t: 0, midAlive: false };
+      for (const e of sim.enemies.active) e.hp = 0;
+      tickSim(sim, [0], level7);
+      sim.events.length = 0;
+      assert.ok(!sim.enemies.active.some((e) => e.skin === 'gibbet'), 'rooted gibbet reaped');
+      sim.level = { phase: 'forest', t: 79, midAlive: false };
+      tickSim(sim, [0], level7);
+      sim.events.length = 0;
+      const g1 = sim.enemies.active.find((e) => e.skin === 'gibbet' && e.y < 50);
+      assert.ok(g1, 'a reused gibbet spawns');
+      assert.equal(g1.rooted, false, 'reused gibbet starts unrooted (no pool leak)');
+      assert.ok(Number.isFinite(g1.laneX), 'reused gibbet laneX finite (no pool leak)');
+      for (let k = 0; k < 400; k++) {
+        tickSim(sim, [0], level7);
+        for (const b of sim.enemyBullets.active) {
+          assert.ok(Number.isFinite(b.x) && Number.isFinite(b.y) && Number.isFinite(b.vx) && Number.isFinite(b.vy), 'gibbet bullet finite');
+        }
+        sim.events.length = 0;
+      }
+      ok('niflheim gibbet pooling (rooted/laneX init, reuse, finite bullets)');
+    }
+
+    // Loli: pooled spawn carries maxhp 750 + deterministic phase; reaches
+    // y=200; emits all three shared phase patterns at controlled HP; both
+    // warning types fire; kill-gate advances only after the kill.
+    {
+      const sim = createSim(0x51f47e, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      // poison the enemy pool so leaked maxhp/phase would stick to Loli.
+      const d = sim.spawnEnemy({ skin: 'dummy', x: 300, y: 300, hp: 1 });
+      d.maxhp = 5; d.phase = 99; d.rooted = true; d.laneX = NaN;
+      d.hp = 0;
+      tickSim(sim, [0], level7);
+      sim.events.length = 0;
+      sim.level = { phase: 'midboss', t: 0, midAlive: false };
+      const seen = new Set();
+      for (let k = 0; k < 40; k++) {
+        tickSim(sim, [0], level7);
+        for (const e of sim.events) if (e.name === 'Loli Ruri') seen.add(e.type);
+        sim.events.length = 0;
+      }
+      assert.ok(seen.has('warning'), 'Loli warning banner fires');
+      assert.ok(seen.has('bossWarning'), 'Loli bossWarning fires (dialogue path)');
+      const loli = sim.enemies.active.find((e) => e.skin === 'loliruri');
+      assert.ok(loli, 'Loli Ruri elite holds the arena');
+      assert.equal(loli.maxhp, 750, 'campaign Loli maxhp 750 (no pool leak)');
+      assert.equal(loli.phase, 1, 'campaign Loli deterministic phase init');
+      let guard = 600;
+      while (loli.y < 200 && guard-- > 0) { tickSim(sim, [0], level7); sim.events.length = 0; }
+      assert.ok(loli.y >= 200, `Loli reaches y=200 (y=${loli.y})`);
+      const fire = sim.spawnEnemyBullet.bind(sim);
+      for (const [hp, want] of [[750, 1], [400, 2], [150, 3]]) {
+        loli.hp = hp;
+        let made = 0, teleMax = loli.tele;
+        sim.spawnEnemyBullet = (props) => { made++; return fire(props); };
+        for (let k = 0; k < 120; k++) {
+          tickSim(sim, [0], level7);
+          if (loli.tele > teleMax) teleMax = loli.tele;
+          sim.events.length = 0;
+        }
+        sim.spawnEnemyBullet = fire;
+        assert.equal(loli.phase, want, `Loli phase ${want} at hp=${hp} (maxhp 750)`);
+        assert.ok(made > 0, `Loli phase ${want} produces shared-pattern bullets (made=${made})`);
+        if (want > 1) assert.ok(teleMax > 0, `Loli phase ${want} change is telegraphed`);
+      }
+      assert.equal(sim.level.phase, 'midboss', 'kill-gate holds before the kill');
+      loli.hp = 0;
+      for (let k = 0; k < 61; k++) { tickSim(sim, [0], level7); sim.events.length = 0; }
+      assert.equal(sim.level.phase, 'fortress', 'kill-gate advances after the kill');
+      ok('niflheim loli phases (y=200, 3 shared patterns, warnings, kill-gate)');
+    }
+
+    // full run: every enemy/bullet position stays finite; both warning
+    // event types fire for Loli plus the final bossWarning.
+    {
+      const sim = createSim(0x51f47e, [ROSTER[0]]);
+      sim.players[0].lives = 999;
+      const seen = new Set();
+      let guard = 60000, i = 0;
+      while (!sim.levelComplete && guard-- > 0) {
+        const mask = (i++ % 600 < 590) ? 16 : 0;
+        tickSim(sim, [mask], level7);
+        for (const e of sim.enemies.active) {
+          assert.ok(Number.isFinite(e.x) && Number.isFinite(e.y), 'enemy position finite');
+        }
+        for (const b of sim.enemyBullets.active) {
+          assert.ok(Number.isFinite(b.x) && Number.isFinite(b.y) && Number.isFinite(b.vx) && Number.isFinite(b.vy), 'bullet position finite');
+        }
+        for (const e of sim.events) {
+          if ((e.type === 'warning' || e.type === 'bossWarning') && e.name) seen.add(`${e.type}:${e.name}`);
+        }
+        sim.events.length = 0;
+      }
+      assert.ok(sim.levelComplete, 'finite full run completes level 7');
+      assert.ok(seen.has('warning:Loli Ruri'), 'full run sees Loli warning');
+      assert.ok(seen.has('bossWarning:Loli Ruri'), 'full run sees Loli bossWarning');
+      assert.ok(seen.has('bossWarning:Lord of Death'), 'full run sees Lord of Death bossWarning');
+      ok('niflheim finite full run (positions finite, both warning types)');
+    }
+  }
+
+  // direct review: Nivel 7 is reachable through the same generic payload
+  // (exact character + level index, fresh score/carry, review marker) — the
+  // payload and no-advance/no-score behavior are level-index-generic (§10),
+  // so reaching Nivel 7 is exactly its index in the LEVELS registry.
+  {
+    const titles = [...src('src/levels/index.js').matchAll(/title: '(Nivel \d)'/g)].map((m) => m[1]);
+    assert.equal(titles[6], 'Nivel 7', 'selector reaches Nivel 7 by index');
+    assert.ok(src('src/scenes/levelselect.js').includes('LEVELS.length'), 'choices still derive from LEVELS length');
+    ok('niflheim direct review (Nivel 7 indexed in LEVELS)');
+  }
+}
+
+// --- 15. Niflheim slicer hardening: catastrophe row-exact restore + RGBA map tiling ---
+{
+  const { execFileSync } = await import('node:child_process');
+  const SLICER = path.join(ROOT, 'tools', 'slice-niflheim.py');
+  const runPy = (code) => execFileSync('python', ['-c', code], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+
+  // 15a. catastrophe backstop: a rect spanning image strides restores
+  // byte-exactly row by row when REMOVED_CAP triggers.
+  const catPy = [
+    'import importlib.util',
+    `spec = importlib.util.spec_from_file_location("sn", ${JSON.stringify(SLICER)})`,
+    'sn = importlib.util.module_from_spec(spec)',
+    'spec.loader.exec_module(sn)',
+    'W,H = 10,6',
+    'px = bytearray(W*H*4)',
+    'def setpx(x,y,r,g,b,a):',
+    '    i=(y*W+x)*4',
+    '    px[i:i+4]=bytes((r,g,b,a))',
+    'MAT=(50,60,70)',
+    'for y in range(H):',
+    '    for x in range(W):',
+    '        setpx(x,y,(x*17+y*31)%256,(x*29+y*11+80)%256,(x*13+y*7+160)%256,255)',
+    'R={"x":2,"y":2,"w":4,"h":3}',
+    'for y in range(R["y"],R["y"]+R["h"]):',
+    '    for x in range(R["x"],R["x"]+R["w"]):',
+    '        setpx(x,y,MAT[0],MAT[1],MAT[2],255)',
+    'setpx(0,0,MAT[0],MAT[1],MAT[2],0)',
+    'setpx(7,3,MAT[0],MAT[1],MAT[2],0)',
+    'img=sn.Img(W,H,px)',
+    'exp=[bytes(img.px[(R["y"]+yy)*W*4+R["x"]*4:(R["y"]+yy)*W*4+(R["x"]+R["w"])*4]) for yy in range(R["h"])]',
+    'errors=[]',
+    'stats={"frames":{}}',
+    'sn.decontaminate(img,[("t.rect",R)],"testtag",errors,stats)',
+    'assert stats["frames"]["t.rect"].get("restored"), "catastrophe branch must trigger (removed>REMOVED_CAP)"',
+    'assert any("restored" in e for e in errors), "restore must be reported"',
+    'for yy in range(R["h"]):',
+    '    got=bytes(img.px[(R["y"]+yy)*W*4+R["x"]*4:(R["y"]+yy)*W*4+(R["x"]+R["w"])*4])',
+    '    assert got==exp[yy], f"row {yy} not byte-exact: got {got.hex()} want {exp[yy].hex()}"',
+    'print("catastrophe row-exact restore OK")',
+  ].join('\n');
+  const catOut = runPy(catPy);
+  assert.ok(catOut.includes('catastrophe row-exact restore OK'), 'catastrophe helper output');
+  ok('niflheim slicer catastrophe restore (strided rect byte-exact)');
+
+  // 15b. map tiling: synthetic RGBA map converts to RGB semantics before
+  // three-channel row slicing; tiles run bottom (valley) -> top (fortress).
+  const mapPy = [
+    'import importlib.util',
+    `spec = importlib.util.spec_from_file_location("sn", ${JSON.stringify(SLICER)})`,
+    'sn = importlib.util.module_from_spec(spec)',
+    'spec.loader.exec_module(sn)',
+    'mw,mh,mch=2,7,4',
+    'mpx=bytearray()',
+    'for y in range(mh):',
+    '    for x in range(mw):',
+    '        mpx+=bytes((y*10,y*10+1,y*10+2,255))',
+    'tiles=sn.slice_map_tiles(mw,mh,mch,bytes(mpx))',
+    'assert len(tiles)==7, f"want 7 tiles, got {len(tiles)}"',
+    'assert [t[0] for t in tiles]==sn.MAP_TILES, "tile order follows MAP_TILES bottom->top"',
+    'for i,t in enumerate(tiles):',
+    '    name,w,h,px=t',
+    '    assert w==mw and h==1, f"{name} size {w}x{h}, want 2x1"',
+    '    srcrow=mh-1-i',
+    '    want=bytes((srcrow*10,srcrow*10+1,srcrow*10+2))*mw',
+    '    assert bytes(px)==want, f"{name} pixels {bytes(px).hex()} want {want.hex()} (source row {srcrow})"',
+    'print("rgba map tiling OK")',
+  ].join('\n');
+  const mapOut = runPy(mapPy);
+  assert.ok(mapOut.includes('rgba map tiling OK'), 'map tiling helper output');
+  ok('niflheim slicer RGBA map tiling (pixels/order)');
+}
+
+console.log(`\nPASS — ${passed} static checks`);
+process.exit(0);

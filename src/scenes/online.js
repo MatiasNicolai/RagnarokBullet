@@ -214,10 +214,15 @@ export class OnlineScene {
 
   async doHost() {
     this.setStage('connecting');
-    try { const net = await this.ensureClient(); net.host(); this.setStage('hosting'); }
+    try {
+      const net = await this.ensureClient();
+      // subscribe before sending: the relay answers async, but the listener
+      // must exist first so a fast 'hosted' reply can never be missed.
+      net.on('hosted', () => { if (this.stage === 'hosting') this.render(); });
+      net.host();
+      this.setStage('hosting');
+    }
     catch { this.status.text = 'No se pudo conectar al servidor.'; this.setStage('menu'); }
-    // 'hosted' arrives async; re-render once code is set
-    this.net?.on('hosted', () => { if (this.stage === 'hosting') this.render(); });
   }
 
   async doJoin(code) {

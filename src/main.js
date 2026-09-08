@@ -8,7 +8,9 @@ import { SelectScene } from './scenes/select.js';
 import { GameScene } from './scenes/game.js';
 import { RecordsScene } from './scenes/records.js';
 import { PracticeScene } from './scenes/practice.js';
+import { LevelSelectScene } from './scenes/levelselect.js';
 import { OnlineScene } from './scenes/online.js';
+import { ArtLabScene, loadCleanTables } from './scenes/artlab.js';
 import { SIDEBAR_W } from './ui/sidebar.js';
 import { MuteButtons } from './ui/mutebuttons.js';
 import { DEFAULT_DIFF } from './sim/difficulty.js';
@@ -38,13 +40,14 @@ async function boot() {
 
   const atlas = await loadAtlas();
   // essentials are in — drop the HTML loading screen and warm the remaining
-  // (heavy) map sets in the background so levels 2/3 are ready by the time we
+  // (heavy) map sets in the background so levels 2-6 are ready by the time we
   // get there without blocking the title on 44 MB of maps.
   document.getElementById('loading')?.remove();
   atlas.ensureMapSet('geffen')
     .then(() => atlas.ensureMapSet('glastheim'))
     .then(() => atlas.ensureMapSet('juperos'))
     .then(() => atlas.ensureMapSet('biolab'))
+    .then(() => atlas.ensureMapSet('pyramid'))
     .catch(() => {});
   const input = new Input();
 
@@ -66,7 +69,12 @@ async function boot() {
     goToSelect: () => setScene(() => new SelectScene(ctx)),
     goToRecords: () => setScene(() => new RecordsScene(ctx)),
     goToPractice: () => setScene(() => new PracticeScene(ctx)),
+    goToLevelSelect: () => setScene(() => new LevelSelectScene(ctx)),
     goToOnline: () => setScene(() => new OnlineScene(ctx)),
+    // Art Lab (internal review tool, ?artlab=1 only): parallel ORIGINAL +
+    // CLEAN tables are loaded on top of the normal atlas; the game flow is
+    // untouched and exiting returns to the title like any other scene.
+    goToArtLab: (clean) => setScene(() => new ArtLabScene(ctx, clean)),
     startGame: (chars) => setScene(() => new GameScene(ctx, {
       chars, levelIndex: 0, score: 0, carry: null, difficulty: ctx.difficulty,
     })),
@@ -75,11 +83,27 @@ async function boot() {
       chars, levelIndex: bossLevel, score: 0, carry: null,
       difficulty: ctx.difficulty, practice: bossDef,
     })),
+    // Direct-level review run: the whole real level from its start, fresh
+    // score/carry at the current difficulty. Completing or losing it never
+    // advances the campaign and never submits a high score.
+    startDirectLevel: (chars, levelIndex) => setScene(() => new GameScene(ctx, {
+      chars, levelIndex, score: 0, carry: null, difficulty: ctx.difficulty, direct: true,
+    })),
   };
 
   window.__app = { app, get scene() { return current; }, ctx, audio, music };
 
-  ctx.goToTitle();
+  // ?artlab=1 opens the internal Art Lab instead of the title. Clean tables
+  // load best-effort (missing files just show 'sin versión clean'); the
+  // normal boot path below is otherwise identical.
+  let artlab = false;
+  try { artlab = new URLSearchParams(window.location.search).get('artlab') === '1'; } catch { /* ignore */ }
+  if (artlab) {
+    const clean = await loadCleanTables().catch(() => null);
+    ctx.goToArtLab(clean);
+  } else {
+    ctx.goToTitle();
+  }
   app.ticker.add((ticker) => current?.update(ticker.deltaMS));
 }
 

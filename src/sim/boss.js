@@ -26,6 +26,7 @@ function makeBoss(def, homeX, hpMult) {
     cardHp: Math.round(def.cards[0].hp * hpMult),
     cardMax: Math.round(def.cards[0].hp * hpMult),
     cardName: def.cards[0].name,
+    tele: 0, // wind-up telegraph timer, same idiom as enemy e.tele
     maxHp,
     hp: maxHp,
     hitFlash: 0,
@@ -74,6 +75,7 @@ export function stepBoss(sim) {
 
 function stepOne(sim, b) {
   if (b.hitFlash > 0) b.hitFlash--;
+  if (b.tele > 0) b.tele--;
 
   if (b.intro) {
     b.y += 2.2;
@@ -514,6 +516,176 @@ export const magaleta = {
         }
         if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: -b.t * (desperate ? 0.2 : 0.15), speed: 2.2, color: 'orange' });
         if (b.t % (desperate ? 20 : 28) === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 2.9, color: 'purple', r: 5 });
+      },
+    },
+  ],
+};
+
+// --- Amon-Ra: level 6 final boss (Pyramid). Enthroned and near-stationary:
+// he holds the sanctuary while the arena comes to him. Minimal sway around
+// homeX; all pressure comes from layered solar/eclipse danmaku. ---
+export const amonRa = {
+  name: 'Amon-Ra',
+  r: 54,
+  targetY: 170,
+  cards: [
+    {
+      // Corona Solar: slow rotating radial rings + sun rain from above.
+      // The rotation is steady and readable; gaps open twice per revolution.
+      name: 'Corona Solar',
+      hp: 900,
+      step(sim, b) {
+        b.x = b.homeX + Math.sin(b.t / 60) * 40;
+        if (b.t % 46 === 0) {
+          ring(sim, b.x, b.y, { n: 26, speed: 2.0, baseAngle: b.t * 0.05, color: 'orange' });
+        }
+        if (b.t % 16 === 0) rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.1, color: 'orange', r: 5 });
+      },
+    },
+    {
+      // Eclipse: darkness closes in — dense slow rings plus telegraphed
+      // aimed fans. The fans are the threat; the rings are the walls.
+      name: 'Eclipse',
+      hp: 1000,
+      step(sim, b) {
+        b.x = b.homeX + Math.sin(b.t / 55) * 45;
+        if (b.t % 58 === 36) b.tele = 20;
+        if (b.t % 58 === 0 && b.t > 0) {
+          ring(sim, b.x, b.y, { n: 30, speed: 1.7, baseAngle: sim.rng.range(0, 6.28), color: 'purple' });
+          fan(sim, b.x, b.y, { n: 6, angle: angleTo(sim, b.x, b.y), spread: 0.6, speed: 3.2, color: 'red' });
+        }
+        if (b.t % 64 === 0) {
+          ringWithGap(sim, b.x, b.y, { n: 20, speed: 2.0, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.8, color: 'purple' });
+        }
+      },
+    },
+    {
+      // Ira del Santuario: twin counter-spirals accelerate into desperation
+      // below 35%, and jackal sentries join the rite (capped, like Vesper).
+      name: 'Ira del Santuario',
+      hp: 1150,
+      step(sim, b) {
+        b.x = b.homeX + Math.sin(b.t / 48) * 50;
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        const ph = b.t * (desperate ? 0.24 : 0.17);
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: ph, speed: 2.4, color: 'orange' });
+        spiralArm(sim, b.x, b.y, { arms: 2, phase: -ph + Math.PI, speed: 2.4, color: 'red' });
+        if (b.t % (desperate ? 24 : 36) === 0) {
+          rain(sim, sim.rng.range(20, FIELD_W - 20), { speed: 3.2, color: 'orange', r: 5 });
+        }
+        if (b.t % 280 === 60 && sim.enemies.active.length < 5) {
+          for (let k = 0; k < 2; k++) {
+            sim.spawnEnemy({
+              x: b.x + (k ? 110 : -110), y: b.y + 20, vx: 0, vy: 1.0,
+              hp: 30, r: 17, skin: 'matyr', score: 900,
+              shoot: (s, e2) => { if (e2.t % 70 === 30) aimed(s, e2.x, e2.y, { speed: 3.4, color: 'red' }); },
+            });
+          }
+          sim.events.push({ type: 'summon', x: b.x, y: b.y });
+        }
+      },
+    },
+  ],
+};
+
+// Niflheim shared danmaku: Loli Ruri's staged patterns. The campaign
+// midboss (inline elite in level7.js) and the practice cards below both
+// call these, so the doll shoots the same everywhere. Tick-driven,
+// sim.rng only — deterministic like the rest of the sim.
+export function loliP1(sim, x, y, t) {
+  // staged bat-wing radial waves + sparse aimed violet magic
+  if (t % 64 === 0) ring(sim, x, y, { n: 16, speed: 2.0, baseAngle: t * 0.11, color: 'purple' });
+  if (t % 96 === 48) aimed(sim, x, y, { speed: 3.0, color: 'purple' });
+}
+export function loliP2(sim, x, y, t) {
+  // aimed fans over a rotating charm-rose ring (the gap is the safe lane)
+  if (t % 88 === 0) ringWithGap(sim, x, y, { n: 14, speed: 1.9, gapAngle: t * 0.07, gapWidth: 0.9, color: 'purple' });
+  if (t % 70 === 35) fan(sim, x, y, { n: 3, angle: angleTo(sim, x, y), spread: 0.4, speed: 3.1, color: 'purple' });
+}
+export function loliP3(sim, x, y, t) {
+  // dense rose spiral with a clear recovery window every 220 ticks
+  if (t % 220 < 180) {
+    spiralArm(sim, x, y, { arms: 2, phase: t * 0.2, speed: 2.1, color: 'purple' });
+    if (t % 110 === 55) aimed(sim, x, y, { speed: 3.2, color: 'purple' });
+  }
+}
+
+export const loliRuri = {
+  name: 'Loli Ruri', r: 40, targetY: 190,
+  cards: [
+    {
+      name: 'Alas de Murciélago', hp: 650,
+      step(sim, b) {
+        b.x = FIELD_W / 2 + Math.sin(b.t / 85) * 90;
+        loliP1(sim, b.x, b.y, b.t);
+        if (b.cardHp < b.cardMax * 0.35 && b.t % 60 === 30) aimed(sim, b.x, b.y, { speed: 3.3, color: 'purple' });
+      },
+    },
+    {
+      name: 'Hechizo de Rosas', hp: 750,
+      step(sim, b) {
+        b.x = FIELD_W / 2 + Math.sin(b.t / 95) * 90;
+        // staged: charm rose, then rose spiral — deterministic thresholds
+        if (b.t % 300 < 180) loliP2(sim, b.x, b.y, b.t);
+        else loliP3(sim, b.x, b.y, b.t % 220);
+      },
+    },
+  ],
+};
+
+export const lordOfDeath = {
+  name: 'Lord of Death', r: 64, targetY: 180,
+  cards: [
+    {
+      name: 'Guadaña Espectral', hp: 950,
+      step(sim, b) {
+        const cyc = b.t % 240;
+        if (cyc < 150) {
+          b.x = FIELD_W / 2 + Math.sin(b.t / 90) * 140;
+          if (b.t % 64 === 44) b.tele = 20;
+          if (b.t % 64 === 0) fan(sim, b.x, b.y, { n: 7, angle: angleTo(sim, b.x, b.y), spread: 0.9, speed: 3.0, color: 'red' });
+        } else if (cyc === 150) {
+          // telegraphed charge lane: mount rears, then crosses the arena
+          b.tele = 30;
+          const p = nearestX(sim, b.x);
+          b.chargeX = Math.max(60, Math.min(FIELD_W - 60, p));
+        } else {
+          b.x += (b.chargeX - b.x) * 0.3;
+          if (cyc % 12 === 0) fan(sim, b.x, b.y, { n: 3, angle: Math.PI / 2, spread: 0.5, speed: 3.1, color: 'red' });
+        }
+      },
+    },
+    {
+      name: 'Rito Nigromante', hp: 1050,
+      step(sim, b) {
+        const desperate = b.cardHp < b.cardMax * 0.35;
+        b.x = FIELD_W / 2 + Math.sin(b.t / 110) * 40;
+        // necromantic skull spiral, always breathing
+        if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: b.t * 0.14, speed: 2.2, color: 'purple' });
+        // tombstone lane walls: the gap faces the player (explicit safe lane)
+        if (b.t % 76 === 0) ringWithGap(sim, b.x, b.y, { n: 22, speed: 1.6, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.7, color: 'cyan' });
+        if (b.t % 40 === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 2.6, color: 'purple' });
+        if (desperate && b.t % 80 === 40) fan(sim, b.x, b.y, { n: 3, angle: angleTo(sim, b.x, b.y), spread: 0.5, speed: 3.2, color: 'red' });
+      },
+    },
+    {
+      name: 'Eclipse Final', hp: 1200,
+      step(sim, b) {
+        const cyc = b.t % 260;
+        if (cyc < 170) {
+          b.x = FIELD_W / 2 + Math.sin(b.t / 100) * 100;
+        } else if (cyc === 170) {
+          b.tele = 30;
+          const p = nearestX(sim, b.x);
+          b.chargeX = Math.max(60, Math.min(FIELD_W - 60, p));
+        } else {
+          b.x += (b.chargeX - b.x) * 0.3;
+          if (cyc % 12 === 0) fan(sim, b.x, b.y, { n: 3, angle: Math.PI / 2, spread: 0.5, speed: 3.1, color: 'red' });
+        }
+        // eclipse crown: rotating gapped ring over the skull spiral
+        if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: b.t * 0.18, speed: 2.2, color: 'purple' });
+        if (b.t % 70 === 0) ringWithGap(sim, b.x, b.y, { n: 26, speed: 2.0, gapAngle: b.t * 0.05, gapWidth: 0.55, color: 'red' });
+        if (b.t % 90 === 45) aimed(sim, b.x, b.y, { speed: 3.4, color: 'red' });
       },
     },
   ],

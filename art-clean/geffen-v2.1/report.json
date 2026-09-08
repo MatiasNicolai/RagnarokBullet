@@ -1,0 +1,6289 @@
+{
+  "tool": "tools/clean-art-v2_1.py (pilot V2.1)",
+  "base": "V2 RGB (tools/clean-art-v2.py, art-clean/geffen reference)",
+  "params": {
+    "tol": 14,
+    "lum_lo": 160,
+    "white_keep": 236,
+    "edge_r": 2,
+    "core_r": 2,
+    "bar_w": 7,
+    "bar_h": 0.75,
+    "bar_spread": 20,
+    "band_h": 4,
+    "band_w": 0.6,
+    "band_lum": 120,
+    "dash_h": 1,
+    "dash_area": 30,
+    "dash_lum": 140,
+    "speck_area": 6,
+    "bleed_r": 8,
+    "scale": 2
+  },
+  "overrides": [
+    {
+      "entity": "munak",
+      "pose": "down.attack",
+      "edge": "right",
+      "max_w": 7,
+      "reason": "override: neighbor-cell bar, gray-cyan"
+    }
+  ],
+  "inputs": [
+    "public/assets/monsters3.png+json",
+    "public/assets/bosses.png + bosses.json + monsters5.json"
+  ],
+  "notes": [
+    "Stage 1 = V2 RGB decontamination (alpha untouched).",
+    "Stage 2 removes only auto EDGE_BAR/GROUND_BAND/TOP_DASH/EDGE_SPECK components + OVERRIDES; all disconnected non-main.",
+    "Removed pixels -> alpha 0 with solidified RGB (nearest kept).",
+    "Rects/IDs/sheet dims unchanged; manifests differ only in sheet.",
+    "No padding/anchor normalization (would move visual anchors).",
+    "Kept deliberately: Marionette panels+platforms (connected or mixed with feet), munak hem chunks, wraith gray chunks, Doppelganger twin figures, hit-frame debris, bright ear tips."
+  ],
+  "sprites": [
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 25,
+        "y": 78,
+        "w": 94,
+        "h": 80
+      },
+      "before": {
+        "opaque": 5284,
+        "transparent": 2236,
+        "semi": 0,
+        "border_bright": 166,
+        "bbox": [
+          0,
+          0,
+          93,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 5088,
+        "transparent": 2432,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          93,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 182,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            77,
+            93,
+            79
+          ],
+          "area": 196,
+          "mean": [
+            168,
+            171,
+            142
+          ],
+          "reason": "auto GROUND_BAND 94x3 lum=160"
+        }
+      ],
+      "alpha_changed": 196
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 78,
+        "w": 83,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4952,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 196,
+        "bbox": [
+          0,
+          0,
+          82,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 4786,
+        "transparent": 1854,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          82,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 205,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            82,
+            79
+          ],
+          "area": 166,
+          "mean": [
+            165,
+            169,
+            140
+          ],
+          "reason": "auto GROUND_BAND 83x2 lum=158"
+        }
+      ],
+      "alpha_changed": 166
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 239,
+        "y": 78,
+        "w": 85,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4973,
+        "transparent": 1827,
+        "semi": 0,
+        "border_bright": 179,
+        "bbox": [
+          0,
+          0,
+          84,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 4790,
+        "transparent": 2010,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          84,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 184,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            77,
+            84,
+            79
+          ],
+          "area": 183,
+          "mean": [
+            170,
+            173,
+            145
+          ],
+          "reason": "auto GROUND_BAND 85x3 lum=163"
+        }
+      ],
+      "alpha_changed": 183
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 339,
+        "y": 78,
+        "w": 199,
+        "h": 80
+      },
+      "before": {
+        "opaque": 9732,
+        "transparent": 6188,
+        "semi": 0,
+        "border_bright": 421,
+        "bbox": [
+          0,
+          0,
+          198,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 9326,
+        "transparent": 6594,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          198,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 442,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            77,
+            198,
+            79
+          ],
+          "area": 406,
+          "mean": [
+            167,
+            169,
+            140
+          ],
+          "reason": "auto GROUND_BAND 199x3 lum=159"
+        }
+      ],
+      "alpha_changed": 406
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 78,
+        "w": 6,
+        "h": 80
+      },
+      "before": {
+        "opaque": 480,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 80,
+        "bbox": [
+          0,
+          0,
+          5,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 480,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          79
+        ]
+      },
+      "v2_cleaned_rgb": 80,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 34,
+        "y": 186,
+        "w": 76,
+        "h": 71
+      },
+      "before": {
+        "opaque": 4003,
+        "transparent": 1393,
+        "semi": 0,
+        "border_bright": 146,
+        "bbox": [
+          0,
+          0,
+          75,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 4003,
+        "transparent": 1393,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          75,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 165,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 186,
+        "w": 74,
+        "h": 71
+      },
+      "before": {
+        "opaque": 3999,
+        "transparent": 1255,
+        "semi": 0,
+        "border_bright": 185,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 3999,
+        "transparent": 1255,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 211,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 240,
+        "y": 186,
+        "w": 74,
+        "h": 71
+      },
+      "before": {
+        "opaque": 3962,
+        "transparent": 1292,
+        "semi": 0,
+        "border_bright": 155,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 3962,
+        "transparent": 1292,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 169,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 339,
+        "y": 186,
+        "w": 196,
+        "h": 71
+      },
+      "before": {
+        "opaque": 8608,
+        "transparent": 5308,
+        "semi": 0,
+        "border_bright": 422,
+        "bbox": [
+          0,
+          0,
+          195,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 8608,
+        "transparent": 5308,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          195,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 454,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 186,
+        "w": 6,
+        "h": 71
+      },
+      "before": {
+        "opaque": 426,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 71,
+        "bbox": [
+          0,
+          0,
+          5,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 426,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 71,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 602,
+        "y": 77,
+        "w": 56,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3256,
+        "transparent": 1224,
+        "semi": 0,
+        "border_bright": 151,
+        "bbox": [
+          0,
+          0,
+          55,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3144,
+        "transparent": 1336,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          55,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 165,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            55,
+            79
+          ],
+          "area": 112,
+          "mean": [
+            159,
+            149,
+            170
+          ],
+          "reason": "auto GROUND_BAND 56x2 lum=159"
+        }
+      ],
+      "alpha_changed": 112
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 700,
+        "y": 77,
+        "w": 58,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3286,
+        "transparent": 1354,
+        "semi": 0,
+        "border_bright": 137,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3170,
+        "transparent": 1470,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 144,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            57,
+            79
+          ],
+          "area": 116,
+          "mean": [
+            158,
+            148,
+            167
+          ],
+          "reason": "auto GROUND_BAND 58x2 lum=158"
+        }
+      ],
+      "alpha_changed": 116
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 77,
+        "w": 58,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3334,
+        "transparent": 1306,
+        "semi": 0,
+        "border_bright": 169,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3218,
+        "transparent": 1422,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          57,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 180,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            57,
+            79
+          ],
+          "area": 116,
+          "mean": [
+            158,
+            149,
+            168
+          ],
+          "reason": "auto GROUND_BAND 58x2 lum=158"
+        }
+      ],
+      "alpha_changed": 116
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 893,
+        "y": 77,
+        "w": 65,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3531,
+        "transparent": 1669,
+        "semi": 0,
+        "border_bright": 229,
+        "bbox": [
+          0,
+          0,
+          64,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3401,
+        "transparent": 1799,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          64,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 238,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            64,
+            79
+          ],
+          "area": 130,
+          "mean": [
+            160,
+            150,
+            171
+          ],
+          "reason": "auto GROUND_BAND 65x2 lum=160"
+        }
+      ],
+      "alpha_changed": 130
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 992,
+        "y": 77,
+        "w": 91,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4078,
+        "transparent": 3202,
+        "semi": 0,
+        "border_bright": 222,
+        "bbox": [
+          0,
+          0,
+          90,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3892,
+        "transparent": 3388,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          90,
+          75
+        ]
+      },
+      "v2_cleaned_rgb": 231,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            78,
+            90,
+            79
+          ],
+          "area": 182,
+          "mean": [
+            161,
+            150,
+            170
+          ],
+          "reason": "auto GROUND_BAND 91x2 lum=160"
+        },
+        {
+          "bbox": [
+            0,
+            59,
+            1,
+            61
+          ],
+          "area": 4,
+          "mean": [
+            116,
+            112,
+            113
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        }
+      ],
+      "alpha_changed": 186
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 608,
+        "y": 186,
+        "w": 48,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2739,
+        "transparent": 717,
+        "semi": 0,
+        "border_bright": 138,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2739,
+        "transparent": 717,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 158,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 704,
+        "y": 186,
+        "w": 48,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2761,
+        "transparent": 695,
+        "semi": 0,
+        "border_bright": 139,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2761,
+        "transparent": 695,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 144,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 804,
+        "y": 186,
+        "w": 49,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2772,
+        "transparent": 756,
+        "semi": 0,
+        "border_bright": 141,
+        "bbox": [
+          0,
+          0,
+          48,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2772,
+        "transparent": 756,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          48,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 166,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 891,
+        "y": 186,
+        "w": 74,
+        "h": 72
+      },
+      "before": {
+        "opaque": 3593,
+        "transparent": 1735,
+        "semi": 0,
+        "border_bright": 234,
+        "bbox": [
+          0,
+          0,
+          73,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 3593,
+        "transparent": 1735,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          73,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 273,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 993,
+        "y": 186,
+        "w": 97,
+        "h": 72
+      },
+      "before": {
+        "opaque": 3998,
+        "transparent": 2986,
+        "semi": 0,
+        "border_bright": 237,
+        "bbox": [
+          0,
+          0,
+          96,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 3998,
+        "transparent": 2986,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          96,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 256,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 427,
+        "w": 89,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3964,
+        "transparent": 2622,
+        "semi": 0,
+        "border_bright": 87,
+        "bbox": [
+          0,
+          0,
+          88,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3581,
+        "transparent": 3005,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          15,
+          0,
+          88,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 88,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            0,
+            5,
+            73
+          ],
+          "area": 383,
+          "mean": [
+            110,
+            149,
+            155
+          ],
+          "reason": "auto EDGE_BAR 6x74 spread=45"
+        }
+      ],
+      "alpha_changed": 383
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 126,
+        "y": 427,
+        "w": 74,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3626,
+        "transparent": 1850,
+        "semi": 0,
+        "border_bright": 69,
+        "bbox": [
+          0,
+          0,
+          73,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3626,
+        "transparent": 1850,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          73,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 71,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 231,
+        "y": 427,
+        "w": 77,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3693,
+        "transparent": 2005,
+        "semi": 0,
+        "border_bright": 69,
+        "bbox": [
+          0,
+          0,
+          76,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3685,
+        "transparent": 2013,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          76,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 73,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            50,
+            1,
+            52
+          ],
+          "area": 6,
+          "mean": [
+            183,
+            231,
+            243
+          ],
+          "reason": "auto EDGE_SPECK area=6"
+        },
+        {
+          "bbox": [
+            0,
+            48,
+            1,
+            48
+          ],
+          "area": 2,
+          "mean": [
+            237,
+            248,
+            252
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 8
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 345,
+        "y": 427,
+        "w": 78,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3911,
+        "transparent": 1861,
+        "semi": 0,
+        "border_bright": 102,
+        "bbox": [
+          0,
+          0,
+          77,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3911,
+        "transparent": 1861,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          77,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 107,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 448,
+        "y": 427,
+        "w": 105,
+        "h": 74
+      },
+      "before": {
+        "opaque": 4001,
+        "transparent": 3769,
+        "semi": 0,
+        "border_bright": 97,
+        "bbox": [
+          0,
+          0,
+          104,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3557,
+        "transparent": 4213,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          77,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 105,
+      "components_removed": [
+        {
+          "bbox": [
+            99,
+            0,
+            104,
+            73
+          ],
+          "area": 444,
+          "mean": [
+            135,
+            158,
+            160
+          ],
+          "reason": "override: neighbor-cell bar, gray-cyan"
+        }
+      ],
+      "alpha_changed": 444
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 537,
+        "w": 101,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3950,
+        "transparent": 3827,
+        "semi": 0,
+        "border_bright": 154,
+        "bbox": [
+          0,
+          0,
+          100,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3551,
+        "transparent": 4226,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          19,
+          0,
+          100,
+          76
+        ]
+      },
+      "v2_cleaned_rgb": 163,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            0,
+            5,
+            76
+          ],
+          "area": 399,
+          "mean": [
+            108,
+            146,
+            151
+          ],
+          "reason": "auto EDGE_BAR 6x77 spread=43"
+        }
+      ],
+      "alpha_changed": 399
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 134,
+        "y": 537,
+        "w": 76,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3469,
+        "transparent": 2383,
+        "semi": 0,
+        "border_bright": 141,
+        "bbox": [
+          0,
+          0,
+          75,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3469,
+        "transparent": 2383,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          75,
+          76
+        ]
+      },
+      "v2_cleaned_rgb": 149,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 238,
+        "y": 537,
+        "w": 77,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3531,
+        "transparent": 2398,
+        "semi": 0,
+        "border_bright": 144,
+        "bbox": [
+          0,
+          0,
+          76,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3531,
+        "transparent": 2398,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          76,
+          76
+        ]
+      },
+      "v2_cleaned_rgb": 152,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 342,
+        "y": 537,
+        "w": 183,
+        "h": 77
+      },
+      "before": {
+        "opaque": 6191,
+        "transparent": 7900,
+        "semi": 0,
+        "border_bright": 282,
+        "bbox": [
+          0,
+          0,
+          182,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 6191,
+        "transparent": 7900,
+        "semi": 0,
+        "border_bright": 5,
+        "bbox": [
+          0,
+          0,
+          182,
+          76
+        ]
+      },
+      "v2_cleaned_rgb": 288,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 537,
+        "w": 6,
+        "h": 77
+      },
+      "before": {
+        "opaque": 462,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          5,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 462,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          76
+        ]
+      },
+      "v2_cleaned_rgb": 4,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 594,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3633,
+        "transparent": 1526,
+        "semi": 0,
+        "border_bright": 167,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3446,
+        "transparent": 1713,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          66,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 179,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            74,
+            66,
+            76
+          ],
+          "area": 187,
+          "mean": [
+            235,
+            202,
+            171
+          ],
+          "reason": "auto GROUND_BAND 67x3 lum=203"
+        }
+      ],
+      "alpha_changed": 187
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 688,
+        "y": 435,
+        "w": 70,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3308,
+        "transparent": 2082,
+        "semi": 0,
+        "border_bright": 176,
+        "bbox": [
+          0,
+          0,
+          69,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3116,
+        "transparent": 2274,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          69,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 188,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            74,
+            69,
+            76
+          ],
+          "area": 192,
+          "mean": [
+            236,
+            201,
+            169
+          ],
+          "reason": "auto GROUND_BAND 70x3 lum=202"
+        }
+      ],
+      "alpha_changed": 192
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3366,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 174,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3176,
+        "transparent": 1983,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          66,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 187,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            74,
+            66,
+            76
+          ],
+          "area": 190,
+          "mean": [
+            237,
+            204,
+            173
+          ],
+          "reason": "auto GROUND_BAND 67x3 lum=205"
+        }
+      ],
+      "alpha_changed": 190
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 895,
+        "y": 435,
+        "w": 61,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3481,
+        "transparent": 1216,
+        "semi": 0,
+        "border_bright": 184,
+        "bbox": [
+          0,
+          0,
+          60,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3307,
+        "transparent": 1390,
+        "semi": 0,
+        "border_bright": 22,
+        "bbox": [
+          0,
+          0,
+          60,
+          70
+        ]
+      },
+      "v2_cleaned_rgb": 181,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            74,
+            60,
+            76
+          ],
+          "area": 173,
+          "mean": [
+            234,
+            203,
+            173
+          ],
+          "reason": "auto GROUND_BAND 61x3 lum=203"
+        },
+        {
+          "bbox": [
+            47,
+            0,
+            47,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            224,
+            226,
+            224
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 174
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 985,
+        "y": 435,
+        "w": 129,
+        "h": 77
+      },
+      "before": {
+        "opaque": 4922,
+        "transparent": 5011,
+        "semi": 0,
+        "border_bright": 175,
+        "bbox": [
+          0,
+          0,
+          128,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 4171,
+        "transparent": 5762,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          110,
+          69
+        ]
+      },
+      "v2_cleaned_rgb": 190,
+      "components_removed": [
+        {
+          "bbox": [
+            123,
+            0,
+            128,
+            76
+          ],
+          "area": 419,
+          "mean": [
+            229,
+            172,
+            123
+          ],
+          "reason": "auto EDGE_BAR 6x77 spread=106"
+        },
+        {
+          "bbox": [
+            0,
+            73,
+            114,
+            76
+          ],
+          "area": 332,
+          "mean": [
+            239,
+            203,
+            170
+          ],
+          "reason": "auto GROUND_BAND 115x4 lum=204"
+        }
+      ],
+      "alpha_changed": 751
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 603,
+        "y": 543,
+        "w": 50,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2606,
+        "transparent": 644,
+        "semi": 0,
+        "border_bright": 103,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2606,
+        "transparent": 644,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "v2_cleaned_rgb": 114,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 700,
+        "y": 543,
+        "w": 50,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2521,
+        "transparent": 729,
+        "semi": 0,
+        "border_bright": 110,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2521,
+        "transparent": 729,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "v2_cleaned_rgb": 123,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 805,
+        "y": 543,
+        "w": 51,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2545,
+        "transparent": 770,
+        "semi": 0,
+        "border_bright": 113,
+        "bbox": [
+          0,
+          0,
+          50,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2545,
+        "transparent": 770,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          50,
+          64
+        ]
+      },
+      "v2_cleaned_rgb": 130,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 899,
+        "y": 543,
+        "w": 182,
+        "h": 65
+      },
+      "before": {
+        "opaque": 6674,
+        "transparent": 5156,
+        "semi": 0,
+        "border_bright": 299,
+        "bbox": [
+          0,
+          0,
+          181,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 6674,
+        "transparent": 5156,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          181,
+          64
+        ]
+      },
+      "v2_cleaned_rgb": 320,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 543,
+        "w": 6,
+        "h": 65
+      },
+      "before": {
+        "opaque": 334,
+        "transparent": 56,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 334,
+        "transparent": 56,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          64
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 777,
+        "w": 81,
+        "h": 64
+      },
+      "before": {
+        "opaque": 3391,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 190,
+        "bbox": [
+          0,
+          0,
+          80,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 3044,
+        "transparent": 2140,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          9,
+          0,
+          80,
+          62
+        ]
+      },
+      "v2_cleaned_rgb": 201,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            0,
+            5,
+            63
+          ],
+          "area": 347,
+          "mean": [
+            227,
+            141,
+            149
+          ],
+          "reason": "auto EDGE_BAR 6x64 spread=86"
+        }
+      ],
+      "alpha_changed": 347
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 126,
+        "y": 777,
+        "w": 79,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4126,
+        "transparent": 930,
+        "semi": 0,
+        "border_bright": 129,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4125,
+        "transparent": 931,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "v2_cleaned_rgb": 137,
+      "components_removed": [
+        {
+          "bbox": [
+            22,
+            0,
+            22,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            222,
+            228,
+            233
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 1
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 232,
+        "y": 777,
+        "w": 88,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4460,
+        "transparent": 1172,
+        "semi": 0,
+        "border_bright": 143,
+        "bbox": [
+          0,
+          0,
+          87,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4460,
+        "transparent": 1172,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          87,
+          63
+        ]
+      },
+      "v2_cleaned_rgb": 157,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 347,
+        "y": 777,
+        "w": 79,
+        "h": 64
+      },
+      "before": {
+        "opaque": 3836,
+        "transparent": 1220,
+        "semi": 0,
+        "border_bright": 37,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 3836,
+        "transparent": 1220,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "v2_cleaned_rgb": 39,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 444,
+        "y": 777,
+        "w": 107,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4630,
+        "transparent": 2218,
+        "semi": 0,
+        "border_bright": 156,
+        "bbox": [
+          0,
+          0,
+          106,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4296,
+        "transparent": 2552,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          2,
+          97,
+          63
+        ]
+      },
+      "v2_cleaned_rgb": 168,
+      "components_removed": [
+        {
+          "bbox": [
+            101,
+            0,
+            106,
+            63
+          ],
+          "area": 334,
+          "mean": [
+            225,
+            138,
+            147
+          ],
+          "reason": "auto EDGE_BAR 6x64 spread=87"
+        }
+      ],
+      "alpha_changed": 334
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 885,
+        "w": 86,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3317,
+        "transparent": 1499,
+        "semi": 0,
+        "border_bright": 129,
+        "bbox": [
+          0,
+          0,
+          85,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3027,
+        "transparent": 1789,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          17,
+          0,
+          85,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 142,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            0,
+            5,
+            55
+          ],
+          "area": 290,
+          "mean": [
+            231,
+            141,
+            150
+          ],
+          "reason": "auto EDGE_BAR 6x56 spread=90"
+        }
+      ],
+      "alpha_changed": 290
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 137,
+        "y": 885,
+        "w": 58,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2516,
+        "transparent": 732,
+        "semi": 0,
+        "border_bright": 107,
+        "bbox": [
+          0,
+          0,
+          57,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2516,
+        "transparent": 732,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 117,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 247,
+        "y": 885,
+        "w": 57,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2470,
+        "transparent": 722,
+        "semi": 0,
+        "border_bright": 100,
+        "bbox": [
+          0,
+          0,
+          56,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2470,
+        "transparent": 722,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          56,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 111,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 345,
+        "y": 885,
+        "w": 70,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2672,
+        "transparent": 1248,
+        "semi": 0,
+        "border_bright": 59,
+        "bbox": [
+          0,
+          0,
+          69,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2672,
+        "transparent": 1248,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          69,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 58,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 443,
+        "y": 885,
+        "w": 108,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3431,
+        "transparent": 2617,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          107,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3141,
+        "transparent": 2907,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          90,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 4,
+      "components_removed": [
+        {
+          "bbox": [
+            102,
+            0,
+            107,
+            55
+          ],
+          "area": 290,
+          "mean": [
+            224,
+            136,
+            146
+          ],
+          "reason": "auto EDGE_BAR 6x56 spread=88"
+        }
+      ],
+      "alpha_changed": 290
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 590,
+        "y": 782,
+        "w": 78,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2753,
+        "transparent": 1615,
+        "semi": 0,
+        "border_bright": 134,
+        "bbox": [
+          0,
+          0,
+          77,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2753,
+        "transparent": 1615,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          77,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 136,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 694,
+        "y": 782,
+        "w": 68,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2465,
+        "transparent": 1343,
+        "semi": 0,
+        "border_bright": 116,
+        "bbox": [
+          0,
+          0,
+          67,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2465,
+        "transparent": 1343,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          67,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 116,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 796,
+        "y": 782,
+        "w": 72,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2481,
+        "transparent": 1551,
+        "semi": 0,
+        "border_bright": 114,
+        "bbox": [
+          0,
+          0,
+          71,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2481,
+        "transparent": 1551,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          71,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 117,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 893,
+        "y": 782,
+        "w": 69,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2441,
+        "transparent": 1423,
+        "semi": 0,
+        "border_bright": 114,
+        "bbox": [
+          0,
+          0,
+          68,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2441,
+        "transparent": 1423,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          68,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 115,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 991,
+        "y": 782,
+        "w": 123,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3323,
+        "transparent": 3565,
+        "semi": 0,
+        "border_bright": 145,
+        "bbox": [
+          0,
+          0,
+          122,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3033,
+        "transparent": 3855,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 150,
+      "components_removed": [
+        {
+          "bbox": [
+            117,
+            0,
+            122,
+            55
+          ],
+          "area": 290,
+          "mean": [
+            173,
+            138,
+            191
+          ],
+          "reason": "auto EDGE_BAR 6x56 spread=53"
+        }
+      ],
+      "alpha_changed": 290
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 595,
+        "y": 888,
+        "w": 63,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1671,
+        "transparent": 849,
+        "semi": 0,
+        "border_bright": 67,
+        "bbox": [
+          0,
+          0,
+          62,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1671,
+        "transparent": 849,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          39
+        ]
+      },
+      "v2_cleaned_rgb": 70,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 699,
+        "y": 888,
+        "w": 62,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 792,
+        "semi": 0,
+        "border_bright": 85,
+        "bbox": [
+          0,
+          0,
+          61,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1688,
+        "transparent": 792,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          61,
+          39
+        ]
+      },
+      "v2_cleaned_rgb": 86,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 888,
+        "w": 64,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1661,
+        "transparent": 899,
+        "semi": 0,
+        "border_bright": 90,
+        "bbox": [
+          0,
+          0,
+          63,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1661,
+        "transparent": 899,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          63,
+          39
+        ]
+      },
+      "v2_cleaned_rgb": 91,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 896,
+        "y": 888,
+        "w": 65,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1666,
+        "transparent": 934,
+        "semi": 0,
+        "border_bright": 87,
+        "bbox": [
+          0,
+          0,
+          64,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1666,
+        "transparent": 934,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          39
+        ]
+      },
+      "v2_cleaned_rgb": 88,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 983,
+        "y": 897,
+        "w": 35,
+        "h": 28
+      },
+      "before": {
+        "opaque": 576,
+        "transparent": 404,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          34,
+          27
+        ]
+      },
+      "after": {
+        "opaque": 576,
+        "transparent": 404,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          34,
+          27
+        ]
+      },
+      "v2_cleaned_rgb": 1,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 28,
+        "y": 1106,
+        "w": 79,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5049,
+        "transparent": 1824,
+        "semi": 0,
+        "border_bright": 197,
+        "bbox": [
+          0,
+          0,
+          78,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5049,
+        "transparent": 1824,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          78,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 212,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 130,
+        "y": 1106,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5453,
+        "transparent": 1768,
+        "semi": 0,
+        "border_bright": 215,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5453,
+        "transparent": 1768,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 237,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 234,
+        "y": 1106,
+        "w": 81,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5304,
+        "transparent": 1743,
+        "semi": 0,
+        "border_bright": 197,
+        "bbox": [
+          0,
+          0,
+          80,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5304,
+        "transparent": 1743,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          80,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 220,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 340,
+        "y": 1106,
+        "w": 102,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5248,
+        "transparent": 3626,
+        "semi": 0,
+        "border_bright": 362,
+        "bbox": [
+          0,
+          0,
+          101,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5033,
+        "transparent": 3841,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          101,
+          82
+        ]
+      },
+      "v2_cleaned_rgb": 390,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            84,
+            101,
+            86
+          ],
+          "area": 215,
+          "mean": [
+            170,
+            151,
+            138
+          ],
+          "reason": "auto GROUND_BAND 102x3 lum=153"
+        }
+      ],
+      "alpha_changed": 215
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 460,
+        "y": 1106,
+        "w": 76,
+        "h": 87
+      },
+      "before": {
+        "opaque": 4584,
+        "transparent": 2028,
+        "semi": 0,
+        "border_bright": 162,
+        "bbox": [
+          0,
+          0,
+          75,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 4424,
+        "transparent": 2188,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          75,
+          82
+        ]
+      },
+      "v2_cleaned_rgb": 180,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            84,
+            75,
+            86
+          ],
+          "area": 159,
+          "mean": [
+            171,
+            152,
+            137
+          ],
+          "reason": "auto GROUND_BAND 76x3 lum=153"
+        },
+        {
+          "bbox": [
+            47,
+            0,
+            47,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            223,
+            222,
+            222
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 160
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 33,
+        "y": 1220,
+        "w": 70,
+        "h": 84
+      },
+      "before": {
+        "opaque": 3890,
+        "transparent": 1990,
+        "semi": 0,
+        "border_bright": 179,
+        "bbox": [
+          0,
+          0,
+          69,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 3873,
+        "transparent": 2007,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          69,
+          83
+        ]
+      },
+      "v2_cleaned_rgb": 184,
+      "components_removed": [
+        {
+          "bbox": [
+            64,
+            81,
+            65,
+            83
+          ],
+          "area": 6,
+          "mean": [
+            197,
+            182,
+            172
+          ],
+          "reason": "auto EDGE_SPECK area=6"
+        },
+        {
+          "bbox": [
+            0,
+            81,
+            1,
+            83
+          ],
+          "area": 5,
+          "mean": [
+            183,
+            163,
+            153
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        },
+        {
+          "bbox": [
+            9,
+            81,
+            9,
+            83
+          ],
+          "area": 3,
+          "mean": [
+            212,
+            198,
+            190
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            57,
+            82,
+            58,
+            83
+          ],
+          "area": 3,
+          "mean": [
+            223,
+            211,
+            200
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        }
+      ],
+      "alpha_changed": 17
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 139,
+        "y": 1220,
+        "w": 74,
+        "h": 84
+      },
+      "before": {
+        "opaque": 3687,
+        "transparent": 2529,
+        "semi": 0,
+        "border_bright": 164,
+        "bbox": [
+          0,
+          0,
+          73,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 3686,
+        "transparent": 2530,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          73,
+          83
+        ]
+      },
+      "v2_cleaned_rgb": 177,
+      "components_removed": [
+        {
+          "bbox": [
+            43,
+            83,
+            43,
+            83
+          ],
+          "area": 1,
+          "mean": [
+            228,
+            223,
+            233
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 1
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 244,
+        "y": 1220,
+        "w": 120,
+        "h": 84
+      },
+      "before": {
+        "opaque": 4844,
+        "transparent": 5236,
+        "semi": 0,
+        "border_bright": 428,
+        "bbox": [
+          0,
+          0,
+          119,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 4842,
+        "transparent": 5238,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          119,
+          83
+        ]
+      },
+      "v2_cleaned_rgb": 439,
+      "components_removed": [
+        {
+          "bbox": [
+            105,
+            0,
+            105,
+            1
+          ],
+          "area": 2,
+          "mean": [
+            210,
+            205,
+            209
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 2
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 390,
+        "y": 1220,
+        "w": 30,
+        "h": 80
+      },
+      "before": {
+        "opaque": 491,
+        "transparent": 1909,
+        "semi": 0,
+        "border_bright": 128,
+        "bbox": [
+          0,
+          0,
+          29,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 418,
+        "transparent": 1982,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          29,
+          61
+        ]
+      },
+      "v2_cleaned_rgb": 119,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            77,
+            29,
+            79
+          ],
+          "area": 73,
+          "mean": [
+            173,
+            148,
+            131
+          ],
+          "reason": "auto GROUND_BAND 30x3 lum=151"
+        }
+      ],
+      "alpha_changed": 73
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 456,
+        "y": 1220,
+        "w": 76,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3189,
+        "transparent": 2891,
+        "semi": 0,
+        "border_bright": 176,
+        "bbox": [
+          0,
+          0,
+          75,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 2997,
+        "transparent": 3083,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          71
+        ]
+      },
+      "v2_cleaned_rgb": 189,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            77,
+            75,
+            79
+          ],
+          "area": 192,
+          "mean": [
+            180,
+            159,
+            146
+          ],
+          "reason": "auto GROUND_BAND 76x3 lum=162"
+        }
+      ],
+      "alpha_changed": 192
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 585,
+        "y": 1109,
+        "w": 79,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3596,
+        "transparent": 2961,
+        "semi": 0,
+        "border_bright": 183,
+        "bbox": [
+          0,
+          0,
+          78,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3421,
+        "transparent": 3136,
+        "semi": 0,
+        "border_bright": 18,
+        "bbox": [
+          0,
+          0,
+          78,
+          78
+        ]
+      },
+      "v2_cleaned_rgb": 193,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            80,
+            78,
+            82
+          ],
+          "area": 172,
+          "mean": [
+            140,
+            181,
+            190
+          ],
+          "reason": "auto GROUND_BAND 79x3 lum=170"
+        },
+        {
+          "bbox": [
+            78,
+            36,
+            78,
+            38
+          ],
+          "area": 3,
+          "mean": [
+            180,
+            205,
+            213
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        }
+      ],
+      "alpha_changed": 175
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 690,
+        "y": 1109,
+        "w": 76,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3651,
+        "transparent": 2657,
+        "semi": 0,
+        "border_bright": 210,
+        "bbox": [
+          0,
+          0,
+          75,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3484,
+        "transparent": 2824,
+        "semi": 0,
+        "border_bright": 36,
+        "bbox": [
+          0,
+          0,
+          75,
+          78
+        ]
+      },
+      "v2_cleaned_rgb": 208,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            80,
+            75,
+            82
+          ],
+          "area": 163,
+          "mean": [
+            147,
+            181,
+            188
+          ],
+          "reason": "auto GROUND_BAND 76x3 lum=172"
+        },
+        {
+          "bbox": [
+            74,
+            29,
+            75,
+            30
+          ],
+          "area": 4,
+          "mean": [
+            184,
+            207,
+            211
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        }
+      ],
+      "alpha_changed": 167
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 789,
+        "y": 1109,
+        "w": 74,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3770,
+        "transparent": 2372,
+        "semi": 0,
+        "border_bright": 208,
+        "bbox": [
+          0,
+          0,
+          73,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3596,
+        "transparent": 2546,
+        "semi": 0,
+        "border_bright": 36,
+        "bbox": [
+          0,
+          0,
+          73,
+          78
+        ]
+      },
+      "v2_cleaned_rgb": 207,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            80,
+            73,
+            82
+          ],
+          "area": 174,
+          "mean": [
+            153,
+            185,
+            191
+          ],
+          "reason": "auto GROUND_BAND 74x3 lum=176"
+        }
+      ],
+      "alpha_changed": 174
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 889,
+        "y": 1109,
+        "w": 197,
+        "h": 83
+      },
+      "before": {
+        "opaque": 8780,
+        "transparent": 7571,
+        "semi": 0,
+        "border_bright": 487,
+        "bbox": [
+          0,
+          0,
+          196,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 8775,
+        "transparent": 7576,
+        "semi": 0,
+        "border_bright": 35,
+        "bbox": [
+          0,
+          0,
+          196,
+          82
+        ]
+      },
+      "v2_cleaned_rgb": 481,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            51,
+            1,
+            52
+          ],
+          "area": 4,
+          "mean": [
+            144,
+            163,
+            165
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        },
+        {
+          "bbox": [
+            159,
+            0,
+            159,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            217,
+            223,
+            226
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 5
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 1109,
+        "w": 6,
+        "h": 83
+      },
+      "before": {
+        "opaque": 457,
+        "transparent": 41,
+        "semi": 0,
+        "border_bright": 119,
+        "bbox": [
+          0,
+          0,
+          5,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 457,
+        "transparent": 41,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          82
+        ]
+      },
+      "v2_cleaned_rgb": 119,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 582,
+        "y": 1217,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 3584,
+        "transparent": 3637,
+        "semi": 0,
+        "border_bright": 186,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 3582,
+        "transparent": 3639,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          82,
+          83
+        ]
+      },
+      "v2_cleaned_rgb": 198,
+      "components_removed": [
+        {
+          "bbox": [
+            30,
+            86,
+            31,
+            86
+          ],
+          "area": 2,
+          "mean": [
+            190,
+            223,
+            225
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 2
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 690,
+        "y": 1217,
+        "w": 183,
+        "h": 87
+      },
+      "before": {
+        "opaque": 7679,
+        "transparent": 8242,
+        "semi": 0,
+        "border_bright": 440,
+        "bbox": [
+          0,
+          0,
+          182,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 7679,
+        "transparent": 8242,
+        "semi": 0,
+        "border_bright": 13,
+        "bbox": [
+          0,
+          0,
+          182,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 499,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 877,
+        "y": 1217,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 3360,
+        "transparent": 3861,
+        "semi": 0,
+        "border_bright": 243,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 3351,
+        "transparent": 3870,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 254,
+      "components_removed": [
+        {
+          "bbox": [
+            81,
+            19,
+            82,
+            21
+          ],
+          "area": 5,
+          "mean": [
+            189,
+            212,
+            212
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        },
+        {
+          "bbox": [
+            72,
+            0,
+            74,
+            1
+          ],
+          "area": 4,
+          "mean": [
+            161,
+            185,
+            193
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        }
+      ],
+      "alpha_changed": 9
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 981,
+        "y": 1217,
+        "w": 109,
+        "h": 83
+      },
+      "before": {
+        "opaque": 4748,
+        "transparent": 4299,
+        "semi": 0,
+        "border_bright": 225,
+        "bbox": [
+          0,
+          0,
+          108,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 4483,
+        "transparent": 4564,
+        "semi": 0,
+        "border_bright": 33,
+        "bbox": [
+          0,
+          0,
+          108,
+          73
+        ]
+      },
+      "v2_cleaned_rgb": 203,
+      "components_removed": [
+        {
+          "bbox": [
+            0,
+            80,
+            108,
+            82
+          ],
+          "area": 265,
+          "mean": [
+            145,
+            186,
+            193
+          ],
+          "reason": "auto GROUND_BAND 109x3 lum=175"
+        }
+      ],
+      "alpha_changed": 265
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 1217,
+        "w": 6,
+        "h": 87
+      },
+      "before": {
+        "opaque": 459,
+        "transparent": 63,
+        "semi": 0,
+        "border_bright": 101,
+        "bbox": [
+          0,
+          0,
+          5,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 459,
+        "transparent": 63,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          86
+        ]
+      },
+      "v2_cleaned_rgb": 101,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 98,
+        "w": 63,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2281,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2281,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          62
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 1,
+      "rect": {
+        "x": 549,
+        "y": 99,
+        "w": 64,
+        "h": 61
+      },
+      "before": {
+        "opaque": 2304,
+        "transparent": 1600,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          63,
+          60
+        ]
+      },
+      "after": {
+        "opaque": 2290,
+        "transparent": 1614,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          63,
+          60
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            13,
+            0,
+            21,
+            1
+          ],
+          "area": 14,
+          "mean": [
+            93,
+            92,
+            89
+          ],
+          "reason": "auto TOP_DASH area=14 lum=91"
+        }
+      ],
+      "alpha_changed": 14
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 2,
+      "rect": {
+        "x": 621,
+        "y": 98,
+        "w": 67,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2314,
+        "transparent": 1907,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          66,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2311,
+        "transparent": 1910,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          1,
+          66,
+          62
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            51,
+            0,
+            53,
+            0
+          ],
+          "area": 3,
+          "mean": [
+            76,
+            75,
+            72
+          ],
+          "reason": "auto TOP_DASH area=3 lum=74"
+        }
+      ],
+      "alpha_changed": 3
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 472,
+        "y": 160,
+        "w": 60,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1847,
+        "transparent": 1453,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1845,
+        "transparent": 1455,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          59,
+          54
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            23,
+            0,
+            24,
+            0
+          ],
+          "area": 2,
+          "mean": [
+            125,
+            136,
+            141
+          ],
+          "reason": "auto TOP_DASH area=2 lum=134"
+        }
+      ],
+      "alpha_changed": 2
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 550,
+        "y": 163,
+        "w": 65,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1750,
+        "transparent": 1630,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1750,
+        "transparent": 1630,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          51
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 628,
+        "y": 160,
+        "w": 68,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1875,
+        "transparent": 1865,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          67,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1867,
+        "transparent": 1873,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          67,
+          54
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            7,
+            0,
+            10,
+            0
+          ],
+          "area": 4,
+          "mean": [
+            105,
+            109,
+            112
+          ],
+          "reason": "auto TOP_DASH area=4 lum=109"
+        },
+        {
+          "bbox": [
+            30,
+            0,
+            33,
+            0
+          ],
+          "area": 4,
+          "mean": [
+            109,
+            109,
+            108
+          ],
+          "reason": "auto TOP_DASH area=4 lum=109"
+        }
+      ],
+      "alpha_changed": 8
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 470,
+        "y": 215,
+        "w": 59,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1731,
+        "transparent": 1337,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          58,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1730,
+        "transparent": 1338,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          58,
+          48
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            35,
+            51,
+            35,
+            51
+          ],
+          "area": 1,
+          "mean": [
+            101,
+            105,
+            111
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 1
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 555,
+        "y": 216,
+        "w": 60,
+        "h": 48
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 1192,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          47
+        ]
+      },
+      "after": {
+        "opaque": 1688,
+        "transparent": 1192,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          47
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 632,
+        "y": 215,
+        "w": 63,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1733,
+        "transparent": 1543,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1732,
+        "transparent": 1544,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          48
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            16,
+            51,
+            16,
+            51
+          ],
+          "area": 1,
+          "mean": [
+            134,
+            139,
+            150
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 1
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 256,
+        "w": 82,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2047,
+        "transparent": 3119,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          81,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2041,
+        "transparent": 3125,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          81,
+          59
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            81,
+            43,
+            81,
+            45
+          ],
+          "area": 3,
+          "mean": [
+            27,
+            25,
+            30
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            25,
+            62,
+            26,
+            62
+          ],
+          "area": 2,
+          "mean": [
+            86,
+            86,
+            91
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 5
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 309,
+        "w": 86,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2849,
+        "transparent": 2569,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2847,
+        "transparent": 2571,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 375,
+        "w": 57,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1819,
+        "transparent": 1259,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          56,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1819,
+        "transparent": 1259,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          56,
+          53
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.idle",
+      "frame": 1,
+      "rect": {
+        "x": 552,
+        "y": 376,
+        "w": 54,
+        "h": 53
+      },
+      "before": {
+        "opaque": 1822,
+        "transparent": 1040,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          53,
+          52
+        ]
+      },
+      "after": {
+        "opaque": 1822,
+        "transparent": 1040,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          53,
+          52
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 428,
+        "w": 58,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1735,
+        "transparent": 1397,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1711,
+        "transparent": 1421,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          1,
+          2,
+          57,
+          49
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            27,
+            52,
+            30,
+            53
+          ],
+          "area": 6,
+          "mean": [
+            69,
+            68,
+            71
+          ],
+          "reason": "auto EDGE_SPECK area=6"
+        },
+        {
+          "bbox": [
+            0,
+            35,
+            1,
+            38
+          ],
+          "area": 5,
+          "mean": [
+            59,
+            57,
+            62
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        },
+        {
+          "bbox": [
+            37,
+            0,
+            39,
+            0
+          ],
+          "area": 3,
+          "mean": [
+            102,
+            109,
+            120
+          ],
+          "reason": "auto TOP_DASH area=3 lum=110"
+        },
+        {
+          "bbox": [
+            35,
+            52,
+            36,
+            53
+          ],
+          "area": 3,
+          "mean": [
+            68,
+            66,
+            73
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            42,
+            52,
+            43,
+            53
+          ],
+          "area": 3,
+          "mean": [
+            39,
+            40,
+            43
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            42,
+            0,
+            43,
+            0
+          ],
+          "area": 2,
+          "mean": [
+            138,
+            143,
+            154
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        },
+        {
+          "bbox": [
+            26,
+            0,
+            26,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            140,
+            145,
+            157
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        },
+        {
+          "bbox": [
+            31,
+            0,
+            31,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            150,
+            153,
+            167
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 24
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 556,
+        "y": 428,
+        "w": 62,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 1660,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          61,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1671,
+        "transparent": 1677,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          2,
+          61,
+          49
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            16,
+            52,
+            18,
+            53
+          ],
+          "area": 5,
+          "mean": [
+            62,
+            61,
+            62
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        },
+        {
+          "bbox": [
+            28,
+            52,
+            30,
+            53
+          ],
+          "area": 5,
+          "mean": [
+            69,
+            67,
+            73
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        },
+        {
+          "bbox": [
+            22,
+            52,
+            23,
+            53
+          ],
+          "area": 4,
+          "mean": [
+            55,
+            53,
+            58
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        },
+        {
+          "bbox": [
+            16,
+            0,
+            18,
+            0
+          ],
+          "area": 3,
+          "mean": [
+            133,
+            142,
+            153
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        }
+      ],
+      "alpha_changed": 17
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 630,
+        "y": 428,
+        "w": 66,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1766,
+        "transparent": 1798,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          65,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1754,
+        "transparent": 1810,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          1,
+          65,
+          49
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            23,
+            52,
+            24,
+            53
+          ],
+          "area": 4,
+          "mean": [
+            58,
+            54,
+            56
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        },
+        {
+          "bbox": [
+            29,
+            52,
+            31,
+            53
+          ],
+          "area": 4,
+          "mean": [
+            67,
+            66,
+            68
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        },
+        {
+          "bbox": [
+            17,
+            53,
+            18,
+            53
+          ],
+          "area": 2,
+          "mean": [
+            25,
+            23,
+            31
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        },
+        {
+          "bbox": [
+            22,
+            0,
+            22,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            115,
+            103,
+            118
+          ],
+          "reason": "auto TOP_DASH area=1 lum=112"
+        },
+        {
+          "bbox": [
+            26,
+            0,
+            26,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            98,
+            101,
+            112
+          ],
+          "reason": "auto TOP_DASH area=1 lum=104"
+        }
+      ],
+      "alpha_changed": 12
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 476,
+        "y": 480,
+        "w": 58,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1708,
+        "transparent": 1308,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1694,
+        "transparent": 1322,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          2,
+          57,
+          47
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            29,
+            51,
+            30,
+            51
+          ],
+          "area": 2,
+          "mean": [
+            76,
+            73,
+            81
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 2
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 555,
+        "y": 480,
+        "w": 60,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1752,
+        "transparent": 1368,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1735,
+        "transparent": 1385,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          2,
+          59,
+          50
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            22,
+            50,
+            23,
+            51
+          ],
+          "area": 3,
+          "mean": [
+            68,
+            64,
+            77
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        }
+      ],
+      "alpha_changed": 3
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 631,
+        "y": 480,
+        "w": 63,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1766,
+        "transparent": 1510,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1754,
+        "transparent": 1522,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          2,
+          62,
+          47
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            20,
+            51,
+            20,
+            51
+          ],
+          "area": 1,
+          "mean": [
+            94,
+            95,
+            107
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        },
+        {
+          "bbox": [
+            37,
+            51,
+            37,
+            51
+          ],
+          "area": 1,
+          "mean": [
+            203,
+            194,
+            210
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 2
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 483,
+        "y": 520,
+        "w": 76,
+        "h": 63
+      },
+      "before": {
+        "opaque": 1781,
+        "transparent": 3007,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 1771,
+        "transparent": 3017,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          57
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            12,
+            61,
+            13,
+            62
+          ],
+          "area": 4,
+          "mean": [
+            39,
+            41,
+            53
+          ],
+          "reason": "auto EDGE_SPECK area=4"
+        },
+        {
+          "bbox": [
+            19,
+            61,
+            20,
+            62
+          ],
+          "area": 3,
+          "mean": [
+            61,
+            61,
+            67
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            6,
+            62,
+            6,
+            62
+          ],
+          "area": 1,
+          "mean": [
+            33,
+            30,
+            38
+          ],
+          "reason": "auto EDGE_SPECK area=1"
+        }
+      ],
+      "alpha_changed": 8
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 574,
+        "w": 86,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2837,
+        "transparent": 2581,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2818,
+        "transparent": 2600,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            83,
+            0,
+            85,
+            1
+          ],
+          "area": 6,
+          "mean": [
+            111,
+            100,
+            139
+          ],
+          "reason": "auto TOP_DASH area=6 lum=117"
+        },
+        {
+          "bbox": [
+            84,
+            25,
+            85,
+            28
+          ],
+          "area": 5,
+          "mean": [
+            39,
+            37,
+            58
+          ],
+          "reason": "auto EDGE_SPECK area=5"
+        }
+      ],
+      "alpha_changed": 11
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1411,
+        "transparent": 2677,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          47,
+          49
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            20,
+            0,
+            33,
+            1
+          ],
+          "area": 18,
+          "mean": [
+            79,
+            77,
+            79
+          ],
+          "reason": "auto TOP_DASH area=18 lum=78"
+        },
+        {
+          "bbox": [
+            37,
+            0,
+            45,
+            0
+          ],
+          "area": 9,
+          "mean": [
+            108,
+            105,
+            106
+          ],
+          "reason": "auto TOP_DASH area=9 lum=106"
+        },
+        {
+          "bbox": [
+            69,
+            0,
+            72,
+            0
+          ],
+          "area": 4,
+          "mean": [
+            107,
+            107,
+            107
+          ],
+          "reason": "auto TOP_DASH area=4 lum=107"
+        },
+        {
+          "bbox": [
+            15,
+            55,
+            16,
+            55
+          ],
+          "area": 2,
+          "mean": [
+            157,
+            151,
+            141
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 33
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 852,
+        "w": 110,
+        "h": 50
+      },
+      "before": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "after": {
+        "opaque": 2135,
+        "transparent": 3365,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          45
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            15,
+            49,
+            16,
+            49
+          ],
+          "area": 2,
+          "mean": [
+            109,
+            101,
+            99
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        },
+        {
+          "bbox": [
+            108,
+            49,
+            109,
+            49
+          ],
+          "area": 2,
+          "mean": [
+            175,
+            168,
+            159
+          ],
+          "reason": "auto EDGE_SPECK area=2"
+        }
+      ],
+      "alpha_changed": 4
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 846,
+        "w": 112,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1804,
+        "transparent": 4468,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          111,
+          50
+        ]
+      },
+      "v2_cleaned_rgb": 1,
+      "components_removed": [
+        {
+          "bbox": [
+            82,
+            0,
+            98,
+            1
+          ],
+          "area": 27,
+          "mean": [
+            80,
+            78,
+            80
+          ],
+          "reason": "auto TOP_DASH area=27 lum=79"
+        },
+        {
+          "bbox": [
+            47,
+            0,
+            49,
+            0
+          ],
+          "area": 3,
+          "mean": [
+            112,
+            109,
+            110
+          ],
+          "reason": "auto TOP_DASH area=3 lum=110"
+        },
+        {
+          "bbox": [
+            83,
+            55,
+            85,
+            55
+          ],
+          "area": 3,
+          "mean": [
+            126,
+            116,
+            109
+          ],
+          "reason": "auto EDGE_SPECK area=3"
+        },
+        {
+          "bbox": [
+            53,
+            0,
+            53,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            112,
+            109,
+            112
+          ],
+          "reason": "auto TOP_DASH area=1 lum=111"
+        },
+        {
+          "bbox": [
+            69,
+            0,
+            69,
+            0
+          ],
+          "area": 1,
+          "mean": [
+            111,
+            110,
+            111
+          ],
+          "reason": "auto TOP_DASH area=1 lum=111"
+        }
+      ],
+      "alpha_changed": 35
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1411,
+        "transparent": 2677,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          47,
+          49
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 852,
+        "w": 110,
+        "h": 50
+      },
+      "before": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "after": {
+        "opaque": 2135,
+        "transparent": 3365,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          45
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 846,
+        "w": 112,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1804,
+        "transparent": 4468,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          3,
+          111,
+          50
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 137,
+        "y": 895,
+        "w": 58,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1311,
+        "transparent": 1879,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1305,
+        "transparent": 1885,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          7,
+          57,
+          54
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            22,
+            0,
+            25,
+            0
+          ],
+          "area": 4,
+          "mean": [
+            104,
+            107,
+            109
+          ],
+          "reason": "auto TOP_DASH area=4 lum=107"
+        }
+      ],
+      "alpha_changed": 4
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 895,
+        "w": 110,
+        "h": 55
+      },
+      "before": {
+        "opaque": 2027,
+        "transparent": 4023,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 2012,
+        "transparent": 4038,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          54
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            22,
+            0,
+            28,
+            0
+          ],
+          "area": 7,
+          "mean": [
+            92,
+            90,
+            89
+          ],
+          "reason": "auto TOP_DASH area=7 lum=90"
+        },
+        {
+          "bbox": [
+            97,
+            0,
+            100,
+            0
+          ],
+          "area": 4,
+          "mean": [
+            101,
+            103,
+            103
+          ],
+          "reason": "auto TOP_DASH area=4 lum=102"
+        }
+      ],
+      "alpha_changed": 11
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 895,
+        "w": 112,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1696,
+        "transparent": 4464,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1655,
+        "transparent": 4505,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          7,
+          111,
+          54
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [
+        {
+          "bbox": [
+            81,
+            0,
+            98,
+            0
+          ],
+          "area": 18,
+          "mean": [
+            80,
+            80,
+            78
+          ],
+          "reason": "auto TOP_DASH area=18 lum=79"
+        },
+        {
+          "bbox": [
+            22,
+            0,
+            29,
+            1
+          ],
+          "area": 14,
+          "mean": [
+            112,
+            49,
+            50
+          ],
+          "reason": "auto TOP_DASH area=14 lum=70"
+        },
+        {
+          "bbox": [
+            0,
+            0,
+            5,
+            0
+          ],
+          "area": 6,
+          "mean": [
+            51,
+            53,
+            54
+          ],
+          "reason": "auto TOP_DASH area=6 lum=53"
+        }
+      ],
+      "alpha_changed": 38
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 947,
+        "w": 52,
+        "h": 44
+      },
+      "before": {
+        "opaque": 1223,
+        "transparent": 1065,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          43
+        ]
+      },
+      "after": {
+        "opaque": 1223,
+        "transparent": 1065,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          43
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 997,
+        "w": 60,
+        "h": 47
+      },
+      "before": {
+        "opaque": 1291,
+        "transparent": 1529,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          46
+        ]
+      },
+      "after": {
+        "opaque": 1291,
+        "transparent": 1529,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          46
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1040,
+        "w": 50,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1271,
+        "transparent": 1329,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1271,
+        "transparent": 1329,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          51
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1085,
+        "w": 40,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1440,
+        "transparent": 800,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          39,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1440,
+        "transparent": 800,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          39,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1132,
+        "w": 52,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1526,
+        "transparent": 1386,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1526,
+        "transparent": 1386,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          55
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 139,
+        "y": 1178,
+        "w": 49,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1427,
+        "transparent": 1219,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          48,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1427,
+        "transparent": 1219,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          48,
+          53
+        ]
+      },
+      "v2_cleaned_rgb": 0,
+      "components_removed": [],
+      "alpha_changed": 0
+    }
+  ],
+  "totals": {
+    "frames": 116,
+    "v2_cleaned_rgb": 13845,
+    "components_removed": 102,
+    "alpha_changed": 7586,
+    "border_bright_before": 13085,
+    "border_bright_after": 378
+  },
+  "contact_sheet_legend": [
+    {
+      "row": 0,
+      "entity": "willow",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 25,
+        "y": 78,
+        "w": 94,
+        "h": 80
+      }
+    },
+    {
+      "row": 1,
+      "entity": "zombie",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 602,
+        "y": 77,
+        "w": 56,
+        "h": 80
+      }
+    },
+    {
+      "row": 2,
+      "entity": "munak",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 427,
+        "w": 89,
+        "h": 74
+      }
+    },
+    {
+      "row": 3,
+      "entity": "bongun",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 594,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      }
+    },
+    {
+      "row": 4,
+      "entity": "ninetails",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 777,
+        "w": 81,
+        "h": 64
+      }
+    },
+    {
+      "row": 5,
+      "entity": "deviruchi",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 590,
+        "y": 782,
+        "w": 78,
+        "h": 56
+      }
+    },
+    {
+      "row": 6,
+      "entity": "marionette",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 28,
+        "y": 1106,
+        "w": 79,
+        "h": 87
+      }
+    },
+    {
+      "row": 7,
+      "entity": "wraith",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 585,
+        "y": 1109,
+        "w": 79,
+        "h": 83
+      }
+    },
+    {
+      "row": 8,
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 98,
+        "w": 63,
+        "h": 63
+      }
+    },
+    {
+      "row": 9,
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      }
+    }
+  ]
+}

@@ -1,0 +1,2786 @@
+{
+  "inputs": {
+    "enemies": {
+      "file": "pyramid-enemies-gpt-image-2-medium-v1.png",
+      "sha256": "ca7a20ccf52eaafceef1bb3bfc1c4dd2482b15446b974be574ec3b9693ae04a4"
+    },
+    "bosses": {
+      "file": "pyramid-bosses-gpt-image-2-medium-v2-user-references.png",
+      "sha256": "a691c1678c054cb5fe3efd9de6f2a9b53626116edd898a0719a5559e17c13ccf"
+    },
+    "map": {
+      "file": "pyramid-map-gpt-image-2-medium-v2-oasis-entrance-tomb.png",
+      "sha256": "0d47cf9d72342a22f9d3bfe1ea07539a36496d0ed84df1e85a9b412cbae8208e"
+    }
+  },
+  "sprites": {
+    "familiar.down.idle": {
+      "x": 14,
+      "y": 213,
+      "w": 59,
+      "h": 81
+    },
+    "familiar.down.moveL": {
+      "x": 73,
+      "y": 213,
+      "w": 54,
+      "h": 81
+    },
+    "familiar.down.moveR": {
+      "x": 127,
+      "y": 213,
+      "w": 55,
+      "h": 81
+    },
+    "familiar.down.hit": {
+      "x": 185,
+      "y": 213,
+      "w": 47,
+      "h": 81
+    },
+    "familiar.down.attack": {
+      "x": 233,
+      "y": 213,
+      "w": 52,
+      "h": 81
+    },
+    "familiar.up.idle": {
+      "x": 15,
+      "y": 442,
+      "w": 58,
+      "h": 81
+    },
+    "familiar.up.moveL": {
+      "x": 72,
+      "y": 442,
+      "w": 61,
+      "h": 81
+    },
+    "familiar.up.moveR": {
+      "x": 127,
+      "y": 442,
+      "w": 58,
+      "h": 81
+    },
+    "familiar.up.hit": {
+      "x": 183,
+      "y": 442,
+      "w": 47,
+      "h": 81
+    },
+    "familiar.up.attack": {
+      "x": 232,
+      "y": 442,
+      "w": 52,
+      "h": 81
+    },
+    "soldier.down.idle": {
+      "x": 303,
+      "y": 199,
+      "w": 51,
+      "h": 98
+    },
+    "soldier.down.moveL": {
+      "x": 360,
+      "y": 199,
+      "w": 51,
+      "h": 98
+    },
+    "soldier.down.moveR": {
+      "x": 411,
+      "y": 199,
+      "w": 48,
+      "h": 98
+    },
+    "soldier.down.hit": {
+      "x": 461,
+      "y": 199,
+      "w": 34,
+      "h": 97
+    },
+    "soldier.down.attack": {
+      "x": 491,
+      "y": 199,
+      "w": 63,
+      "h": 98
+    },
+    "soldier.up.idle": {
+      "x": 300,
+      "y": 436,
+      "w": 46,
+      "h": 96
+    },
+    "soldier.up.moveL": {
+      "x": 354,
+      "y": 436,
+      "w": 48,
+      "h": 96
+    },
+    "soldier.up.moveR": {
+      "x": 406,
+      "y": 436,
+      "w": 46,
+      "h": 96
+    },
+    "soldier.up.hit": {
+      "x": 459,
+      "y": 436,
+      "w": 37,
+      "h": 96
+    },
+    "soldier.up.attack": {
+      "x": 497,
+      "y": 436,
+      "w": 51,
+      "h": 96
+    },
+    "archer.down.idle": {
+      "x": 567,
+      "y": 201,
+      "w": 53,
+      "h": 95
+    },
+    "archer.down.moveL": {
+      "x": 621,
+      "y": 201,
+      "w": 57,
+      "h": 95
+    },
+    "archer.down.moveR": {
+      "x": 679,
+      "y": 201,
+      "w": 51,
+      "h": 95
+    },
+    "archer.down.hit": {
+      "x": 732,
+      "y": 201,
+      "w": 32,
+      "h": 94
+    },
+    "archer.down.attack": {
+      "x": 763,
+      "y": 201,
+      "w": 63,
+      "h": 95
+    },
+    "archer.up.idle": {
+      "x": 566,
+      "y": 436,
+      "w": 52,
+      "h": 96
+    },
+    "archer.up.moveL": {
+      "x": 620,
+      "y": 436,
+      "w": 60,
+      "h": 96
+    },
+    "archer.up.moveR": {
+      "x": 680,
+      "y": 436,
+      "w": 51,
+      "h": 96
+    },
+    "archer.up.hit": {
+      "x": 732,
+      "y": 450,
+      "w": 29,
+      "h": 82
+    },
+    "archer.up.attack": {
+      "x": 739,
+      "y": 436,
+      "w": 87,
+      "h": 96
+    },
+    "mummy.down.idle": {
+      "x": 838,
+      "y": 202,
+      "w": 54,
+      "h": 95
+    },
+    "mummy.down.moveL": {
+      "x": 897,
+      "y": 202,
+      "w": 52,
+      "h": 95
+    },
+    "mummy.down.moveR": {
+      "x": 950,
+      "y": 202,
+      "w": 54,
+      "h": 95
+    },
+    "mummy.down.hit": {
+      "x": 1004,
+      "y": 202,
+      "w": 46,
+      "h": 95
+    },
+    "mummy.down.attack": {
+      "x": 1011,
+      "y": 202,
+      "w": 94,
+      "h": 95
+    },
+    "mummy.up.idle": {
+      "x": 836,
+      "y": 434,
+      "w": 52,
+      "h": 95
+    },
+    "mummy.up.moveL": {
+      "x": 891,
+      "y": 434,
+      "w": 53,
+      "h": 95
+    },
+    "mummy.up.moveR": {
+      "x": 944,
+      "y": 434,
+      "w": 58,
+      "h": 95
+    },
+    "mummy.up.hit": {
+      "x": 1005,
+      "y": 434,
+      "w": 49,
+      "h": 95
+    },
+    "mummy.up.attack": {
+      "x": 1005,
+      "y": 434,
+      "w": 98,
+      "h": 95
+    },
+    "verit.down.idle": {
+      "x": 15,
+      "y": 909,
+      "w": 53,
+      "h": 91
+    },
+    "verit.down.moveL": {
+      "x": 64,
+      "y": 909,
+      "w": 67,
+      "h": 91
+    },
+    "verit.down.moveR": {
+      "x": 128,
+      "y": 909,
+      "w": 64,
+      "h": 91
+    },
+    "verit.down.hit": {
+      "x": 188,
+      "y": 909,
+      "w": 37,
+      "h": 85
+    },
+    "verit.down.attack": {
+      "x": 224,
+      "y": 909,
+      "w": 64,
+      "h": 91
+    },
+    "verit.up.idle": {
+      "x": 17,
+      "y": 1132,
+      "w": 53,
+      "h": 97
+    },
+    "verit.up.moveL": {
+      "x": 74,
+      "y": 1132,
+      "w": 66,
+      "h": 97
+    },
+    "verit.up.moveR": {
+      "x": 140,
+      "y": 1132,
+      "w": 66,
+      "h": 97
+    },
+    "verit.up.hit": {
+      "x": 206,
+      "y": 1167,
+      "w": 27,
+      "h": 62
+    },
+    "verit.up.attack": {
+      "x": 215,
+      "y": 1132,
+      "w": 70,
+      "h": 97
+    },
+    "matyr.down.idle": {
+      "x": 306,
+      "y": 911,
+      "w": 48,
+      "h": 89
+    },
+    "matyr.down.moveL": {
+      "x": 357,
+      "y": 911,
+      "w": 49,
+      "h": 89
+    },
+    "matyr.down.moveR": {
+      "x": 404,
+      "y": 911,
+      "w": 54,
+      "h": 89
+    },
+    "matyr.down.hit": {
+      "x": 465,
+      "y": 911,
+      "w": 23,
+      "h": 82
+    },
+    "matyr.down.attack": {
+      "x": 482,
+      "y": 911,
+      "w": 69,
+      "h": 89
+    },
+    "matyr.up.idle": {
+      "x": 308,
+      "y": 1129,
+      "w": 43,
+      "h": 101
+    },
+    "matyr.up.moveL": {
+      "x": 358,
+      "y": 1129,
+      "w": 43,
+      "h": 101
+    },
+    "matyr.up.moveR": {
+      "x": 406,
+      "y": 1129,
+      "w": 46,
+      "h": 101
+    },
+    "matyr.up.hit": {
+      "x": 456,
+      "y": 1129,
+      "w": 30,
+      "h": 72
+    },
+    "matyr.up.attack": {
+      "x": 481,
+      "y": 1129,
+      "w": 71,
+      "h": 101
+    },
+    "isis.down.idle": {
+      "x": 569,
+      "y": 885,
+      "w": 60,
+      "h": 127
+    },
+    "isis.down.moveL": {
+      "x": 624,
+      "y": 885,
+      "w": 52,
+      "h": 127
+    },
+    "isis.down.moveR": {
+      "x": 677,
+      "y": 885,
+      "w": 53,
+      "h": 127
+    },
+    "isis.down.hit": {
+      "x": 733,
+      "y": 893,
+      "w": 41,
+      "h": 119
+    },
+    "isis.down.attack": {
+      "x": 739,
+      "y": 885,
+      "w": 82,
+      "h": 127
+    },
+    "isis.up.idle": {
+      "x": 568,
+      "y": 1114,
+      "w": 59,
+      "h": 128
+    },
+    "isis.up.moveL": {
+      "x": 626,
+      "y": 1114,
+      "w": 57,
+      "h": 128
+    },
+    "isis.up.moveR": {
+      "x": 680,
+      "y": 1114,
+      "w": 58,
+      "h": 128
+    },
+    "isis.up.hit": {
+      "x": 743,
+      "y": 1122,
+      "w": 31,
+      "h": 120
+    },
+    "isis.up.attack": {
+      "x": 743,
+      "y": 1114,
+      "w": 79,
+      "h": 128
+    },
+    "ancient.down.idle": {
+      "x": 836,
+      "y": 881,
+      "w": 54,
+      "h": 129
+    },
+    "ancient.down.moveL": {
+      "x": 892,
+      "y": 881,
+      "w": 55,
+      "h": 129
+    },
+    "ancient.down.moveR": {
+      "x": 950,
+      "y": 881,
+      "w": 59,
+      "h": 129
+    },
+    "ancient.down.hit": {
+      "x": 1008,
+      "y": 885,
+      "w": 46,
+      "h": 125
+    },
+    "ancient.down.attack": {
+      "x": 1008,
+      "y": 881,
+      "w": 97,
+      "h": 129
+    },
+    "ancient.up.idle": {
+      "x": 836,
+      "y": 1116,
+      "w": 59,
+      "h": 125
+    },
+    "ancient.up.moveL": {
+      "x": 890,
+      "y": 1116,
+      "w": 57,
+      "h": 125
+    },
+    "ancient.up.moveR": {
+      "x": 949,
+      "y": 1116,
+      "w": 61,
+      "h": 125
+    },
+    "ancient.up.hit": {
+      "x": 1011,
+      "y": 1116,
+      "w": 43,
+      "h": 125
+    },
+    "ancient.up.attack": {
+      "x": 1011,
+      "y": 1116,
+      "w": 93,
+      "h": 125
+    },
+    "osiris.down.idle[0]": {
+      "x": 150,
+      "y": 112,
+      "w": 136,
+      "h": 106
+    },
+    "osiris.down.idle[1]": {
+      "x": 280,
+      "y": 112,
+      "w": 140,
+      "h": 106
+    },
+    "osiris.down.idle[2]": {
+      "x": 414,
+      "y": 112,
+      "w": 136,
+      "h": 106
+    },
+    "osiris.down.moveL[0]": {
+      "x": 150,
+      "y": 217,
+      "w": 136,
+      "h": 106
+    },
+    "osiris.down.moveL[1]": {
+      "x": 280,
+      "y": 217,
+      "w": 140,
+      "h": 106
+    },
+    "osiris.down.moveL[2]": {
+      "x": 414,
+      "y": 217,
+      "w": 136,
+      "h": 106
+    },
+    "osiris.down.moveR[0]": {
+      "x": 150,
+      "y": 322,
+      "w": 136,
+      "h": 107
+    },
+    "osiris.down.moveR[1]": {
+      "x": 280,
+      "y": 322,
+      "w": 140,
+      "h": 107
+    },
+    "osiris.down.moveR[2]": {
+      "x": 414,
+      "y": 322,
+      "w": 136,
+      "h": 107
+    },
+    "osiris.down.hit[0]": {
+      "x": 223,
+      "y": 428,
+      "w": 122,
+      "h": 83
+    },
+    "osiris.down.attack[0]": {
+      "x": 150,
+      "y": 533,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.down.attack[1]": {
+      "x": 280,
+      "y": 533,
+      "w": 140,
+      "h": 105
+    },
+    "osiris.down.attack[2]": {
+      "x": 414,
+      "y": 533,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.up.idle[0]": {
+      "x": 150,
+      "y": 638,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.up.idle[1]": {
+      "x": 280,
+      "y": 638,
+      "w": 140,
+      "h": 105
+    },
+    "osiris.up.idle[2]": {
+      "x": 414,
+      "y": 638,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.up.moveL[0]": {
+      "x": 150,
+      "y": 742,
+      "w": 136,
+      "h": 104
+    },
+    "osiris.up.moveL[1]": {
+      "x": 280,
+      "y": 742,
+      "w": 140,
+      "h": 104
+    },
+    "osiris.up.moveL[2]": {
+      "x": 414,
+      "y": 742,
+      "w": 136,
+      "h": 104
+    },
+    "osiris.up.moveR[0]": {
+      "x": 150,
+      "y": 845,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.up.moveR[1]": {
+      "x": 280,
+      "y": 845,
+      "w": 140,
+      "h": 105
+    },
+    "osiris.up.moveR[2]": {
+      "x": 414,
+      "y": 845,
+      "w": 136,
+      "h": 105
+    },
+    "osiris.up.hit[0]": {
+      "x": 225,
+      "y": 949,
+      "w": 110,
+      "h": 104
+    },
+    "osiris.up.attack[0]": {
+      "x": 150,
+      "y": 1052,
+      "w": 136,
+      "h": 104
+    },
+    "osiris.up.attack[1]": {
+      "x": 280,
+      "y": 1052,
+      "w": 140,
+      "h": 104
+    },
+    "osiris.up.attack[2]": {
+      "x": 414,
+      "y": 1052,
+      "w": 136,
+      "h": 104
+    },
+    "amonRa.down.idle[0]": {
+      "x": 631,
+      "y": 112,
+      "w": 162,
+      "h": 106
+    },
+    "amonRa.down.idle[1]": {
+      "x": 787,
+      "y": 112,
+      "w": 164,
+      "h": 106
+    },
+    "amonRa.down.idle[2]": {
+      "x": 945,
+      "y": 112,
+      "w": 162,
+      "h": 106
+    },
+    "amonRa.down.moveL[0]": {
+      "x": 631,
+      "y": 217,
+      "w": 162,
+      "h": 106
+    },
+    "amonRa.down.moveL[1]": {
+      "x": 787,
+      "y": 217,
+      "w": 164,
+      "h": 106
+    },
+    "amonRa.down.moveL[2]": {
+      "x": 945,
+      "y": 217,
+      "w": 162,
+      "h": 106
+    },
+    "amonRa.down.moveR[0]": {
+      "x": 631,
+      "y": 322,
+      "w": 162,
+      "h": 107
+    },
+    "amonRa.down.moveR[1]": {
+      "x": 787,
+      "y": 322,
+      "w": 164,
+      "h": 107
+    },
+    "amonRa.down.moveR[2]": {
+      "x": 945,
+      "y": 322,
+      "w": 162,
+      "h": 107
+    },
+    "amonRa.down.hit[0]": {
+      "x": 637,
+      "y": 428,
+      "w": 247,
+      "h": 106
+    },
+    "amonRa.down.attack[0]": {
+      "x": 631,
+      "y": 533,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.down.attack[1]": {
+      "x": 787,
+      "y": 533,
+      "w": 164,
+      "h": 105
+    },
+    "amonRa.down.attack[2]": {
+      "x": 945,
+      "y": 533,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.up.idle[0]": {
+      "x": 631,
+      "y": 638,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.up.idle[1]": {
+      "x": 787,
+      "y": 638,
+      "w": 164,
+      "h": 105
+    },
+    "amonRa.up.idle[2]": {
+      "x": 945,
+      "y": 638,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.up.moveL[0]": {
+      "x": 631,
+      "y": 742,
+      "w": 162,
+      "h": 104
+    },
+    "amonRa.up.moveL[1]": {
+      "x": 787,
+      "y": 742,
+      "w": 164,
+      "h": 104
+    },
+    "amonRa.up.moveL[2]": {
+      "x": 945,
+      "y": 742,
+      "w": 162,
+      "h": 104
+    },
+    "amonRa.up.moveR[0]": {
+      "x": 631,
+      "y": 845,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.up.moveR[1]": {
+      "x": 787,
+      "y": 845,
+      "w": 164,
+      "h": 105
+    },
+    "amonRa.up.moveR[2]": {
+      "x": 945,
+      "y": 845,
+      "w": 162,
+      "h": 105
+    },
+    "amonRa.up.hit[0]": {
+      "x": 631,
+      "y": 949,
+      "w": 286,
+      "h": 104
+    },
+    "amonRa.up.attack[0]": {
+      "x": 631,
+      "y": 1052,
+      "w": 162,
+      "h": 104
+    },
+    "amonRa.up.attack[1]": {
+      "x": 787,
+      "y": 1052,
+      "w": 164,
+      "h": 104
+    },
+    "amonRa.up.attack[2]": {
+      "x": 945,
+      "y": 1052,
+      "w": 162,
+      "h": 104
+    }
+  },
+  "warnings": [
+    "familiar.down: even split at [233] (no clean divider gaps nearby)",
+    "familiar.up: even split at [124, 178] (no clean divider gaps nearby)",
+    "soldier.down: even split at [505] (no clean divider gaps nearby)",
+    "archer.up: even split at [722, 774] (no clean divider gaps nearby)",
+    "mummy.down: even split at [1054] (no clean divider gaps nearby)",
+    "mummy.up: even split at [1054] (no clean divider gaps nearby)",
+    "verit.down: even split at [69, 178] (no clean divider gaps nearby)",
+    "verit.up: even split at [233] (no clean divider gaps nearby)",
+    "matyr.down: even split at [505] (no clean divider gaps nearby)",
+    "matyr.up: even split at [505] (no clean divider gaps nearby)",
+    "isis.down: even split at [774] (no clean divider gaps nearby)",
+    "isis.up: even split at [722, 774] (no clean divider gaps nearby)",
+    "ancient.down: even split at [1000, 1054] (no clean divider gaps nearby)",
+    "ancient.up: even split at [1054] (no clean divider gaps nearby)",
+    "osiris.down: only 0 gaps, even split",
+    "osiris.down: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down.idle: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down.moveL: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down.moveR: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.down.attack: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up: only 1 gaps, even split",
+    "osiris.up: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up.idle: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up.moveL: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up.moveR: even split at [283, 417] (no clean divider gaps nearby)",
+    "osiris.up.attack: even split at [283, 417] (no clean divider gaps nearby)",
+    "amonRa.down: only 0 gaps, even split",
+    "amonRa.down: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down.idle: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down.moveL: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down.moveR: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.down.attack: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up: only 1 gaps, even split",
+    "amonRa.up: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up.idle: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up.moveL: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up.moveR: even split at [790, 948] (no clean divider gaps nearby)",
+    "amonRa.up.attack: even split at [790, 948] (no clean divider gaps nearby)"
+  ],
+  "keying": {
+    "bg_pixels_removed_enemies": 1056882,
+    "bg_pixels_removed_bosses": 730034
+  },
+  "decontamination": {
+    "bg_samples": {
+      "monsters9": [
+        249,
+        245,
+        240
+      ],
+      "bosses4": [
+        251,
+        247,
+        239
+      ]
+    },
+    "frames": {
+      "familiar.down.idle": {
+        "removed": 89,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2855,
+        "opaque_after": 2766,
+        "bn_after": 102,
+        "border_bn": 0,
+        "w": 59,
+        "h": 81,
+        "bn_max": 28,
+        "bn_edge_max": 0
+      },
+      "familiar.down.moveL": {
+        "removed": 95,
+        "foreign": 2,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2561,
+        "opaque_after": 2466,
+        "bn_after": 90,
+        "border_bn": 0,
+        "w": 54,
+        "h": 81,
+        "bn_max": 5,
+        "bn_edge_max": 0
+      },
+      "familiar.down.moveR": {
+        "removed": 49,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2630,
+        "opaque_after": 2581,
+        "bn_after": 82,
+        "border_bn": 1,
+        "w": 55,
+        "h": 81,
+        "bn_max": 10,
+        "bn_edge_max": 1
+      },
+      "familiar.down.hit": {
+        "removed": 57,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2543,
+        "opaque_after": 2486,
+        "bn_after": 125,
+        "border_bn": 2,
+        "w": 47,
+        "h": 81,
+        "bn_max": 25,
+        "bn_edge_max": 1
+      },
+      "familiar.down.attack": {
+        "removed": 124,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2644,
+        "opaque_after": 2520,
+        "bn_after": 92,
+        "border_bn": 0,
+        "w": 52,
+        "h": 81,
+        "bn_max": 7,
+        "bn_edge_max": 0
+      },
+      "familiar.up.idle": {
+        "removed": 81,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2652,
+        "opaque_after": 2571,
+        "bn_after": 101,
+        "border_bn": 1,
+        "w": 58,
+        "h": 81,
+        "bn_max": 14,
+        "bn_edge_max": 1
+      },
+      "familiar.up.moveL": {
+        "removed": 166,
+        "foreign": 33,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2690,
+        "opaque_after": 2524,
+        "bn_after": 119,
+        "border_bn": 0,
+        "w": 61,
+        "h": 81,
+        "bn_max": 7,
+        "bn_edge_max": 0
+      },
+      "familiar.up.moveR": {
+        "removed": 70,
+        "foreign": 11,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2657,
+        "opaque_after": 2587,
+        "bn_after": 107,
+        "border_bn": 4,
+        "w": 58,
+        "h": 81,
+        "bn_max": 8,
+        "bn_edge_max": 2
+      },
+      "familiar.up.hit": {
+        "removed": 64,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2414,
+        "opaque_after": 2350,
+        "bn_after": 93,
+        "border_bn": 0,
+        "w": 47,
+        "h": 81,
+        "bn_max": 7,
+        "bn_edge_max": 0
+      },
+      "familiar.up.attack": {
+        "removed": 56,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2580,
+        "opaque_after": 2524,
+        "bn_after": 98,
+        "border_bn": 1,
+        "w": 52,
+        "h": 81,
+        "bn_max": 15,
+        "bn_edge_max": 1
+      },
+      "soldier.down.idle": {
+        "removed": 54,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3149,
+        "opaque_after": 3095,
+        "bn_after": 135,
+        "border_bn": 0,
+        "w": 51,
+        "h": 98,
+        "bn_max": 14,
+        "bn_edge_max": 0
+      },
+      "soldier.down.moveL": {
+        "removed": 59,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3179,
+        "opaque_after": 3120,
+        "bn_after": 148,
+        "border_bn": 2,
+        "w": 51,
+        "h": 98,
+        "bn_max": 21,
+        "bn_edge_max": 3
+      },
+      "soldier.down.moveR": {
+        "removed": 27,
+        "foreign": 1,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2989,
+        "opaque_after": 2962,
+        "bn_after": 116,
+        "border_bn": 0,
+        "w": 48,
+        "h": 98,
+        "bn_max": 14,
+        "bn_edge_max": 0
+      },
+      "soldier.down.hit": {
+        "removed": 42,
+        "foreign": 6,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1726,
+        "opaque_after": 1684,
+        "bn_after": 239,
+        "border_bn": 1,
+        "w": 34,
+        "h": 97,
+        "bn_max": 75,
+        "bn_edge_max": 3
+      },
+      "soldier.down.attack": {
+        "removed": 108,
+        "foreign": 13,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3491,
+        "opaque_after": 3383,
+        "bn_after": 162,
+        "border_bn": 1,
+        "w": 63,
+        "h": 98,
+        "bn_max": 24,
+        "bn_edge_max": 1
+      },
+      "soldier.up.idle": {
+        "removed": 62,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2917,
+        "opaque_after": 2855,
+        "bn_after": 131,
+        "border_bn": 0,
+        "w": 46,
+        "h": 96,
+        "bn_max": 22,
+        "bn_edge_max": 0
+      },
+      "soldier.up.moveL": {
+        "removed": 53,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2952,
+        "opaque_after": 2899,
+        "bn_after": 82,
+        "border_bn": 0,
+        "w": 48,
+        "h": 96,
+        "bn_max": 9,
+        "bn_edge_max": 0
+      },
+      "soldier.up.moveR": {
+        "removed": 40,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2846,
+        "opaque_after": 2806,
+        "bn_after": 122,
+        "border_bn": 0,
+        "w": 46,
+        "h": 96,
+        "bn_max": 19,
+        "bn_edge_max": 0
+      },
+      "soldier.up.hit": {
+        "removed": 113,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1602,
+        "opaque_after": 1489,
+        "bn_after": 150,
+        "border_bn": 2,
+        "w": 37,
+        "h": 96,
+        "bn_max": 7,
+        "bn_edge_max": 2
+      },
+      "soldier.up.attack": {
+        "removed": 27,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3122,
+        "opaque_after": 3095,
+        "bn_after": 178,
+        "border_bn": 0,
+        "w": 51,
+        "h": 96,
+        "bn_max": 49,
+        "bn_edge_max": 0
+      },
+      "archer.down.idle": {
+        "removed": 95,
+        "foreign": 95,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3098,
+        "opaque_after": 3003,
+        "bn_after": 151,
+        "border_bn": 0,
+        "w": 53,
+        "h": 95,
+        "bn_max": 25,
+        "bn_edge_max": 0
+      },
+      "archer.down.moveL": {
+        "removed": 57,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3041,
+        "opaque_after": 2984,
+        "bn_after": 138,
+        "border_bn": 0,
+        "w": 57,
+        "h": 95,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "archer.down.moveR": {
+        "removed": 29,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3033,
+        "opaque_after": 3004,
+        "bn_after": 156,
+        "border_bn": 0,
+        "w": 51,
+        "h": 95,
+        "bn_max": 45,
+        "bn_edge_max": 0
+      },
+      "archer.down.hit": {
+        "removed": 58,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1256,
+        "opaque_after": 1198,
+        "bn_after": 152,
+        "border_bn": 0,
+        "w": 32,
+        "h": 94,
+        "bn_max": 30,
+        "bn_edge_max": 0
+      },
+      "archer.down.attack": {
+        "removed": 58,
+        "foreign": 165,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3604,
+        "opaque_after": 3546,
+        "bn_after": 319,
+        "border_bn": 0,
+        "w": 63,
+        "h": 95,
+        "bn_max": 119,
+        "bn_edge_max": 0
+      },
+      "archer.up.idle": {
+        "removed": 171,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3331,
+        "opaque_after": 3160,
+        "bn_after": 81,
+        "border_bn": 0,
+        "w": 52,
+        "h": 96,
+        "bn_max": 7,
+        "bn_edge_max": 0
+      },
+      "archer.up.moveL": {
+        "removed": 41,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3206,
+        "opaque_after": 3165,
+        "bn_after": 176,
+        "border_bn": 1,
+        "w": 60,
+        "h": 96,
+        "bn_max": 49,
+        "bn_edge_max": 1
+      },
+      "archer.up.moveR": {
+        "removed": 59,
+        "foreign": 6,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3107,
+        "opaque_after": 3048,
+        "bn_after": 100,
+        "border_bn": 0,
+        "w": 51,
+        "h": 96,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "archer.up.hit": {
+        "removed": 41,
+        "foreign": 129,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 844,
+        "opaque_after": 803,
+        "bn_after": 85,
+        "border_bn": 0,
+        "w": 29,
+        "h": 82,
+        "bn_max": 3,
+        "bn_edge_max": 0
+      },
+      "archer.up.attack": {
+        "removed": 138,
+        "foreign": 694,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3758,
+        "opaque_after": 3620,
+        "bn_after": 248,
+        "border_bn": 7,
+        "w": 87,
+        "h": 96,
+        "bn_max": 72,
+        "bn_edge_max": 7
+      },
+      "mummy.down.idle": {
+        "removed": 53,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3318,
+        "opaque_after": 3265,
+        "bn_after": 161,
+        "border_bn": 0,
+        "w": 54,
+        "h": 95,
+        "bn_max": 41,
+        "bn_edge_max": 0
+      },
+      "mummy.down.moveL": {
+        "removed": 58,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3098,
+        "opaque_after": 3040,
+        "bn_after": 186,
+        "border_bn": 0,
+        "w": 52,
+        "h": 95,
+        "bn_max": 62,
+        "bn_edge_max": 0
+      },
+      "mummy.down.moveR": {
+        "removed": 101,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3330,
+        "opaque_after": 3229,
+        "bn_after": 160,
+        "border_bn": 4,
+        "w": 54,
+        "h": 95,
+        "bn_max": 37,
+        "bn_edge_max": 12
+      },
+      "mummy.down.hit": {
+        "removed": 141,
+        "foreign": 21,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1508,
+        "opaque_after": 1367,
+        "bn_after": 155,
+        "border_bn": 0,
+        "w": 46,
+        "h": 95,
+        "bn_max": 10,
+        "bn_edge_max": 0
+      },
+      "mummy.down.attack": {
+        "removed": 91,
+        "foreign": 1294,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3776,
+        "opaque_after": 3685,
+        "bn_after": 225,
+        "border_bn": 1,
+        "w": 94,
+        "h": 95,
+        "bn_max": 29,
+        "bn_edge_max": 1
+      },
+      "mummy.up.idle": {
+        "removed": 96,
+        "foreign": 95,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3334,
+        "opaque_after": 3238,
+        "bn_after": 121,
+        "border_bn": 3,
+        "w": 52,
+        "h": 95,
+        "bn_max": 27,
+        "bn_edge_max": 5
+      },
+      "mummy.up.moveL": {
+        "removed": 118,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3346,
+        "opaque_after": 3228,
+        "bn_after": 115,
+        "border_bn": 4,
+        "w": 53,
+        "h": 95,
+        "bn_max": 11,
+        "bn_edge_max": 4
+      },
+      "mummy.up.moveR": {
+        "removed": 95,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3576,
+        "opaque_after": 3481,
+        "bn_after": 208,
+        "border_bn": 1,
+        "w": 58,
+        "h": 95,
+        "bn_max": 27,
+        "bn_edge_max": 3
+      },
+      "mummy.up.hit": {
+        "removed": 75,
+        "foreign": 7,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2178,
+        "opaque_after": 2103,
+        "bn_after": 257,
+        "border_bn": 0,
+        "w": 49,
+        "h": 95,
+        "bn_max": 91,
+        "bn_edge_max": 0
+      },
+      "mummy.up.attack": {
+        "removed": 77,
+        "foreign": 2103,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3486,
+        "opaque_after": 3409,
+        "bn_after": 190,
+        "border_bn": 0,
+        "w": 98,
+        "h": 95,
+        "bn_max": 33,
+        "bn_edge_max": 0
+      },
+      "verit.down.idle": {
+        "removed": 64,
+        "foreign": 3,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3414,
+        "opaque_after": 3350,
+        "bn_after": 78,
+        "border_bn": 1,
+        "w": 53,
+        "h": 91,
+        "bn_max": 10,
+        "bn_edge_max": 1
+      },
+      "verit.down.moveL": {
+        "removed": 108,
+        "foreign": 6,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3673,
+        "opaque_after": 3565,
+        "bn_after": 158,
+        "border_bn": 0,
+        "w": 67,
+        "h": 91,
+        "bn_max": 31,
+        "bn_edge_max": 0
+      },
+      "verit.down.moveR": {
+        "removed": 65,
+        "foreign": 18,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3777,
+        "opaque_after": 3712,
+        "bn_after": 148,
+        "border_bn": 0,
+        "w": 64,
+        "h": 91,
+        "bn_max": 20,
+        "bn_edge_max": 0
+      },
+      "verit.down.hit": {
+        "removed": 51,
+        "foreign": 8,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1306,
+        "opaque_after": 1255,
+        "bn_after": 117,
+        "border_bn": 0,
+        "w": 37,
+        "h": 85,
+        "bn_max": 15,
+        "bn_edge_max": 0
+      },
+      "verit.down.attack": {
+        "removed": 77,
+        "foreign": 91,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3760,
+        "opaque_after": 3683,
+        "bn_after": 133,
+        "border_bn": 0,
+        "w": 64,
+        "h": 91,
+        "bn_max": 17,
+        "bn_edge_max": 0
+      },
+      "verit.up.idle": {
+        "removed": 66,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3586,
+        "opaque_after": 3520,
+        "bn_after": 76,
+        "border_bn": 0,
+        "w": 53,
+        "h": 97,
+        "bn_max": 19,
+        "bn_edge_max": 0
+      },
+      "verit.up.moveL": {
+        "removed": 45,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4103,
+        "opaque_after": 4058,
+        "bn_after": 129,
+        "border_bn": 0,
+        "w": 66,
+        "h": 97,
+        "bn_max": 16,
+        "bn_edge_max": 0
+      },
+      "verit.up.moveR": {
+        "removed": 91,
+        "foreign": 2,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4003,
+        "opaque_after": 3912,
+        "bn_after": 162,
+        "border_bn": 0,
+        "w": 66,
+        "h": 97,
+        "bn_max": 18,
+        "bn_edge_max": 0
+      },
+      "verit.up.hit": {
+        "removed": 40,
+        "foreign": 273,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 650,
+        "opaque_after": 610,
+        "bn_after": 56,
+        "border_bn": 0,
+        "w": 27,
+        "h": 62,
+        "bn_max": 5,
+        "bn_edge_max": 0
+      },
+      "verit.up.attack": {
+        "removed": 77,
+        "foreign": 454,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4164,
+        "opaque_after": 4087,
+        "bn_after": 220,
+        "border_bn": 0,
+        "w": 70,
+        "h": 97,
+        "bn_max": 57,
+        "bn_edge_max": 0
+      },
+      "matyr.down.idle": {
+        "removed": 67,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2870,
+        "opaque_after": 2803,
+        "bn_after": 81,
+        "border_bn": 1,
+        "w": 48,
+        "h": 89,
+        "bn_max": 14,
+        "bn_edge_max": 1
+      },
+      "matyr.down.moveL": {
+        "removed": 39,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2803,
+        "opaque_after": 2764,
+        "bn_after": 62,
+        "border_bn": 0,
+        "w": 49,
+        "h": 89,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "matyr.down.moveR": {
+        "removed": 66,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2808,
+        "opaque_after": 2742,
+        "bn_after": 47,
+        "border_bn": 0,
+        "w": 54,
+        "h": 89,
+        "bn_max": 6,
+        "bn_edge_max": 0
+      },
+      "matyr.down.hit": {
+        "removed": 82,
+        "foreign": 10,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 760,
+        "opaque_after": 678,
+        "bn_after": 56,
+        "border_bn": 0,
+        "w": 23,
+        "h": 82,
+        "bn_max": 3,
+        "bn_edge_max": 0
+      },
+      "matyr.down.attack": {
+        "removed": 66,
+        "foreign": 120,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3597,
+        "opaque_after": 3531,
+        "bn_after": 100,
+        "border_bn": 3,
+        "w": 69,
+        "h": 89,
+        "bn_max": 20,
+        "bn_edge_max": 2
+      },
+      "matyr.up.idle": {
+        "removed": 55,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3144,
+        "opaque_after": 3089,
+        "bn_after": 46,
+        "border_bn": 0,
+        "w": 43,
+        "h": 101,
+        "bn_max": 6,
+        "bn_edge_max": 0
+      },
+      "matyr.up.moveL": {
+        "removed": 49,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3097,
+        "opaque_after": 3048,
+        "bn_after": 50,
+        "border_bn": 0,
+        "w": 43,
+        "h": 101,
+        "bn_max": 5,
+        "bn_edge_max": 0
+      },
+      "matyr.up.moveR": {
+        "removed": 75,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3120,
+        "opaque_after": 3045,
+        "bn_after": 62,
+        "border_bn": 3,
+        "w": 46,
+        "h": 101,
+        "bn_max": 22,
+        "bn_edge_max": 3
+      },
+      "matyr.up.hit": {
+        "removed": 181,
+        "foreign": 13,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 646,
+        "opaque_after": 465,
+        "bn_after": 41,
+        "border_bn": 0,
+        "w": 30,
+        "h": 72,
+        "bn_max": 3,
+        "bn_edge_max": 0
+      },
+      "matyr.up.attack": {
+        "removed": 116,
+        "foreign": 17,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4109,
+        "opaque_after": 3993,
+        "bn_after": 151,
+        "border_bn": 1,
+        "w": 71,
+        "h": 101,
+        "bn_max": 19,
+        "bn_edge_max": 1
+      },
+      "isis.down.idle": {
+        "removed": 55,
+        "foreign": 11,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4637,
+        "opaque_after": 4582,
+        "bn_after": 81,
+        "border_bn": 11,
+        "w": 60,
+        "h": 127,
+        "bn_max": 10,
+        "bn_edge_max": 10
+      },
+      "isis.down.moveL": {
+        "removed": 36,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4360,
+        "opaque_after": 4324,
+        "bn_after": 111,
+        "border_bn": 2,
+        "w": 52,
+        "h": 127,
+        "bn_max": 11,
+        "bn_edge_max": 4
+      },
+      "isis.down.moveR": {
+        "removed": 77,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4380,
+        "opaque_after": 4303,
+        "bn_after": 100,
+        "border_bn": 4,
+        "w": 53,
+        "h": 127,
+        "bn_max": 7,
+        "bn_edge_max": 3
+      },
+      "isis.down.hit": {
+        "removed": 122,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1469,
+        "opaque_after": 1347,
+        "bn_after": 153,
+        "border_bn": 0,
+        "w": 41,
+        "h": 119,
+        "bn_max": 9,
+        "bn_edge_max": 0
+      },
+      "isis.down.attack": {
+        "removed": 96,
+        "foreign": 1371,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4473,
+        "opaque_after": 4377,
+        "bn_after": 106,
+        "border_bn": 0,
+        "w": 82,
+        "h": 127,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "isis.up.idle": {
+        "removed": 90,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4645,
+        "opaque_after": 4555,
+        "bn_after": 106,
+        "border_bn": 1,
+        "w": 59,
+        "h": 128,
+        "bn_max": 7,
+        "bn_edge_max": 1
+      },
+      "isis.up.moveL": {
+        "removed": 84,
+        "foreign": 1,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4604,
+        "opaque_after": 4520,
+        "bn_after": 102,
+        "border_bn": 2,
+        "w": 57,
+        "h": 128,
+        "bn_max": 8,
+        "bn_edge_max": 8
+      },
+      "isis.up.moveR": {
+        "removed": 88,
+        "foreign": 20,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4677,
+        "opaque_after": 4589,
+        "bn_after": 167,
+        "border_bn": 17,
+        "w": 58,
+        "h": 128,
+        "bn_max": 26,
+        "bn_edge_max": 14
+      },
+      "isis.up.hit": {
+        "removed": 78,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 1368,
+        "opaque_after": 1290,
+        "bn_after": 126,
+        "border_bn": 0,
+        "w": 31,
+        "h": 120,
+        "bn_max": 25,
+        "bn_edge_max": 0
+      },
+      "isis.up.attack": {
+        "removed": 130,
+        "foreign": 1319,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4631,
+        "opaque_after": 4501,
+        "bn_after": 120,
+        "border_bn": 1,
+        "w": 79,
+        "h": 128,
+        "bn_max": 12,
+        "bn_edge_max": 1
+      },
+      "ancient.down.idle": {
+        "removed": 46,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5368,
+        "opaque_after": 5322,
+        "bn_after": 108,
+        "border_bn": 0,
+        "w": 54,
+        "h": 129,
+        "bn_max": 11,
+        "bn_edge_max": 0
+      },
+      "ancient.down.moveL": {
+        "removed": 67,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5082,
+        "opaque_after": 5015,
+        "bn_after": 121,
+        "border_bn": 0,
+        "w": 55,
+        "h": 129,
+        "bn_max": 9,
+        "bn_edge_max": 0
+      },
+      "ancient.down.moveR": {
+        "removed": 42,
+        "foreign": 20,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5227,
+        "opaque_after": 5185,
+        "bn_after": 102,
+        "border_bn": 0,
+        "w": 59,
+        "h": 129,
+        "bn_max": 10,
+        "bn_edge_max": 0
+      },
+      "ancient.down.hit": {
+        "removed": 118,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 2898,
+        "opaque_after": 2780,
+        "bn_after": 264,
+        "border_bn": 0,
+        "w": 46,
+        "h": 125,
+        "bn_max": 122,
+        "bn_edge_max": 0
+      },
+      "ancient.down.attack": {
+        "removed": 32,
+        "foreign": 2794,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5411,
+        "opaque_after": 5379,
+        "bn_after": 94,
+        "border_bn": 0,
+        "w": 97,
+        "h": 129,
+        "bn_max": 13,
+        "bn_edge_max": 0
+      },
+      "ancient.up.idle": {
+        "removed": 80,
+        "foreign": 131,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5035,
+        "opaque_after": 4955,
+        "bn_after": 78,
+        "border_bn": 0,
+        "w": 59,
+        "h": 125,
+        "bn_max": 5,
+        "bn_edge_max": 0
+      },
+      "ancient.up.moveL": {
+        "removed": 57,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4847,
+        "opaque_after": 4790,
+        "bn_after": 84,
+        "border_bn": 0,
+        "w": 57,
+        "h": 125,
+        "bn_max": 9,
+        "bn_edge_max": 0
+      },
+      "ancient.up.moveR": {
+        "removed": 106,
+        "foreign": 7,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5090,
+        "opaque_after": 4984,
+        "bn_after": 88,
+        "border_bn": 1,
+        "w": 61,
+        "h": 125,
+        "bn_max": 6,
+        "bn_edge_max": 1
+      },
+      "ancient.up.hit": {
+        "removed": 94,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 3097,
+        "opaque_after": 3003,
+        "bn_after": 259,
+        "border_bn": 0,
+        "w": 43,
+        "h": 125,
+        "bn_max": 77,
+        "bn_edge_max": 0
+      },
+      "ancient.up.attack": {
+        "removed": 12,
+        "foreign": 3003,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5057,
+        "opaque_after": 5045,
+        "bn_after": 59,
+        "border_bn": 0,
+        "w": 93,
+        "h": 125,
+        "bn_max": 13,
+        "bn_edge_max": 0
+      },
+      "osiris.down.idle[0]": {
+        "removed": 3574,
+        "foreign": 1244,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 7116,
+        "opaque_after": 3542,
+        "bn_after": 273,
+        "border_bn": 0,
+        "w": 136,
+        "h": 106,
+        "bn_max": 39,
+        "bn_edge_max": 0
+      },
+      "osiris.down.idle[1]": {
+        "removed": 3326,
+        "foreign": 1340,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 7375,
+        "opaque_after": 4049,
+        "bn_after": 244,
+        "border_bn": 0,
+        "w": 140,
+        "h": 106,
+        "bn_max": 28,
+        "bn_edge_max": 0
+      },
+      "osiris.down.idle[2]": {
+        "removed": 4074,
+        "foreign": 61,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 8228,
+        "opaque_after": 4154,
+        "bn_after": 272,
+        "border_bn": 0,
+        "w": 136,
+        "h": 106,
+        "bn_max": 56,
+        "bn_edge_max": 0
+      },
+      "osiris.down.moveL[0]": {
+        "removed": 2784,
+        "foreign": 741,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6549,
+        "opaque_after": 3765,
+        "bn_after": 340,
+        "border_bn": 1,
+        "w": 136,
+        "h": 106,
+        "bn_max": 167,
+        "bn_edge_max": 1
+      },
+      "osiris.down.moveL[1]": {
+        "removed": 2701,
+        "foreign": 1171,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6247,
+        "opaque_after": 3546,
+        "bn_after": 270,
+        "border_bn": 0,
+        "w": 140,
+        "h": 106,
+        "bn_max": 27,
+        "bn_edge_max": 0
+      },
+      "osiris.down.moveL[2]": {
+        "removed": 2584,
+        "foreign": 56,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 7209,
+        "opaque_after": 4625,
+        "bn_after": 460,
+        "border_bn": 0,
+        "w": 136,
+        "h": 106,
+        "bn_max": 210,
+        "bn_edge_max": 0
+      },
+      "osiris.down.moveR[0]": {
+        "removed": 2485,
+        "foreign": 2543,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4811,
+        "opaque_after": 2326,
+        "bn_after": 168,
+        "border_bn": 0,
+        "w": 136,
+        "h": 107,
+        "bn_max": 44,
+        "bn_edge_max": 0
+      },
+      "osiris.down.moveR[1]": {
+        "removed": 3190,
+        "foreign": 1090,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6528,
+        "opaque_after": 3338,
+        "bn_after": 240,
+        "border_bn": 0,
+        "w": 140,
+        "h": 107,
+        "bn_max": 25,
+        "bn_edge_max": 0
+      },
+      "osiris.down.moveR[2]": {
+        "removed": 2578,
+        "foreign": 16,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6626,
+        "opaque_after": 4048,
+        "bn_after": 274,
+        "border_bn": 0,
+        "w": 136,
+        "h": 107,
+        "bn_max": 18,
+        "bn_edge_max": 0
+      },
+      "osiris.down.hit[0]": {
+        "removed": 1307,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5882,
+        "opaque_after": 4575,
+        "bn_after": 576,
+        "border_bn": 0,
+        "w": 122,
+        "h": 83,
+        "bn_max": 238,
+        "bn_edge_max": 0
+      },
+      "osiris.down.attack[0]": {
+        "removed": 1988,
+        "foreign": 3617,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5089,
+        "opaque_after": 3101,
+        "bn_after": 479,
+        "border_bn": 2,
+        "w": 136,
+        "h": 105,
+        "bn_max": 42,
+        "bn_edge_max": 2
+      },
+      "osiris.down.attack[1]": {
+        "removed": 1633,
+        "foreign": 1706,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5459,
+        "opaque_after": 3826,
+        "bn_after": 295,
+        "border_bn": 0,
+        "w": 140,
+        "h": 105,
+        "bn_max": 30,
+        "bn_edge_max": 0
+      },
+      "osiris.down.attack[2]": {
+        "removed": 2387,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 9317,
+        "opaque_after": 6930,
+        "bn_after": 463,
+        "border_bn": 0,
+        "w": 136,
+        "h": 105,
+        "bn_max": 50,
+        "bn_edge_max": 0
+      },
+      "osiris.up.idle[0]": {
+        "removed": 2374,
+        "foreign": 2469,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5919,
+        "opaque_after": 3545,
+        "bn_after": 223,
+        "border_bn": 0,
+        "w": 136,
+        "h": 105,
+        "bn_max": 26,
+        "bn_edge_max": 0
+      },
+      "osiris.up.idle[1]": {
+        "removed": 2140,
+        "foreign": 2200,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4810,
+        "opaque_after": 2670,
+        "bn_after": 150,
+        "border_bn": 0,
+        "w": 140,
+        "h": 105,
+        "bn_max": 16,
+        "bn_edge_max": 0
+      },
+      "osiris.up.idle[2]": {
+        "removed": 2060,
+        "foreign": 0,
+        "foreign_kept": 3443,
+        "amon_removed": 0,
+        "opaque_before": 5354,
+        "opaque_after": 3294,
+        "bn_after": 138,
+        "border_bn": 6,
+        "w": 136,
+        "h": 105,
+        "bn_max": 8,
+        "bn_edge_max": 4
+      },
+      "osiris.up.moveL[0]": {
+        "removed": 1874,
+        "foreign": 2598,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4700,
+        "opaque_after": 2826,
+        "bn_after": 144,
+        "border_bn": 0,
+        "w": 136,
+        "h": 104,
+        "bn_max": 10,
+        "bn_edge_max": 0
+      },
+      "osiris.up.moveL[1]": {
+        "removed": 1807,
+        "foreign": 1377,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4379,
+        "opaque_after": 2572,
+        "bn_after": 124,
+        "border_bn": 0,
+        "w": 140,
+        "h": 104,
+        "bn_max": 13,
+        "bn_edge_max": 0
+      },
+      "osiris.up.moveL[2]": {
+        "removed": 2498,
+        "foreign": 40,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6169,
+        "opaque_after": 3671,
+        "bn_after": 169,
+        "border_bn": 1,
+        "w": 136,
+        "h": 104,
+        "bn_max": 11,
+        "bn_edge_max": 1
+      },
+      "osiris.up.moveR[0]": {
+        "removed": 2887,
+        "foreign": 41,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 7948,
+        "opaque_after": 5061,
+        "bn_after": 296,
+        "border_bn": 1,
+        "w": 136,
+        "h": 105,
+        "bn_max": 15,
+        "bn_edge_max": 1
+      },
+      "osiris.up.moveR[1]": {
+        "removed": 2349,
+        "foreign": 0,
+        "foreign_kept": 4173,
+        "amon_removed": 0,
+        "opaque_before": 5990,
+        "opaque_after": 3641,
+        "bn_after": 338,
+        "border_bn": 0,
+        "w": 140,
+        "h": 105,
+        "bn_max": 126,
+        "bn_edge_max": 0
+      },
+      "osiris.up.moveR[2]": {
+        "removed": 2368,
+        "foreign": 18,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6584,
+        "opaque_after": 4216,
+        "bn_after": 188,
+        "border_bn": 0,
+        "w": 136,
+        "h": 105,
+        "bn_max": 13,
+        "bn_edge_max": 0
+      },
+      "osiris.up.hit[0]": {
+        "removed": 1574,
+        "foreign": 47,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 6456,
+        "opaque_after": 4882,
+        "bn_after": 275,
+        "border_bn": 0,
+        "w": 110,
+        "h": 104,
+        "bn_max": 37,
+        "bn_edge_max": 0
+      },
+      "osiris.up.attack[0]": {
+        "removed": 1954,
+        "foreign": 2531,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 4625,
+        "opaque_after": 2671,
+        "bn_after": 216,
+        "border_bn": 1,
+        "w": 136,
+        "h": 104,
+        "bn_max": 13,
+        "bn_edge_max": 1
+      },
+      "osiris.up.attack[1]": {
+        "removed": 1944,
+        "foreign": 1703,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 5388,
+        "opaque_after": 3444,
+        "bn_after": 529,
+        "border_bn": 0,
+        "w": 140,
+        "h": 104,
+        "bn_max": 299,
+        "bn_edge_max": 0
+      },
+      "osiris.up.attack[2]": {
+        "removed": 1252,
+        "foreign": 118,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 7971,
+        "opaque_after": 6719,
+        "bn_after": 446,
+        "border_bn": 1,
+        "w": 136,
+        "h": 104,
+        "bn_max": 21,
+        "bn_edge_max": 1
+      },
+      "amonRa.down.idle[0]": {
+        "removed": 3786,
+        "foreign": 126,
+        "foreign_kept": 0,
+        "amon_removed": 898,
+        "opaque_before": 12039,
+        "opaque_after": 7355,
+        "bn_after": 169,
+        "border_bn": 1,
+        "w": 162,
+        "h": 106,
+        "bn_max": 23,
+        "bn_edge_max": 1
+      },
+      "amonRa.down.idle[1]": {
+        "removed": 2960,
+        "foreign": 0,
+        "foreign_kept": 9953,
+        "amon_removed": 1553,
+        "opaque_before": 11905,
+        "opaque_after": 7392,
+        "bn_after": 160,
+        "border_bn": 1,
+        "w": 164,
+        "h": 106,
+        "bn_max": 8,
+        "bn_edge_max": 1
+      },
+      "amonRa.down.idle[2]": {
+        "removed": 4065,
+        "foreign": 108,
+        "foreign_kept": 0,
+        "amon_removed": 1069,
+        "opaque_before": 11882,
+        "opaque_after": 6748,
+        "bn_after": 116,
+        "border_bn": 0,
+        "w": 162,
+        "h": 106,
+        "bn_max": 10,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveL[0]": {
+        "removed": 2469,
+        "foreign": 144,
+        "foreign_kept": 0,
+        "amon_removed": 496,
+        "opaque_before": 11432,
+        "opaque_after": 8467,
+        "bn_after": 261,
+        "border_bn": 0,
+        "w": 162,
+        "h": 106,
+        "bn_max": 28,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveL[1]": {
+        "removed": 1537,
+        "foreign": 1281,
+        "foreign_kept": 0,
+        "amon_removed": 501,
+        "opaque_before": 10061,
+        "opaque_after": 8023,
+        "bn_after": 191,
+        "border_bn": 0,
+        "w": 164,
+        "h": 106,
+        "bn_max": 21,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveL[2]": {
+        "removed": 2835,
+        "foreign": 94,
+        "foreign_kept": 0,
+        "amon_removed": 610,
+        "opaque_before": 11226,
+        "opaque_after": 7781,
+        "bn_after": 191,
+        "border_bn": 0,
+        "w": 162,
+        "h": 106,
+        "bn_max": 21,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveR[0]": {
+        "removed": 2137,
+        "foreign": 270,
+        "foreign_kept": 0,
+        "amon_removed": 35,
+        "opaque_before": 10354,
+        "opaque_after": 8182,
+        "bn_after": 213,
+        "border_bn": 0,
+        "w": 162,
+        "h": 107,
+        "bn_max": 14,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveR[1]": {
+        "removed": 2117,
+        "foreign": 230,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 10616,
+        "opaque_after": 8499,
+        "bn_after": 229,
+        "border_bn": 0,
+        "w": 164,
+        "h": 107,
+        "bn_max": 15,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.moveR[2]": {
+        "removed": 1531,
+        "foreign": 33,
+        "foreign_kept": 0,
+        "amon_removed": 105,
+        "opaque_before": 9667,
+        "opaque_after": 8031,
+        "bn_after": 162,
+        "border_bn": 0,
+        "w": 162,
+        "h": 107,
+        "bn_max": 14,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.hit[0]": {
+        "removed": 2930,
+        "foreign": 203,
+        "foreign_kept": 0,
+        "amon_removed": 2289,
+        "opaque_before": 14742,
+        "opaque_after": 9523,
+        "bn_after": 284,
+        "border_bn": 0,
+        "w": 247,
+        "h": 106,
+        "bn_max": 28,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.attack[0]": {
+        "removed": 2421,
+        "foreign": 0,
+        "foreign_kept": 11758,
+        "amon_removed": 159,
+        "opaque_before": 12263,
+        "opaque_after": 9683,
+        "bn_after": 289,
+        "border_bn": 0,
+        "w": 162,
+        "h": 105,
+        "bn_max": 19,
+        "bn_edge_max": 0
+      },
+      "amonRa.down.attack[1]": {
+        "removed": 1909,
+        "foreign": 9,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 13528,
+        "opaque_after": 11619,
+        "bn_after": 281,
+        "border_bn": 2,
+        "w": 164,
+        "h": 105,
+        "bn_max": 25,
+        "bn_edge_max": 1
+      },
+      "amonRa.down.attack[2]": {
+        "removed": 957,
+        "foreign": 0,
+        "foreign_kept": 11094,
+        "amon_removed": 105,
+        "opaque_before": 11677,
+        "opaque_after": 10615,
+        "bn_after": 360,
+        "border_bn": 1,
+        "w": 162,
+        "h": 105,
+        "bn_max": 24,
+        "bn_edge_max": 1
+      },
+      "amonRa.up.idle[0]": {
+        "removed": 1766,
+        "foreign": 465,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 9812,
+        "opaque_after": 8046,
+        "bn_after": 145,
+        "border_bn": 0,
+        "w": 162,
+        "h": 105,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.idle[1]": {
+        "removed": 1445,
+        "foreign": 546,
+        "foreign_kept": 0,
+        "amon_removed": 0,
+        "opaque_before": 9766,
+        "opaque_after": 8321,
+        "bn_after": 155,
+        "border_bn": 0,
+        "w": 164,
+        "h": 105,
+        "bn_max": 9,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.idle[2]": {
+        "removed": 1796,
+        "foreign": 104,
+        "foreign_kept": 0,
+        "amon_removed": 247,
+        "opaque_before": 10190,
+        "opaque_after": 8147,
+        "bn_after": 145,
+        "border_bn": 0,
+        "w": 162,
+        "h": 105,
+        "bn_max": 20,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveL[0]": {
+        "removed": 2053,
+        "foreign": 153,
+        "foreign_kept": 0,
+        "amon_removed": 467,
+        "opaque_before": 9898,
+        "opaque_after": 7378,
+        "bn_after": 120,
+        "border_bn": 0,
+        "w": 162,
+        "h": 104,
+        "bn_max": 7,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveL[1]": {
+        "removed": 1538,
+        "foreign": 189,
+        "foreign_kept": 0,
+        "amon_removed": 501,
+        "opaque_before": 9434,
+        "opaque_after": 7395,
+        "bn_after": 109,
+        "border_bn": 0,
+        "w": 164,
+        "h": 104,
+        "bn_max": 6,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveL[2]": {
+        "removed": 1458,
+        "foreign": 86,
+        "foreign_kept": 0,
+        "amon_removed": 601,
+        "opaque_before": 9405,
+        "opaque_after": 7346,
+        "bn_after": 125,
+        "border_bn": 0,
+        "w": 162,
+        "h": 104,
+        "bn_max": 6,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveR[0]": {
+        "removed": 1909,
+        "foreign": 375,
+        "foreign_kept": 0,
+        "amon_removed": 286,
+        "opaque_before": 9415,
+        "opaque_after": 7220,
+        "bn_after": 157,
+        "border_bn": 0,
+        "w": 162,
+        "h": 105,
+        "bn_max": 11,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveR[1]": {
+        "removed": 1928,
+        "foreign": 121,
+        "foreign_kept": 0,
+        "amon_removed": 278,
+        "opaque_before": 10007,
+        "opaque_after": 7801,
+        "bn_after": 190,
+        "border_bn": 0,
+        "w": 164,
+        "h": 105,
+        "bn_max": 15,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.moveR[2]": {
+        "removed": 1485,
+        "foreign": 64,
+        "foreign_kept": 0,
+        "amon_removed": 403,
+        "opaque_before": 8994,
+        "opaque_after": 7106,
+        "bn_after": 124,
+        "border_bn": 0,
+        "w": 162,
+        "h": 105,
+        "bn_max": 11,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.hit[0]": {
+        "removed": 3716,
+        "foreign": 216,
+        "foreign_kept": 0,
+        "amon_removed": 2644,
+        "opaque_before": 17107,
+        "opaque_after": 10747,
+        "bn_after": 617,
+        "border_bn": 0,
+        "w": 286,
+        "h": 104,
+        "bn_max": 198,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.attack[0]": {
+        "removed": 1886,
+        "foreign": 1085,
+        "foreign_kept": 0,
+        "amon_removed": 162,
+        "opaque_before": 9095,
+        "opaque_after": 7047,
+        "bn_after": 195,
+        "border_bn": 0,
+        "w": 162,
+        "h": 104,
+        "bn_max": 19,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.attack[1]": {
+        "removed": 1681,
+        "foreign": 652,
+        "foreign_kept": 0,
+        "amon_removed": 20,
+        "opaque_before": 11261,
+        "opaque_after": 9560,
+        "bn_after": 199,
+        "border_bn": 0,
+        "w": 164,
+        "h": 104,
+        "bn_max": 12,
+        "bn_edge_max": 0
+      },
+      "amonRa.up.attack[2]": {
+        "removed": 1021,
+        "foreign": 144,
+        "foreign_kept": 0,
+        "amon_removed": 104,
+        "opaque_before": 10735,
+        "opaque_after": 9610,
+        "bn_after": 279,
+        "border_bn": 1,
+        "w": 162,
+        "h": 104,
+        "bn_max": 22,
+        "bn_edge_max": 1
+      }
+    }
+  },
+  "maps": {
+    "tiles": [
+      "pyramid001",
+      "pyramid002",
+      "pyramid003",
+      "pyramid004",
+      "pyramid005",
+      "pyramid006",
+      "pyramid007"
+    ],
+    "src_size": [
+      793,
+      1983
+    ],
+    "tile_bounds_y": [
+      [
+        1700,
+        1983
+      ],
+      [
+        1416,
+        1700
+      ],
+      [
+        1133,
+        1416
+      ],
+      [
+        850,
+        1133
+      ],
+      [
+        567,
+        850
+      ],
+      [
+        283,
+        567
+      ],
+      [
+        0,
+        283
+      ]
+    ]
+  },
+  "counts": {
+    "mobs": 8,
+    "mob_poses": 80,
+    "boss_frames": 26,
+    "osiris_frames": 26,
+    "map_tiles": 7
+  }
+}

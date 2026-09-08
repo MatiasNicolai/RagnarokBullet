@@ -207,4 +207,107 @@ export const level5Theme = {
   },
 };
 
-export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme, level5Theme];
+// --- Level 6: Pyramid of the Sun — oasis approach, pyramid entrance, royal
+// tomb. Sun-baked sand sinking into torch-lit gold; cobalt/teal accents for
+// the oasis currents and braziers. Fallback theme for the pyramid map set.
+export const level6Theme = {
+  tiles: [
+    { base: 0x8a6a3a, mid: 0x9a7844, specks: [0xaa8850, 0x6a4c26] },       // oasis sand
+    { base: 0x6a5232, mid: 0x7a5f3a, specks: [0x8a6e42, 0x4e3a20] },       // entrance causeway
+    { base: 0x4a3626, mid: 0x5a4230, specks: [0x2f6a72, 0x33241a] },       // tomb floor, teal inlay
+  ],
+  light: [0xfff2d8, 0xffdf9e, 0xffc46a],
+  weather: 'none',
+  biomeProps: [
+    ['palm', 'vase', 'rock', 'palm', 'vase'],
+    ['obelisk', 'statue', 'brazier', 'pillar', 'statue'],
+    ['statue', 'brazier', 'pillar', 'brazier', 'sarcophagus'],
+  ],
+  props: {
+    palm(g) {
+      g.rect(20, 30, 8, 36).fill(0x6a4a22).stroke({ color: 0x4a3014, width: 1 });
+      for (const [dx, dy] of [[-14, 8], [14, 8], [-8, 2], [8, 2], [0, 0]]) {
+        g.ellipse(24 + dx, 26 + dy, 14, 5).fill(0x3f7a34);
+      }
+    },
+    vase(g) {
+      g.ellipse(24, 56, 14, 10).fill(0x2f6a72).stroke({ color: 0x1c4048, width: 2 });
+      g.rect(18, 30, 12, 22).fill(0x37909c);
+      g.ellipse(24, 30, 9, 5).fill(0x2f6a72).stroke({ color: 0x1c4048, width: 2 });
+    },
+    rock(g) { g.ellipse(24, 50, 20, 12).fill(0x9a7a4c); g.ellipse(18, 44, 11, 7).fill(0xaa8858); },
+    obelisk(g) {
+      g.poly([16, 66, 20, 10, 28, 10, 32, 66]).fill(0xb08a4a).stroke({ color: 0x6a4e22, width: 2 });
+      g.poly([20, 10, 24, 2, 28, 10]).fill(0xd8a852);
+      g.rect(22, 24, 4, 30).fill(0x2f6a72);
+    },
+    statue(g) {
+      g.rect(14, 40, 20, 26).fill(0x5a5a6e).stroke({ color: 0x33333f, width: 2 });
+      g.circle(24, 30, 11).fill(0x6a6a7e).stroke({ color: 0x33333f, width: 2 });
+      g.circle(20, 29, 2).fill(0x7fe8ff); g.circle(28, 29, 2).fill(0x7fe8ff);
+    },
+    brazier(g) {
+      g.rect(18, 44, 12, 22).fill(0x4a3626).stroke({ color: 0x2a1e14, width: 2 });
+      g.ellipse(24, 42, 12, 6).fill(0x33333f);
+      g.ellipse(24, 36, 7, 9).fill(0xff9a3a); g.ellipse(24, 38, 4, 6).fill(0xffe08a);
+    },
+    pillar(g) {
+      g.rect(12, 6, 24, 60).fill(0x8a6a3a).stroke({ color: 0x5a421e, width: 2 });
+      g.rect(8, 2, 32, 8).fill(0xa07c46); g.rect(8, 60, 32, 8).fill(0xa07c46);
+      g.rect(22, 14, 4, 44).fill(0x2f6a72);
+    },
+    sarcophagus(g) {
+      g.roundRect(8, 26, 32, 40, 6).fill(0xb08a4a).stroke({ color: 0x6a4e22, width: 2 });
+      g.circle(24, 22, 10).fill(0xc09a52).stroke({ color: 0x6a4e22, width: 2 });
+      g.rect(21, 36, 6, 20).fill(0x2f6a72);
+    },
+  },
+};
+
+// Niflheim — mist drowned in indigo night; bone palisades, black ice,
+// grave stones and dead trees. Fallback theme for the niflheim map set.
+export const level7Theme = {
+  tiles: [
+    { base: 0x2a3348, mid: 0x35405a, specks: [0x46536e, 0x1c2233] },       // misty valley floor
+    { base: 0x232b3d, mid: 0x2d3648, specks: [0x3b475c, 0x161b28] },       // haunted forest loam
+    { base: 0x1e2434, mid: 0x28303f, specks: [0x8a94a8, 0x141824] },       // dead town lanes, bone chips
+  ],
+  light: [0xbdd0ff, 0x8fa4dd, 0x6a7dbb],
+  weather: 'snow',
+  biomeProps: [
+    ['gravestone', 'deadtree', 'rock', 'gravestone', 'deadtree'],
+    ['deadtree', 'lantern', 'gravestone', 'fence', 'lantern'],
+    ['pillar', 'lantern', 'gravestone', 'tombstone', 'fence'],
+  ],
+  props: {
+    gravestone(g) {
+      g.roundRect(14, 36, 20, 30, 4).fill(0x8a94a8).stroke({ color: 0x4a5266, width: 2 });
+      g.rect(20, 42, 8, 12).fill(0x4a5266);
+    },
+    deadtree(g) {
+      g.rect(20, 26, 8, 40).fill(0x3a2f28).stroke({ color: 0x241c16, width: 1 });
+      g.rect(8, 18, 12, 5).fill(0x3a2f28); g.rect(28, 12, 12, 5).fill(0x3a2f28);
+      g.rect(14, 6, 10, 5).fill(0x3a2f28);
+    },
+    rock(g) { g.ellipse(24, 50, 20, 12).fill(0x5a6478); g.ellipse(18, 44, 11, 7).fill(0x6e7890); },
+    lantern(g) {
+      g.rect(21, 30, 6, 26).fill(0x2a2030);
+      g.roundRect(14, 16, 20, 16, 3).fill(0x3a2c44).stroke({ color: 0x1c1420, width: 2 });
+      g.circle(24, 24, 5).fill(0xc9a0ff); g.circle(24, 24, 2).fill(0xffffff);
+    },
+    fence(g) {
+      g.rect(6, 30, 36, 5).fill(0x4a3a30); g.rect(6, 44, 36, 5).fill(0x4a3a30);
+      for (const x of [8, 20, 32]) g.rect(x, 22, 5, 32).fill(0x5a4a3e);
+    },
+    pillar(g) {
+      g.rect(12, 6, 24, 60).fill(0x6e7890).stroke({ color: 0x424a5e, width: 2 });
+      g.rect(8, 2, 32, 8).fill(0x8a94a8); g.rect(8, 60, 32, 8).fill(0x8a94a8);
+    },
+    tombstone(g) {
+      g.roundRect(10, 20, 28, 46, 10).fill(0x707a8e).stroke({ color: 0x3c4252, width: 2 });
+      g.rect(21, 30, 6, 22).fill(0x3c4252);
+    },
+  },
+};
+
+export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme, level5Theme, level6Theme, level7Theme];

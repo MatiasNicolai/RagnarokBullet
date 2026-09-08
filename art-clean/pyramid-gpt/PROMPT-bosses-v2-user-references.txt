@@ -1,0 +1,26 @@
+Regenerate the supplied two-boss Pyramid production sprite sheet while preserving its exact 1122x1402 two-column animation-sheet layout, pose rows, viewing directions, frame spacing, off-white review background, extraction padding, and polished hand-painted chibi MMORPG rendering. Redesign both bosses to match the two supplied user reference images much more closely. Treat those user images as the authoritative identity references; the previous boss sheet is only the structural and rendering template.
+
+LEFT COLUMN — OSIRIS, based directly on the supplied large black-background mummy sprite sheet:
+- Preserve the reference's iconic slim hunched purple mummy body, fully wrapped in dusty mauve and dark violet bandages.
+- Preserve the narrow exposed black face opening, single bright eye/eyes, and small gold crown/diadem wrapped into the head bandages.
+- Preserve the extremely long arms, very large clawlike dark-purple hands, splayed fingers, narrow torso, long wrapped legs, and small dark feet.
+- He must look agile, eerie and feral rather than a robed wizard. No long cloak, no pharaoh staff, no blue royal mantle, no skeletal king armor.
+- Use the reference sheet's elastic reaching, swiping, crouching, staggering and raised-arm body language, adapted into the existing production layout.
+- Palette: dusty mauve-purple wrappings, deep plum shadows, almost-black face/hands, small muted gold crown, restrained dark-violet slash trails. Minimal turquoise only in isolated magic effects, not in the costume.
+
+RIGHT COLUMN — AMON-RA, based directly on the supplied small seated throne reference:
+- Preserve the iconic boss identity as a decayed ancient pharaoh permanently seated on a massive tall carved black-stone funerary throne. The throne is part of the boss silhouette in EVERY frame and view.
+- Preserve the tall rectangular throne back covered in carved hieroglyphic relief texture, side pillars/armrests, heavy blocky base, and dark charcoal stone with muted purple shadows.
+- Preserve the seated corpse's thin pale legs and bare feet extending forward, green-and-gold striped nemes/pharaoh headdress, dark exposed face, green chest garment and gold jewelry.
+- Preserve the distinctive staff/scepter positioned to one side, topped by a round red-black-gold solar ornament with winglike shapes.
+- Do not turn Amon-Ra into a standing armored sun knight. He attacks and moves while seated: throne lurches, glides, tilts slightly, emits magic, or the corpse gestures from the seat, but the throne and seated identity remain consistent.
+- Palette: charcoal carved stone, aged tan bone, forest/teal green cloth, oxidized gold, dark burgundy and black, with amber-red solar effects and sparse violet shadow magic.
+
+ANIMATION LAYOUT TO PRESERVE FOR EACH COLUMN:
+DOWN/front view: idle 3 frames; move-left 3; move-right 3; hit 1; attack 3.
+UP/rear view: idle 3 frames; move-left 3; move-right 3; hit 1; attack 3.
+Bottom row: 6-8 isolated attack/effect examples. Osiris effects should emphasize dark-purple claw swipes, extended bandages, curse wisps and a restrained turquoise funerary burst. Amon-Ra effects should emphasize red-amber sun orbs, black-red solar eclipse disks, throne shockwaves, gold stone pillars and violet shadow spheres.
+
+CONSISTENCY IS CRITICAL: exact same face, crown/headdress, wrappings, throne geometry, staff, proportions and palette across every frame. Keep Osiris visibly smaller and mobile; keep Amon-Ra larger, wider, seated and architectural. Use the same fixed top-down 3/4 gameplay camera and compact, sharply readable rendering as the existing BulletHell boss sheets.
+
+Avoid white halos, clipped fingers/crown/throne/staff/effects, overlapping frames, fused body parts, inconsistent throne designs, inconsistent costume colors, photorealism, 3D rendering, scenery, additional characters or monsters. Only concise boss-name and pose labels are allowed. No prose, watermark, signature or logo.

@@ -25,6 +25,41 @@ export const DIALOGUE = {
     chel_snip: { p: 'Un tiro. Entre los cuernos. Fin de la historia.', b: '¿Crees que una flecha detiene al terror de Glast Heim?' },
     viri: { p: '¡Toda mi vida entrenando para este Asura!', b: '¡JA! ¡Ven, monje! ¡Que tu golpe valga la eternidad!' },
   },
+  // Level 6: the tomb's judge (midboss) and the enthroned sun (final boss).
+  'Osiris': {
+    aramir: { p: 'Un juez de chacales. Mi espada ya dictó sentencia.', b: 'Sube a la balanza, caballero. Tu corazón pesa poco.' },
+    zeos: { p: '¿Un juicio? Traje mis propias pruebas. ¡Mira!', b: 'Payaso ruidoso. El silencio también es sentencia.' },
+    eric: { p: 'Los muertos deberían quedarse quietos. Te enseñaré.', b: 'He visto magos mejores momificados en mi sala.' },
+    dposada: { p: 'Que la luz pese tu alma... y la deje descansar.', b: 'Tu diosa no tiene jurisdicción aquí, sacerdotisa.' },
+    chel_snip: { p: 'Elegante. Lástima que apunte a tu frente.', b: 'Dispara. Mis vendas ya detuvieron cosas peores.' },
+    viri: { p: '¡JUICIO! ¡VEN! ¡MIS PUÑOS SON LA LEY!', b: 'Ruidoso. Te pesaré primero a ti.' },
+  },
+  'Amon-Ra': {
+    aramir: { p: 'Baja de ese trono, falso sol. La noche termina hoy.', b: 'Arrodíllate. Todos lo hacen, al final.' },
+    zeos: { p: '¡El espectáculo final! ¡El sol contra el payaso!', b: 'Un bufón en mi santuario. Qué desperdicio de luz.' },
+    eric: { p: 'He apagado soles antes. Tú eres el siguiente.', b: '¿Un mortal apagando el sol? Arde conmigo y aprende.' },
+    dposada: { p: 'Ningún ídolo soporta la luz verdadera. Arrepiéntete.', b: 'YO SOY la luz, niña. Reza... a mí.' },
+    chel_snip: { p: 'El blanco más brillante es el más fácil de acertar.', b: 'Mi corona ciega a arqueros mejores que tú.' },
+    viri: { p: '¡EL SOL! ¡POR FIN UN RIVAL A MI ALTURA!', b: 'Ven, monje. Quémate contra la eternidad.' },
+  },
+  // Level 7: the doll of the dead town (midboss) and the mounted
+  // reaper of the fortress (final boss).
+  'Loli Ruri': {
+    aramir: { p: 'Niña muerta, suelta esa muñeca. Esto termina aquí.', b: '¿Muerta? Qué grosero... Ruri solo juega con almas.' },
+    zeos: { p: '¿Una fiesta del té? Yo traje mi espada.', b: '¡Un invitado! Siéntate... para siempre.' },
+    eric: { p: 'Tu magia de muñecas tiene hilos. Los cortaré.', b: 'Tira, tira... los hilos tiran de ti también.' },
+    dposada: { p: 'Pequeña, deja que tu alma descanse en paz.', b: '¿Descansar? El juego apenas empieza, sacerdotisa.' },
+    chel_snip: { p: 'Apunto a los hilos, no a la niña.', b: 'Falla un hilo y la muñeca llorará... tú también.' },
+    viri: { p: '¡HASTA LAS MUÑECAS CAEN ANTE MI ASURA!', b: 'Ruri ya rompió cien muñecos. Serás el ciento uno.' },
+  },
+  'Lord of Death': {
+    aramir: { p: 'Baja del caballo, segador. Niflheim despierta hoy.', b: 'TODA ALMA PASA POR MI GUADAÑA. LA TUYA TAMBIÉN.' },
+    zeos: { p: 'La muerte a caballo... qué falta de originalidad.', b: 'RÍETE. LOS GRACIOSOS LLEGAN PRIMERO A MI REINO.' },
+    eric: { p: 'La nigromancia es solo magia mal escrita. La corrijo.', b: 'CORRIGE ESTO, MAGO: TU NOMBRE EN MI LIBRO.' },
+    dposada: { p: 'La luz reclama este reino helado. ¡Vete, sombra!', b: 'TU DIOSA NO ENTRA AQUÍ. SOLO ENTRAS TÚ... PARA QUEDARTE.' },
+    chel_snip: { p: 'Jinete pálido: mi flecha es más veloz que tu caballo.', b: 'CORRE, FLECHA. MI REINO ES TODA DIRECCIÓN.' },
+    viri: { p: '¡LA MUERTE EN PERSONA! ¡EL RIVAL DEFINITIVO!', b: 'VEN, MONJE. CABALGAREMOS JUNTOS... AL ABISMO.' },
+  },
   // Level 5 finale: two Rune-Midgarts Knights at once. Keyed by the combined
   // name spawnBosses() emits ("A & B"). Boss line speaks for both.
   'Seyren Windsor & Magaleta': {

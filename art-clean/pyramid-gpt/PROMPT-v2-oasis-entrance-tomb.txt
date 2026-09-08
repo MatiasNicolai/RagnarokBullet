@@ -1,0 +1,17 @@
+Edit the supplied Pyramid map V1 into a revised production map with much stronger environmental differentiation while preserving its painterly quality, top-down 3/4 bird's-eye camera, original architecture language, 793x1983 vertical composition, and clear central bullet-hell lane.
+
+Recompose the map as THREE CLEARLY DISTINCT BUT SEAMLESS MACRO-SECTIONS, read from bottom to top:
+
+1) DESERT OASIS APPROACH — approximately the bottom 30% of the image must be outdoors beneath open warm desert light. Show pale golden sand, weathered rocks, sparse dry palms and desert vegetation kept near the edges, and a small vivid turquoise oasis pool offset to one side so it never blocks the central navigable route. Add a few worn stone remnants partly buried in sand. The central route should visibly lead from the oasis through the dunes toward the pyramid.
+
+2) PYRAMID ENTRANCE AND DESCENT — approximately the middle 30%. Create a monumental exterior sandstone pyramid facade and dark open gateway at the transition from outdoors to indoors, then broad worn steps descending into torch-lit corridors. Make the threshold unmistakable: bright sandy exterior below, massive doorway and pillars around the transition, darker amber interior above. Include side alcoves, sealed sarcophagi, funerary reliefs, jars, and restrained turquoise ghost-fire, all kept away from the central gameplay lane. Include a broad, uncluttered circular chamber suitable for the Osiris encounter in this middle section, but no character or statue representing Osiris.
+
+3) DEEP ROYAL TOMB — approximately the top 40%. Make this feel older, darker, richer and more sacred than the entrance: monumental burial columns, oxidized-gold trim, lapis and turquoise inlays, royal sarcophagi and ritual architecture at the sides. End at the very top with a huge circular sun sanctuary suitable for Amon-Ra, with a wide uncluttered fighting floor, sun-disk mosaic, elevated altar/throne architecture at the far top edge, and dramatic shafts of amber light. No character or statue representing Amon-Ra.
+
+The three macro-sections must be visually obvious at a glance through palette, lighting, materials, and spatial design: sunlit sand/oasis → monumental threshold and torch-lit descent → dark royal tomb and luminous solar sanctuary. Blend transitions naturally without horizontal divider lines or collage seams.
+
+GAMEPLAY CONTRACT: retain an uninterrupted vertical navigable corridor through the center, about one third of the width, calm and lower contrast than the side details. Keep oasis water, props, coffins, pillars, vegetation, rubble and altars outside this central lane. Use two broad readable clearings: an intermediate Osiris arena and the final Amon-Ra arena.
+
+Preserve the strongest qualities of V1: richly hand-painted stone textures, natural asymmetry, grounded scale, coherent lighting and dense side detail. Avoid reducing it to flat vectors or a diagram.
+
+STRICT NEGATIVES: no characters, monsters, enemies, mummies, corpses, human or animal silhouettes, projectiles, UI, HUD, labels, readable text, letters, numbers, captions, logos, frames, borders, watermarks or signatures. Do not make three separate panels; output one uninterrupted game environment map.

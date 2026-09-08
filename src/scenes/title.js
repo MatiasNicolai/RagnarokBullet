@@ -16,6 +16,7 @@ const MENU = [
   { act: (ctx) => ctx.goToSelect() },      // JUGAR
   { act: (ctx) => ctx.goToPractice() },    // PRÁCTICA DE JEFES
   { act: (ctx) => ctx.goToRecords() },     // RÉCORDS
+  { act: (ctx) => ctx.goToLevelSelect() }, // ELEGIR NIVEL (overlaid — not baked into the art)
   { act: (ctx) => ctx.goToOnline(), online: true }, // CO-OP ONLINE (overlaid — not baked into the art)
 ];
 // baked text row centers in image pixels: options + difficulty + blurb
@@ -73,7 +74,23 @@ export class TitleScene {
     this.diffBlurb.position.set(cx, sy(IMG_Y.blurb));
     this.container.addChild(this.diffBlurb);
 
-    // CO-OP ONLINE is not baked into the art, so overlay it as a 4th option near
+    // ELEGIR NIVEL is not baked into the art either, so overlay it above
+    // CO-OP ONLINE with a matching plate for readability.
+    const levelY = H - 110;
+    const lplate = new Graphics();
+    lplate.roundRect(cx - 170, levelY - 20, 340, 40, 10)
+      .fill({ color: 0x01021a, alpha: 0.72 }).stroke({ color: 0x8a6a2a, width: 1 });
+    this.container.addChild(lplate);
+    this.levelText = new Text({
+      text: '🎯 ELEGIR NIVEL',
+      style: { fill: GOLD, fontSize: 20, fontFamily: 'Georgia, serif', fontWeight: 'bold', stroke: { color: 0x000000, width: 3 }, letterSpacing: 1 },
+    });
+    this.levelText.anchor.set(0.5);
+    this.levelText.position.set(cx, levelY);
+    this.container.addChild(this.levelText);
+    this.optY.push(levelY);   // 4th navigable option
+
+    // CO-OP ONLINE is not baked into the art, so overlay it as a 5th option near
     // the bottom with a small backing plate for readability.
     const onlineY = H - 58;
     const plate = new Graphics();
@@ -87,7 +104,7 @@ export class TitleScene {
     this.onlineText.anchor.set(0.5);
     this.onlineText.position.set(cx, onlineY);
     this.container.addChild(this.onlineText);
-    this.optY.push(onlineY);   // 4th navigable option
+    this.optY.push(onlineY);   // 5th navigable option
 
     this.cx = cx;
     this.index = 0;

@@ -1,0 +1,20 @@
+Edit the supplied eight-character production sprite-sheet template into a complete PYRAMID enemy palette for the same 2D MMORPG bullet-hell game. Preserve the template's exact overall 1122x1402 portrait sheet structure: eight clean rectangular character panels in a 4-column by 2-row grid. Keep consistent panel spacing, generous separation between every sprite, and a plain warm off-white review background so individual frames can later be extracted safely. This is an animation-production sheet, not an illustration or battle scene.
+
+Replace the eight existing laboratory enemies with these eight Pyramid monsters, one monster per panel in this exact order left-to-right, top row then bottom row:
+1. FAMILIAR — a small dark-purple cave bat with oversized ears and leathery wings.
+2. SOLDIER SKELETON — an animated human skeleton with battered bronze helmet, small round shield and short sword.
+3. ARCHER SKELETON — a lean animated skeleton with weathered bow, quiver and scraps of desert cloth.
+4. MUMMY — a classic shambling wrapped mummy, aged linen, small turquoise funerary charms.
+5. VERIT — a squat decayed undead dog/beast with muted green-brown skin and ragged bandages; grotesque but cute-readable, no gore.
+6. MATYR — a lean jackal-like desert hound, dark indigo fur, gold collar, fierce red eyes and long ears.
+7. ISIS — an elegant floating serpent woman / lamia with dark hair, gold and lapis Egyptian ornaments, turquoise magic accents, no sexualized anatomy.
+8. ANCIENT MUMMY — larger royal mummy with elaborate oxidized-gold and lapis headdress, heavier wrappings and turquoise curse energy.
+
+For EACH panel, depict a consistent compact chibi MMORPG sprite character from two viewpoints:
+- DOWN / front-facing gameplay view: idle, walk-left step, walk-right step, hit reaction, attack.
+- UP / rear-facing gameplay view: idle, walk-left step, walk-right step, hit reaction, attack.
+- A small bottom strip with 3-5 isolated attack/effect examples appropriate to that monster.
+
+All poses of a monster must preserve exact identity, costume, colors, proportions and equipment. Distinguish every silhouette at tiny gameplay scale. Use the same fixed top-down 3/4 camera and hand-painted anime sprite rendering as classic Ragnarok Online-era MMORPG monsters, while making the drawings original and visually compatible with the supplied BulletHell sheets. Crisp dark colored outlines, controlled highlights, compact readable silhouettes, subtle grounded contact shadows, transparent-looking clean edges against the off-white review background. Pyramid palette: aged linen, bone ivory, desert umber, oxidized gold, lapis blue, restrained turquoise curse glow and sparse red accents.
+
+Avoid white fringe/halo around sprites, accidental connected frames, clipped weapons/wings/effects, inconsistent character designs, mismatched scale, photorealism, 3D rendering, modern technology, UI screens, scenery, battle backgrounds, extra monsters, duplicated panels or decorative elements overlapping sprites. Keep all sprite and effect art inside its own panel with ample extraction padding. Only concise monster-name and pose labels are allowed; no prose, watermark, signature or logo.

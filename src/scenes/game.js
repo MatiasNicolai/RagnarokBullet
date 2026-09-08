@@ -4,7 +4,7 @@
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { createSim, tickSim } from '../sim/sim.js';
 import { LockstepDriver } from '../net/lockstep.js';
-import { spawnBoss } from '../sim/boss.js';
+import { spawnBosses } from '../sim/boss.js';
 import { LEVELS } from '../levels/index.js';
 import { DIFFICULTIES } from '../sim/difficulty.js';
 import { Renderer } from '../render/renderer.js';
@@ -17,25 +17,32 @@ import { audio } from '../engine/audio.js';
 import { music } from '../engine/music.js';
 import { BTN } from '../engine/input.js';
 import { qualifies, submitScore } from '../engine/scores.js';
+import { selectMapTextures, resolveLevelMaps } from '../engine/mapsets.js';
 import { FIELD_W, FIELD_H, TICK_RATE } from '../sim/constants.js';
 
 const TICK_MS = 1000 / TICK_RATE;
 const GOLD = 0xd9a94a;
-const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5, 0xb10a5e];
+const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5, 0xb10a5e, 0x9a7d51, 0x51f47e];
 
 // Practice: a synthetic level that just drops the chosen boss in immediately.
+// bossDef is a single boss def, or an array of them for dual-boss practice.
 function practiceScript(bossDef) {
-  return (sim) => { if (!sim._pbInit) { sim._pbInit = true; spawnBoss(sim, bossDef); } };
+  const defs = Array.isArray(bossDef) ? bossDef : [bossDef];
+  return (sim) => { if (!sim._pbInit) { sim._pbInit = true; spawnBosses(sim, defs); } };
 }
 
 export class GameScene {
-  // campaign = { chars, levelIndex, score, carry, difficulty, practice? }
+  // campaign = { chars, levelIndex, score, carry, difficulty, practice?, direct? }
   constructor(ctx, campaign) {
     this.ctx = ctx;
     this.campaign = campaign;
     this.chars = campaign.chars;
     this.levelIndex = campaign.levelIndex;
     this.practice = campaign.practice ?? null;
+    // Direct-level review run: the whole real level, but completing or losing
+    // it returns to the level selector — never the next campaign level, and
+    // the score is never submitted.
+    this.direct = !!campaign.direct;
     this.diffIndex = campaign.difficulty ?? ctx.difficulty ?? 1;
     const baseLevel = LEVELS[this.levelIndex];
     this.level = this.practice
@@ -50,11 +57,20 @@ export class GameScene {
     );
     this.sim.continues = campaign.continues ?? 0; // arcade continues carry across levels
     if (this.practice) this.sim.biome = 1; // show the boss's final biome
-    // levels with a real map set (Prontera, Geffen) use the scrolling backdrop;
-    // the rest fall back to the procedural living theme.
-    const mapSet = baseLevel.mapSet ? ctx.atlas.maps?.[baseLevel.mapSet] : null;
-    const maps = (mapSet && mapSet.length >= 5) ? mapSet : null; // Prontera now has 7 tiles
+    // Levels with a COMPLETE real map set use the scrolling backdrop; anything
+    // else (still warming, partial, unknown) falls back to the procedural
+    // living theme — never a partial/reordered progression.
+    const maps = selectMapTextures(ctx.atlas.maps, baseLevel.mapSet);
     this.renderer = new Renderer(ctx.app, ctx.atlas, this.container, this.level.theme, maps);
+    if (baseLevel.mapSet && !maps) {
+      // Maps warm in the background (see main.js); if this level's set lands
+      // while the scene is alive — e.g. an immediate practice jump before the
+      // warmup reaches it — upgrade to the real backdrop instead of staying
+      // procedural for the whole run.
+      resolveLevelMaps(ctx.atlas, baseLevel.mapSet).then((late) => {
+        if (late && !this.destroyed) this.renderer.setMapTextures(late);
+      });
+    }
 
     // progress rail (left edge)
     this.progressBg = new Graphics();
@@ -131,9 +147,11 @@ export class GameScene {
       this.driver = new LockstepDriver({
         net: this.net.client, sim: this.sim, stage: this.level.script,
         localSlot: this.net.localSlot, epoch: this.net.epoch ?? 0,
-        // each player is at their own keyboard, so the local player always uses
-        // the P1 key set; the driver routes it to this client's slot.
-        sampleLocal: () => this.ctx.input.sample()[0],
+        // Each player is alone at their own keyboard online, so union both local
+        // key sets (P1 WASD+J... and P2 arrows/Numpad, either gamepad): the
+        // driver routes the union to this client's slot. Before, only the P1
+        // set was sampled, so arrows/Numpad/pad-1 did nothing online.
+        sampleLocal: () => { const s = this.ctx.input.sample(); return (s[0] | s[1]) | 0; },
         onStall: (w) => { this.netStall = w; },
         onDesync: () => this.handleNetEnd('Desincronización — se cerró la partida online'),
       });
@@ -368,6 +386,16 @@ export class GameScene {
       this.overlayKey = (e) => { if (e.code === 'Enter') this.ctx.goToPractice(); };
       return;
     }
+    if (this.direct) {
+      // review run: full results screen, but Enter returns to the level
+      // selector instead of advancing the campaign.
+      this.overlay = makeResults(this.ctx.atlas, this.sim, this.chars, FIELD_W / 2, {
+        levelName: this.level.name, isFinal: this.isFinal,
+      });
+      this.container.addChild(this.overlay);
+      this.overlayKey = (e) => { if (e.code === 'Enter') this.ctx.goToLevelSelect(); };
+      return;
+    }
     this.overlay = makeResults(this.ctx.atlas, this.sim, this.chars, FIELD_W / 2, {
       levelName: this.level.name, isFinal: this.isFinal,
     });
@@ -435,6 +463,9 @@ export class GameScene {
   endRun(cleared) {
     music.play('menu');
     if (this.practice) { this.ctx.goToPractice(); return; }
+    // review runs reach endRun through game over: back to the selector,
+    // with no high-score entry.
+    if (this.direct) { this.ctx.goToLevelSelect(); return; }
     // online: skip local high-score entry (both peers would submit the same
     // score) and just close the link back to the title.
     if (this.online) { this.leaveToTitle(); return; }
@@ -510,6 +541,7 @@ export class GameScene {
   }
 
   destroy() {
+    this.destroyed = true;
     window.removeEventListener('keydown', this.onKey);
     if (window.__game?.sim === this.sim) window.__game = null;
     // detach the lockstep driver + net listeners (the connection itself lives

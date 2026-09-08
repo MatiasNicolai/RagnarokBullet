@@ -1,7 +1,7 @@
 # 🏹 Ragnarok Bullet Hell
 
 Bullet hell 2D vertical estilo Touhou con la estética y los personajes de Ragnarok Online.
-6 personajes jugables, 3 niveles con jefes MVP, co-op local **y online**.
+6 personajes jugables, 7 niveles con jefes MVP, co-op local **y online**.
 PixiJS v8 + Vite, con simulación determinista y netcode lockstep.
 
 ## ▶ Jugar ahora
@@ -34,29 +34,35 @@ Ambos abren la URL de arriba, luego en el título → **🌐 CO-OP ONLINE**:
 | Especial (medidor lleno) | I | Numpad 0 | Y |
 | Menús | Flechas/WASD + ENTER · ESC volver | | |
 
-En **online**, cada jugador usa las teclas de P1 en su propia máquina.
-Gamepads: pad 0 → P1, pad 1 → P2 (el teclado siempre funciona para ambos).
+En **online**, cada jugador está solo en su máquina y puede usar cualquier set
+local (teclas de P1 o de P2, cualquier gamepad).
+Gamepads en local: pad 0 → P1, pad 1 → P2 (el teclado siempre funciona para ambos).
 
-## 🗺️ Campaña — 3 niveles
+## 🗺️ Campaña — 7 niveles
 
 Campaña encadenada (vidas / bombas / power / score se arrastran entre niveles):
 
 1. **Campos de Prontera → Plaza de Prontera** — mid-boss Mastering, jefe **Orc Hero**.
 2. **Mazmorra de Geffen → Geffenia** — mid-boss **Doppelganger**, jefe **Dark Lord**.
-3. **Glast Heim** — mid-boss **Baphomet Jr. gigante**, jefe final **Baphomet**.
+3. **Glast Heim** — mid-boss **Baphomet Jr. gigante**, jefe **Baphomet**.
+4. **Juperos** — mid-boss **Archdam**, jefe **Vesper**.
+5. **Laboratorio de Lighthalzen** — mid-boss **Experimento Fallido**, jefes duales **Seyren Windsor & Magaleta**.
+6. **Pirámide del Sol** — mid-boss **Osiris**, jefe **Amon-Ra**.
+7. **Reino de Niflheim** — mid-boss **Loli Ruri**, jefe final **Lord of Death**.
 
-Cada nivel: 8 enemigos por biomas que transicionan sobre mapas reales de RO, diálogo
-pre-jefe, jefe con 3 spell cards y barra de vida por fases, y resultados con medalla
-S/A/B/C. Vencer los 3 → pantalla de **victoria**.
+Cada nivel: oleadas de enemigos por biomas que transicionan sobre mapas inspirados en RO,
+diálogos pre-jefe, jefe con spell cards y barra de vida por
+fases (duelo doble en el nivel 5), y resultados con medalla S/A/B/C.
+Vencer los 7 → pantalla de **victoria**.
 
 Extras: cartas de monstruo coleccionables (drop raro) y potenciadores de los cofres
 (Awakening = más cadencia, Speed = más velocidad, Guardia Kafra = escudo de 1 golpe).
 
 ## 🕹️ Menú y extras
 
-- **Título**: JUGAR · PRÁCTICA DE JEFES · RÉCORDS · 🌐 CO-OP ONLINE, con selector de dificultad (Novice / Normal / Nightmare).
+- **Título**: JUGAR · PRÁCTICA DE JEFES · RÉCORDS · 🎯 ELEGIR NIVEL (jugar cualquier nivel suelto con cualquier personaje, sin avanzar la campaña) · 🌐 CO-OP ONLINE, con selector de dificultad (Novice / Normal / Nightmare).
 - **Personajes** con iconos de skill ilustrados en la selección y en el HUD.
-- **Música mp3** en menú y los 3 niveles; jefe/victoria en chiptune que acelera en la última spell card.
+- **Música mp3** en menú y los 7 niveles, con fallback chiptune si una pista falla; Pyramid y Niflheim conservan su tema durante sus jefes, y victoria usa chiptune.
 - **SFX** por clase, **práctica de jefes**, **récords locales** con iniciales arcade.
 - Juice: screen shake, hit-stop, corazones que laten con 1 vida, fundidos.
 - **Mute** (arriba a la derecha, siempre visible): música (♪) y SFX (bocina), teclas **M** / **N**. Se guarda en el navegador.
@@ -87,7 +93,7 @@ Con el relay corriendo, "CO-OP ONLINE" funciona en la misma máquina (dos pesta�
 
 ## 🧪 Tests y herramientas
 
-- `cd server && npm test` — test headless del stack online (relay + lockstep + determinismo: los checksums de dos sims deben coincidir).
+- `cd server && npm test` — tests headless: estáticos (determinismo del sim, práctica dual, aislamiento de epoch, inventario de assets) + stack online (relay + lockstep + determinismo: los checksums de dos sims deben coincidir).
 - `node server/_guestbot.mjs <CÓDIGO>` — guest headless para probar un host real del navegador contra un peer.
 - `npm run slice` — regenera `public/assets/` (atlas + manifiesto de personajes).
 - `node tools/slice-monsters.mjs` · `slice-bosses.mjs` · `slice-skills.mjs` — recortan las hojas de mobs / jefes+mid-bosses / iconos de skill.

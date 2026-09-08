@@ -1,0 +1,4560 @@
+{
+  "tool": "tools/clean-art-v2.py (pilot)",
+  "params": {
+    "tol": 14,
+    "lum_lo": 160,
+    "white_keep": 236,
+    "edge_r": 2,
+    "core_r": 2,
+    "bleed_r": 6,
+    "scale": 2
+  },
+  "inputs": [
+    "public/assets/monsters3.png+json",
+    "public/assets/bosses.png + bosses.json + monsters5.json"
+  ],
+  "notes": [
+    "RGB-only cleanup; alpha plane bit-identical to originals.",
+    "Rects/IDs unchanged; output manifests differ only in \"sheet\".",
+    "No padding/anchor normalization (would move visual anchors).",
+    "Bright pixels above white_keep or enclosed in sprite are kept."
+  ],
+  "sprites": [
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 25,
+        "y": 78,
+        "w": 94,
+        "h": 80
+      },
+      "before": {
+        "opaque": 5284,
+        "transparent": 2236,
+        "semi": 0,
+        "border_bright": 166,
+        "bbox": [
+          0,
+          0,
+          93,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 5284,
+        "transparent": 2236,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          93,
+          79
+        ]
+      },
+      "cleaned_rgb": 182,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 78,
+        "w": 83,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4952,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 196,
+        "bbox": [
+          0,
+          0,
+          82,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 4952,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          82,
+          79
+        ]
+      },
+      "cleaned_rgb": 205,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 239,
+        "y": 78,
+        "w": 85,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4973,
+        "transparent": 1827,
+        "semi": 0,
+        "border_bright": 179,
+        "bbox": [
+          0,
+          0,
+          84,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 4973,
+        "transparent": 1827,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          84,
+          79
+        ]
+      },
+      "cleaned_rgb": 184,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 339,
+        "y": 78,
+        "w": 199,
+        "h": 80
+      },
+      "before": {
+        "opaque": 9732,
+        "transparent": 6188,
+        "semi": 0,
+        "border_bright": 421,
+        "bbox": [
+          0,
+          0,
+          198,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 9732,
+        "transparent": 6188,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          198,
+          79
+        ]
+      },
+      "cleaned_rgb": 442,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 78,
+        "w": 6,
+        "h": 80
+      },
+      "before": {
+        "opaque": 480,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 80,
+        "bbox": [
+          0,
+          0,
+          5,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 480,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          79
+        ]
+      },
+      "cleaned_rgb": 80,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 34,
+        "y": 186,
+        "w": 76,
+        "h": 71
+      },
+      "before": {
+        "opaque": 4003,
+        "transparent": 1393,
+        "semi": 0,
+        "border_bright": 146,
+        "bbox": [
+          0,
+          0,
+          75,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 4003,
+        "transparent": 1393,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          75,
+          70
+        ]
+      },
+      "cleaned_rgb": 165,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 186,
+        "w": 74,
+        "h": 71
+      },
+      "before": {
+        "opaque": 3999,
+        "transparent": 1255,
+        "semi": 0,
+        "border_bright": 185,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 3999,
+        "transparent": 1255,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "cleaned_rgb": 211,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 240,
+        "y": 186,
+        "w": 74,
+        "h": 71
+      },
+      "before": {
+        "opaque": 3962,
+        "transparent": 1292,
+        "semi": 0,
+        "border_bright": 155,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 3962,
+        "transparent": 1292,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          73,
+          70
+        ]
+      },
+      "cleaned_rgb": 169,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 339,
+        "y": 186,
+        "w": 196,
+        "h": 71
+      },
+      "before": {
+        "opaque": 8608,
+        "transparent": 5308,
+        "semi": 0,
+        "border_bright": 422,
+        "bbox": [
+          0,
+          0,
+          195,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 8608,
+        "transparent": 5308,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          195,
+          70
+        ]
+      },
+      "cleaned_rgb": 454,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "willow",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 186,
+        "w": 6,
+        "h": 71
+      },
+      "before": {
+        "opaque": 426,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 71,
+        "bbox": [
+          0,
+          0,
+          5,
+          70
+        ]
+      },
+      "after": {
+        "opaque": 426,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          70
+        ]
+      },
+      "cleaned_rgb": 71,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 602,
+        "y": 77,
+        "w": 56,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3256,
+        "transparent": 1224,
+        "semi": 0,
+        "border_bright": 151,
+        "bbox": [
+          0,
+          0,
+          55,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3256,
+        "transparent": 1224,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          55,
+          79
+        ]
+      },
+      "cleaned_rgb": 165,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 700,
+        "y": 77,
+        "w": 58,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3286,
+        "transparent": 1354,
+        "semi": 0,
+        "border_bright": 137,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3286,
+        "transparent": 1354,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "cleaned_rgb": 144,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 77,
+        "w": 58,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3334,
+        "transparent": 1306,
+        "semi": 0,
+        "border_bright": 169,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3334,
+        "transparent": 1306,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          57,
+          79
+        ]
+      },
+      "cleaned_rgb": 180,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 893,
+        "y": 77,
+        "w": 65,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3531,
+        "transparent": 1669,
+        "semi": 0,
+        "border_bright": 229,
+        "bbox": [
+          0,
+          0,
+          64,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3531,
+        "transparent": 1669,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          64,
+          79
+        ]
+      },
+      "cleaned_rgb": 238,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 992,
+        "y": 77,
+        "w": 91,
+        "h": 80
+      },
+      "before": {
+        "opaque": 4078,
+        "transparent": 3202,
+        "semi": 0,
+        "border_bright": 222,
+        "bbox": [
+          0,
+          0,
+          90,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 4078,
+        "transparent": 3202,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          90,
+          79
+        ]
+      },
+      "cleaned_rgb": 231,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 608,
+        "y": 186,
+        "w": 48,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2739,
+        "transparent": 717,
+        "semi": 0,
+        "border_bright": 138,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2739,
+        "transparent": 717,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "cleaned_rgb": 158,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 704,
+        "y": 186,
+        "w": 48,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2761,
+        "transparent": 695,
+        "semi": 0,
+        "border_bright": 139,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2761,
+        "transparent": 695,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          47,
+          71
+        ]
+      },
+      "cleaned_rgb": 144,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 804,
+        "y": 186,
+        "w": 49,
+        "h": 72
+      },
+      "before": {
+        "opaque": 2772,
+        "transparent": 756,
+        "semi": 0,
+        "border_bright": 141,
+        "bbox": [
+          0,
+          0,
+          48,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 2772,
+        "transparent": 756,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          48,
+          71
+        ]
+      },
+      "cleaned_rgb": 166,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 891,
+        "y": 186,
+        "w": 74,
+        "h": 72
+      },
+      "before": {
+        "opaque": 3593,
+        "transparent": 1735,
+        "semi": 0,
+        "border_bright": 234,
+        "bbox": [
+          0,
+          0,
+          73,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 3593,
+        "transparent": 1735,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          73,
+          71
+        ]
+      },
+      "cleaned_rgb": 273,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "zombie",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 993,
+        "y": 186,
+        "w": 97,
+        "h": 72
+      },
+      "before": {
+        "opaque": 3998,
+        "transparent": 2986,
+        "semi": 0,
+        "border_bright": 237,
+        "bbox": [
+          0,
+          0,
+          96,
+          71
+        ]
+      },
+      "after": {
+        "opaque": 3998,
+        "transparent": 2986,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          96,
+          71
+        ]
+      },
+      "cleaned_rgb": 256,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 427,
+        "w": 89,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3964,
+        "transparent": 2622,
+        "semi": 0,
+        "border_bright": 87,
+        "bbox": [
+          0,
+          0,
+          88,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3964,
+        "transparent": 2622,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          88,
+          73
+        ]
+      },
+      "cleaned_rgb": 88,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 126,
+        "y": 427,
+        "w": 74,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3626,
+        "transparent": 1850,
+        "semi": 0,
+        "border_bright": 69,
+        "bbox": [
+          0,
+          0,
+          73,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3626,
+        "transparent": 1850,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          73,
+          73
+        ]
+      },
+      "cleaned_rgb": 71,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 231,
+        "y": 427,
+        "w": 77,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3693,
+        "transparent": 2005,
+        "semi": 0,
+        "border_bright": 69,
+        "bbox": [
+          0,
+          0,
+          76,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3693,
+        "transparent": 2005,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          76,
+          73
+        ]
+      },
+      "cleaned_rgb": 73,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 345,
+        "y": 427,
+        "w": 78,
+        "h": 74
+      },
+      "before": {
+        "opaque": 3911,
+        "transparent": 1861,
+        "semi": 0,
+        "border_bright": 102,
+        "bbox": [
+          0,
+          0,
+          77,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 3911,
+        "transparent": 1861,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          77,
+          73
+        ]
+      },
+      "cleaned_rgb": 107,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 448,
+        "y": 427,
+        "w": 105,
+        "h": 74
+      },
+      "before": {
+        "opaque": 4001,
+        "transparent": 3769,
+        "semi": 0,
+        "border_bright": 97,
+        "bbox": [
+          0,
+          0,
+          104,
+          73
+        ]
+      },
+      "after": {
+        "opaque": 4001,
+        "transparent": 3769,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          104,
+          73
+        ]
+      },
+      "cleaned_rgb": 105,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 537,
+        "w": 101,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3950,
+        "transparent": 3827,
+        "semi": 0,
+        "border_bright": 154,
+        "bbox": [
+          0,
+          0,
+          100,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3950,
+        "transparent": 3827,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          100,
+          76
+        ]
+      },
+      "cleaned_rgb": 163,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 134,
+        "y": 537,
+        "w": 76,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3469,
+        "transparent": 2383,
+        "semi": 0,
+        "border_bright": 141,
+        "bbox": [
+          0,
+          0,
+          75,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3469,
+        "transparent": 2383,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          75,
+          76
+        ]
+      },
+      "cleaned_rgb": 149,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 238,
+        "y": 537,
+        "w": 77,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3531,
+        "transparent": 2398,
+        "semi": 0,
+        "border_bright": 144,
+        "bbox": [
+          0,
+          0,
+          76,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3531,
+        "transparent": 2398,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          76,
+          76
+        ]
+      },
+      "cleaned_rgb": 152,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 342,
+        "y": 537,
+        "w": 183,
+        "h": 77
+      },
+      "before": {
+        "opaque": 6191,
+        "transparent": 7900,
+        "semi": 0,
+        "border_bright": 282,
+        "bbox": [
+          0,
+          0,
+          182,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 6191,
+        "transparent": 7900,
+        "semi": 0,
+        "border_bright": 5,
+        "bbox": [
+          0,
+          0,
+          182,
+          76
+        ]
+      },
+      "cleaned_rgb": 288,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "munak",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 547,
+        "y": 537,
+        "w": 6,
+        "h": 77
+      },
+      "before": {
+        "opaque": 462,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          5,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 462,
+        "transparent": 0,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          76
+        ]
+      },
+      "cleaned_rgb": 4,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 594,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3633,
+        "transparent": 1526,
+        "semi": 0,
+        "border_bright": 167,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3633,
+        "transparent": 1526,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "cleaned_rgb": 179,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 688,
+        "y": 435,
+        "w": 70,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3308,
+        "transparent": 2082,
+        "semi": 0,
+        "border_bright": 176,
+        "bbox": [
+          0,
+          0,
+          69,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3308,
+        "transparent": 2082,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          69,
+          76
+        ]
+      },
+      "cleaned_rgb": 188,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3366,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 174,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3366,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          66,
+          76
+        ]
+      },
+      "cleaned_rgb": 187,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 895,
+        "y": 435,
+        "w": 61,
+        "h": 77
+      },
+      "before": {
+        "opaque": 3481,
+        "transparent": 1216,
+        "semi": 0,
+        "border_bright": 184,
+        "bbox": [
+          0,
+          0,
+          60,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 3481,
+        "transparent": 1216,
+        "semi": 0,
+        "border_bright": 23,
+        "bbox": [
+          0,
+          0,
+          60,
+          76
+        ]
+      },
+      "cleaned_rgb": 181,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 985,
+        "y": 435,
+        "w": 129,
+        "h": 77
+      },
+      "before": {
+        "opaque": 4922,
+        "transparent": 5011,
+        "semi": 0,
+        "border_bright": 175,
+        "bbox": [
+          0,
+          0,
+          128,
+          76
+        ]
+      },
+      "after": {
+        "opaque": 4922,
+        "transparent": 5011,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          128,
+          76
+        ]
+      },
+      "cleaned_rgb": 190,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 603,
+        "y": 543,
+        "w": 50,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2606,
+        "transparent": 644,
+        "semi": 0,
+        "border_bright": 103,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2606,
+        "transparent": 644,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "cleaned_rgb": 114,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 700,
+        "y": 543,
+        "w": 50,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2521,
+        "transparent": 729,
+        "semi": 0,
+        "border_bright": 110,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2521,
+        "transparent": 729,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          64
+        ]
+      },
+      "cleaned_rgb": 123,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 805,
+        "y": 543,
+        "w": 51,
+        "h": 65
+      },
+      "before": {
+        "opaque": 2545,
+        "transparent": 770,
+        "semi": 0,
+        "border_bright": 113,
+        "bbox": [
+          0,
+          0,
+          50,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 2545,
+        "transparent": 770,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          50,
+          64
+        ]
+      },
+      "cleaned_rgb": 130,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 899,
+        "y": 543,
+        "w": 182,
+        "h": 65
+      },
+      "before": {
+        "opaque": 6674,
+        "transparent": 5156,
+        "semi": 0,
+        "border_bright": 299,
+        "bbox": [
+          0,
+          0,
+          181,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 6674,
+        "transparent": 5156,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          181,
+          64
+        ]
+      },
+      "cleaned_rgb": 320,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "bongun",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 543,
+        "w": 6,
+        "h": 65
+      },
+      "before": {
+        "opaque": 334,
+        "transparent": 56,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          64
+        ]
+      },
+      "after": {
+        "opaque": 334,
+        "transparent": 56,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          64
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 777,
+        "w": 81,
+        "h": 64
+      },
+      "before": {
+        "opaque": 3391,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 190,
+        "bbox": [
+          0,
+          0,
+          80,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 3391,
+        "transparent": 1793,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          80,
+          63
+        ]
+      },
+      "cleaned_rgb": 201,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 126,
+        "y": 777,
+        "w": 79,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4126,
+        "transparent": 930,
+        "semi": 0,
+        "border_bright": 129,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4126,
+        "transparent": 930,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "cleaned_rgb": 137,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 232,
+        "y": 777,
+        "w": 88,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4460,
+        "transparent": 1172,
+        "semi": 0,
+        "border_bright": 143,
+        "bbox": [
+          0,
+          0,
+          87,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4460,
+        "transparent": 1172,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          87,
+          63
+        ]
+      },
+      "cleaned_rgb": 157,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 347,
+        "y": 777,
+        "w": 79,
+        "h": 64
+      },
+      "before": {
+        "opaque": 3836,
+        "transparent": 1220,
+        "semi": 0,
+        "border_bright": 37,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 3836,
+        "transparent": 1220,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          78,
+          63
+        ]
+      },
+      "cleaned_rgb": 39,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 444,
+        "y": 777,
+        "w": 107,
+        "h": 64
+      },
+      "before": {
+        "opaque": 4630,
+        "transparent": 2218,
+        "semi": 0,
+        "border_bright": 156,
+        "bbox": [
+          0,
+          0,
+          106,
+          63
+        ]
+      },
+      "after": {
+        "opaque": 4630,
+        "transparent": 2218,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          106,
+          63
+        ]
+      },
+      "cleaned_rgb": 168,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 885,
+        "w": 86,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3317,
+        "transparent": 1499,
+        "semi": 0,
+        "border_bright": 129,
+        "bbox": [
+          0,
+          0,
+          85,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3317,
+        "transparent": 1499,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          55
+        ]
+      },
+      "cleaned_rgb": 142,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 137,
+        "y": 885,
+        "w": 58,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2516,
+        "transparent": 732,
+        "semi": 0,
+        "border_bright": 107,
+        "bbox": [
+          0,
+          0,
+          57,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2516,
+        "transparent": 732,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          55
+        ]
+      },
+      "cleaned_rgb": 117,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 247,
+        "y": 885,
+        "w": 57,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2470,
+        "transparent": 722,
+        "semi": 0,
+        "border_bright": 100,
+        "bbox": [
+          0,
+          0,
+          56,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2470,
+        "transparent": 722,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          56,
+          55
+        ]
+      },
+      "cleaned_rgb": 111,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 345,
+        "y": 885,
+        "w": 70,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2672,
+        "transparent": 1248,
+        "semi": 0,
+        "border_bright": 59,
+        "bbox": [
+          0,
+          0,
+          69,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2672,
+        "transparent": 1248,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          69,
+          55
+        ]
+      },
+      "cleaned_rgb": 58,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "ninetails",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 443,
+        "y": 885,
+        "w": 108,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3431,
+        "transparent": 2617,
+        "semi": 0,
+        "border_bright": 4,
+        "bbox": [
+          0,
+          0,
+          107,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3431,
+        "transparent": 2617,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          107,
+          55
+        ]
+      },
+      "cleaned_rgb": 4,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 590,
+        "y": 782,
+        "w": 78,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2753,
+        "transparent": 1615,
+        "semi": 0,
+        "border_bright": 134,
+        "bbox": [
+          0,
+          0,
+          77,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2753,
+        "transparent": 1615,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          77,
+          55
+        ]
+      },
+      "cleaned_rgb": 136,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 694,
+        "y": 782,
+        "w": 68,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2465,
+        "transparent": 1343,
+        "semi": 0,
+        "border_bright": 116,
+        "bbox": [
+          0,
+          0,
+          67,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2465,
+        "transparent": 1343,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          67,
+          55
+        ]
+      },
+      "cleaned_rgb": 116,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 796,
+        "y": 782,
+        "w": 72,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2481,
+        "transparent": 1551,
+        "semi": 0,
+        "border_bright": 114,
+        "bbox": [
+          0,
+          0,
+          71,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2481,
+        "transparent": 1551,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          71,
+          55
+        ]
+      },
+      "cleaned_rgb": 117,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 893,
+        "y": 782,
+        "w": 69,
+        "h": 56
+      },
+      "before": {
+        "opaque": 2441,
+        "transparent": 1423,
+        "semi": 0,
+        "border_bright": 114,
+        "bbox": [
+          0,
+          0,
+          68,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 2441,
+        "transparent": 1423,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          68,
+          55
+        ]
+      },
+      "cleaned_rgb": 115,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 991,
+        "y": 782,
+        "w": 123,
+        "h": 56
+      },
+      "before": {
+        "opaque": 3323,
+        "transparent": 3565,
+        "semi": 0,
+        "border_bright": 145,
+        "bbox": [
+          0,
+          0,
+          122,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 3323,
+        "transparent": 3565,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          122,
+          55
+        ]
+      },
+      "cleaned_rgb": 150,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 595,
+        "y": 888,
+        "w": 63,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1671,
+        "transparent": 849,
+        "semi": 0,
+        "border_bright": 67,
+        "bbox": [
+          0,
+          0,
+          62,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1671,
+        "transparent": 849,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          39
+        ]
+      },
+      "cleaned_rgb": 70,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 699,
+        "y": 888,
+        "w": 62,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 792,
+        "semi": 0,
+        "border_bright": 85,
+        "bbox": [
+          0,
+          0,
+          61,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1688,
+        "transparent": 792,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          61,
+          39
+        ]
+      },
+      "cleaned_rgb": 86,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 798,
+        "y": 888,
+        "w": 64,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1661,
+        "transparent": 899,
+        "semi": 0,
+        "border_bright": 90,
+        "bbox": [
+          0,
+          0,
+          63,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1661,
+        "transparent": 899,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          63,
+          39
+        ]
+      },
+      "cleaned_rgb": 91,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 896,
+        "y": 888,
+        "w": 65,
+        "h": 40
+      },
+      "before": {
+        "opaque": 1666,
+        "transparent": 934,
+        "semi": 0,
+        "border_bright": 87,
+        "bbox": [
+          0,
+          0,
+          64,
+          39
+        ]
+      },
+      "after": {
+        "opaque": 1666,
+        "transparent": 934,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          39
+        ]
+      },
+      "cleaned_rgb": 88,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "deviruchi",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 983,
+        "y": 897,
+        "w": 35,
+        "h": 28
+      },
+      "before": {
+        "opaque": 576,
+        "transparent": 404,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          34,
+          27
+        ]
+      },
+      "after": {
+        "opaque": 576,
+        "transparent": 404,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          34,
+          27
+        ]
+      },
+      "cleaned_rgb": 1,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 28,
+        "y": 1106,
+        "w": 79,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5049,
+        "transparent": 1824,
+        "semi": 0,
+        "border_bright": 197,
+        "bbox": [
+          0,
+          0,
+          78,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5049,
+        "transparent": 1824,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          78,
+          86
+        ]
+      },
+      "cleaned_rgb": 212,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 130,
+        "y": 1106,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5453,
+        "transparent": 1768,
+        "semi": 0,
+        "border_bright": 215,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5453,
+        "transparent": 1768,
+        "semi": 0,
+        "border_bright": 7,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "cleaned_rgb": 237,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 234,
+        "y": 1106,
+        "w": 81,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5304,
+        "transparent": 1743,
+        "semi": 0,
+        "border_bright": 197,
+        "bbox": [
+          0,
+          0,
+          80,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5304,
+        "transparent": 1743,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          80,
+          86
+        ]
+      },
+      "cleaned_rgb": 220,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 340,
+        "y": 1106,
+        "w": 102,
+        "h": 87
+      },
+      "before": {
+        "opaque": 5248,
+        "transparent": 3626,
+        "semi": 0,
+        "border_bright": 362,
+        "bbox": [
+          0,
+          0,
+          101,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 5248,
+        "transparent": 3626,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          101,
+          86
+        ]
+      },
+      "cleaned_rgb": 390,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 460,
+        "y": 1106,
+        "w": 76,
+        "h": 87
+      },
+      "before": {
+        "opaque": 4584,
+        "transparent": 2028,
+        "semi": 0,
+        "border_bright": 162,
+        "bbox": [
+          0,
+          0,
+          75,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 4584,
+        "transparent": 2028,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          75,
+          86
+        ]
+      },
+      "cleaned_rgb": 180,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 33,
+        "y": 1220,
+        "w": 70,
+        "h": 84
+      },
+      "before": {
+        "opaque": 3890,
+        "transparent": 1990,
+        "semi": 0,
+        "border_bright": 179,
+        "bbox": [
+          0,
+          0,
+          69,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 3890,
+        "transparent": 1990,
+        "semi": 0,
+        "border_bright": 6,
+        "bbox": [
+          0,
+          0,
+          69,
+          83
+        ]
+      },
+      "cleaned_rgb": 184,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 139,
+        "y": 1220,
+        "w": 74,
+        "h": 84
+      },
+      "before": {
+        "opaque": 3687,
+        "transparent": 2529,
+        "semi": 0,
+        "border_bright": 164,
+        "bbox": [
+          0,
+          0,
+          73,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 3687,
+        "transparent": 2529,
+        "semi": 0,
+        "border_bright": 2,
+        "bbox": [
+          0,
+          0,
+          73,
+          83
+        ]
+      },
+      "cleaned_rgb": 177,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 244,
+        "y": 1220,
+        "w": 120,
+        "h": 84
+      },
+      "before": {
+        "opaque": 4844,
+        "transparent": 5236,
+        "semi": 0,
+        "border_bright": 428,
+        "bbox": [
+          0,
+          0,
+          119,
+          83
+        ]
+      },
+      "after": {
+        "opaque": 4844,
+        "transparent": 5236,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          119,
+          83
+        ]
+      },
+      "cleaned_rgb": 439,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 390,
+        "y": 1220,
+        "w": 30,
+        "h": 80
+      },
+      "before": {
+        "opaque": 491,
+        "transparent": 1909,
+        "semi": 0,
+        "border_bright": 128,
+        "bbox": [
+          0,
+          0,
+          29,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 491,
+        "transparent": 1909,
+        "semi": 0,
+        "border_bright": 9,
+        "bbox": [
+          0,
+          0,
+          29,
+          79
+        ]
+      },
+      "cleaned_rgb": 119,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "marionette",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 456,
+        "y": 1220,
+        "w": 76,
+        "h": 80
+      },
+      "before": {
+        "opaque": 3189,
+        "transparent": 2891,
+        "semi": 0,
+        "border_bright": 176,
+        "bbox": [
+          0,
+          0,
+          75,
+          79
+        ]
+      },
+      "after": {
+        "opaque": 3189,
+        "transparent": 2891,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          79
+        ]
+      },
+      "cleaned_rgb": 189,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 585,
+        "y": 1109,
+        "w": 79,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3596,
+        "transparent": 2961,
+        "semi": 0,
+        "border_bright": 183,
+        "bbox": [
+          0,
+          0,
+          78,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3596,
+        "transparent": 2961,
+        "semi": 0,
+        "border_bright": 18,
+        "bbox": [
+          0,
+          0,
+          78,
+          82
+        ]
+      },
+      "cleaned_rgb": 193,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 690,
+        "y": 1109,
+        "w": 76,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3651,
+        "transparent": 2657,
+        "semi": 0,
+        "border_bright": 210,
+        "bbox": [
+          0,
+          0,
+          75,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3651,
+        "transparent": 2657,
+        "semi": 0,
+        "border_bright": 36,
+        "bbox": [
+          0,
+          0,
+          75,
+          82
+        ]
+      },
+      "cleaned_rgb": 208,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 789,
+        "y": 1109,
+        "w": 74,
+        "h": 83
+      },
+      "before": {
+        "opaque": 3770,
+        "transparent": 2372,
+        "semi": 0,
+        "border_bright": 208,
+        "bbox": [
+          0,
+          0,
+          73,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 3770,
+        "transparent": 2372,
+        "semi": 0,
+        "border_bright": 36,
+        "bbox": [
+          0,
+          0,
+          73,
+          82
+        ]
+      },
+      "cleaned_rgb": 207,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 889,
+        "y": 1109,
+        "w": 197,
+        "h": 83
+      },
+      "before": {
+        "opaque": 8780,
+        "transparent": 7571,
+        "semi": 0,
+        "border_bright": 487,
+        "bbox": [
+          0,
+          0,
+          196,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 8780,
+        "transparent": 7571,
+        "semi": 0,
+        "border_bright": 36,
+        "bbox": [
+          0,
+          0,
+          196,
+          82
+        ]
+      },
+      "cleaned_rgb": 481,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 1109,
+        "w": 6,
+        "h": 83
+      },
+      "before": {
+        "opaque": 457,
+        "transparent": 41,
+        "semi": 0,
+        "border_bright": 119,
+        "bbox": [
+          0,
+          0,
+          5,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 457,
+        "transparent": 41,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          82
+        ]
+      },
+      "cleaned_rgb": 119,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 582,
+        "y": 1217,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 3584,
+        "transparent": 3637,
+        "semi": 0,
+        "border_bright": 186,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 3584,
+        "transparent": 3637,
+        "semi": 0,
+        "border_bright": 10,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "cleaned_rgb": 198,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 690,
+        "y": 1217,
+        "w": 183,
+        "h": 87
+      },
+      "before": {
+        "opaque": 7679,
+        "transparent": 8242,
+        "semi": 0,
+        "border_bright": 440,
+        "bbox": [
+          0,
+          0,
+          182,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 7679,
+        "transparent": 8242,
+        "semi": 0,
+        "border_bright": 13,
+        "bbox": [
+          0,
+          0,
+          182,
+          86
+        ]
+      },
+      "cleaned_rgb": 499,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 877,
+        "y": 1217,
+        "w": 83,
+        "h": 87
+      },
+      "before": {
+        "opaque": 3360,
+        "transparent": 3861,
+        "semi": 0,
+        "border_bright": 243,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 3360,
+        "transparent": 3861,
+        "semi": 0,
+        "border_bright": 3,
+        "bbox": [
+          0,
+          0,
+          82,
+          86
+        ]
+      },
+      "cleaned_rgb": 254,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 981,
+        "y": 1217,
+        "w": 109,
+        "h": 83
+      },
+      "before": {
+        "opaque": 4748,
+        "transparent": 4299,
+        "semi": 0,
+        "border_bright": 225,
+        "bbox": [
+          0,
+          0,
+          108,
+          82
+        ]
+      },
+      "after": {
+        "opaque": 4748,
+        "transparent": 4299,
+        "semi": 0,
+        "border_bright": 33,
+        "bbox": [
+          0,
+          0,
+          108,
+          82
+        ]
+      },
+      "cleaned_rgb": 203,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "monsters3.clean.png",
+      "entity": "wraith",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 1108,
+        "y": 1217,
+        "w": 6,
+        "h": 87
+      },
+      "before": {
+        "opaque": 459,
+        "transparent": 63,
+        "semi": 0,
+        "border_bright": 101,
+        "bbox": [
+          0,
+          0,
+          5,
+          86
+        ]
+      },
+      "after": {
+        "opaque": 459,
+        "transparent": 63,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          5,
+          86
+        ]
+      },
+      "cleaned_rgb": 101,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 98,
+        "w": 63,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2281,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2281,
+        "transparent": 1688,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 1,
+      "rect": {
+        "x": 549,
+        "y": 99,
+        "w": 64,
+        "h": 61
+      },
+      "before": {
+        "opaque": 2304,
+        "transparent": 1600,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          63,
+          60
+        ]
+      },
+      "after": {
+        "opaque": 2304,
+        "transparent": 1600,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          63,
+          60
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 2,
+      "rect": {
+        "x": 621,
+        "y": 98,
+        "w": 67,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2314,
+        "transparent": 1907,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          66,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2314,
+        "transparent": 1907,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          66,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 472,
+        "y": 160,
+        "w": 60,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1847,
+        "transparent": 1453,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1847,
+        "transparent": 1453,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          54
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 550,
+        "y": 163,
+        "w": 65,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1750,
+        "transparent": 1630,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1750,
+        "transparent": 1630,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          64,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 628,
+        "y": 160,
+        "w": 68,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1875,
+        "transparent": 1865,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          67,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1875,
+        "transparent": 1865,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          67,
+          54
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 470,
+        "y": 215,
+        "w": 59,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1731,
+        "transparent": 1337,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          58,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1731,
+        "transparent": 1337,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          58,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 555,
+        "y": 216,
+        "w": 60,
+        "h": 48
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 1192,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          47
+        ]
+      },
+      "after": {
+        "opaque": 1688,
+        "transparent": 1192,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          47
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 632,
+        "y": 215,
+        "w": 63,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1733,
+        "transparent": 1543,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1733,
+        "transparent": 1543,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 256,
+        "w": 82,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2047,
+        "transparent": 3119,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          81,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2047,
+        "transparent": 3119,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          81,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 309,
+        "w": 86,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2849,
+        "transparent": 2569,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2849,
+        "transparent": 2569,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 375,
+        "w": 57,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1819,
+        "transparent": 1259,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          56,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1819,
+        "transparent": 1259,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          56,
+          53
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.idle",
+      "frame": 1,
+      "rect": {
+        "x": 552,
+        "y": 376,
+        "w": 54,
+        "h": 53
+      },
+      "before": {
+        "opaque": 1822,
+        "transparent": 1040,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          53,
+          52
+        ]
+      },
+      "after": {
+        "opaque": 1822,
+        "transparent": 1040,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          53,
+          52
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 428,
+        "w": 58,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1735,
+        "transparent": 1397,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1735,
+        "transparent": 1397,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          53
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 556,
+        "y": 428,
+        "w": 62,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1688,
+        "transparent": 1660,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          61,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1688,
+        "transparent": 1660,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          61,
+          53
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 630,
+        "y": 428,
+        "w": 66,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1766,
+        "transparent": 1798,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          65,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1766,
+        "transparent": 1798,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          65,
+          53
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 476,
+        "y": 480,
+        "w": 58,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1708,
+        "transparent": 1308,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1708,
+        "transparent": 1308,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 555,
+        "y": 480,
+        "w": 60,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1752,
+        "transparent": 1368,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1752,
+        "transparent": 1368,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 631,
+        "y": 480,
+        "w": 63,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1766,
+        "transparent": 1510,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1766,
+        "transparent": 1510,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          62,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 483,
+        "y": 520,
+        "w": 76,
+        "h": 63
+      },
+      "before": {
+        "opaque": 1781,
+        "transparent": 3007,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 1781,
+        "transparent": 3007,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          75,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "darkLord",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 473,
+        "y": 574,
+        "w": 86,
+        "h": 63
+      },
+      "before": {
+        "opaque": 2837,
+        "transparent": 2581,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "after": {
+        "opaque": 2837,
+        "transparent": 2581,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          85,
+          62
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 852,
+        "w": 110,
+        "h": 50
+      },
+      "before": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "after": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 846,
+        "w": 112,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "cleaned_rgb": 1,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1444,
+        "transparent": 2644,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          72,
+          55
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 852,
+        "w": 110,
+        "h": 50
+      },
+      "before": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "after": {
+        "opaque": 2139,
+        "transparent": 3361,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          49
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveL",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 846,
+        "w": 112,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 1,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1839,
+        "transparent": 4433,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          55
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 137,
+        "y": 895,
+        "w": 58,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1311,
+        "transparent": 1879,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1311,
+        "transparent": 1879,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          57,
+          54
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 1,
+      "rect": {
+        "x": 220,
+        "y": 895,
+        "w": 110,
+        "h": 55
+      },
+      "before": {
+        "opaque": 2027,
+        "transparent": 4023,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 2027,
+        "transparent": 4023,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          109,
+          54
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.moveR",
+      "frame": 2,
+      "rect": {
+        "x": 335,
+        "y": 895,
+        "w": 112,
+        "h": 55
+      },
+      "before": {
+        "opaque": 1696,
+        "transparent": 4464,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          54
+        ]
+      },
+      "after": {
+        "opaque": 1696,
+        "transparent": 4464,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          111,
+          54
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.hit",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 947,
+        "w": 52,
+        "h": 44
+      },
+      "before": {
+        "opaque": 1223,
+        "transparent": 1065,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          43
+        ]
+      },
+      "after": {
+        "opaque": 1223,
+        "transparent": 1065,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          43
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "down.attack",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 997,
+        "w": 60,
+        "h": 47
+      },
+      "before": {
+        "opaque": 1291,
+        "transparent": 1529,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          46
+        ]
+      },
+      "after": {
+        "opaque": 1291,
+        "transparent": 1529,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          59,
+          46
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.idle",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1040,
+        "w": 50,
+        "h": 52
+      },
+      "before": {
+        "opaque": 1271,
+        "transparent": 1329,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          51
+        ]
+      },
+      "after": {
+        "opaque": 1271,
+        "transparent": 1329,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          49,
+          51
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.moveR",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1085,
+        "w": 40,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1440,
+        "transparent": 800,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          39,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1440,
+        "transparent": 800,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          39,
+          55
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.hit",
+      "frame": 0,
+      "rect": {
+        "x": 138,
+        "y": 1132,
+        "w": 52,
+        "h": 56
+      },
+      "before": {
+        "opaque": 1526,
+        "transparent": 1386,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          55
+        ]
+      },
+      "after": {
+        "opaque": 1526,
+        "transparent": 1386,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          51,
+          55
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    },
+    {
+      "sheet": "bosses.geffen-clean.png",
+      "entity": "doppelganger",
+      "pose": "up.attack",
+      "frame": 0,
+      "rect": {
+        "x": 139,
+        "y": 1178,
+        "w": 49,
+        "h": 54
+      },
+      "before": {
+        "opaque": 1427,
+        "transparent": 1219,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          48,
+          53
+        ]
+      },
+      "after": {
+        "opaque": 1427,
+        "transparent": 1219,
+        "semi": 0,
+        "border_bright": 0,
+        "bbox": [
+          0,
+          0,
+          48,
+          53
+        ]
+      },
+      "cleaned_rgb": 0,
+      "semi_rgb_bleed": 0
+    }
+  ],
+  "totals": {
+    "frames": 116,
+    "cleaned_rgb": 13845,
+    "border_bright_before": 13085,
+    "border_bright_after": 385
+  },
+  "contact_sheet_legend": [
+    {
+      "row": 0,
+      "entity": "willow",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 25,
+        "y": 78,
+        "w": 94,
+        "h": 80
+      }
+    },
+    {
+      "row": 1,
+      "entity": "zombie",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 602,
+        "y": 77,
+        "w": 56,
+        "h": 80
+      }
+    },
+    {
+      "row": 2,
+      "entity": "munak",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 427,
+        "w": 89,
+        "h": 74
+      }
+    },
+    {
+      "row": 3,
+      "entity": "bongun",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 594,
+        "y": 435,
+        "w": 67,
+        "h": 77
+      }
+    },
+    {
+      "row": 4,
+      "entity": "ninetails",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 8,
+        "y": 777,
+        "w": 81,
+        "h": 64
+      }
+    },
+    {
+      "row": 5,
+      "entity": "deviruchi",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 590,
+        "y": 782,
+        "w": 78,
+        "h": 56
+      }
+    },
+    {
+      "row": 6,
+      "entity": "marionette",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 28,
+        "y": 1106,
+        "w": 79,
+        "h": 87
+      }
+    },
+    {
+      "row": 7,
+      "entity": "wraith",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 585,
+        "y": 1109,
+        "w": 79,
+        "h": 83
+      }
+    },
+    {
+      "row": 8,
+      "entity": "darkLord",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 477,
+        "y": 98,
+        "w": 63,
+        "h": 63
+      }
+    },
+    {
+      "row": 9,
+      "entity": "doppelganger",
+      "pose": "down.idle",
+      "frame": 0,
+      "rect": {
+        "x": 135,
+        "y": 846,
+        "w": 73,
+        "h": 56
+      }
+    }
+  ]
+}
