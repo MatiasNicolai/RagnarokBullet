@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "slice": "node tools/slice-sheet.mjs"
+    "slice": "node tools/slice-sheet.mjs",
+    "music": "node tools/encode-music.mjs"
   },
   "dependencies": {
     "pixi.js": "^8.6.6"

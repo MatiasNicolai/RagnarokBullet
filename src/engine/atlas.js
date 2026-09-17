@@ -59,8 +59,26 @@ export async function loadAtlas() {
   const v2url = (n, ext) => (ART_V2 && V2_REMAP[n])
     ? `${BASE}assets-v2/${V2_REMAP[n][0]}/${V2_REMAP[n][1]}.${ext}`
     : `${BASE}assets/${n}.${ext}`;
-  const monJson = (n) => fetch(v2url(n, 'json')).then((r) => r.json()).catch(() => { warn(`missing manifest: ${v2url(n, 'json')} (procedural fallback)`); return null; });
-  const monPng = (n) => Assets.load(v2url(n, 'png')).catch(() => { warn(`missing sheet: ${v2url(n, 'png')} (procedural fallback)`); return null; });
+  const baseUrl = (n, ext) => `${BASE}assets/${n}.${ext}`;
+  // A remapped preview asset that is missing falls back to the ORIGINAL sheet
+  // before giving up on procedural art. Production builds prune the
+  // preview-only trees (see vite.config.js), so opening the deployed game with
+  // ?art=v2 shows normal art with a console note instead of procedural blobs.
+  const previewMiss = (n, ext) => {
+    warn(`preview asset absent: ${v2url(n, ext)} -> using assets/${n}.${ext}`);
+    return true;
+  };
+  const monJson = (n) => fetch(v2url(n, 'json'))
+    .then((r) => r.json())
+    .catch(() => (ART_V2 && V2_REMAP[n] && previewMiss(n, 'json')
+      ? fetch(baseUrl(n, 'json')).then((r) => r.json())
+      : Promise.reject()))
+    .catch(() => { warn(`missing manifest: ${baseUrl(n, 'json')} (procedural fallback)`); return null; });
+  const monPng = (n) => Assets.load(v2url(n, 'png'))
+    .catch(() => (ART_V2 && V2_REMAP[n] && previewMiss(n, 'png')
+      ? Assets.load(baseUrl(n, 'png'))
+      : Promise.reject()))
+    .catch(() => { warn(`missing sheet: ${baseUrl(n, 'png')} (procedural fallback)`); return null; });
   const [
     manifest, base,
     monManifest, monBase, mon2Manifest, mon2Base, mon3Manifest, mon3Base, mon4Manifest, mon4Base,

@@ -159,6 +159,26 @@ class Music {
     this.mp3El.play().catch(() => { /* awaits a user gesture; the game unlocks on keydown */ });
   }
 
+  // Freeze / resume the current track for the pause menu. Unlike stop() this
+  // keeps the position: the mp3 resumes where it was, and the sequencer picks
+  // its next step up from the current clock instead of replaying the loop.
+  setPaused(v) {
+    this.paused = v;
+    if (this.mp3El && this.current) {
+      if (v) this.mp3El.pause();
+      else this.mp3El.play().catch(() => { /* awaits a user gesture */ });
+    }
+    if (v) {
+      if (this.timer) { clearInterval(this.timer); this.timer = null; }
+      return;
+    }
+    if (!this.track) return;
+    const ctx = audio.ensure();
+    if (!ctx) return;
+    this.nextTime = ctx.currentTime + 0.06;
+    if (!this.timer) this.timer = setInterval(() => this.schedule(), 25);
+  }
+
   stopSequencer() {
     if (this.timer) { clearInterval(this.timer); this.timer = null; }
     this.track = null;

@@ -12,6 +12,8 @@ import { Sidebar } from '../ui/sidebar.js';
 import { BossBar } from '../ui/bossbar.js';
 import { makeResults } from '../ui/results.js';
 import { makeNameEntry } from '../ui/nameentry.js';
+import { makePauseOverlay, makeConfirmExit } from '../ui/pausemenu.js';
+import { createPauseState, pauseKey, isFrozen, MODE } from '../engine/pausecontrol.js';
 import { bossDialogue } from '../data/dialogue.js';
 import { audio } from '../engine/audio.js';
 import { music } from '../engine/music.js';
@@ -120,6 +122,7 @@ export class GameScene {
     this.fadeT = 30;
 
     this.acc = 0;
+    this.frozen = false;
     this.fpsSmooth = 60;
     this.slowmo = 0;
     this.hitstop = 0;
@@ -131,8 +134,20 @@ export class GameScene {
 
     music.play(this.practice ? 'boss' : `level${this.levelIndex + 1}`);
 
+    // Pause / exit confirmation. ESC used to drop a live run to the title on
+    // the spot; now it asks, defaulting to NO. P pauses (offline only: lockstep
+    // couples both clients, so a local freeze would stall the peer).
+    this.pause = createPauseState({ pausable: !campaign.net });
+    this.pauseUI = null;
+    this.confirmUI = null;
+
     this.onKey = (e) => {
-      if (e.code === 'Escape') { this.leaveToTitle(); return; }
+      // While results / game over / a net error own the screen there is no run
+      // left to protect, so those overlays keep their own plain key handling.
+      if (!this.overlay) {
+        const effect = pauseKey(this.pause, e.code);
+        if (effect !== 'none') { this.applyPause(effect); return; }
+      } else if (e.code === 'Escape') { this.leaveToTitle(); return; }
       if (this.overlayKey) this.overlayKey(e);
     };
     window.addEventListener('keydown', this.onKey);
@@ -219,6 +234,11 @@ export class GameScene {
   }
 
   update(dtMs) {
+    // Frozen by the pause menu: PixiJS keeps drawing the stage (frozen
+    // playfield under the wash, overlay on top), but nothing advances - not
+    // the sim, not particles, not the juice counters. Online runs never freeze
+    // (isFrozen() is false without `pausable`), so the peer is never stalled.
+    if (this.frozen) return;
     if (this.online) {
       // lockstep couples both clients; keep the juice counters live for gates
       // and screen shake, but don't scale the network clock with them (steady
@@ -449,6 +469,51 @@ export class GameScene {
   }
 
   // Leave to the title, closing the online link first if we're in a net game.
+  // Applies one effect from the pause state machine: freeze/thaw the sim and
+  // music, redraw the overlays, or leave.
+  applyPause(effect) {
+    if (effect === 'leave') { this.leaveToTitle(); return; }
+    if (effect === 'blocked') {
+      this.showBanner('No se puede pausar en co-op online', 110, 0xffa060);
+      return;
+    }
+    // Derive the freeze from the state itself rather than the effect name, so
+    // the sim and the menu can never disagree about who is paused.
+    const freeze = isFrozen(this.pause);
+    if (freeze !== this.frozen) {
+      this.frozen = freeze;
+      music.setPaused(freeze);
+      if (!freeze) this.acc = 0;  // no catch-up burst of ticks on resume
+    }
+    this.renderPause();
+  }
+
+  // Rebuilds the pause / confirmation overlays to match the current state.
+  renderPause() {
+    const { mode, choice } = this.pause;
+    if (mode !== MODE.PAUSED && this.pauseUI) {
+      this.pauseUI.destroy({ children: true });
+      this.pauseUI = null;
+    }
+    if (mode !== MODE.CONFIRM && this.confirmUI) {
+      this.confirmUI.root.destroy({ children: true });
+      this.confirmUI = null;
+    }
+    if (mode === MODE.PAUSED && !this.pauseUI) {
+      this.pauseUI = makePauseOverlay({ levelName: this.level.name ?? this.level.title ?? '' });
+      this.container.addChild(this.pauseUI);
+    }
+    if (mode === MODE.CONFIRM) {
+      if (!this.confirmUI) {
+        this.confirmUI = makeConfirmExit({
+          warning: this.online ? 'En online la partida sigue corriendo mientras decidís.' : '',
+        });
+        this.container.addChild(this.confirmUI.root);
+      }
+      this.confirmUI.setChoice(choice);
+    }
+  }
+
   leaveToTitle() {
     if (this.online) {
       try { this.net.client.close(); } catch { /* ignore */ }
@@ -542,6 +607,8 @@ export class GameScene {
 
   destroy() {
     this.destroyed = true;
+    // a scene torn down while paused must not leave the music frozen
+    if (this.frozen) music.setPaused(false);
     window.removeEventListener('keydown', this.onKey);
     if (window.__game?.sim === this.sim) window.__game = null;
     // detach the lockstep driver + net listeners (the connection itself lives

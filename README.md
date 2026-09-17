@@ -32,11 +32,19 @@ Ambos abren la URL de arriba, luego en el título → **🌐 CO-OP ONLINE**:
 | Foco (lento + hitbox visible) | K | Numpad 2 | X / RB / RT |
 | Bomba temática (3 cargas) | L | Numpad 3 | B |
 | Especial (medidor lleno) | I | Numpad 0 | Y |
+| Pausa | P | P | |
 | Menús | Flechas/WASD + ENTER · ESC volver | | |
 
 En **online**, cada jugador está solo en su máquina y puede usar cualquier set
 local (teclas de P1 o de P2, cualquier gamepad).
+
 Gamepads en local: pad 0 → P1, pad 1 → P2 (el teclado siempre funciona para ambos).
+
+**P** congela la partida (sim, partículas y música) y **ESC** pregunta *¿Volver al
+menú principal?* con **NO** preseleccionado — un ESC de más ya no tira la partida.
+En co-op **online** no se puede pausar (el lockstep acopla a los dos clientes:
+congelar de un lado colgaría al otro), así que ahí P avisa y ESC pregunta sin
+frenar la partida.
 
 ## 🗺️ Campaña — 7 niveles
 
@@ -90,6 +98,9 @@ Con el relay corriendo, "CO-OP ONLINE" funciona en la misma máquina (dos pesta�
 
 - **Cliente:** GitHub Pages, deploy automático en cada push a `main` vía GitHub Actions ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)). El build usa `VITE_RELAY_URL` (apunta al relay) y `VITE_BASE=/RagnarokBullet/`.
 - **Relay:** Railway (`wss://ragnarokbullet-production.up.railway.app`), servicio con Root Directory `server`, redeploy automático al cambiar `server/`.
+- **Peso del build:** el `dist` publicado ronda los 190 MB. Dos reglas lo mantienen ahí:
+  - la música de runtime se encodea a 128 kbps desde los masters de `Music/` (`npm run music`), no se copia tal cual;
+  - el arte que solo alcanzan las herramientas internas (`?art=v2`, `?artlab=1`) se poda del build en `vite.config.js`. Sigue disponible en `npm run dev` y archivado en `art-clean/`. Para publicarlo igual: `VITE_PREVIEW_ART=1 npm run build`.
 
 ## 🧪 Tests y herramientas
 
@@ -97,6 +108,8 @@ Con el relay corriendo, "CO-OP ONLINE" funciona en la misma máquina (dos pesta�
 - `node server/_guestbot.mjs <CÓDIGO>` — guest headless para probar un host real del navegador contra un peer.
 - `npm run slice` — regenera `public/assets/` (atlas + manifiesto de personajes).
 - `node tools/slice-monsters.mjs` · `slice-bosses.mjs` · `slice-skills.mjs` — recortan las hojas de mobs / jefes+mid-bosses / iconos de skill.
+- `python tools/slice-pyramid.py` · `slice-niflheim.py` · `slice-prontera-v3.py` — slicers deterministas del arte v2 hacia `public/assets-v2/` (gates de validación antes de escribir; dos corridas dan sha256 idéntico).
+- `npm run music` — regenera `public/assets/music/` desde los masters de `Music/` a 128 kbps (necesita `ffmpeg` en el PATH).
 
 ## 📁 Estructura
 

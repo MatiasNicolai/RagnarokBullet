@@ -1406,5 +1406,250 @@ function stripComments(src) {
   ok('niflheim slicer RGBA map tiling (pixels/order)');
 }
 
+// --- 16. Residual-sheet-matte gate (every V2 runtime sheet) ---
+// Regression guard for the Amon-Ra "opaque parchment rectangle" bug: a frame
+// whose sheet background was not keyed out renders as a filled rectangle of
+// paper instead of a sprite. The tell is geometric, not chromatic - counting
+// "bright neutral" pixels would flag legitimately pale art (skeleton bones,
+// mummy wrappings, Loli Ruri's dress), so this gates the two things a real
+// crop can never do: fill its whole box, and stay opaque all around its
+// border. Worst case across the shipped sheets is 76% fill / 55% border, so
+// the ceilings keep headroom while a re-matted frame (~100%/100%) trips.
+{
+  const { inflateSync } = await import('node:zlib');
+  const MAX_FILL = 0.90;    // opaque pixels / rect area
+  const MAX_BORDER = 0.75;  // opaque pixels along the rect perimeter
+
+  const paeth = (a, b, c) => {
+    const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+    return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+  };
+  // Minimal RGBA PNG decoder (same idiom as the sheet-alpha checks above).
+  const decodePng = (file) => {
+    const d = fs.readFileSync(file);
+    const W = d.readUInt32BE(16), H = d.readUInt32BE(20);
+    assert.equal(d[24], 8, `${path.basename(file)} is 8-bit`);
+    assert.equal(d[25], 6, `${path.basename(file)} is RGBA (matte keyed to alpha)`);
+    let pos = 8; const parts = [];
+    while (pos < d.length) {
+      const len = d.readUInt32BE(pos), typ = d.toString('ascii', pos + 4, pos + 8);
+      if (typ === 'IDAT') parts.push(d.subarray(pos + 8, pos + 8 + len));
+      pos += 12 + len;
+    }
+    const raw = inflateSync(Buffer.concat(parts));
+    const stride = W * 4, out = Buffer.alloc(W * H * 4);
+    let prev = Buffer.alloc(stride);
+    for (let y = 0; y < H; y++) {
+      const f = raw[y * (stride + 1)];
+      const line = Buffer.from(raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
+      for (let i = 0; i < stride; i++) {
+        const a = i >= 4 ? line[i - 4] : 0, b = prev[i], c = i >= 4 ? prev[i - 4] : 0;
+        if (f === 1) line[i] = (line[i] + a) & 255;
+        else if (f === 2) line[i] = (line[i] + b) & 255;
+        else if (f === 3) line[i] = (line[i] + ((a + b) >> 1)) & 255;
+        else if (f === 4) line[i] = (line[i] + paeth(a, b, c)) & 255;
+      }
+      line.copy(out, y * stride);
+      prev = line;
+    }
+    return { W, H, px: out };
+  };
+
+  // Every {x,y,w,h} leaf under a manifest entry: single rects and frame arrays alike.
+  const rectsOf = (node, acc = []) => {
+    if (Array.isArray(node)) node.forEach((n) => rectsOf(n, acc));
+    else if (node && typeof node === 'object') {
+      if ('x' in node && 'w' in node) acc.push(node);
+      else Object.values(node).forEach((n) => rectsOf(n, acc));
+    }
+    return acc;
+  };
+
+  const SHEETS = [
+    ['public/assets-v2/pyramid/bosses4.png', 'public/assets-v2/pyramid/bosses4.json'],
+    ['public/assets-v2/pyramid/bosses4.png', 'public/assets-v2/pyramid/monsters10.json'],
+    ['public/assets-v2/pyramid/monsters9.png', 'public/assets-v2/pyramid/monsters9.json'],
+    ['public/assets-v2/niflheim/bosses5.png', 'public/assets-v2/niflheim/bosses5.json'],
+    ['public/assets-v2/niflheim/monsters11.png', 'public/assets-v2/niflheim/monsters11.json'],
+    ['public/assets-v2/prontera/monsters-v3.png', 'public/assets-v2/prontera/monsters-v3.json'],
+  ];
+  let frames = 0;
+  for (const [pngRel, jsonRel] of SHEETS) {
+    const img = decodePng(path.join(ROOT, pngRel));
+    const man = JSON.parse(fs.readFileSync(path.join(ROOT, jsonRel), 'utf8'));
+    const root = man.bosses ?? man.monsters;
+    assert.ok(root, `${jsonRel} exposes a bosses/monsters table`);
+    for (const [id, node] of Object.entries(root)) {
+      for (const r of rectsOf(node)) {
+        let opaque = 0, perim = 0, perimOpaque = 0;
+        for (let y = r.y; y < r.y + r.h; y++) {
+          for (let x = r.x; x < r.x + r.w; x++) {
+            const isOpaque = img.px[(y * img.W + x) * 4 + 3] >= 32;
+            if (isOpaque) opaque++;
+            if (x === r.x || x === r.x + r.w - 1 || y === r.y || y === r.y + r.h - 1) {
+              perim++;
+              if (isOpaque) perimOpaque++;
+            }
+          }
+        }
+        const fill = opaque / (r.w * r.h), border = perimOpaque / perim;
+        assert.ok(fill <= MAX_FILL,
+          `${jsonRel} ${id} @${r.x},${r.y} is a sprite, not a filled sheet patch (fill ${(fill * 100).toFixed(1)}%)`);
+        assert.ok(border <= MAX_BORDER,
+          `${jsonRel} ${id} @${r.x},${r.y} keeps a transparent border (opaque border ${(border * 100).toFixed(1)}%)`);
+        frames++;
+      }
+    }
+  }
+  assert.equal(frames, 272, 'gate covers every V2 runtime frame');
+  ok(`V2 sheets: no residual opaque matte (${frames} frames, fill/border gated)`);
+}
+
+// --- 17. Deploy payload: runtime music is encoded, preview art is pruned ---
+// The build used to ship 220 MB to GitHub Pages: 47 MB of it was the music
+// masters copied verbatim, and 16 MB was art only reachable through the
+// internal ?art=v2 / ?artlab=1 tools. Both are now handled; these checks keep
+// them handled when a level 8 shows up.
+{
+  const musicSrc = fs.readFileSync(path.join(ROOT, 'src/engine/music.js'), 'utf8');
+  const encoder = fs.readFileSync(path.join(ROOT, 'tools/encode-music.mjs'), 'utf8');
+  const MUSIC_DIR = path.join(ROOT, 'public/assets/music');
+
+  // Every stage the game can ask for has a runtime file, and the encoder knows
+  // how to regenerate it (a new level whose track is only hand-copied fails).
+  const wanted = [...musicSrc.matchAll(/assets\/music\/([\w-]+\.mp3)/g)].map((m) => m[1]);
+  assert.ok(wanted.length >= 8, `MP3_TRACKS lists the stage tracks (${wanted.length})`);
+  for (const track of wanted) {
+    const file = path.join(MUSIC_DIR, track);
+    assert.ok(fs.existsSync(file), `runtime track exists: assets/music/${track}`);
+    assert.ok(encoder.includes(`'${track}'`), `tools/encode-music.mjs regenerates ${track}`);
+  }
+
+  // Encoded, not a master copy: at 128 kbps no track can reach the masters'
+  // 166-207 kbps. Bytes/second is format-agnostic, so this needs no ffprobe;
+  // 21 kB/s is ~168 kbps, comfortably above 128 and below every master.
+  const MAX_BYTES_PER_SEC = 21000;
+  const SECONDS = { // master durations, for the byte-rate bound
+    'prontera.mp3': 265.0, 'geffen.mp3': 192.7, 'glastheim.mp3': 230.8,
+    'juperos.mp3': 248.8, 'biolab.mp3': 376.3, 'pyramid.mp3': 219.0,
+    'niflheim.mp3': 311.2, 'menu.mp3': 235.0,
+  };
+  let totalBytes = 0;
+  for (const [track, secs] of Object.entries(SECONDS)) {
+    const bytes = fs.statSync(path.join(MUSIC_DIR, track)).size;
+    totalBytes += bytes;
+    assert.ok(bytes / secs <= MAX_BYTES_PER_SEC,
+      `${track} is encoded for the web, not a master copy (${Math.round(bytes / secs / 125)} kbps)`);
+  }
+  assert.ok(totalBytes < 40e6, `runtime music stays under 40 MB (${(totalBytes / 1e6).toFixed(1)} MB)`);
+  ok(`runtime music encoded + regenerable (${wanted.length} tracks, ${(totalBytes / 1e6).toFixed(1)} MB)`);
+
+  // The build prunes preview-only art, and those trees are still archived.
+  const vite = fs.readFileSync(path.join(ROOT, 'vite.config.js'), 'utf8');
+  for (const rel of ['assets-v2/bosses', 'assets-v2/geffen']) {
+    assert.ok(vite.includes(`'${rel}'`), `vite prunes ${rel} from the build`);
+    assert.ok(fs.existsSync(path.join(ROOT, 'public', rel)), `${rel} still available in dev`);
+  }
+  assert.ok(vite.includes('VITE_PREVIEW_ART'), 'preview art has a build-time escape hatch');
+  for (const archive of ['art-clean/bosses-v2.1', 'art-clean/geffen-v2.1']) {
+    assert.ok(fs.existsSync(path.join(ROOT, archive)), `clean-art archive kept: ${archive}`);
+  }
+  // ?art=v2 on a pruned build must fall back to the original sheets.
+  const atlasSrc = fs.readFileSync(path.join(ROOT, 'src/engine/atlas.js'), 'utf8');
+  assert.ok(atlasSrc.includes('preview asset absent'), 'atlas falls back to the original sheet');
+  ok('deploy payload: preview art pruned from build, archived, safe fallback');
+}
+
+// --- 18. Pause + exit confirmation ---
+// ESC used to drop a live run straight to the title on the first press. It now
+// opens a confirmation that defaults to NO, and P pauses offline runs. The
+// transitions live in a PixiJS-free module, so these are real state
+// transitions rather than source-string matches.
+{
+  const { createPauseState, pauseKey, isFrozen, MODE, CHOICES } =
+    await import('../src/engine/pausecontrol.js');
+
+  // P toggles the freeze offline.
+  const st = createPauseState({});
+  assert.equal(st.mode, MODE.PLAYING, 'a run starts unpaused');
+  assert.equal(pauseKey(st, 'KeyP'), 'freeze', 'P pauses');
+  assert.ok(isFrozen(st), 'paused means frozen');
+  assert.equal(pauseKey(st, 'KeyP'), 'thaw', 'P resumes');
+  assert.ok(!isFrozen(st), 'resumed means running');
+
+  // ESC asks instead of leaving, and NO is preselected.
+  assert.equal(pauseKey(st, 'Escape'), 'freeze', 'ESC opens the confirmation');
+  assert.equal(st.mode, MODE.CONFIRM, 'confirmation is up');
+  assert.equal(CHOICES[st.choice], 'no', 'NO is the default answer');
+  assert.ok(isFrozen(st), 'the game is frozen while it asks');
+
+  // A stray ENTER right after ESC must never drop the run.
+  assert.equal(pauseKey(st, 'Enter'), 'thaw', 'ENTER on NO cancels');
+  assert.equal(st.mode, MODE.PLAYING, 'cancelling returns to play');
+
+  // Choosing SI leaves; arrows move, and NO cannot be walked off the left end.
+  pauseKey(st, 'Escape');
+  assert.equal(pauseKey(st, 'ArrowLeft'), 'none', 'NO is already leftmost');
+  assert.equal(CHOICES[st.choice], 'no', 'left of NO stays NO');
+  assert.equal(pauseKey(st, 'ArrowRight'), 'redraw', 'right selects SI');
+  assert.equal(CHOICES[st.choice], 'si', 'SI selected');
+  assert.equal(pauseKey(st, 'ArrowRight'), 'none', 'SI is already rightmost');
+  assert.equal(pauseKey(st, 'Enter'), 'leave', 'ENTER on SI leaves');
+
+  // ESC cancels the dialog too, and reopening always resets to NO.
+  const st2 = createPauseState({});
+  pauseKey(st2, 'Escape');
+  pauseKey(st2, 'ArrowRight');
+  assert.equal(pauseKey(st2, 'Escape'), 'thaw', 'ESC cancels the confirmation');
+  assert.equal(st2.mode, MODE.PLAYING, 'ESC-cancel returns to play');
+  pauseKey(st2, 'Escape');
+  assert.equal(CHOICES[st2.choice], 'no', 'the dialog reopens on NO, not on the last answer');
+
+  // Confirming from a paused game returns to PAUSED, not to a running game.
+  const st3 = createPauseState({});
+  pauseKey(st3, 'KeyP');
+  assert.equal(pauseKey(st3, 'Escape'), 'redraw', 'already frozen, so no second freeze');
+  assert.equal(st3.returnTo, MODE.PAUSED, 'remembers it came from pause');
+  pauseKey(st3, 'Escape');
+  assert.equal(st3.mode, MODE.PAUSED, 'cancelling goes back to PAUSED');
+  assert.ok(isFrozen(st3), 'and stays frozen');
+  assert.equal(pauseKey(st3, 'KeyP'), 'thaw', 'P still resumes from there');
+
+  // Online: lockstep couples both clients, so a local freeze would stall the
+  // peer. P is refused and the confirmation never freezes the sim.
+  const net = createPauseState({ pausable: false });
+  assert.equal(pauseKey(net, 'KeyP'), 'blocked', 'online runs refuse P');
+  assert.equal(net.mode, MODE.PLAYING, 'and stay in play');
+  assert.equal(pauseKey(net, 'Escape'), 'redraw', 'online ESC asks without freezing');
+  assert.ok(!isFrozen(net), 'online never freezes the sim');
+  assert.equal(pauseKey(net, 'KeyP'), 'none', 'P is ignored while the question is up');
+  assert.equal(pauseKey(net, 'ArrowRight'), 'redraw', 'but the answer can still be changed');
+  assert.equal(pauseKey(net, 'Enter'), 'leave', 'and leaving online still works');
+  ok('pause state machine (P freeze, ESC confirm defaulting to NO, online guard)');
+
+  // GameScene wiring: the machine drives the scene, and only offline is pausable.
+  const scene = fs.readFileSync(path.join(ROOT, 'src/scenes/game.js'), 'utf8');
+  assert.ok(scene.includes('createPauseState({ pausable: !campaign.net })'),
+    'online runs are constructed non-pausable');
+  assert.ok(scene.includes('if (this.frozen) return;'), 'a frozen scene advances nothing');
+  assert.ok(/this\.frozen = freeze;\s*\n\s*music\.setPaused\(freeze\);/.test(scene),
+    'freezing the sim freezes the music with it');
+  assert.ok(scene.includes('this.acc = 0'), 'resuming drops the accumulator (no catch-up burst)');
+  // The old handler opened with a bare ESC exit; now the first thing it does
+  // during a live run is consult the machine.
+  assert.ok(!/this\.onKey = \(e\) => \{\s*\n\s*if \(e\.code === 'Escape'\)/.test(scene),
+    'ESC no longer leaves as the first thing the handler does');
+  assert.ok(scene.includes('const effect = pauseKey(this.pause, e.code);'),
+    'a live run routes keys through the pause machine first');
+  // Results / game over own the screen with no run left to protect: ESC there
+  // still leaves directly.
+  assert.ok(scene.includes("} else if (e.code === 'Escape') { this.leaveToTitle(); return; }"),
+    'ESC still exits directly from results / game over');
+  const musicSrc2 = fs.readFileSync(path.join(ROOT, 'src/engine/music.js'), 'utf8');
+  assert.ok(musicSrc2.includes('setPaused(v)'), 'music can freeze without losing its position');
+  assert.ok(!musicSrc2.includes('setPaused(v) {\n    this.stop()'), 'pausing music is not a stop');
+  ok('pause wiring (GameScene freeze, music freeze, results ESC unchanged)');
+}
+
 console.log(`\nPASS — ${passed} static checks`);
 process.exit(0);
