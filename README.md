@@ -66,8 +66,8 @@ Vencer los 8 → pantalla de **victoria**.
 
 **La Torre de Thanatos va con todo.** Es el nivel más largo y sus mobs traen mecánicas propias: Lady Solace **cura** a los enemigos cercanos (mátala primero), Void Mimic se **teletransporta** con aviso y Dame of Sentinel dispara por una línea de mira marcada.
 
-**Thanatos** tiene 3,3 veces la vida de Lord of Death, repartida en 7 cartas:
-- En su primera forma invoca **ecos** de Orc Hero, Baphomet y Lord of Death.
+**Thanatos** tiene 6,6 veces la vida de Lord of Death, repartida en 7 cartas, y **nunca se queda quieto**: cada segundo, más o menos, se lanza de costado lejos de ti, así que hay que moverse para seguir dañándolo.
+- En su primera forma lo acompañan adds (Baroness de guardia, Anger, Book of Death) e invoca **ecos** de Orc Hero, Baphomet y Lord of Death.
 - Después **despierta** en una segunda forma y abre una carta de **supervivencia**: 30 s invulnerable (20 s en Novice) en los que solo hay que aguantar.
 - Las tres últimas cartas son las más densas del juego.
 

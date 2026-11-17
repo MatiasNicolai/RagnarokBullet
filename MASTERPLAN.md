@@ -22,7 +22,8 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 **Además del núcleo:** co-op online desplegado (relay en Railway + lockstep), ELEGIR NIVEL, práctica de jefes, menú de pausa (P / ESC con confirmación), música mp3 en los 8 niveles (Suno para los últimos) con respaldo chiptune, y un build podado de unos 210 MB.
 
 **Nivel 8 (2026-11-16):** el diseño completo, los prompts y las decisiones están en [THANATOS-PLAN.md](THANATOS-PLAN.md).
-- **Thanatos** tiene 10 500 de vida (3,28× Lord of Death; un test lo exige ≥3× para cualquier jefe final anterior): 6 cartas con vida, una carta de supervivencia de 30 s, cambio de Forma I a II y ecos de jefes anteriores.
+- **Thanatos** tiene 21 000 de vida (6,56× Lord of Death; un test lo exige ≥3× para cualquier jefe final anterior): 6 cartas con vida, una carta de supervivencia de 30 s, cambio de Forma I a II y ecos de jefes anteriores.
+- **Primer playtest (2026-11-16):** se vencía demasiado fácil, porque se quedaba quieto y el rayo enfocado de Aramir lo derretía. Desde entonces tiene la vida duplicada, hace side-steps violentos en todas las cartas (se aleja del jugador) y trae adds en las 3 primeras. Con un bot que lo persigue en foco, la pelea pasó de 113 s a 436 s, y las 3 primeras cartas de 10–13 s a 56–67 s cada una.
 - **Mecánicas nuevas de motor:** `card.form`, `card.survive`, `card.transition`, el evento `bossForm`, y `echo`/`ttl` en los enemigos.
 - **Mobs** con curación (Lady Solace) y teletransporte (Void Mimic).
 

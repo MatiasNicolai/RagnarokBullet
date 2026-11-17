@@ -108,63 +108,155 @@ export function summonEcho(sim, key, x) {
   });
 }
 
-// Every echo starts dissolving now (the transformation clears the stage).
+// Every echo and add starts dissolving now (the transformation clears the
+// stage). No kill credit: they fade out.
 export function dismissEchoes(sim) {
-  for (const e of sim.enemies.active) if (e.echo) e.ttl = e.t + 1;
+  for (const e of sim.enemies.active) if (e.echo || e.thanatosAdd) e.ttl = e.t + 1;
+}
+
+// --- Thanatos' adds (cards 1-3) ---
+// Small summons drawn from the tower's own monsters, so the first form never
+// fights alone. Flagged `thanatosAdd` (pool-safe: always set in the props),
+// capped together, and they dissolve on a timer if left alive.
+const ADD_CAP = 4;
+function addsAlive(sim) {
+  let n = 0;
+  for (const e of sim.enemies.active) if (e.thanatosAdd) n++;
+  return n;
+}
+
+// Baroness guard: drops in at a side, parks, fires aimed fans. 10 s.
+function guardAdd(sim, x) {
+  if (addsAlive(sim) >= ADD_CAP) return;
+  sim.spawnEnemy({
+    x, y: -30, vy: 2.0, hp: 60, maxhp: 60, r: 19, skin: 'retribution', score: 800,
+    ttl: 600, thanatosAdd: true,
+    shoot: (s, e) => {
+      if (e.y >= 130) { e.y = 130; e.vy = 0; }
+      if (e.vy !== 0) return;
+      if (e.t % 70 === 50) e.tele = 20;
+      if (e.t % 70 === 0) fan(s, e.x, e.y, { n: 3, angle: angleTo(s, e.x, e.y), spread: 0.45, speed: 2.8, color: 'red' });
+    },
+  });
+}
+
+// Anger: zigzags down the field with short fans; leaves at the bottom.
+function rageAdd(sim, x) {
+  if (addsAlive(sim) >= ADD_CAP) return;
+  sim.spawnEnemy({
+    x, y: -30, vy: 1.8, hp: 40, maxhp: 40, r: 20, skin: 'anger', score: 700,
+    thanatosAdd: true,
+    shoot: (s, e) => {
+      e.vx = Math.sin(e.t / 10) * 2.6;
+      if (e.t % 45 === 30) e.tele = 12;
+      if (e.t % 45 === 0 && e.t > 0) fan(s, e.x, e.y, { n: 3, angle: angleTo(s, e.x, e.y), spread: 0.45, speed: 2.9, color: 'red' });
+    },
+  });
+}
+
+// Book of Death: parks low and rings slowly; 12 s.
+function bookAdd(sim, x) {
+  if (addsAlive(sim) >= ADD_CAP) return;
+  sim.spawnEnemy({
+    x, y: -30, vy: 1.4, hp: 70, maxhp: 70, r: 18, skin: 'deathbook', score: 900,
+    ttl: 720, thanatosAdd: true,
+    shoot: (s, e) => {
+      if (e.y >= 240) { e.y = 240; e.vy = 0; }
+      if (e.vy === 0 && e.t % 90 === 0) ring(s, e.x, e.y, { n: 10, speed: 1.6, baseAngle: e.t * 0.1, color: 'purple' });
+    },
+  });
+}
+
+// --- side-steps ---
+// Thanatos never stands still: every ~1-1.5 s he dashes 130-230 px, mostly
+// AWAY from the nearest player (so a focused beam parked under him keeps
+// losing its target and players must move), sometimes cutting across them.
+// A short tele marks each dash. Driven by its own counter (b.t resets per
+// card) and sim.rng, so it stays deterministic in online lockstep.
+const EDGE = 70;
+function nearestPlayerX(sim, x) {
+  let best = x, bd = Infinity;
+  for (const p of sim.players) {
+    if (!p || p.down) continue;
+    const d = Math.abs(p.x - x);
+    if (d < bd) { bd = d; best = p.x; }
+  }
+  return best;
+}
+export function sidestep(sim, b, { min = 130, max = 230, every = [55, 85], lerp = 0.2 } = {}) {
+  b.stepT = (b.stepT ?? 0) + 1;
+  if (b.dashX == null) b.dashX = b.x;
+  if (b.stepT >= (b.nextStep ?? 30)) {
+    b.stepT = 0;
+    b.nextStep = Math.round(sim.rng.range(every[0], every[1]));
+    let dir = nearestPlayerX(sim, b.x) < b.x ? 1 : -1;
+    if (sim.rng.next() < 0.25) dir = -dir;
+    const dist = sim.rng.range(min, max);
+    let target = b.x + dir * dist;
+    if (target < EDGE || target > FIELD_W - EDGE) target = b.x - dir * dist;
+    b.dashX = Math.max(EDGE, Math.min(FIELD_W - EDGE, target));
+    b.tele = Math.max(b.tele, 8);
+  }
+  b.x += (b.dashX - b.x) * lerp;
 }
 
 // --- Thanatos ---
-// Six HP cards (10 500 total = 3.3x Lord of Death) plus a 30 s survival card
-// at the transformation. Cards 1-3 use the armored form I sprite, the rest the
-// awakened form II (`form` is the atlas key; changing it triggers the
-// bossForm beat in boss.js). Every card keeps a readable route: gaps face or
-// rotate past the player, curtains leave open lanes, and the last card
-// guarantees a breather in each cycle.
-export const THANATOS_HP_TOTAL = 10500;
+// Six HP cards (21 000 total = 6.6x Lord of Death) plus a 30 s survival card
+// at the transformation. Cards 1-3 use the armored form I sprite and bring
+// adds; the rest use the awakened form II (`form` is the atlas key; changing
+// it triggers the bossForm beat in boss.js). He side-steps through every
+// card. Every card keeps a readable route: gaps face or rotate past the
+// player, curtains leave open lanes, and the last card guarantees a breather.
+export const THANATOS_HP_TOTAL = 21000;
 export const thanatos = {
   name: 'Thanatos', r: 60, targetY: 170,
   cards: [
     {
-      name: 'Juicio del Guardián', hp: 1400, form: 'thanatos',
+      name: 'Juicio del Guardián', hp: 2800, form: 'thanatos',
       step(sim, b) {
-        b.x = FIELD_W / 2 + Math.sin(b.t / 90) * 120;
+        sidestep(sim, b);
         if (b.t % 72 === 0) ringWithGap(sim, b.x, b.y, { n: 24, speed: 1.8, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.6, color: 'red' });
-        if (b.t % 72 === 16) b.tele = 20;
         if (b.t % 72 === 36) fan(sim, b.x, b.y, { n: 5, angle: angleTo(sim, b.x, b.y), spread: 0.8, speed: 3.0, color: 'orange' });
         if (b.cardHp < b.cardMax * 0.35 && b.t % 48 === 24) aimed(sim, b.x, b.y, { speed: 3.3, color: 'red' });
+        // his guard: two Baronesses drop in at the sides every 7 s
+        if (b.t % 420 === 120) { guardAdd(sim, 110); guardAdd(sim, FIELD_W - 110); }
       },
     },
     {
-      name: 'Odio y Desesperación', hp: 1500, form: 'thanatos',
+      name: 'Odio y Desesperación', hp: 3000, form: 'thanatos',
       step(sim, b) {
         // channels two fragments in turn; the switch is telegraphed
         const c = b.t % 480;
         const hatred = c < 240;
-        b.x = FIELD_W / 2 + Math.sin(b.t / 80) * (hatred ? 160 : 60);
+        sidestep(sim, b, hatred ? undefined : { min: 100, max: 180, every: [70, 100] });
         if (c === 225 || c === 465) b.tele = 15;
         if (hatred) odiumP(sim, b.x, b.y, b.t);
         else desperoP(sim, b.x, b.y, b.t);
+        // rage made flesh: Anger charges in from alternating sides
+        if (b.t % 200 === 100) rageAdd(sim, Math.floor(b.t / 200) % 2 === 0 ? 120 : FIELD_W - 120);
       },
     },
     {
-      name: 'Memorias de Midgard', hp: 1700, form: 'thanatos',
+      name: 'Memorias de Midgard', hp: 3400, form: 'thanatos',
       step(sim, b) {
-        b.x = FIELD_W / 2 + Math.sin(b.t / 120) * 50;
-        if (b.t % 300 === 30 && echoesAlive(sim) < 2) {
-          const n = Math.floor(b.t / 300);
+        sidestep(sim, b, { min: 110, max: 200, every: [65, 95] });
+        if (b.t % 240 === 30 && echoesAlive(sim) < 2) {
+          const n = Math.floor(b.t / 240);
           summonEcho(sim, ECHO_ORDER[n % ECHO_ORDER.length], n % 2 === 0 ? FIELD_W * 0.25 : FIELD_W * 0.75);
         }
+        if (b.t % 420 === 210) bookAdd(sim, sim.rng.range(140, FIELD_W - 140));
         if (b.t % 100 === 50) fan(sim, b.x, b.y, { n: 3, angle: angleTo(sim, b.x, b.y), spread: 0.4, speed: 2.8, color: 'purple' });
         if (b.t % 140 === 0) ring(sim, b.x, b.y, { n: 12, speed: 1.6, baseAngle: b.t * 0.05, color: 'purple' });
       },
     },
     {
       // survival: invulnerable, ends on time (Novice: 20 s). Walls of rain
-      // creep in from both sides and back out, over a central spiral.
+      // creep in from both sides and back out, over a drifting central
+      // spiral (shorter steps here: the walls already squeeze the field).
       name: 'El Fin de la Memoria', hp: 0, survive: 1800, form: 'thanatosAwake',
       step(sim, b) {
         if (b.t === 0) dismissEchoes(sim);
-        b.x = FIELD_W / 2;
+        sidestep(sim, b, { min: 60, max: 120, every: [90, 130], lerp: 0.1 });
         const wall = 40 + 110 * (0.5 - 0.5 * Math.cos((b.t / 300) * Math.PI));
         if (b.t % 10 === 0) {
           rain(sim, wall, { speed: 2.6, color: 'purple' });
@@ -179,9 +271,9 @@ export const thanatos = {
       },
     },
     {
-      name: 'Pena y Dolor', hp: 1800, form: 'thanatosAwake',
+      name: 'Pena y Dolor', hp: 3600, form: 'thanatosAwake',
       step(sim, b) {
-        b.x = FIELD_W / 2 + Math.sin(b.t / 70) * 150;
+        sidestep(sim, b, { min: 150, max: 250, every: [50, 75] });
         b.y = b.targetY + Math.sin(b.t / 35) * 30;
         if (b.t % 3 === 0) {
           spiralArm(sim, b.x, b.y, { arms: 1, phase: b.t * 0.13, speed: 2.0, color: 'cyan' });
@@ -191,10 +283,10 @@ export const thanatos = {
       },
     },
     {
-      name: 'Réquiem de la Torre', hp: 2000, form: 'thanatosAwake',
+      name: 'Réquiem de la Torre', hp: 4000, form: 'thanatosAwake',
       step(sim, b) {
         const desperate = b.cardHp < b.cardMax * 0.35;
-        b.x = FIELD_W / 2 + Math.sin(b.t / 110) * 60;
+        sidestep(sim, b, { min: 120, max: 210, every: [60, 90] });
         if (b.t % 2 === 0) spiralArm(sim, b.x, b.y, { arms: 2, phase: b.t * 0.12, speed: 2.1, color: 'purple' });
         if (b.t % 72 === 0) ringWithGap(sim, b.x, b.y, { n: 26, speed: 1.7, gapAngle: angleTo(sim, b.x, b.y), gapWidth: 0.65, color: 'cyan' });
         if (b.t % 32 === 0) rain(sim, sim.rng.range(30, FIELD_W - 30), { speed: 2.6, color: 'red' });
@@ -203,19 +295,19 @@ export const thanatos = {
     },
     {
       // escalates in three stages by card HP; under 15% every 240-tick cycle
-      // ends with a guaranteed 60-tick breather
-      name: 'Último Aliento', hp: 2100, form: 'thanatosAwake',
+      // ends with a guaranteed 60-tick breather (he holds still for it)
+      name: 'Último Aliento', hp: 4200, form: 'thanatosAwake',
       step(sim, b) {
         const frac = b.cardHp / b.cardMax;
         const st = frac > 0.66 ? 1 : frac > 0.33 ? 2 : 3;
         if (b.stage !== st) { b.stage = st; b.tele = 30; }
         const last = frac < 0.15;
         const breath = last && (b.t % 240) >= 180;
-        b.x = FIELD_W / 2 + Math.sin(b.t / 100) * (st === 3 ? 130 : 90);
         if (breath) {
           if (b.t % 60 === 0) aimed(sim, b.x, b.y, { speed: 2.4, color: 'cyan' });
           return;
         }
+        sidestep(sim, b, st === 3 ? { min: 160, max: 260, every: [45, 70] } : { min: 130, max: 220, every: [55, 85] });
         if (b.t % 56 === 0) {
           ringWithGap(sim, b.x, b.y, { n: 22, speed: 1.8, gapAngle: b.t * 0.05, gapWidth: 0.6, color: 'red' });
           ringWithGap(sim, b.x, b.y, { n: 22, speed: 1.4, gapAngle: -b.t * 0.05 + Math.PI, gapWidth: 0.6, color: 'purple' });

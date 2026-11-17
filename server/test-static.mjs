@@ -1816,6 +1816,42 @@ function stripComments(src) {
   }
   ok('thanatos echoes (fire, dissolve by ttl, no kill credit, pool-safe)');
 
+  // playtest feedback (2026-11-16): he stood still under a focused beam and
+  // the first form melted. Now he side-steps through every card and cards
+  // 1-3 bring adds, which the transformation dismisses.
+  {
+    const sim = createSim(0x7a4a705, [ROSTER[0]]);
+    boss.spawnBoss(sim, th.thanatos);
+    const b = sim.boss;
+    const xsByCard = {}, addsByCard = {};
+    let addsAtSurvive = -1, guard = 30000;
+    while (b.cardIndex < 4 && guard-- > 0) {
+      tickSim(sim, [0], null);
+      sim.players[0].lives = 9;
+      if (b.intro || b.introHold > 0 || b.transition > 0) continue;
+      (xsByCard[b.cardIndex] ??= []).push(b.x);
+      const adds = sim.enemies.active.filter((e) => e.thanatosAdd).length;
+      addsByCard[b.cardIndex] = Math.max(addsByCard[b.cardIndex] ?? 0, adds);
+      if (b.surviveMax > 0 && addsAtSurvive < 0 && b.t > 60) {
+        addsAtSurvive = sim.enemies.active.filter((e) => e.thanatosAdd || e.echo).length;
+      }
+      // ~25 s per HP card, then let the survival clock run out
+      if (b.surviveMax === 0 && b.t >= 1500) boss.damageBoss(sim, b.cardHp, b);
+    }
+    for (const card of [0, 1, 2]) {
+      const xs = xsByCard[card];
+      const travel = xs.slice(1).reduce((s, x, k) => s + Math.abs(x - xs[k]), 0) / (xs.length / 60);
+      assert.ok(Math.max(...xs) - Math.min(...xs) > 250, `card ${card + 1} roams the arena (range ${Math.round(Math.max(...xs) - Math.min(...xs))}px)`);
+      assert.ok(travel > 80, `card ${card + 1} keeps moving (${Math.round(travel)} px/s)`);
+      assert.ok(addsByCard[card] >= 1, `card ${card + 1} brings adds`);
+      assert.ok(addsByCard[card] <= 4, `card ${card + 1} adds stay capped (${addsByCard[card]})`);
+    }
+    assert.equal(addsAtSurvive, 0, 'the transformation dismissed every add and echo');
+    const n = sim.spawnEnemy({ x: 100, y: 100, hp: 5, skin: 'anger' });
+    assert.equal(n.thanatosAdd, false, 'pooled enemy does not inherit thanatosAdd');
+  }
+  ok('thanatos side-steps (roams every card) + adds in cards 1-3, dismissed at the transformation');
+
   // healer: Lady Solace restores HP to wounded enemies in reach, capped at maxhp
   {
     const { level8 } = await import('../src/levels/level8.js');
@@ -1851,7 +1887,7 @@ function stripComments(src) {
     const c = createSim(0x7a4a705, [ROSTER[0]]);
     a.players[0].lives = 999; c.players[0].lives = 999;
     const seen = new Set();
-    let guard = 90000, i = 0, peak = 0;
+    let guard = 160000, i = 0, peak = 0; // the fixed-position bot needs ~80k ticks since Thanatos side-steps
     while (!a.levelComplete && guard-- > 0) {
       const mask = (i++ % 600 < 590) ? 16 : 0;
       tickSim(a, [mask], level8);
