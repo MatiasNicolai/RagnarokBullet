@@ -1,0 +1,16 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/thanatos-gpt/thanatos-fragments-v1.png.
+
+A mid-boss sprite sheet with exactly FOUR figures arranged as a 2 column x 2 panel grid:
+top-left ODIUM OF THANATOS | top-right DESPERO OF THANATOS
+bottom-left MAERO OF THANATOS | bottom-right DOLOR OF THANATOS
+
+They are the four fragments of the soul of Thanatos in Ragnarok Online (hatred, despair, sorrow and pain). Each one wears a pale mask, and they must read as one related set while staying clearly distinct. Preserve the identity, silhouette and palette of each attached Ragnarok Online reference sprite (the reference file name tells you which one it is):
+- Odium of Thanatos (hatred): a hunched beast of black smoke and shadow with long clawed arms and a white panda-like mask face.
+- Despero of Thanatos (despair): a slender wraith made entirely of orange-red flames with a pale mask, embers rising from its head.
+- Maero of Thanatos (sorrow): a tall dark ghostly figure with a skull-like mask, a dark body traced with thin glowing red veins, dissolving into dark particles.
+- Dolor of Thanatos (pain): a small hooded brown creature with a white mask and dark eye holes, and a thin tail.
+Draw them at mid-boss scale, larger and more imposing than common monsters. Dolor is the smallest in the original game; enlarge it enough to stay readable, keeping its small hunched proportions.
+
+SHEET LAYOUT RULES: each panel contains exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature move). Exactly one complete figure per pose, never overlapping, never cropped by the panel edge, with generous empty gutters between poses and between panels. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Niflheim boss sheet exactly): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouettes at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.

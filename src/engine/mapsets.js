@@ -42,6 +42,13 @@ export const MAP_SETS = {
     dir: 'assets-v2/niflheim/maps',
     files: ['niflheim001', 'niflheim002', 'niflheim003', 'niflheim004', 'niflheim005', 'niflheim006', 'niflheim007'],
   },
+  // Thanatos Tower — native 7-tile set (001=museum entrance … 004=room of
+  // angel … 007=unknown area). Served from assets-v2/thanatos (see
+  // tools/slice-thanatos.py).
+  thanatos: {
+    dir: 'assets-v2/thanatos/maps',
+    files: ['thanatos001', 'thanatos002', 'thanatos003', 'thanatos004', 'thanatos005', 'thanatos006', 'thanatos007'],
+  },
 };
 
 // Expected tile filenames for a set ([] for unknown names).

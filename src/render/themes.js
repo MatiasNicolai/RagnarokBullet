@@ -310,4 +310,44 @@ export const level7Theme = {
   },
 };
 
-export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme, level5Theme, level6Theme, level7Theme];
+// Thanatos Tower — cold slate halls lit by candles, violet crystals, the
+// starfield void of the upper floors. Fallback theme for the thanatos map set.
+export const level8Theme = {
+  tiles: [
+    { base: 0x2c2f3e, mid: 0x363a4c, specks: [0x4a4f66, 0x1c1e2a] },       // museum flagstones
+    { base: 0x262536, mid: 0x302e44, specks: [0x8a6fd0, 0x161522] },       // abandoned space, crystal dust
+    { base: 0x14122a, mid: 0x1c1936, specks: [0xd8d0ff, 0x0a0918] },       // starfield void
+  ],
+  light: [0xd8c8ff, 0xa48ae0, 0x7a5ec0],
+  weather: 'none',
+  biomeProps: [
+    ['pillar', 'candle', 'statue', 'pillar', 'candle'],
+    ['crystal', 'candle', 'rubble', 'crystal', 'statue'],
+    ['chain', 'crystal', 'pillar', 'chain', 'crystal'],
+  ],
+  props: {
+    pillar(g) {
+      g.rect(12, 6, 24, 60).fill(0x6a6e88).stroke({ color: 0x3e4258, width: 2 });
+      g.rect(8, 2, 32, 8).fill(0x8a8ea8); g.rect(8, 60, 32, 8).fill(0x8a8ea8);
+    },
+    candle(g) {
+      g.rect(20, 30, 8, 30).fill(0xd8d0c0);
+      g.ellipse(24, 26, 4, 7).fill(0xffc46a); g.circle(24, 27, 2).fill(0xffffff);
+    },
+    statue(g) {
+      g.roundRect(14, 20, 20, 44, 6).fill(0x7a7e96).stroke({ color: 0x484c64, width: 2 });
+      g.ellipse(10, 30, 8, 14).fill(0x8a8ea8); g.ellipse(38, 30, 8, 14).fill(0x8a8ea8);
+      g.circle(24, 16, 7).fill(0x8a8ea8);
+    },
+    crystal(g) {
+      g.poly([24, 6, 34, 30, 24, 62, 14, 30]).fill(0x8a6fd0).stroke({ color: 0x4a3a80, width: 2 });
+      g.poly([24, 14, 29, 30, 24, 50]).fill(0xc8b8ff);
+    },
+    rubble(g) { g.ellipse(24, 52, 20, 10).fill(0x4a4c60); g.ellipse(16, 46, 10, 6).fill(0x5c5e74); },
+    chain(g) {
+      for (let y = 4; y < 64; y += 10) g.ellipse(24, y, 5, 6).stroke({ color: 0x8a8ea8, width: 2 });
+    },
+  },
+};
+
+export const THEMES = [level1Theme, level2Theme, level3Theme, level4Theme, level5Theme, level6Theme, level7Theme, level8Theme];

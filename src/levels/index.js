@@ -6,7 +6,8 @@ import { level4 } from './level4.js';
 import { level5 } from './level5.js';
 import { level6 } from './level6.js';
 import { level7 } from './level7.js';
-import { level1Theme, level2Theme, level3Theme, level4Theme, level5Theme, level6Theme, level7Theme } from '../render/themes.js';
+import { level8 } from './level8.js';
+import { level1Theme, level2Theme, level3Theme, level4Theme, level5Theme, level6Theme, level7Theme, level8Theme } from '../render/themes.js';
 
 export const LEVELS = [
   {
@@ -47,5 +48,13 @@ export const LEVELS = [
     script: level7, theme: level7Theme, mapSet: 'niflheim', midProgress: 0.55,
     title: 'Nivel 7', name: 'Reino de Niflheim',
     biomeNames: [[0, 'Valle de Gyoll'], [0.3, 'Bosque embrujado'], [0.55, 'Ciudad de los muertos'], [0.9, 'Fortaleza final']],
+  },
+  {
+    // Thanatos Tower — native 7-tile map set; fragment pairs midboss, final
+    // boss Thanatos (two forms). The last stage of the campaign.
+    script: level8, theme: level8Theme, mapSet: 'thanatos', midProgress: 0.5,
+    title: 'Nivel 8', name: 'Torre de Thanatos',
+    biomeNames: [[0, 'Entrada del Museo'], [0.25, 'Espacio Abandonado'], [0.42, 'Sala de los Ángeles'],
+      [0.6, 'Salas de la Angustia'], [0.75, 'Salas del Odio'], [0.95, 'Área Desconocida']],
   },
 ];
