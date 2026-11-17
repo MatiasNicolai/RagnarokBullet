@@ -1,6 +1,6 @@
 {
   "slicer_core": {
-    "tools/slice-thanatos.py": "acd873bf235eb2c388a85f66c4e6fb94a61f4e40a5bb361c4c206c9496297661",
+    "tools/slice-thanatos.py": "fbd734ba57426c96781c8d07de13aff0f4663d97d9c51f0e4b0a295cbfdb905d",
     "tools/slice-niflheim.py": "a622eaf950ef31d0e60a4cc63dfcd14d0e9ae1e7aeca14b9fedc313a200c3c12"
   },
   "inputs": {
@@ -59,6 +59,76 @@
         125
       ],
       "keyed": 1211152
+    },
+    "vesper": {
+      "file": "vesper-v1.png",
+      "sha256": "36cc72be17ca8fe800c4f106f183d6b80d862d4b30e83455915b23d40fefe5fe",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        125,
+        124,
+        123
+      ],
+      "keyed": 1044861
+    },
+    "seyren": {
+      "file": "seyren-v1.png",
+      "sha256": "db3e7206764184592505803b4bbe0f3bf854bc9874dbe8e56642794cf926fea5",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        125,
+        125
+      ],
+      "keyed": 996228
+    },
+    "magaleta": {
+      "file": "magaleta-v1.png",
+      "sha256": "1c24acfe0430d2607a942952ba23afeb00b61d455973f7e3af006ecd90d7e8bb",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        123,
+        123,
+        122
+      ],
+      "keyed": 940167
+    },
+    "amonRa": {
+      "file": "amon-ra-v1.png",
+      "sha256": "0078394b000d32d409dca387063ee8d4369c4a7e2ee43479b0068ae915dbf131",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        124,
+        124,
+        124
+      ],
+      "keyed": 702209
+    },
+    "mastering": {
+      "file": "mastering-v1.png",
+      "sha256": "a9981aef678c8b44fd697f096ebaed707c6d032f99684e241f6bed286f04adb5",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        124,
+        124,
+        124
+      ],
+      "keyed": 1066254
     }
   },
   "warnings": [],
@@ -600,6 +670,674 @@
         125,
         124
       ]
+    },
+    "bosses9": {
+      "frames": {
+        "vesper.down.idle[0]": {
+          "removed": 182,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 60153,
+          "opaque_after": 59971,
+          "bn_after": 5374,
+          "border_bn": 0,
+          "w": 280,
+          "h": 342,
+          "bn_max": 154,
+          "bn_edge_max": 0
+        },
+        "vesper.down.moveL[0]": {
+          "removed": 144,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 49692,
+          "opaque_after": 49548,
+          "bn_after": 4409,
+          "border_bn": 0,
+          "w": 265,
+          "h": 343,
+          "bn_max": 122,
+          "bn_edge_max": 0
+        },
+        "vesper.down.moveR[0]": {
+          "removed": 119,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48033,
+          "opaque_after": 47914,
+          "bn_after": 4046,
+          "border_bn": 0,
+          "w": 234,
+          "h": 343,
+          "bn_max": 145,
+          "bn_edge_max": 0
+        },
+        "vesper.down.hit[0]": {
+          "removed": 184,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 51672,
+          "opaque_after": 51488,
+          "bn_after": 4094,
+          "border_bn": 0,
+          "w": 276,
+          "h": 321,
+          "bn_max": 302,
+          "bn_edge_max": 0
+        },
+        "vesper.down.attack[0]": {
+          "removed": 436,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 61350,
+          "opaque_after": 60914,
+          "bn_after": 4625,
+          "border_bn": 0,
+          "w": 319,
+          "h": 316,
+          "bn_max": 107,
+          "bn_edge_max": 0
+        },
+        "vesper.up.idle[0]": {
+          "removed": 162,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 57070,
+          "opaque_after": 56908,
+          "bn_after": 5233,
+          "border_bn": 0,
+          "w": 280,
+          "h": 338,
+          "bn_max": 192,
+          "bn_edge_max": 0
+        },
+        "vesper.up.moveL[0]": {
+          "removed": 247,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45467,
+          "opaque_after": 45220,
+          "bn_after": 3834,
+          "border_bn": 0,
+          "w": 239,
+          "h": 336,
+          "bn_max": 204,
+          "bn_edge_max": 0
+        },
+        "vesper.up.moveR[0]": {
+          "removed": 460,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45303,
+          "opaque_after": 44843,
+          "bn_after": 3966,
+          "border_bn": 0,
+          "w": 224,
+          "h": 352,
+          "bn_max": 155,
+          "bn_edge_max": 0
+        },
+        "vesper.up.hit[0]": {
+          "removed": 95,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47976,
+          "opaque_after": 47881,
+          "bn_after": 4155,
+          "border_bn": 0,
+          "w": 297,
+          "h": 313,
+          "bn_max": 183,
+          "bn_edge_max": 0
+        },
+        "vesper.up.attack[0]": {
+          "removed": 157,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 61287,
+          "opaque_after": 61130,
+          "bn_after": 6080,
+          "border_bn": 0,
+          "w": 311,
+          "h": 345,
+          "bn_max": 202,
+          "bn_edge_max": 0
+        },
+        "seyren.down.idle[0]": {
+          "removed": 671,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 60300,
+          "opaque_after": 59629,
+          "bn_after": 4399,
+          "border_bn": 0,
+          "w": 265,
+          "h": 379,
+          "bn_max": 203,
+          "bn_edge_max": 0
+        },
+        "seyren.down.moveL[0]": {
+          "removed": 949,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 54118,
+          "opaque_after": 53169,
+          "bn_after": 3701,
+          "border_bn": 0,
+          "w": 261,
+          "h": 383,
+          "bn_max": 170,
+          "bn_edge_max": 0
+        },
+        "seyren.down.moveR[0]": {
+          "removed": 988,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 51373,
+          "opaque_after": 50385,
+          "bn_after": 3595,
+          "border_bn": 0,
+          "w": 238,
+          "h": 385,
+          "bn_max": 119,
+          "bn_edge_max": 0
+        },
+        "seyren.down.hit[0]": {
+          "removed": 445,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 61411,
+          "opaque_after": 60966,
+          "bn_after": 4354,
+          "border_bn": 0,
+          "w": 289,
+          "h": 347,
+          "bn_max": 218,
+          "bn_edge_max": 0
+        },
+        "seyren.down.attack[0]": {
+          "removed": 2171,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 69659,
+          "opaque_after": 67488,
+          "bn_after": 4440,
+          "border_bn": 0,
+          "w": 311,
+          "h": 442,
+          "bn_max": 153,
+          "bn_edge_max": 0
+        },
+        "seyren.up.idle[0]": {
+          "removed": 286,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 55645,
+          "opaque_after": 55359,
+          "bn_after": 3015,
+          "border_bn": 0,
+          "w": 256,
+          "h": 371,
+          "bn_max": 102,
+          "bn_edge_max": 0
+        },
+        "seyren.up.moveL[0]": {
+          "removed": 857,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 49873,
+          "opaque_after": 49016,
+          "bn_after": 2846,
+          "border_bn": 0,
+          "w": 265,
+          "h": 363,
+          "bn_max": 207,
+          "bn_edge_max": 0
+        },
+        "seyren.up.moveR[0]": {
+          "removed": 869,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 46050,
+          "opaque_after": 45181,
+          "bn_after": 2833,
+          "border_bn": 0,
+          "w": 231,
+          "h": 365,
+          "bn_max": 134,
+          "bn_edge_max": 0
+        },
+        "seyren.up.hit[0]": {
+          "removed": 304,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 57914,
+          "opaque_after": 57610,
+          "bn_after": 3393,
+          "border_bn": 0,
+          "w": 293,
+          "h": 339,
+          "bn_max": 179,
+          "bn_edge_max": 0
+        },
+        "seyren.up.attack[0]": {
+          "removed": 1228,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 70285,
+          "opaque_after": 69057,
+          "bn_after": 4190,
+          "border_bn": 0,
+          "w": 312,
+          "h": 456,
+          "bn_max": 340,
+          "bn_edge_max": 0
+        },
+        "magaleta.down.idle[0]": {
+          "removed": 909,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 59088,
+          "opaque_after": 58179,
+          "bn_after": 5223,
+          "border_bn": 0,
+          "w": 255,
+          "h": 374,
+          "bn_max": 141,
+          "bn_edge_max": 0
+        },
+        "magaleta.down.moveL[0]": {
+          "removed": 1050,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 62098,
+          "opaque_after": 61048,
+          "bn_after": 5669,
+          "border_bn": 2,
+          "w": 262,
+          "h": 355,
+          "bn_max": 315,
+          "bn_edge_max": 19
+        },
+        "magaleta.down.moveR[0]": {
+          "removed": 846,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 57737,
+          "opaque_after": 56891,
+          "bn_after": 5230,
+          "border_bn": 0,
+          "w": 254,
+          "h": 380,
+          "bn_max": 368,
+          "bn_edge_max": 0
+        },
+        "magaleta.down.hit[0]": {
+          "removed": 1355,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 67082,
+          "opaque_after": 65727,
+          "bn_after": 5697,
+          "border_bn": 0,
+          "w": 284,
+          "h": 365,
+          "bn_max": 397,
+          "bn_edge_max": 0
+        },
+        "magaleta.down.attack[0]": {
+          "removed": 1358,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 73203,
+          "opaque_after": 71845,
+          "bn_after": 6128,
+          "border_bn": 0,
+          "w": 292,
+          "h": 432,
+          "bn_max": 232,
+          "bn_edge_max": 0
+        },
+        "magaleta.up.idle[0]": {
+          "removed": 950,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 59870,
+          "opaque_after": 58920,
+          "bn_after": 5841,
+          "border_bn": 0,
+          "w": 259,
+          "h": 371,
+          "bn_max": 288,
+          "bn_edge_max": 0
+        },
+        "magaleta.up.moveL[0]": {
+          "removed": 1148,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 60237,
+          "opaque_after": 59089,
+          "bn_after": 5126,
+          "border_bn": 0,
+          "w": 262,
+          "h": 376,
+          "bn_max": 223,
+          "bn_edge_max": 0
+        },
+        "magaleta.up.moveR[0]": {
+          "removed": 830,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 58016,
+          "opaque_after": 57186,
+          "bn_after": 5196,
+          "border_bn": 3,
+          "w": 243,
+          "h": 380,
+          "bn_max": 294,
+          "bn_edge_max": 4
+        },
+        "magaleta.up.hit[0]": {
+          "removed": 620,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 63540,
+          "opaque_after": 62920,
+          "bn_after": 4972,
+          "border_bn": 0,
+          "w": 280,
+          "h": 348,
+          "bn_max": 280,
+          "bn_edge_max": 0
+        },
+        "magaleta.up.attack[0]": {
+          "removed": 1360,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 71484,
+          "opaque_after": 70124,
+          "bn_after": 5626,
+          "border_bn": 0,
+          "w": 291,
+          "h": 428,
+          "bn_max": 298,
+          "bn_edge_max": 0
+        },
+        "amonRa.down.idle[0]": {
+          "removed": 12,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 91086,
+          "opaque_after": 91074,
+          "bn_after": 1456,
+          "border_bn": 0,
+          "w": 274,
+          "h": 430,
+          "bn_max": 51,
+          "bn_edge_max": 0
+        },
+        "amonRa.down.moveL[0]": {
+          "removed": 46,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 89860,
+          "opaque_after": 89814,
+          "bn_after": 1456,
+          "border_bn": 0,
+          "w": 289,
+          "h": 438,
+          "bn_max": 144,
+          "bn_edge_max": 0
+        },
+        "amonRa.down.moveR[0]": {
+          "removed": 25,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 87191,
+          "opaque_after": 87166,
+          "bn_after": 1064,
+          "border_bn": 0,
+          "w": 275,
+          "h": 437,
+          "bn_max": 74,
+          "bn_edge_max": 0
+        },
+        "amonRa.down.hit[0]": {
+          "removed": 64,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 89416,
+          "opaque_after": 89352,
+          "bn_after": 1360,
+          "border_bn": 0,
+          "w": 264,
+          "h": 432,
+          "bn_max": 64,
+          "bn_edge_max": 0
+        },
+        "amonRa.down.attack[0]": {
+          "removed": 35,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 93574,
+          "opaque_after": 93539,
+          "bn_after": 2266,
+          "border_bn": 0,
+          "w": 281,
+          "h": 466,
+          "bn_max": 850,
+          "bn_edge_max": 0
+        },
+        "amonRa.up.idle[0]": {
+          "removed": 350,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 85038,
+          "opaque_after": 84688,
+          "bn_after": 584,
+          "border_bn": 0,
+          "w": 270,
+          "h": 410,
+          "bn_max": 37,
+          "bn_edge_max": 0
+        },
+        "amonRa.up.moveL[0]": {
+          "removed": 665,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 82113,
+          "opaque_after": 81448,
+          "bn_after": 466,
+          "border_bn": 0,
+          "w": 269,
+          "h": 422,
+          "bn_max": 19,
+          "bn_edge_max": 0
+        },
+        "amonRa.up.moveR[0]": {
+          "removed": 29,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 81620,
+          "opaque_after": 81591,
+          "bn_after": 449,
+          "border_bn": 0,
+          "w": 281,
+          "h": 416,
+          "bn_max": 17,
+          "bn_edge_max": 0
+        },
+        "amonRa.up.hit[0]": {
+          "removed": 423,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 82948,
+          "opaque_after": 82525,
+          "bn_after": 397,
+          "border_bn": 0,
+          "w": 264,
+          "h": 410,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "amonRa.up.attack[0]": {
+          "removed": 412,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 87809,
+          "opaque_after": 87397,
+          "bn_after": 1572,
+          "border_bn": 0,
+          "w": 276,
+          "h": 472,
+          "bn_max": 1046,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        123,
+        123,
+        123
+      ]
+    },
+    "monsters17": {
+      "frames": {
+        "mastering.down.idle[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 50710,
+          "opaque_after": 50710,
+          "bn_after": 232,
+          "border_bn": 0,
+          "w": 279,
+          "h": 243,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "mastering.down.moveL[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48360,
+          "opaque_after": 48360,
+          "bn_after": 222,
+          "border_bn": 0,
+          "w": 287,
+          "h": 225,
+          "bn_max": 5,
+          "bn_edge_max": 0
+        },
+        "mastering.down.moveR[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48804,
+          "opaque_after": 48804,
+          "bn_after": 288,
+          "border_bn": 0,
+          "w": 275,
+          "h": 240,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "mastering.down.hit[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 34570,
+          "opaque_after": 34570,
+          "bn_after": 172,
+          "border_bn": 0,
+          "w": 293,
+          "h": 159,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "mastering.down.attack[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 65840,
+          "opaque_after": 65840,
+          "bn_after": 266,
+          "border_bn": 0,
+          "w": 279,
+          "h": 311,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "mastering.up.idle[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 53932,
+          "opaque_after": 53932,
+          "bn_after": 219,
+          "border_bn": 0,
+          "w": 278,
+          "h": 258,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "mastering.up.moveL[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 49447,
+          "opaque_after": 49447,
+          "bn_after": 209,
+          "border_bn": 0,
+          "w": 287,
+          "h": 230,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "mastering.up.moveR[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 50640,
+          "opaque_after": 50640,
+          "bn_after": 198,
+          "border_bn": 0,
+          "w": 275,
+          "h": 250,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "mastering.up.hit[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 35651,
+          "opaque_after": 35651,
+          "bn_after": 227,
+          "border_bn": 0,
+          "w": 294,
+          "h": 163,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "mastering.up.attack[0]": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 68656,
+          "opaque_after": 68656,
+          "bn_after": 281,
+          "border_bn": 0,
+          "w": 279,
+          "h": 324,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        124,
+        124,
+        124
+      ]
     }
   },
   "sprites": {
@@ -842,12 +1580,316 @@
       "y": 607,
       "w": 316,
       "h": 332
+    },
+    "vesper.down.idle[0]": {
+      "x": 18,
+      "y": 71,
+      "w": 280,
+      "h": 342
+    },
+    "vesper.down.moveL[0]": {
+      "x": 326,
+      "y": 72,
+      "w": 265,
+      "h": 343
+    },
+    "vesper.down.moveR[0]": {
+      "x": 653,
+      "y": 76,
+      "w": 234,
+      "h": 343
+    },
+    "vesper.down.hit[0]": {
+      "x": 913,
+      "y": 97,
+      "w": 276,
+      "h": 321
+    },
+    "vesper.down.attack[0]": {
+      "x": 1213,
+      "y": 97,
+      "w": 319,
+      "h": 316
+    },
+    "vesper.up.idle[0]": {
+      "x": 19,
+      "y": 589,
+      "w": 280,
+      "h": 338
+    },
+    "vesper.up.moveL[0]": {
+      "x": 326,
+      "y": 591,
+      "w": 239,
+      "h": 336
+    },
+    "vesper.up.moveR[0]": {
+      "x": 650,
+      "y": 587,
+      "w": 224,
+      "h": 352
+    },
+    "vesper.up.hit[0]": {
+      "x": 901,
+      "y": 608,
+      "w": 297,
+      "h": 313
+    },
+    "vesper.up.attack[0]": {
+      "x": 1220,
+      "y": 594,
+      "w": 311,
+      "h": 345
+    },
+    "seyren.down.idle[0]": {
+      "x": 21,
+      "y": 1089,
+      "w": 265,
+      "h": 379
+    },
+    "seyren.down.moveL[0]": {
+      "x": 336,
+      "y": 1091,
+      "w": 261,
+      "h": 383
+    },
+    "seyren.down.moveR[0]": {
+      "x": 625,
+      "y": 1090,
+      "w": 238,
+      "h": 385
+    },
+    "seyren.down.hit[0]": {
+      "x": 910,
+      "y": 1128,
+      "w": 289,
+      "h": 347
+    },
+    "seyren.down.attack[0]": {
+      "x": 1220,
+      "y": 1033,
+      "w": 311,
+      "h": 442
+    },
+    "seyren.up.idle[0]": {
+      "x": 21,
+      "y": 1603,
+      "w": 256,
+      "h": 371
+    },
+    "seyren.up.moveL[0]": {
+      "x": 331,
+      "y": 1616,
+      "w": 265,
+      "h": 363
+    },
+    "seyren.up.moveR[0]": {
+      "x": 618,
+      "y": 1613,
+      "w": 231,
+      "h": 365
+    },
+    "seyren.up.hit[0]": {
+      "x": 901,
+      "y": 1639,
+      "w": 293,
+      "h": 339
+    },
+    "seyren.up.attack[0]": {
+      "x": 1219,
+      "y": 1528,
+      "w": 312,
+      "h": 456
+    },
+    "magaleta.down.idle[0]": {
+      "x": 29,
+      "y": 2121,
+      "w": 255,
+      "h": 374
+    },
+    "magaleta.down.moveL[0]": {
+      "x": 339,
+      "y": 2141,
+      "w": 262,
+      "h": 355
+    },
+    "magaleta.down.moveR[0]": {
+      "x": 620,
+      "y": 2121,
+      "w": 254,
+      "h": 380
+    },
+    "magaleta.down.hit[0]": {
+      "x": 924,
+      "y": 2138,
+      "w": 284,
+      "h": 365
+    },
+    "magaleta.down.attack[0]": {
+      "x": 1230,
+      "y": 2066,
+      "w": 292,
+      "h": 432
+    },
+    "magaleta.up.idle[0]": {
+      "x": 22,
+      "y": 2634,
+      "w": 259,
+      "h": 371
+    },
+    "magaleta.up.moveL[0]": {
+      "x": 337,
+      "y": 2634,
+      "w": 262,
+      "h": 376
+    },
+    "magaleta.up.moveR[0]": {
+      "x": 619,
+      "y": 2634,
+      "w": 243,
+      "h": 380
+    },
+    "magaleta.up.hit[0]": {
+      "x": 920,
+      "y": 2655,
+      "w": 280,
+      "h": 348
+    },
+    "magaleta.up.attack[0]": {
+      "x": 1230,
+      "y": 2579,
+      "w": 291,
+      "h": 428
+    },
+    "amonRa.down.idle[0]": {
+      "x": 18,
+      "y": 3108,
+      "w": 274,
+      "h": 430
+    },
+    "amonRa.down.moveL[0]": {
+      "x": 321,
+      "y": 3102,
+      "w": 289,
+      "h": 438
+    },
+    "amonRa.down.moveR[0]": {
+      "x": 626,
+      "y": 3105,
+      "w": 275,
+      "h": 437
+    },
+    "amonRa.down.hit[0]": {
+      "x": 944,
+      "y": 3108,
+      "w": 264,
+      "h": 432
+    },
+    "amonRa.down.attack[0]": {
+      "x": 1236,
+      "y": 3072,
+      "w": 281,
+      "h": 466
+    },
+    "amonRa.up.idle[0]": {
+      "x": 18,
+      "y": 3631,
+      "w": 270,
+      "h": 410
+    },
+    "amonRa.up.moveL[0]": {
+      "x": 335,
+      "y": 3621,
+      "w": 269,
+      "h": 422
+    },
+    "amonRa.up.moveR[0]": {
+      "x": 629,
+      "y": 3624,
+      "w": 281,
+      "h": 416
+    },
+    "amonRa.up.hit[0]": {
+      "x": 945,
+      "y": 3631,
+      "w": 264,
+      "h": 410
+    },
+    "amonRa.up.attack[0]": {
+      "x": 1250,
+      "y": 3569,
+      "w": 276,
+      "h": 472
+    },
+    "mastering.down.idle[0]": {
+      "x": 20,
+      "y": 166,
+      "w": 279,
+      "h": 243
+    },
+    "mastering.down.moveL[0]": {
+      "x": 316,
+      "y": 183,
+      "w": 287,
+      "h": 225
+    },
+    "mastering.down.moveR[0]": {
+      "x": 633,
+      "y": 167,
+      "w": 275,
+      "h": 240
+    },
+    "mastering.down.hit[0]": {
+      "x": 925,
+      "y": 248,
+      "w": 293,
+      "h": 159
+    },
+    "mastering.down.attack[0]": {
+      "x": 1236,
+      "y": 98,
+      "w": 279,
+      "h": 311
+    },
+    "mastering.up.idle[0]": {
+      "x": 21,
+      "y": 654,
+      "w": 278,
+      "h": 258
+    },
+    "mastering.up.moveL[0]": {
+      "x": 317,
+      "y": 681,
+      "w": 287,
+      "h": 230
+    },
+    "mastering.up.moveR[0]": {
+      "x": 634,
+      "y": 661,
+      "w": 275,
+      "h": 250
+    },
+    "mastering.up.hit[0]": {
+      "x": 925,
+      "y": 748,
+      "w": 294,
+      "h": 163
+    },
+    "mastering.up.attack[0]": {
+      "x": 1237,
+      "y": 588,
+      "w": 279,
+      "h": 324
     }
   },
   "outputs": {
     "bosses8.json": "5e3f0d2aff8dc85bab749bb8df18be6482eb208b4c2105807a71011b13e45830",
     "bosses8.png": "3579ed0d5f7c3ac908ccb308424fa688567cc576a135e84746f97d0831928196",
+    "bosses9.json": "0715934258f66dbf6eea0c9bf5cf77be1649486ced0c147770cd408f757986f9",
+    "bosses9.png": "b4c4cc48e6dae7e2334471487b05da9083dc885769036a53ee5e43e6a34f8594",
     "monsters16.json": "749254961fcf1ba0e10afc8729b180ad4316222ad7f69571ed775d98c53f0872",
-    "monsters16.png": "51686d01a00d89da4d3485dfbe2abcf15ab570e0e384c87e8274324c6a9e6be5"
+    "monsters16.png": "51686d01a00d89da4d3485dfbe2abcf15ab570e0e384c87e8274324c6a9e6be5",
+    "monsters17.json": "495694b530856a2e6689c9fff8d921256afaf336d1815880256019bc06889171",
+    "monsters17.png": "a0ccf7221cea82699c2681e2c68c6ff82811bb0160d2eb9416c9d494a2ccccfb"
   }
 }

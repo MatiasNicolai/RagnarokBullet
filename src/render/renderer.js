@@ -25,6 +25,13 @@ const BOSS_TEX = {
 const ECHO_TINT = 0xe2d4ff;
 const FADE_TICKS = 30;      // ttl enemies fade out over their last ticks
 
+// Height of an atlas entry's front idle frame. displayH means "the idle pose
+// is this tall on screen"; every other pose keeps the same scale.
+function idleHeight(art) {
+  const idle = art.down.idle;
+  return (Array.isArray(idle) ? idle[0] : idle).frame.height;
+}
+
 export class Renderer {
   constructor(app, atlas, parent, theme = level1Theme, mapTextures = null) {
     this.app = app;
@@ -304,7 +311,7 @@ export class Renderer {
         const vis = Math.min(1, e.t / 20) * fade;
         s.alpha = (e.hitFlash > 0 ? 0.6 : 0.85) * vis;
         // a smaller copy of the boss: same proportion of its displayH, if any
-        const scale = (echoArt.displayH ? echoArt.displayH * 0.62 : e.r * 2.7) / tex.frame.height;
+        const scale = echoArt.displayH ? (echoArt.displayH * 0.62) / idleHeight(echoArt) : (e.r * 2.7) / tex.frame.height;
         s.scale.set(scale, scale);
         // additive violet ghost on top: the "memory" glow
         if (!s.echoGlow) {
@@ -334,7 +341,10 @@ export class Renderer {
         const bob = Math.sin(e.t / 12) * 2;
         s.position.set(e.x, e.y + bob);
         s.alpha = (e.hitFlash > 0 ? 0.85 : 1) * fade;
-        const scale = (mon.displayH ?? e.r * 2.7) / tex.frame.height;
+        // displayH art: one scale for every pose (from idle), so squash /
+        // stretch and raised weapons read as drawn; older art normalizes
+        // each pose to the same height, as before
+        const scale = mon.displayH ? mon.displayH / idleHeight(mon) : (e.r * 2.7) / tex.frame.height;
         s.scale.set(scale, scale);
       } else {
         // procedural placeholder blob (drops / fabre / lunatic / mastering)
@@ -548,7 +558,9 @@ export class Renderer {
         tex = this.bossTex[key] ?? this.bossTex.orcHero; // procedural fallback
       }
       this.bossRenderX.set(b, b.x);
-      if (s.texture !== tex) { s.texture = tex; s.scale.set((art?.displayH ?? b.r * 2.9) / tex.frame.height); }
+      // displayH art (Bosses V3): one scale for every pose, taken from idle,
+      // so raised weapons extend beyond the body instead of shrinking it
+      if (s.texture !== tex) { s.texture = tex; s.scale.set(art?.displayH ? art.displayH / idleHeight(art) : (b.r * 2.9) / tex.frame.height); }
       s.visible = true;
       s.alpha = b.hitFlash > 0 ? 0.7 : 1;
       const bob = Math.sin(sim.tick / 20 + i) * 3;

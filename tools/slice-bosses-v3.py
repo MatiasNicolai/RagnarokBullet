@@ -7,6 +7,7 @@ art-clean/bosses-v3-gpt/bosses-v3-gpt-image.prompt.md):
   art-clean/bosses-v3-gpt/dark-lord-v1.png     (1536x1024) Dark Lord     (level 2 boss)
   art-clean/bosses-v3-gpt/baphomet-v1.png      (1536x1024) Baphomet      (level 3 boss)
   art-clean/bosses-v3-gpt/doppelganger-v1.png  (1536x1024) Doppelganger  (level 2 mid-boss)
+  second batch: vesper / seyren / magaleta / amon-ra -> bosses9, mastering -> monsters17
 
 Outputs go to a new tree only (public/assets is untouched, and the original
 sheets stay as the fallback):
@@ -53,13 +54,36 @@ OUTPUTS = [
     {'sheet': 'monsters16', 'kind': 'monsters', 'forms': [
         ('doppelganger', 'doppelganger-v1.png', 0),
     ]},
+    # second batch (2026-11-17). New sheets, so the published bosses8 /
+    # monsters16 stay byte-identical. Rows measured on v1: Vesper 76-415 /
+    # 590-935, Seyren 12-447 / 507-956, Magaleta 22-451 / 535-962, Amon-Ra
+    # 4-465 / 500-967, Mastering 102-405 / 591-908.
+    # Amon-Ra's back attack (throne plus raised staff) measures 472 px, just
+    # over the shared 470 limit, so this sheet gets 490.
+    {'sheet': 'bosses9', 'kind': 'bosses', 'gate_h': (250, 490), 'forms': [
+        ('vesper', 'vesper-v1.png', 0),
+        ('seyren', 'seyren-v1.png', 1024),
+        ('magaleta', 'magaleta-v1.png', 2048),
+        ('amonRa', 'amon-ra-v1.png', 3072),
+    ]},
+    # Mastering is wide and short, and his hit pose squashes to ~150 px, so he
+    # gets his own height gate (the boss default is 250-470).
+    {'sheet': 'monsters17', 'kind': 'monsters', 'gate_h': (100, 380), 'forms': [
+        ('mastering', 'mastering-v1.png', 0),
+    ]},
 ]
 # On-screen height (px). The renderer scales bosses by r * 2.9 and enemies by
 # r * 2.7 of the frame height, which suited the old near-square frames. The V3
 # figures are tall and narrow, so at that height they would look smaller than
 # their hitbox. The hint lives in the manifest, so the original fallback art
 # keeps its old scale. Widths at these heights: ~90-130 px vs hitbox 80-100 px.
-DISPLAY_H = {'orcHero': 165, 'darkLord': 175, 'baphomet': 190, 'doppelganger': 150}
+DISPLAY_H = {
+    'orcHero': 165, 'darkLord': 175, 'baphomet': 190, 'doppelganger': 150,
+    # second batch: old default heights were r*2.9 = 151 / 133 / 128 / 157
+    # (bosses) and r*2.7 = 113 (Mastering). Mastering is wider than tall, so
+    # his height goes DOWN to keep the giant poring about 120 px wide.
+    'vesper': 180, 'seyren': 175, 'magaleta': 170, 'amonRa': 185, 'mastering': 105,
+}
 
 
 def main():
@@ -91,7 +115,14 @@ def main():
             return 1
         sheet = sn.Img(imgs[0].w, sum(i.h for i in imgs), bytearray(b''.join(bytes(i.px) for i in imgs)))
         entries, debug = st.slice_boss_forms(sheet, warnings, errors, forms=o['forms'], sheet_key=o['sheet'])
-        st.gate_bosses(entries, errors)
+        if 'gate_h' in o:
+            for name, e in entries.items():
+                for side in ('down', 'up'):
+                    for pose in st.POSES:
+                        for i, r in enumerate(e[side][pose]):
+                            sn.gate_rect(r, f'{name}.{side}.{pose}[{i}]', st.BOSS_W, o['gate_h'], errors)
+        else:
+            st.gate_bosses(entries, errors)
         rects = st.boss_rects(entries)
         stats = {'frames': {}}
         sn.decontaminate(sheet, rects, o['sheet'], errors, stats)

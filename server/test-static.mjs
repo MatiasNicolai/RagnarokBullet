@@ -1985,20 +1985,60 @@ function stripComments(src) {
   assert.ok(dop.down.idle[0].h >= 4 * oldDop.h, `doppelganger idle ${dop.down.idle[0].h}px vs ${oldDop.h}px before`);
   assert.ok(src('src/levels/level2.js').includes("skin: 'doppelganger'"), 'level 2 still spawns the doppelganger skin');
 
+  // second batch (2026-11-17): Vesper, Seyren, Magaleta, Amon-Ra (bosses9)
+  // and the level 1 mid-boss Mastering (monsters17)
+  const b9 = JSON.parse(src('public/assets-v2/bosses-v3/bosses9.json'));
+  const m17 = JSON.parse(src('public/assets-v2/bosses-v3/monsters17.json'));
+  assert.deepEqual(b9.size, { w: 1536, h: 4096 }, 'bosses9 stacks four sheets');
+  assert.deepEqual(Object.keys(b9.bosses), ['vesper', 'seyren', 'magaleta', 'amonRa'], 'bosses9 keys');
+  assert.deepEqual(Object.keys(m17.monsters), ['mastering'], 'monsters17 holds Mastering');
+  const oldB = {
+    ...JSON.parse(src('public/assets/bosses2.json')).bosses,
+    ...JSON.parse(src('public/assets/bosses3.json')).bosses,
+    ...JSON.parse(src('public/assets-v2/pyramid/bosses4.json')).bosses,
+  };
+  for (const [i, key] of ['vesper', 'seyren', 'magaleta', 'amonRa'].entries()) {
+    const e = b9.bosses[key];
+    assert.ok(oldB[key], `previous ${key} art kept as fallback`);
+    assert.ok(e.displayH >= 150 && e.displayH <= 200, `${key} displayH ${e.displayH}`);
+    for (const side of ['down', 'up']) {
+      for (const p of POSES) {
+        const r = e[side][p][0];
+        assert.ok(e[side][p].length === 1 && r.y >= i * 1024 && r.y + r.h <= (i + 1) * 1024, `${key}.${side}.${p} in its quarter`);
+      }
+    }
+    assert.ok(e.down.idle[0].h >= 2.5 * oldB[key].down.idle[0].h, `${key} idle ${e.down.idle[0].h}px vs ${oldB[key].down.idle[0].h}px before`);
+  }
+  const mas = m17.monsters.mastering;
+  const oldMas = [].concat(JSON.parse(src('public/assets/monsters2.json')).monsters.mastering.down.idle)[0];
+  assert.ok(mas.displayH >= 80 && mas.displayH <= 140, `mastering displayH ${mas.displayH}`);
+  assert.ok(mas.down.idle[0].h >= 2 * oldMas.h, `mastering idle ${mas.down.idle[0].h}px vs ${oldMas.h}px before`);
+  assert.ok(mas.down.hit[0].h < mas.down.idle[0].h && mas.down.attack[0].h > mas.down.idle[0].h,
+    'mastering squashes on hit and stretches on attack (kept by the one-scale rule)');
+  assert.ok(src('src/levels/level1.js').includes("skin: 'mastering'"), 'level 1 still spawns the mastering skin');
+  // the published first batch never changes when later batches are added
+  for (const f of ['bosses8.json', 'bosses8.png', 'monsters16.json', 'monsters16.png']) {
+    assert.ok(report.outputs[f], `${f} still listed in the slicer report`);
+  }
+
   const atlas = src('src/engine/atlas.js');
   const iM5 = atlas.indexOf('addMonsters(mon5Manifest, bossBase)');
   const iM16 = atlas.indexOf('addMonsters(mon16Manifest, mon16Base)');
   assert.ok(iM5 > 0 && iM16 > iM5, 'V3 Doppelganger merges after monsters5 (override, fallback kept)');
-  assert.ok(src('src/render/renderer.js').includes('mon.displayH ?? e.r * 2.7'), 'renderer scales enemies by displayH when present');
+  const iM2 = atlas.indexOf('addMonsters(mon2Manifest, mon2Base)'), iM17 = atlas.indexOf('addMonsters(mon17Manifest, mon17Base)');
+  assert.ok(iM2 > 0 && iM17 > iM2, 'V3 Mastering merges after monsters2');
+  const iB4 = atlas.indexOf('addBosses(boss4Manifest, boss4Base)'), iB9 = atlas.indexOf('addBosses(boss9Manifest, boss9Base)');
+  assert.ok(iB4 > 0 && iB9 > iB4 && iB9 > atlas.indexOf('addBosses(boss3Manifest, boss3Base)'), 'bosses9 merges after bosses2-4');
+  assert.ok(src('src/render/renderer.js').includes('mon.displayH ? mon.displayH / idleHeight(mon)'), 'renderer scales displayH enemies by their idle frame (one scale for every pose)');
   const iOrig = atlas.indexOf('addBosses(bossManifest, bossBase)');
   const iV3 = atlas.indexOf('addBosses(bossV3Manifest, bossV3Base)');
   assert.ok(iOrig > 0 && iV3 > iOrig, 'V3 bosses merge after the originals (override, original kept as fallback)');
   assert.ok(atlas.includes("assets-v2/bosses-v3"), 'atlas loads the V3 tree');
   assert.ok(atlas.includes('displayH: m.displayH ?? null'), 'atlas carries displayH');
-  assert.ok(src('src/render/renderer.js').includes('art?.displayH ?? b.r * 2.9'), 'renderer scales bosses by displayH when present');
+  assert.ok(src('src/render/renderer.js').includes('art?.displayH ? art.displayH / idleHeight(art)'), 'renderer scales displayH bosses by their idle frame (one scale for every pose)');
   const vite = src('vite.config.js');
   assert.ok(!/'assets-v2\/bosses-v3'/.test(vite), 'the build does not prune Bosses V3');
-  ok('bosses V3 (orcHero/darkLord/baphomet + doppelganger override, >=4x taller frames, provenance, fallback order)');
+  ok('bosses V3 (8 bosses/mid-bosses override: frames 2.5-6x taller, provenance, fallback order, one-scale displayH)');
 }
 
 console.log(`\nPASS — ${passed} static checks`);
