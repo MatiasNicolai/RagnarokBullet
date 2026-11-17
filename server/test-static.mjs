@@ -133,7 +133,7 @@ function stripComments(src) {
     for (const f of files) mustFile(`maps/${f}.png`);
     void set;
   }
-  for (const m of ['menu', 'prontera', 'geffen', 'glastheim', 'juperos', 'biolab', 'pyramid', 'niflheim']) {
+  for (const m of ['menu', 'prontera', 'geffen', 'glastheim', 'juperos', 'biolab', 'pyramid', 'niflheim', 'thanatos']) {
     mustFile(`music/${m}.mp3`);
   }
   ok('asset inventory (sheets, maps, music all present)');
@@ -1532,7 +1532,7 @@ function stripComments(src) {
   const SECONDS = { // master durations, for the byte-rate bound
     'prontera.mp3': 265.0, 'geffen.mp3': 192.7, 'glastheim.mp3': 230.8,
     'juperos.mp3': 248.8, 'biolab.mp3': 376.3, 'pyramid.mp3': 219.0,
-    'niflheim.mp3': 311.2, 'menu.mp3': 235.0,
+    'niflheim.mp3': 311.2, 'menu.mp3': 235.0, 'thanatos.mp3': 204.8,
   };
   let totalBytes = 0;
   for (const [track, secs] of Object.entries(SECONDS)) {
@@ -1735,6 +1735,8 @@ function stripComments(src) {
   const musicSrc = src('src/engine/music.js');
   const l8 = musicSrc.slice(musicSrc.indexOf('level8: {'), musicSrc.indexOf('boss: {'));
   assert.ok(l8.includes('lead:') && !/'[A-G]b\d'/.test(l8), 'level8 chiptune exists and uses no flat names (the NOTE table has none)');
+  assert.ok(musicSrc.includes('level8: `${BASE}assets/music/thanatos.mp3`'), 'MP3_TRACKS wires the Thanatos Tower recording for level8');
+  assert.ok(fs.existsSync(path.join(ROOT, 'Music', 'Thanatos Tower 001.mp3')), 'Thanatos Tower master kept in Music/');
   const { DIALOGUE } = await import('../src/data/dialogue.js');
   for (const c of ['aramir', 'zeos', 'eric', 'dposada', 'chel_snip', 'viri']) {
     assert.ok(DIALOGUE.Thanatos?.[c]?.p && DIALOGUE.Thanatos?.[c]?.b, `dialogue Thanatos/${c}`);

@@ -29,6 +29,7 @@ const MP3_TRACKS = {
   level5: `${BASE}assets/music/biolab.mp3`,
   level6: `${BASE}assets/music/pyramid.mp3`,
   level7: `${BASE}assets/music/niflheim.mp3`,
+  level8: `${BASE}assets/music/thanatos.mp3`,
 };
 
 // Melodies (16 steps) + bass. Kept short and loopable.
@@ -83,8 +84,8 @@ const TRACKS = {
   },
   level8: {
     // Thanatos Tower — driving D phrygian-dominant (D-Eb-F#) over a pounding
-    // root. Chiptune stand-in until the Suno recording lands as thanatos.mp3
-    // (see THANATOS-PLAN.md §9); it then stays as the missing-file fallback.
+    // root. (chiptune fallback only: the approved Thanatos Tower recording
+    // plays as thanatos.mp3, falling back here if that file is missing/corrupt)
     bpm: 160, wave: 'sawtooth',
     // (sharps only: the NOTE table has no flat names, so Eb = D#, Bb = A#)
     lead: ['D4', 'D#4', 'F#4', 'G4', 'A4', _, 'G4', 'F#4', 'D#4', 'D4', 'D#4', _, 'A3', 'D4', 'F#4', _],
