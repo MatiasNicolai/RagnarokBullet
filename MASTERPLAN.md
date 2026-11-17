@@ -1,10 +1,45 @@
 # MASTERPLAN — "Ragnarok Bullet Hell"
 
-Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnarok Online, 1–2 jugadores en co-op local, 6 personajes jugables con kits únicos, 3 niveles con jefes MVP clásicos de RO.
+Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnarok Online, 1–2 jugadores (co-op local y online), 6 personajes jugables con kits únicos y una campaña de 8 niveles con jefes MVP clásicos de RO. (El plan original eran 3 niveles; las secciones 1 a 8 de abajo conservan ese diseño como registro histórico.)
 
 ---
 
-## ⭐ ESTADO Y PRÓXIMOS PASOS (actualizado 2026-07-09)
+## ⭐ ESTADO Y PRÓXIMOS PASOS (actualizado 2026-11-16)
+
+**Campaña completa, 8 niveles, publicada en https://matiasnicolai.github.io/RagnarokBullet/:**
+
+| # | Nivel | Mid-boss | Jefe | Arte |
+|---|---|---|---|---|
+| 1 | Campos de Prontera → Plaza | Mastering | Orc Hero | hojas originales + Prontera V3 (GPT) |
+| 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | hojas originales |
+| 3 | Glast Heim | Baphomet Jr. gigante | Baphomet | hojas originales |
+| 4 | Juperos | Archdam | Vesper | hojas originales |
+| 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | hojas originales |
+| 6 | Pirámide del Sol | Osiris | Amon-Ra | GPT (`assets-v2/pyramid`) |
+| 7 | Reino de Niflheim | Loli Ruri | Lord of Death | GPT (`assets-v2/niflheim`) |
+| 8 | **Torre de Thanatos** (final) | 4 fragmentos en 2 parejas | **Thanatos** (2 formas) | GPT vía CLI de Codex (`assets-v2/thanatos`) |
+
+**Además del núcleo:** co-op online desplegado (relay en Railway + lockstep), ELEGIR NIVEL, práctica de jefes, menú de pausa (P / ESC con confirmación), música mp3 en los 8 niveles (Suno para los últimos) con respaldo chiptune, y un build podado de unos 210 MB.
+
+**Nivel 8 (2026-11-16):** el diseño completo, los prompts y las decisiones están en [THANATOS-PLAN.md](THANATOS-PLAN.md).
+- **Thanatos** tiene 10 500 de vida (3,28× Lord of Death; un test lo exige ≥3× para cualquier jefe final anterior): 6 cartas con vida, una carta de supervivencia de 30 s, cambio de Forma I a II y ecos de jefes anteriores.
+- **Mecánicas nuevas de motor:** `card.form`, `card.survive`, `card.transition`, el evento `bossForm`, y `echo`/`ttl` en los enemigos.
+- **Mobs** con curación (Lady Solace) y teletransporte (Void Mimic).
+
+### ▶ PRÓXIMOS PASOS (pendientes concretos)
+1. **Balance del Nivel 8 jugando de verdad.** Los números de densidad salen de un bot que no esquiva. Prioridades: la carta de supervivencia, "Último Aliento" y el mid-boss de dos parejas (2400 de vida en total), en Normal y Nightmare, solo y en co-op.
+2. **Smoke test multi-nivel online:** una transición completa entre niveles con dos jugadores reales.
+3. **Bug menor conocido:** el sintetizador ignora las notas con bemol (`Bb`, `Eb`), así que el chiptune del nivel 3 pierde notas del bajo. Hay que pasarlas a sostenidos o agregar alias a la tabla `NOTE` de `music.js`.
+4. **Presupuesto de música:** 37,9 MB contra un límite de 40 MB en el test. Un nivel 9 obligaría a subir el límite o a bajar el bitrate.
+
+### Pipeline de arte GPT (niveles 6 a 8)
+1. **Referencias de RO**, solo para la identidad visual (Divine Pride / Spriters Resource), en `art-clean/<set>-gpt/references/`.
+2. **Generación con la CLI de Codex:** `codex exec --image=<ref> ... "<prompt>"`. Se usa la forma con `=`, porque `-i` se come el prompt. El sandbox de Codex en Windows no puede escribir en el repo, así que la imagen se copia desde `~/.codex/generated_images/<sesión>/`. Las fuentes aprobadas son inmutables y una corrección se genera como `-v2`. Para que combine con el resto del juego, siempre se adjunta la hoja aprobada de Niflheim como referencia de estilo.
+3. **Slicer determinista** (`tools/slice-*.py`): solo usa la librería estándar, valida antes de escribir, genera hojas de contacto en `qa/` y un reporte con sha256. Se revisa en el Art Lab (`?artlab=1`).
+4. **Integración y tests** en `server/test-static.mjs`. Los JSON generados de la Torre están marcados `-text` en `.gitattributes`, para que el sha256 se mantenga en cualquier checkout.
+5. **Música:** el usuario la genera en Suno a partir de un prompt, el master va a `Music/` y se encodea con `node tools/encode-music.mjs <pista>.mp3`.
+
+### Estado anterior (2026-07-09, histórico)
 
 **Stack:** PixiJS v8 + Vite, JS ES modules. `npm run dev` → http://localhost:5173. Simulación determinista (`src/sim/`) desacoplada del render (`src/render/`). Verificación en navegador vía Claude Preview + un shot-server (`node tools/shot-server.mjs`, puerto 8123) porque la pestaña de preview corre en background y pausa el render — se captura el canvas y se guarda a `tools/shots/`.
 
@@ -12,9 +47,7 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 
 **🟢 DESPLEGADO Y JUGABLE ONLINE:** cliente en **https://matiasnicolai.github.io/RagnarokBullet/** (GitHub Pages, deploy automático vía Actions en cada push a `main` — `.github/workflows/deploy-pages.yml`), relay en **`wss://ragnarokbullet-production.up.railway.app`** (Railway, servicio con Root Directory `server`). El repo está en https://github.com/MatiasNicolai/RagnarokBullet. El cliente embebe la URL del relay vía `VITE_RELAY_URL` y usa `VITE_BASE=/RagnarokBullet/` (rutas de assets vía `import.meta.env.BASE_URL`).
 
-### ▶ PRÓXIMOS PASOS (pendientes concretos)
-1. **Smoke test multi-nivel online**: el encadenado de niveles (epoch++) está implementado y el nivel 1 está verificado en vivo; falta probar una transición completa nivel 1→2 online con dos jugadores reales.
-2. **Balance fino** por clase/dificultad con playtesting (continuo).
+*(Los próximos pasos de esa fecha se movieron arriba: el smoke test online sigue pendiente y el balance es continuo.)*
 
 ### Cómo correr el online en local
 - `cd server && npm install && npm start` (relay en :8090). `npm run dev` en la raíz. En el título → 🌐 CO-OP ONLINE → CREAR SALA (da un código) / UNIRSE. Dos pestañas del navegador = 2 jugadores en la misma máquina.
@@ -261,7 +294,14 @@ Iteraciones 0–5 completas + arte real de Prontera en el Nivel 1. El juego es u
 - ✅ Netcode lockstep (`src/net/lockstep.js`): delay fijo de 3 ticks, avanza el sim solo con ambos inputs presentes, checksum de estado cada 30 ticks para detectar desync, `epoch` por nivel para aislar sesiones.
 - ✅ UI: entrada 🌐 CO-OP ONLINE en el título (overlay), escena de lobby (`src/scenes/online.js`), `GameScene` en modo online con badge de espera y auto-avance de nivel.
 - ✅ Verificado end-to-end (navegador host vs guest headless): 400+ ticks en lockstep, checksums idénticos, sin desync; offline sin regresión.
-- ⏳ **Pendiente:** deploy del relay a **Railway** (necesita cuenta del usuario) para jugar entre PCs distintas; cliente estático a GitHub Pages / Railway. Ver `server/README.md`.
+- ✅ Desplegado (2026-07-10): relay en **Railway** y cliente en **GitHub Pages**. Ver `server/README.md`.
+
+### Iteraciones 7 a 11 — de 3 a 8 niveles ✅ *(julio a noviembre de 2026)*
+- **Nivel 4, Juperos** (2026-07-16): 8 mobs, el mid-boss Archdam y Vesper, con hojas y mapas originales.
+- **Nivel 5, Biolab** (2026-07-18 a 07-25): duelo doble Seyren & Magaleta y bombas temáticas por clase.
+- **Niveles 6 y 7, Pirámide y Niflheim** (2026-09-08): primer arte generado con GPT, slicers deterministas en Python, ELEGIR NIVEL y Art Lab.
+- **Pausa y peso del build** (2026-09-17): menú de pausa, gate de matte residual, música encodeada a 128 kbps y poda del arte de preview.
+- **Nivel 8, Torre de Thanatos** (2026-11-16, PR [MatiasNicolai/RagnarokBullet#1](https://github.com/MatiasNicolai/RagnarokBullet/pull/1)): la etapa final. Arte generado con la CLI de Codex, `tools/slice-thanatos.py`, Thanatos con dos formas y carta de supervivencia, los fragmentos como mid-boss y música de Suno. Detalle en [THANATOS-PLAN.md](THANATOS-PLAN.md).
 
 ## 9. Riesgos y decisiones abiertas
 

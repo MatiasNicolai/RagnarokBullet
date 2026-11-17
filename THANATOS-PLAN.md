@@ -1,6 +1,7 @@
 # Nivel 8 — Torre de Thanatos (plan de la etapa final)
 
-> Estado al 2026-11-16, sobre `main` @ `875069f`:
+> **Publicado el 2026-11-16.** Se mergeó con el PR [MatiasNicolai/RagnarokBullet#1](https://github.com/MatiasNicolai/RagnarokBullet/pull/1) (`main` @ `0d8c2b8`) y GitHub Pages lo desplegó.
+>
 > - **Hecho:**
 >   - **Fases 0 a 2:** prueba de Codex, referencias, y las 6 imágenes generadas y aprobadas.
 >   - **Fase 4:** `tools/slice-thanatos.py` genera `public/assets-v2/thanatos/`, pasa todos los gates y es determinista. Las hojas de contacto están aprobadas.
@@ -10,9 +11,9 @@
 >     - Se cablearon el atlas, los mapas, el render (forma por carta, ecos, curación y teletransporte), la barra del jefe con reloj, la práctica (en dos filas), los diálogos, la semilla y un chiptune provisorio.
 >   - **Tests:** 61/61 estáticos (8 nuevos para el nivel 8), 10/10 de blockers y netplay en lockstep. Se verificó en el navegador: oleadas, fragmentos, Thanatos, ecos, transformación y menú de práctica.
 >   - **Fase 3, música:** `Music/Thanatos Tower 001.mp3` (Suno, 3:24) está encodeado a `public/assets/music/thanatos.mp3` (128 kbps, 3,43 MB) y conectado como `MP3_TRACKS.level8`. El chiptune queda como respaldo si el archivo falta.
-> - **Pendiente:**
->   - La fase 7: balance jugando de verdad.
->   - La fase 8: README, MASTERPLAN y commit.
+>   - **Fase 8:** se actualizaron README y MASTERPLAN, se hizo el commit y se publicó.
+> - **Pendiente:** la fase 7, el balance jugando de verdad (las prioridades están en MASTERPLAN, «Próximos pasos»).
+>
 > Los prompts listos para usar están en [`art-clean/thanatos-gpt/prompts/`](art-clean/thanatos-gpt/prompts/).
 
 ## 1. Concepto
