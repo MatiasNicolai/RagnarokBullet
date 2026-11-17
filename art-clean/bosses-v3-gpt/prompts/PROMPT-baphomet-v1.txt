@@ -1,0 +1,12 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/bosses-v3-gpt/baphomet-v1.png.
+
+A BOSS sprite sheet with exactly ONE figure: BAPHOMET, the infamous demon MVP of Glast Heim in Ragnarok Online and the third boss of the game. Preserve the identity, silhouette and palette of the attached Ragnarok Online reference sprite (baphomet-ro.png):
+a towering goat demon standing upright on hooved digitigrade legs, reddish-brown fur, a long goat face with curved horns and a thick shaggy cream-white mane over the shoulders and chest, gripping an enormous scythe with a long dark shaft and a huge pale violet curved blade.
+
+Mood: ancient, menacing and theatrical: the demon king of Glast Heim. The giant scythe is his signature and must be clearly visible, whole, in every pose.
+
+The figure fills most of each pose cell (boss scale), and every pose is complete including the horns, the full scythe blade and the shaft.
+
+SHEET LAYOUT RULES: exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature wide scythe swing). Exactly one complete figure per pose, never overlapping, never cropped by the image edge, with generous empty gutters between poses. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Thanatos boss sheet exactly: same rendering quality, outline weight, shading and scale): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouette at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.

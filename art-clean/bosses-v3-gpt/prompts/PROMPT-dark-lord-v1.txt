@@ -1,0 +1,12 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/bosses-v3-gpt/dark-lord-v1.png.
+
+A BOSS sprite sheet with exactly ONE figure: DARK LORD, the MVP of Glast Heim's depths in Ragnarok Online and the second boss of the game. Preserve the identity, silhouette and palette of the attached Ragnarok Online reference sprite (dark-lord-ro.png):
+a tall skeletal lich sorcerer with a grinning skull face and glowing red eyes, a faint pale halo ring above the head, massive skull pauldrons on both shoulders, ornate white-and-violet robes with green and gold trim and striped sashes, thin bony clawed hands, dark green spikes fanning behind the shoulders, and a heavy dark indigo shadow cloak that billows around and below the body.
+
+Mood: a cold, commanding master of dark magic. The shadow cloak should feel like living darkness, but keep it compact and attached to the figure.
+
+The figure fills most of each pose cell (boss scale), and every pose is complete including the halo, the spikes and the cloak.
+
+SHEET LAYOUT RULES: exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature spellcast with one clawed hand thrust forward). Exactly one complete figure per pose, never overlapping, never cropped by the image edge, with generous empty gutters between poses. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Thanatos boss sheet exactly: same rendering quality, outline weight, shading and scale): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouette at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.
