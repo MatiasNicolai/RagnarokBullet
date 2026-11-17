@@ -1,0 +1,12 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/thanatos-gpt/thanatos-boss-form1-v1.png.
+
+A FINAL BOSS sprite sheet with exactly ONE figure: MEMORY OF THANATOS (form I), also listed as Thanatos Phantom, the final MVP of Thanatos Tower in Ragnarok Online. Preserve the identity, silhouette and palette of the attached Ragnarok Online reference sprite (thanatos-phantom-ro.png):
+a fallen hero warrior with wild spiky silver-grey hair and a dark face, wearing heavy pale bone-white armor decorated with skulls and chains, a long tattered crimson cape, and a large club-like weapon resting on his shoulder, wrapped and topped with a skull.
+
+Mood: a towering, solemn warrior made of memory and grief, the strongest enemy in the game. This is the restrained first form; a second, awakened form will be drawn later from this one, so keep the design clean and iconic. Add only a faint dark-violet aura held tight to the body.
+
+The figure fills most of each pose cell (boss scale), and every pose is complete including the cape and the weapon tip.
+
+SHEET LAYOUT RULES: exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature overhead weapon strike). Exactly one complete figure per pose, never overlapping, never cropped by the image edge, with generous empty gutters between poses. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Niflheim boss sheet exactly): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouette at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.

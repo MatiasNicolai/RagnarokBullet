@@ -81,6 +81,15 @@ const TRACKS = {
     lead: ['D5', _, 'E5', _, 'F5', _, 'E5', 'D5', _, 'C5', _, 'D5', 'C5', _, 'A4', _],
     bass: ['D2', _, _, _, 'C2', _, _, _, 'B1', _, _, _, 'A1', _, _, _],
   },
+  level8: {
+    // Thanatos Tower — driving D phrygian-dominant (D-Eb-F#) over a pounding
+    // root. Chiptune stand-in until the Suno recording lands as thanatos.mp3
+    // (see THANATOS-PLAN.md §9); it then stays as the missing-file fallback.
+    bpm: 160, wave: 'sawtooth',
+    // (sharps only: the NOTE table has no flat names, so Eb = D#, Bb = A#)
+    lead: ['D4', 'D#4', 'F#4', 'G4', 'A4', _, 'G4', 'F#4', 'D#4', 'D4', 'D#4', _, 'A3', 'D4', 'F#4', _],
+    bass: ['D2', 'D2', 'D2', 'D2', 'A#1', 'A#1', 'A#1', 'A#1', 'C2', 'C2', 'C2', 'C2', 'A1', 'A1', 'A1', 'A1'],
+  },
   boss: {
     bpm: 148, wave: 'sawtooth',
     lead: ['E4', 'E4', 'G4', 'E4', 'B4', 'A4', 'G4', 'E4', 'D4', 'D4', 'F4', 'A4', 'G4', 'E4', 'D4', 'B3'],

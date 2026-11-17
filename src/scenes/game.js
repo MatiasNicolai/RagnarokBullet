@@ -24,7 +24,7 @@ import { FIELD_W, FIELD_H, TICK_RATE } from '../sim/constants.js';
 
 const TICK_MS = 1000 / TICK_RATE;
 const GOLD = 0xd9a94a;
-const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5, 0xb10a5e, 0x9a7d51, 0x51f47e];
+const LEVEL_SEEDS = [0xc0ffee, 0x5eeded, 0xba5e1a, 0x1c0de5, 0xb10a5e, 0x9a7d51, 0x51f47e, 0x7a4a705];
 
 // Practice: a synthetic level that just drops the chosen boss in immediately.
 // bossDef is a single boss def, or an array of them for dual-boss practice.
@@ -216,6 +216,13 @@ export class GameScene {
         this.bannerT = Math.min(this.bannerT, 12);
         break;
       case 'bossPhase': this.shake = Math.max(this.shake, 8); this.hitstop = Math.max(this.hitstop, 5); break;
+      case 'bossForm':
+        // transformation beat (Thanatos form I -> II): bigger than a card break
+        audio.play('warning');
+        this.shake = Math.max(this.shake, 20);
+        this.hitstop = Math.max(this.hitstop, 10);
+        this.showBanner(`¡${ev.name.toUpperCase()}\nDESPIERTA!`, 140, 0xd8b8ff);
+        break;
       case 'bossDown': audio.play('bossDown'); this.slowmo = 90; this.shake = 24; break;
       case 'extend':
         audio.play('clear');

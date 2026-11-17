@@ -1,0 +1,20 @@
+Generate ONE image, 793x1983 pixels, portrait, and save it as art-clean/thanatos-gpt/thanatos-map-v1.png.
+
+Create a continuous extra-tall top-down map for a vertical-scrolling bullet-hell stage: THANATOS TOWER, the final level of a Ragnarok Online inspired game. Slight 3/4 top-down perspective, no horizon, no sky line. The camera scrolls from the BOTTOM of the image to the TOP, so the image reads bottom = start, top = final arena.
+
+Seven smoothly connected zones, bottom to top, each roughly one seventh of the height, with no hard seams between them:
+1 (bottom) Museum Entrance: Hugel cliffside at the foot of the tower, cold rocky ground and mist, a huge stone gate opening into a vestibule with glass display cases.
+2 Museum: ancient grey-blue stone halls lined with display cases, old treasure chests and broken statues, cracked floor tiles.
+3 Abandoned Space: ruined rooms, collapsed walls, fallen books, violet and pale-blue crystals, candles.
+4 Room of Angel: a circular chamber with statues of winged angel ladies around it and four glowing seal sigils at the compass points (red, violet, cyan, orange), floor carved with a large ring.
+5 Rooms of Anguish and Sadness: broken spiral stairs and floating stone platforms over a dark void, heavy iron chains hanging between them.
+6 Rooms of Despair and Hatred: a narrow stone walkway crossing a starfield void, broken pillars on the sides, faint red cracks of rage in the stone.
+7 (top) Unknown Area: a grand circular arena floor with a gigantic broken golden halo inlaid in the floor, radial cracks, starfield and drifting light motes at the edges, solemn and climactic.
+
+Palette: cold slate stone, deep indigo and violet, pale silver, tarnished gold accents, small warm candle and brazier light. It gets darker, colder and more otherworldly toward the top.
+
+Gameplay readability: keep a broad central corridor about 520 px wide with LOW contrast and moderate detail so bright danmaku bullets stay readable; put the strong detail (statues, shelves, chains, crystals) on the side margins.
+
+No characters, no monsters, no projectiles, no UI, no text, no grid, no visible tiling seams.
+
+STYLE CONTRACT (match the attached approved Niflheim map exactly): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online, crisp and readable, warm top light and cool shadows, rich but controlled palette, no blur, no photorealism, no 3D render look.

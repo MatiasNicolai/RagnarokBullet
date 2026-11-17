@@ -48,8 +48,8 @@ export class LevelSelectScene {
 
     // level row: one card per LEVELS entry (the single source of truth —
     // no duplicate registry, no hardcoded level count). Card width derives
-    // from LEVELS.length so all seven cards plus their selection strokes
-    // fit in one row within the renderer width W.
+    // from LEVELS.length so every card (eight at W=840) plus its selection stroke
+    // fits in one row within the renderer width W.
     this.levelCards = [];
     const levelGap = 8, levelMargin = 16, levelMax = 128, levelMin = 80;
     const bw = Math.max(levelMin, Math.min(levelMax,

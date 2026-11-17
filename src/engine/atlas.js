@@ -134,6 +134,19 @@ export async function loadAtlas() {
     nijJson('monsters12'), // Niflheim mid-boss Loli Ruri (rects live in bosses5.png)
     nijJson('bosses5'), nijPng('bosses5'),     // Niflheim bosses: Loli Ruri + Lord of Death
   ]);
+  // Thanatos Tower (level 8): same null-safe loaders, served from
+  // assets-v2/thanatos (see tools/slice-thanatos.py).
+  const thaDir = `${BASE}assets-v2/thanatos`;
+  const thaJson = (n) => fetch(`${thaDir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing thanatos manifest: assets-v2/thanatos/${n}.json`); return null; });
+  const thaPng = (n) => Assets.load(`${thaDir}/${n}.png`).catch(() => { warn(`missing thanatos sheet: assets-v2/thanatos/${n}.png`); return null; });
+  const [mon13Manifest, mon13Base, mon14Manifest, mon14Base, mon15Manifest,
+    boss6Manifest, boss6Base, boss7Manifest, boss7Base] = await Promise.all([
+    thaJson('monsters13'), thaPng('monsters13'), // Thanatos: the four angel ladies
+    thaJson('monsters14'), thaPng('monsters14'), // Thanatos: emotion-room mobs
+    thaJson('monsters15'),                       // fragments as inline elites (rects in bosses6.png)
+    thaJson('bosses6'), thaPng('bosses6'),       // fragments as practice bosses
+    thaJson('bosses7'), thaPng('bosses7'),       // Thanatos, form I + form II
+  ]);
 
   // Prontera V3 (default override, NOT ?art=v2-gated): approved GPT sheet
   // extracted by tools/slice-prontera-v3.py, served from assets-v2/prontera.
@@ -184,12 +197,15 @@ export async function loadAtlas() {
   addMonsters(mon10Manifest, boss4Base); // Pyramid mid-boss: Osiris (rects live in bosses4.png)
   addMonsters(mon11Manifest, mon11Base); // Niflheim: Lude, Quve, Heirozoist, Gibbet, Dullahan, Bloody Murderer
   addMonsters(mon12Manifest, boss5Base); // Niflheim mid-boss: Loli Ruri (rects live in bosses5.png)
+  addMonsters(mon13Manifest, mon13Base); // Thanatos: Sentinel, Retribution, Shelter, Solace
+  addMonsters(mon14Manifest, mon14Base); // Thanatos: Book of Death, Anger, Void Mimic, Crow Duke
+  addMonsters(mon15Manifest, boss6Base); // Thanatos fragments: Odium, Despero, Maero, Dolor (rects live in bosses6.png)
   addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
   // glastheim load lazily via ensureMapSet (kicked off in the background after
   // boot) so the title appears without waiting on 44 MB of maps.
-  const maps = { prontera, geffen: null, glastheim: null, juperos: null, biolab: null, pyramid: null, niflheim: null };
+  const maps = { prontera, geffen: null, glastheim: null, juperos: null, biolab: null, pyramid: null, niflheim: null, thanatos: null };
   const ensureMapSet = async (name) => {
     if (maps[name]) return maps[name];
     maps[name] = await loadMapSet(name, warn);
@@ -213,6 +229,8 @@ export async function loadAtlas() {
   addBosses(boss3Manifest, boss3Base); // Seyren + Magaleta (Biolab)
   addBosses(boss4Manifest, boss4Base); // Amon-Ra (Pyramid; null-safe when missing)
   addBosses(boss5Manifest, boss5Base); // Loli Ruri + Lord of Death (Niflheim; null-safe when missing)
+  addBosses(boss6Manifest, boss6Base); // Thanatos fragments (practice duels)
+  addBosses(boss7Manifest, boss7Base); // Thanatos: 'thanatos' (form I) + 'thanatosAwake' (form II)
 
   // per-character skill icons: skills[charId] = [shot, focus, bomb, special]
   const skills = {};

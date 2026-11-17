@@ -32,13 +32,19 @@ export class BossBar {
     const total = b.def.cards.length;
     const gap = 3;
     const segW = (x1 - x0 - gap * (total - 1)) / total;
-    const frac = Math.max(0, b.cardHp / b.cardMax);
+    // survival cards drain a clock (cyan) instead of HP
+    const survive = b.surviveMax > 0;
+    const frac = survive
+      ? Math.max(0, b.surviveLeft / b.surviveMax)
+      : Math.max(0, b.cardMax > 0 ? b.cardHp / b.cardMax : 0);
     for (let i = 0; i < total; i++) {
       const x = x0 + i * (segW + gap);
       if (i < b.cardIndex) {
         g.roundRect(x, y, segW, 6, 2).fill(0x4a2a2a);           // spent
       } else if (i === b.cardIndex) {
-        const col = b.transition > 0 ? 0x8a8a8a : (frac < 0.3 ? 0xff6a6a : 0xe0472e);
+        const col = b.transition > 0 ? 0x8a8a8a
+          : survive ? 0x4fd8ff
+            : (frac < 0.3 ? 0xff6a6a : 0xe0472e);
         g.roundRect(x, y, segW, 6, 2).fill(0x2a1418);
         g.roundRect(x, y, Math.max(1, segW * frac), 6, 2).fill(col);
       } else {
@@ -78,7 +84,8 @@ export class BossBar {
       } else {
         row.name.position.set(30, ry + 3);
         row.card.visible = true;
-        row.card.text = b.transition > 0 ? '' : `✦ ${b.cardName} ✦`;
+        const clock = b.surviveMax > 0 ? `  ¡RESISTE! ${Math.ceil(b.surviveLeft / 60)}s` : '';
+        row.card.text = b.transition > 0 ? '' : `✦ ${b.cardName} ✦${clock}`;
         row.card.style.fontSize = 13;
         row.card.position.set(FIELD_W - 30, ry + 4);
         this.drawBar(row.bar, b, 28, FIELD_W - 28, ry + 18);

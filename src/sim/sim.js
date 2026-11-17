@@ -84,6 +84,10 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
         hp: 1, r: 16, vx: 0, vy: 1, skin: 'poring', hitFlash: 0, t: 0, tele: 0,
         score: 100, drop: null, shoot: null, onDeath: null, invuln: false,
         frozen: 0, poison: 0, lastHitBy: -1, phase: 0,
+        // echo: boss-art key for a summoned memory (render only); ttl: ticks
+        // until it dissolves (0 = lives until killed / off-screen). Reset on
+        // every spawn so pooled objects never inherit them.
+        echo: null, ttl: 0,
       }, props);
       return e;
     },
@@ -441,7 +445,7 @@ export function tickSim(sim, inputs, stage) {
     }
     if (e.x < e.r) { e.x = e.r; e.vx = Math.abs(e.vx); }
     if (e.x > FIELD_W - e.r) { e.x = FIELD_W - e.r; e.vx = -Math.abs(e.vx); }
-    if (e.y > FIELD_H + 60) sim.enemies.killAt(i);
+    if (e.y > FIELD_H + 60 || (e.ttl > 0 && e.t >= e.ttl)) sim.enemies.killAt(i);
   }
 
   // --- player bullets vs enemies ---

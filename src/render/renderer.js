@@ -14,7 +14,16 @@ import {
 
 const PLAYER_HEIGHT = 64;
 
-const BOSS_TEX = { 'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta', 'Amon-Ra': 'amonRa', 'Loli Ruri': 'loliRuri', 'Lord of Death': 'lordOfDeath' };
+const BOSS_TEX = {
+  'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta', 'Amon-Ra': 'amonRa', 'Loli Ruri': 'loliRuri', 'Lord of Death': 'lordOfDeath',
+  'Thanatos': 'thanatos',
+  'Odium of Thanatos': 'odium', 'Despero of Thanatos': 'despero', 'Maero of Thanatos': 'maero', 'Dolor of Thanatos': 'dolor',
+};
+// Summoned memories of past MVPs: a pale violet tint (a tint multiplies, so a
+// strong violet would sink dark sprites like Baphomet into the background)
+// plus an additive ghost copy that makes them glow.
+const ECHO_TINT = 0xe2d4ff;
+const FADE_TICKS = 30;      // ttl enemies fade out over their last ticks
 
 export class Renderer {
   constructor(app, atlas, parent, theme = level1Theme, mapTextures = null) {
@@ -198,6 +207,9 @@ export class Renderer {
         break;
       }
       case 'summon': this.burst(ev.x, ev.y, 0x9f6aff, 24, 5); break;
+      case 'heal': this.burst(ev.x, ev.y, 0x6fce5a, 14, 3); this.spawnFloat(ev.x, ev.y - 16, '+CURA', 0x6fce5a); break;
+      case 'telegraph': this.burst(ev.x, ev.y, ev.color ?? 0xffffff, 12, 2); break;
+      case 'bossForm': this.burst(ev.x, ev.y, 0xe6d0ff, 80, 10); break;
       case 'bossPhase': this.burst(ev.x, ev.y, 0xffffff, 40, 8); break;
       case 'bossExplode': this.burst(ev.x, ev.y, 0xffb060, 14, 4); break;
       case 'bossDown': this.burst(ev.x, ev.y, 0xfff2b0, 60, 9); break;
@@ -277,8 +289,31 @@ export class Renderer {
 
     for (const e of sim.enemies.active) {
       const s = this.spriteFor(e, this.enemyLayer);
+      // dissolving (ttl) enemies fade out over their last ticks
+      const fade = e.ttl > 0 ? Math.max(0, Math.min(1, (e.ttl - e.t) / FADE_TICKS)) : 1;
+      const echoArt = e.echo ? this.atlas.bosses?.[e.echo] : null;
       const mon = this.atlas.monsters?.[e.skin];
-      if (mon) {
+      if (!echoArt && s.echoGlow) s.echoGlow.visible = false; // pooled sprite back to a normal enemy
+      if (echoArt) {
+        // echo of a past MVP: that boss's own sprite, tinted and translucent
+        const frames = e.tele > 0 ? echoArt.down.attack : echoArt.down.idle;
+        const tex = frames[((e.t / 9) | 0) % frames.length];
+        if (s.baseTex !== tex) { s.texture = tex; s.baseTex = tex; }
+        s.tint = ECHO_TINT;
+        s.position.set(e.x, e.y + Math.sin(e.t / 14) * 3);
+        const vis = Math.min(1, e.t / 20) * fade;
+        s.alpha = (e.hitFlash > 0 ? 0.6 : 0.85) * vis;
+        const scale = (e.r * 2.7) / tex.frame.height;
+        s.scale.set(scale, scale);
+        // additive violet ghost on top: the "memory" glow
+        if (!s.echoGlow) {
+          s.echoGlow = new Sprite(); s.echoGlow.anchor.set(0.5); s.echoGlow.blendMode = 'add';
+          s.echoGlow.tint = 0x9a6aff; s.addChild(s.echoGlow);
+        }
+        s.echoGlow.visible = true;
+        s.echoGlow.texture = tex;
+        s.echoGlow.alpha = 0.35 + 0.15 * Math.sin(e.t / 8);
+      } else if (mon) {
         // real animated sprite: pick frame by facing + state. Some mid-boss
         // sheets have an incomplete "up" pose set (e.g. missing one strafe
         // direction), so fall back to idle rather than an undefined texture.
@@ -297,7 +332,7 @@ export class Renderer {
         // gentle idle bob for liveliness
         const bob = Math.sin(e.t / 12) * 2;
         s.position.set(e.x, e.y + bob);
-        s.alpha = e.hitFlash > 0 ? 0.85 : 1;
+        s.alpha = (e.hitFlash > 0 ? 0.85 : 1) * fade;
         const scale = (e.r * 2.7) / tex.frame.height;
         s.scale.set(scale, scale);
       } else {
@@ -309,7 +344,7 @@ export class Renderer {
         else if (e.tele > 0 && (e.tele & 2)) s.tint = 0xffffff;
         else s.tint = 0xffffff;
         s.position.set(e.x, e.y);
-        s.alpha = e.hitFlash > 0 ? 0.6 : 1;
+        s.alpha = (e.hitFlash > 0 ? 0.6 : 1) * fade;
         const base = (e.r * 2.3) / tex.frame.height;
         const ph = (e.t % 40) / 40;
         let squash = 1 + Math.sin(ph * Math.PI * 2) * 0.06;
@@ -490,7 +525,9 @@ export class Renderer {
       const b = list[i];
       let s = this.bossSprites[i];
       if (!s) { s = new Sprite(); s.anchor.set(0.5); s.roundPixels = true; this.bossLayer.addChild(s); this.bossSprites[i] = s; }
-      const key = BOSS_TEX[b.name] ?? 'orcHero';
+      // a card may name its own sprite (`form`): Thanatos switches from his
+      // armored form to the awakened one inside the same fight
+      const key = b.def.cards[b.cardIndex]?.form ?? BOSS_TEX[b.name] ?? 'orcHero';
       const art = this.atlas.bosses?.[key];
       let tex;
       if (art) {

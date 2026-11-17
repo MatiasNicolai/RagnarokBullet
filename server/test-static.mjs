@@ -524,7 +524,7 @@ function stripComments(src) {
   // LEVELS is the single source of truth: six entries, no duplicate registry.
   const levelsSrc = src('src/levels/index.js');
   assert.deepEqual([...levelsSrc.matchAll(/title: '(Nivel \d)'/g)].map((m) => m[1]),
-    ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6', 'Nivel 7']);
+    ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6', 'Nivel 7', 'Nivel 8']);
   assert.ok(fs.existsSync(path.join(ROOT, 'src/scenes/levelselect.js')), 'levelselect scene file');
   const sel = src('src/scenes/levelselect.js');
   assert.ok(sel.includes('export class LevelSelectScene'), 'levelselect exports LevelSelectScene');
@@ -1649,6 +1649,245 @@ function stripComments(src) {
   assert.ok(musicSrc2.includes('setPaused(v)'), 'music can freeze without losing its position');
   assert.ok(!musicSrc2.includes('setPaused(v) {\n    this.stop()'), 'pausing music is not a stop');
   ok('pause wiring (GameScene freeze, music freeze, results ESC unchanged)');
+}
+
+// --- 19. Thanatos Tower (level 8): assets, wiring, the 3x HP guard, the new
+// boss mechanics (form switch, survival card, echoes, healer) and full runs ---
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const T = (...p) => path.join(ROOT, 'public', 'assets-v2', 'thanatos', ...p);
+  const POSES = ['idle', 'moveL', 'moveR', 'hit', 'attack'];
+
+  // assets: every manifest the atlas loads exists, with complete pose sets
+  // whose rects sit inside their sheet
+  const sheetOf = (json) => JSON.parse(fs.readFileSync(T(json), 'utf8'));
+  const inBounds = (r, size, tag) => {
+    assert.ok(r.w > 0 && r.h > 0 && r.x >= 0 && r.y >= 0 && r.x + r.w <= size.w && r.y + r.h <= size.h,
+      `${tag} rect ${JSON.stringify(r)} inside ${size.w}x${size.h}`);
+  };
+  const expectMobs = {
+    'monsters13.json': ['retribution', 'sentinel', 'shelter', 'solace'],
+    'monsters14.json': ['anger', 'crowduke', 'deathbook', 'voidmimic'],
+    'monsters15.json': ['despero', 'dolor', 'maero', 'odium'],
+  };
+  for (const [json, ids] of Object.entries(expectMobs)) {
+    const m = sheetOf(json);
+    assert.ok(fs.existsSync(T(m.sheet)), `${json} sheet ${m.sheet} exists`);
+    assert.deepEqual(Object.keys(m.monsters).sort(), ids, `${json} ids`);
+    for (const [id, e] of Object.entries(m.monsters)) {
+      for (const side of ['down', 'up']) {
+        assert.deepEqual(Object.keys(e[side]).sort(), [...POSES].sort(), `${json} ${id}.${side} poses`);
+        for (const p of POSES) inBounds(e[side][p], m.size, `${id}.${side}.${p}`);
+      }
+    }
+  }
+  assert.equal(sheetOf('monsters15.json').sheet, 'bosses6.png', 'fragment elites share bosses6.png');
+  for (const [json, ids] of Object.entries({ 'bosses6.json': expectMobs['monsters15.json'], 'bosses7.json': ['thanatos', 'thanatosAwake'] })) {
+    const m = sheetOf(json);
+    assert.ok(fs.existsSync(T(m.sheet)), `${json} sheet exists`);
+    assert.deepEqual(Object.keys(m.bosses).sort(), ids, `${json} boss ids`);
+    for (const [id, e] of Object.entries(m.bosses)) {
+      for (const side of ['down', 'up']) {
+        for (const p of POSES) {
+          assert.ok(Array.isArray(e[side][p]) && e[side][p].length === 1, `${id}.${side}.${p} is a one-frame array`);
+          inBounds(e[side][p][0], m.size, `${id}.${side}.${p}`);
+        }
+      }
+    }
+  }
+  const b7 = sheetOf('bosses7.json');
+  assert.deepEqual(b7.size, { w: 1536, h: 2048 }, 'bosses7 stacks both forms');
+  assert.ok(b7.bosses.thanatos.down.idle[0].y < 1024 && b7.bosses.thanatosAwake.down.idle[0].y >= 1024,
+    'form I lives in the top half, form II in the bottom half');
+  for (let i = 1; i <= 7; i++) assert.ok(fs.existsSync(T('maps', `thanatos00${i}.png`)), `map tile thanatos00${i}`);
+  // provenance: the runtime tree was sliced from exactly the approved sources
+  const report = JSON.parse(src('art-clean/thanatos-gpt/qa/report-thanatos.json'));
+  const { createHash } = await import('node:crypto');
+  const sha = (p) => {
+    const h = createHash('sha256'); h.update(fs.readFileSync(path.join(ROOT, p))); return h.digest('hex');
+  };
+  for (const inp of Object.values(report.inputs)) {
+    assert.equal(sha(`art-clean/thanatos-gpt/${inp.file}`), inp.sha256, `approved source ${inp.file} unchanged since slicing`);
+  }
+  for (const [f, h] of Object.entries(report.outputs)) {
+    assert.equal(sha(`public/assets-v2/thanatos/${f}`), h, `runtime ${f} matches the slicer report`);
+  }
+  ok('thanatos assets (13/14/15 mobs, fragment + 2-form boss sheets, 7 tiles, provenance)');
+
+  // wiring: the eighth and final level, everywhere the game lists levels
+  const { LEVELS } = await import('../src/levels/index.js');
+  assert.equal(LEVELS.length, 8, 'eight campaign levels');
+  assert.equal(LEVELS[7].title, 'Nivel 8');
+  assert.equal(LEVELS[7].mapSet, 'thanatos');
+  const { MAP_SETS } = await import('../src/engine/mapsets.js');
+  assert.deepEqual(MAP_SETS.thanatos.files, [1, 2, 3, 4, 5, 6, 7].map((i) => `thanatos00${i}`), 'thanatos map set');
+  assert.ok(src('src/scenes/game.js').includes('0x7a4a705'), 'LEVEL_SEEDS has the level 8 seed');
+  assert.ok(src('src/scenes/game.js').includes("case 'bossForm'"), 'scene announces the transformation');
+  const practice = src('src/scenes/practice.js');
+  for (const k of ['thanatos', 'odiumBoss', 'desperoBoss', 'maeroBoss', 'dolorBoss']) assert.ok(practice.includes(k), `practice has ${k}`);
+  const renderer = src('src/render/renderer.js');
+  assert.ok(renderer.includes("'Thanatos': 'thanatos'"), 'BOSS_TEX has Thanatos');
+  assert.ok(renderer.includes('.form ?? BOSS_TEX'), 'renderer honors card.form');
+  assert.ok(renderer.includes('e.echo'), 'renderer draws echoes');
+  const atlas = src('src/engine/atlas.js');
+  for (const n of ['monsters13', 'monsters14', 'monsters15', 'bosses6', 'bosses7']) assert.ok(atlas.includes(`'${n}'`), `atlas loads ${n}`);
+  assert.ok(src('src/render/themes.js').includes('export const level8Theme'), 'level8Theme fallback');
+  const musicSrc = src('src/engine/music.js');
+  const l8 = musicSrc.slice(musicSrc.indexOf('level8: {'), musicSrc.indexOf('boss: {'));
+  assert.ok(l8.includes('lead:') && !/'[A-G]b\d'/.test(l8), 'level8 chiptune exists and uses no flat names (the NOTE table has none)');
+  const { DIALOGUE } = await import('../src/data/dialogue.js');
+  for (const c of ['aramir', 'zeos', 'eric', 'dposada', 'chel_snip', 'viri']) {
+    assert.ok(DIALOGUE.Thanatos?.[c]?.p && DIALOGUE.Thanatos?.[c]?.b, `dialogue Thanatos/${c}`);
+  }
+  ok('thanatos registry wiring (8th and final level, practice, renderer, atlas, music, dialogue)');
+
+  // the plan's hard requirement: Thanatos is at least 3x tougher than every
+  // earlier final boss, across several phases and two forms
+  const boss = await import('../src/sim/boss.js');
+  const th = await import('../src/sim/thanatos.js');
+  const hp = (d) => d.cards.reduce((s, c) => s + c.hp, 0);
+  assert.equal(hp(th.thanatos), th.THANATOS_HP_TOTAL);
+  for (const prev of ['orcHero', 'darkLord', 'baphomet', 'vesper', 'amonRa', 'lordOfDeath']) {
+    assert.ok(hp(th.thanatos) >= 3 * hp(boss[prev]), `Thanatos ${hp(th.thanatos)} >= 3x ${prev} ${hp(boss[prev])}`);
+  }
+  assert.ok(th.thanatos.cards.length >= 6, 'several phases');
+  assert.equal(th.thanatos.cards.filter((c) => c.survive).length, 1, 'one survival card');
+  assert.deepEqual([...new Set(th.thanatos.cards.map((c) => c.form))], ['thanatos', 'thanatosAwake'], 'two forms, in order');
+  for (const c of th.thanatos.cards) assert.ok(b7.bosses[c.form], `form ${c.form} has art`);
+  ok(`thanatos HP guard (${hp(th.thanatos)} = ${(hp(th.thanatos) / hp(boss.lordOfDeath)).toFixed(2)}x Lord of Death, 7 cards, 2 forms)`);
+
+  // mechanics: walk the boss through every card; the survival card ignores
+  // damage and ends on time (Novice two thirds); the form switch fires once
+  const { createSim, tickSim } = await import('../src/sim/sim.js');
+  const { ROSTER } = await import('../src/characters/index.js');
+  for (const [diff, clock] of [[1, 1800], [0, 1200]]) {
+    const sim = createSim(0x7a4a705, [ROSTER[0]], null, 0, diff);
+    boss.spawnBoss(sim, th.thanatos);
+    const b = sim.boss;
+    const forms = [];
+    let guard = 40000;
+    while (!sim.levelComplete && guard-- > 0) {
+      tickSim(sim, [0], null);
+      sim.players[0].lives = 9;
+      if (!b.intro && b.introHold === 0 && b.transition === 0 && b.dying === 0) {
+        if (b.surviveMax > 0) {
+          const before = b.cardIndex, left = b.surviveLeft;
+          assert.equal(b.surviveMax, clock, `survival clock on difficulty ${diff}`);
+          boss.damageBoss(sim, 99999, b);
+          assert.equal(b.cardIndex, before, 'survival card ignores damage');
+          // run the clock out
+          for (let k = 0; k < left + 2 && b.cardIndex === before; k++) tickSim(sim, [0], null);
+          assert.equal(b.cardIndex, before + 1, 'survival card ends on time');
+          assert.ok(b.transition > 0, 'next card starts with a break');
+        } else {
+          boss.damageBoss(sim, 400, b);
+        }
+      }
+      for (const e of sim.events) if (e.type === 'bossForm') forms.push(e.form);
+      sim.events.length = 0;
+    }
+    assert.ok(sim.levelComplete, `thanatos fight completes (difficulty ${diff})`);
+    assert.deepEqual(forms, ['thanatosAwake'], 'one transformation event, into form II');
+  }
+  ok('thanatos card walk (survival 1800/1200 ticks ignores damage, one bossForm, levelClear)');
+
+  // echoes: render-only `echo` key, dissolve by ttl without kill credit, and
+  // a pooled object reused by a normal enemy never stays an echo
+  {
+    const sim = createSim(1, [ROSTER[0]]);
+    const e = th.summonEcho(sim, 'baphomet', 150);
+    assert.equal(e.echo, 'baphomet');
+    assert.equal(th.echoesAlive(sim), 1);
+    let fired = 0;
+    for (let k = 0; k < th.ECHO_TTL + 5; k++) {
+      const before = sim.enemyBullets.active.length;
+      tickSim(sim, [0], null);
+      sim.players[0].lives = 9;
+      if (sim.enemyBullets.active.length > before) fired++;
+    }
+    assert.ok(fired > 0, 'the echo fires its signature pattern');
+    assert.equal(th.echoesAlive(sim), 0, 'the echo dissolved');
+    assert.equal(sim.stats.kills, 0, 'dissolving is not a kill');
+    const n = sim.spawnEnemy({ x: 100, y: 100, hp: 5, skin: 'anger' });
+    assert.equal(n.echo, null, 'pooled enemy does not inherit echo');
+    assert.equal(n.ttl, 0, 'pooled enemy does not inherit ttl');
+  }
+  ok('thanatos echoes (fire, dissolve by ttl, no kill credit, pool-safe)');
+
+  // healer: Lady Solace restores HP to wounded enemies in reach, capped at maxhp
+  {
+    const { level8 } = await import('../src/levels/level8.js');
+    const sim = createSim(0x7a4a705, [ROSTER[0]]);
+    sim.players[0].lives = 99;
+    let heals = 0, solace = null;
+    for (let k = 0; k < 2400 && !solace; k++) {
+      tickSim(sim, [0], level8);
+      solace = sim.enemies.active.find((e) => e.skin === 'solace' && e.vy === 0) ?? null;
+      sim.events.length = 0;
+    }
+    assert.ok(solace, 'a Lady Solace parks during the abandoned space');
+    const near = sim.spawnEnemy({ x: solace.x + 40, y: solace.y, vy: 0, hp: 10, maxhp: 50, skin: 'shelter' });
+    const far = sim.spawnEnemy({ x: solace.x, y: solace.y + 400, vy: 0, hp: 10, maxhp: 50, skin: 'shelter' });
+    for (let k = 0; k < 130; k++) {
+      tickSim(sim, [0], level8);
+      sim.players[0].lives = 99;
+      for (const e of sim.events) if (e.type === 'heal') heals++;
+      sim.events.length = 0;
+    }
+    assert.ok(heals >= 1 && near.hp > 10 && near.hp <= 50, `wounded neighbor healed (hp ${near.hp})`);
+    assert.equal(far.hp, 10, 'enemy out of reach is not healed');
+  }
+  ok('thanatos healer (Lady Solace heals in reach, capped at maxhp)');
+
+  // full runs: positions stay finite, both fragment pairs and Thanatos are
+  // announced, the transformation fires, the level completes; two sims
+  // with the same inputs stay checksum-identical (online lockstep safety)
+  {
+    const { level8 } = await import('../src/levels/level8.js');
+    const { simChecksum } = await import('../src/net/lockstep.js');
+    const a = createSim(0x7a4a705, [ROSTER[0]]);
+    const c = createSim(0x7a4a705, [ROSTER[0]]);
+    a.players[0].lives = 999; c.players[0].lives = 999;
+    const seen = new Set();
+    let guard = 90000, i = 0, peak = 0;
+    while (!a.levelComplete && guard-- > 0) {
+      const mask = (i++ % 600 < 590) ? 16 : 0;
+      tickSim(a, [mask], level8);
+      tickSim(c, [mask], level8);
+      if (a.tick % 600 === 0) assert.equal(simChecksum(a), simChecksum(c), `replay checksum at tick ${a.tick}`);
+      peak = Math.max(peak, a.enemyBullets.active.length);
+      for (const e of a.enemies.active) assert.ok(Number.isFinite(e.x) && Number.isFinite(e.y), 'enemy position finite');
+      for (const b of a.enemyBullets.active) assert.ok(Number.isFinite(b.x) && Number.isFinite(b.vy), 'bullet finite');
+      for (const e of a.events) {
+        if (e.type === 'warning' || e.type === 'bossWarning') seen.add(`${e.type}:${e.name}`);
+        if (e.type === 'bossForm') seen.add('bossForm');
+      }
+      a.events.length = 0; c.events.length = 0;
+    }
+    assert.ok(a.levelComplete, 'level 8 completes');
+    assert.equal(simChecksum(a), simChecksum(c), 'final replay checksum');
+    assert.ok(seen.has('warning:Odium of Thanatos\nDespero of Thanatos'), 'first fragment pair announced');
+    assert.ok(seen.has('warning:Maero of Thanatos\nDolor of Thanatos'), 'second fragment pair announced');
+    assert.ok(seen.has('bossWarning:Thanatos'), 'Thanatos announced (pre-boss dialogue)');
+    assert.ok(![...seen].some((s) => s.startsWith('bossWarning:') && s !== 'bossWarning:Thanatos'),
+      'fragments use warning only, so the dialogue stays reserved for Thanatos');
+    assert.ok(seen.has('bossForm'), 'transformation seen in the campaign');
+    assert.ok(peak < 600, `bullet peak bounded (${peak})`);
+    ok(`level8 full run + replay checksum (ticks=${a.tick} peak=${peak})`);
+  }
+
+  // level select: eight cards fit one row at W=840 (same clamp as the game)
+  {
+    const sel = src('src/scenes/levelselect.js');
+    const num = (re) => Number(sel.match(re)[1]);
+    const gap = num(/levelGap\s*=\s*(\d+)/), margin = num(/levelMargin\s*=\s*(\d+)/);
+    const max = num(/levelMax\s*=\s*(\d+)/), min = num(/levelMin\s*=\s*(\d+)/);
+    const W = 840, n = LEVELS.length;
+    const bw = Math.max(min, Math.min(max, Math.floor((W - margin * 2 - (n - 1) * gap) / n)));
+    const total = n * bw + (n - 1) * gap, x0 = (W - total) / 2;
+    assert.ok(x0 - 3 >= 0 && x0 + total + 3 <= W, `eight cards fit (bw=${bw})`);
+    ok(`level select eight-card bounds at W=840 (bw=${bw})`);
+  }
 }
 
 console.log(`\nPASS — ${passed} static checks`);

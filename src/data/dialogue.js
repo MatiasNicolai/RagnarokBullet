@@ -60,6 +60,15 @@ export const DIALOGUE = {
     chel_snip: { p: 'Jinete pálido: mi flecha es más veloz que tu caballo.', b: 'CORRE, FLECHA. MI REINO ES TODA DIRECCIÓN.' },
     viri: { p: '¡LA MUERTE EN PERSONA! ¡EL RIVAL DEFINITIVO!', b: 'VEN, MONJE. CABALGAREMOS JUNTOS... AL ABISMO.' },
   },
+  // Level 8: the memory of the fallen hero at the top of the tower.
+  'Thanatos': {
+    aramir: { p: 'Fuiste un héroe, Thanatos. Déjame darte el final que mereces.', b: 'MEREZCO EL OLVIDO. Y ME LO NEGARON... COMO TE LO NEGARÉ A TI.' },
+    zeos: { p: 'Cuatro pedazos de alma rotos. Faltaba el más grande.', b: 'ME ROMPÍ PARA NO SENTIR. TÚ VAS A SENTIRLO TODO.' },
+    eric: { p: 'Odio, desesperación, pena, dolor... ya los vencí uno por uno.', b: 'POR SEPARADO, MAGO. AHORA SOY TODOS A LA VEZ.' },
+    dposada: { p: 'Tu memoria sufre. Deja que la luz la lleve a descansar.', b: 'NINGUNA LUZ LLEGA A ESTA TORRE. LA APAGUÉ CON MIS PROPIAS MANOS.' },
+    chel_snip: { p: 'Subí doce pisos por este tiro. No voy a fallarlo.', b: 'DISPARA. LA MEMORIA NO SANGRA... PERO RECUERDA CADA HERIDA.' },
+    viri: { p: '¡EL ÚLTIMO PISO, EL ÚLTIMO RIVAL! ¡TODO MI ESPÍRITU!', b: 'BIEN, MONJE. NADA DE CONTENERSE. NI TÚ... NI YO.' },
+  },
   // Level 5 finale: two Rune-Midgarts Knights at once. Keyed by the combined
   // name spawnBosses() emits ("A & B"). Boss line speaks for both.
   'Seyren Windsor & Magaleta': {

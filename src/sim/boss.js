@@ -32,9 +32,45 @@ function makeBoss(def, homeX, hpMult) {
     hitFlash: 0,
     introHold: 0,
     transition: 0,
+    surviveLeft: 0, // survival card: ticks left (damage ignored meanwhile)
+    surviveMax: 0,
     dying: 0,
     dead: false,
   };
+}
+
+// Survival cards (card.survive = ticks) end on time instead of HP; Novice
+// gets two thirds of the clock. Deterministic: the difficulty is fixed per run.
+function surviveTicks(sim, card) {
+  return sim.diff?.id === 'novice' ? Math.round(card.survive * 2 / 3) : card.survive;
+}
+
+// Move boss b to its next card (or start its death throes after the last).
+// Shared by HP depletion (damageBoss) and survival-card timeouts (stepOne).
+// A card with a different `form` than the previous one is a transformation:
+// longer break + a 'bossForm' event so the scene can flash and announce it.
+function advanceCard(sim, b) {
+  const solo = (sim.bosses?.length ?? 1) === 1;
+  if (b.cardIndex < b.def.cards.length - 1) {
+    const prev = b.def.cards[b.cardIndex];
+    b.cardIndex++;
+    const card = b.def.cards[b.cardIndex];
+    b.cardHp = Math.round(card.hp * b.hpMult);
+    b.cardMax = Math.round(card.hp * b.hpMult);
+    b.cardName = card.name;
+    const reform = (card.form ?? null) !== (prev.form ?? null);
+    b.transition = card.transition ?? (reform ? 150 : 70);
+    b.surviveMax = card.survive ? surviveTicks(sim, card) : 0;
+    b.surviveLeft = b.surviveMax;
+    if (solo) sim.enemyBullets.clear();
+    sim.events.push({ type: 'bossPhase', x: b.x, y: b.y });
+    if (reform) sim.events.push({ type: 'bossForm', name: b.name, form: card.form ?? null, x: b.x, y: b.y });
+  } else {
+    b.dying = 90;
+    sim.enemyBullets.clear();
+    sim.addScore(50000);
+    sim.events.push({ type: 'bossDown', x: b.x, y: b.y });
+  }
 }
 
 export function spawnBoss(sim, def) {
@@ -105,8 +141,10 @@ function stepOne(sim, b) {
 
   if (b.transition > 0) {
     b.transition--;
-    // drift back to its home position during the card break
+    // drift back to its home position during the card break (y only moves
+    // for bosses whose cards roam vertically; others already sit at targetY)
     b.x += (b.homeX - b.x) * 0.05;
+    b.y += (b.targetY - b.y) * 0.05;
     if (b.transition === 0) {
       b.t = 0;
       sim.events.push({ type: 'spellCard', name: b.cardName });
@@ -116,36 +154,26 @@ function stepOne(sim, b) {
 
   b.def.cards[b.cardIndex].step(sim, b);
   b.t++;
+  if (b.surviveMax > 0 && --b.surviveLeft <= 0) {
+    b.surviveMax = 0;
+    advanceCard(sim, b);
+  }
 }
 
 // Player bullet dealt `dmg` to a specific boss `b`. Card transitions + death.
 export function damageBoss(sim, dmg, b = sim.boss) {
   if (!b || b.intro || b.introHold > 0 || b.dying > 0 || b.transition > 0) return;
+  // survival card: the boss can't be hurt, only outlasted (the shot is still
+  // absorbed by the caller, so there is no free pass-through either).
+  if (b.surviveMax > 0) return;
   // Card transitions only clear the field for a solo boss — in a dual fight we
   // must not wipe the OTHER boss's active pattern mid-card. A boss DEATH always
   // clears, though: it's the relief/"phase change" beat, and making both deaths
   // clear keeps the dual fight symmetric (killing either boss first feels the same).
-  const solo = (sim.bosses?.length ?? 1) === 1;
   b.cardHp -= dmg;
   b.hp = Math.max(0, b.hp - dmg);
   b.hitFlash = 3;
-  if (b.cardHp <= 0) {
-    if (b.cardIndex < b.def.cards.length - 1) {
-      b.cardIndex++;
-      const card = b.def.cards[b.cardIndex];
-      b.cardHp = Math.round(card.hp * b.hpMult);
-      b.cardMax = Math.round(card.hp * b.hpMult);
-      b.cardName = card.name;
-      b.transition = 70;
-      if (solo) sim.enemyBullets.clear();
-      sim.events.push({ type: 'bossPhase', x: b.x, y: b.y });
-    } else {
-      b.dying = 90;
-      sim.enemyBullets.clear();
-      sim.addScore(50000);
-      sim.events.push({ type: 'bossDown', x: b.x, y: b.y });
-    }
-  }
+  if (b.cardHp <= 0) advanceCard(sim, b);
 }
 
 // --- Orc Hero: level 1 boss, 3 spell cards ---

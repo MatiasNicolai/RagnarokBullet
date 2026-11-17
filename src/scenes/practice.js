@@ -2,6 +2,7 @@
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { ROSTER } from '../characters/index.js';
 import { orcHero, darkLord, baphomet, vesper, seyren, magaleta, amonRa, loliRuri, lordOfDeath } from '../sim/boss.js';
+import { thanatos, odiumBoss, desperoBoss, maeroBoss, dolorBoss } from '../sim/thanatos.js';
 import { audio } from '../engine/audio.js';
 
 const GOLD = 0xf2c14e;
@@ -14,6 +15,11 @@ const BOSSES = [
   { def: amonRa, level: 5, tag: 'Nivel 6' },
   { def: loliRuri, level: 6, tag: 'Nivel 7 · midboss' },
   { def: lordOfDeath, level: 6, tag: 'Nivel 7' },
+  // label: short card title (the full "X of Thanatos & Y of Thanatos" wraps
+  // to four lines and runs into the tag)
+  { def: [odiumBoss, desperoBoss], level: 7, tag: 'Nivel 8 · midboss I', label: 'Odium & Despero' },
+  { def: [maeroBoss, dolorBoss], level: 7, tag: 'Nivel 8 · midboss II', label: 'Maero & Dolor' },
+  { def: thanatos, level: 7, tag: 'Nivel 8' },
 ];
 
 export class PracticeScene {
@@ -53,18 +59,24 @@ export class PracticeScene {
       this.charCards.push({ cur });
     });
 
-    // boss row (8 entries now — narrower cards still fit 840px: 8*96+7*6=810)
+    // boss cards: one row while they fit (8 x 96 + gaps = 810 <= 840), two
+    // balanced rows beyond that (11 entries -> 6 + 5, 606px wide). ←→ walks
+    // the whole list in order; ↑↓ jumps between rows.
     this.bossCards = [];
-    const bw = 96, bgap = 6, btotal = BOSSES.length * bw + (BOSSES.length - 1) * bgap;
-    const bx0 = (W - btotal) / 2;
+    const bw = 96, bgap = 6, rowGap = 12;
+    const fitsOne = BOSSES.length * bw + (BOSSES.length - 1) * bgap <= W - 30;
+    this.perRow = fitsOne ? BOSSES.length : Math.ceil(BOSSES.length / 2);
     BOSSES.forEach((b, i) => {
       const defs = Array.isArray(b.def) ? b.def : [b.def];
+      const row = Math.floor(i / this.perRow), col = i % this.perRow;
+      const inRow = Math.min(this.perRow, BOSSES.length - row * this.perRow);
+      const rx0 = (W - (inRow * bw + (inRow - 1) * bgap)) / 2;
       const card = new Container();
-      card.position.set(bx0 + i * (bw + bgap), 290);
+      card.position.set(rx0 + col * (bw + bgap), (fitsOne ? 290 : 262) + row * (120 + rowGap));
       const fr = new Graphics();
       fr.roundRect(0, 0, bw, 120, 8).fill(0x2a1830).stroke({ color: 0x5a3a4a, width: 2 });
       card.addChild(fr);
-      const nm = new Text({ text: defs.map((d) => d.name).join(' & '), style: { fill: 0xff8a6a, fontSize: defs.length > 1 ? 13 : 17, fontFamily: 'Georgia, serif', fontWeight: 'bold', wordWrap: true, wordWrapWidth: bw - 12, align: 'center' } });
+      const nm = new Text({ text: b.label ?? defs.map((d) => d.name).join(' & '), style: { fill: 0xff8a6a, fontSize: defs.length > 1 ? 13 : 17, fontFamily: 'Georgia, serif', fontWeight: 'bold', wordWrap: true, wordWrapWidth: bw - 12, align: 'center' } });
       nm.anchor.set(0.5); nm.position.set(bw / 2, 44); card.addChild(nm);
       const cards = defs.reduce((s, d) => s + d.cards.length, 0);
       const tag = new Text({ text: b.tag + ` · ${cards} cards`, style: { fill: 0x9aa4c0, fontSize: 11, fontFamily: 'monospace', wordWrap: true, wordWrapWidth: bw - 12, align: 'center' } });
@@ -75,7 +87,7 @@ export class PracticeScene {
       this.bossCards.push({ cur });
     });
 
-    const hint = new Text({ text: '←→ elegir · ENTER confirmar · ESC volver', style: { fill: 0x5a648a, fontSize: 13, fontFamily: 'monospace' } });
+    const hint = new Text({ text: '←→↑↓ elegir · ENTER confirmar · ESC volver', style: { fill: 0x5a648a, fontSize: 13, fontFamily: 'monospace' } });
     hint.anchor.set(0.5); hint.position.set(cx, H - 34);
     this.container.addChild(hint);
 
@@ -93,6 +105,8 @@ export class PracticeScene {
       } else {
         if (e.code === 'ArrowLeft' || e.code === 'KeyA') this.bi = (this.bi + BOSSES.length - 1) % BOSSES.length;
         else if (e.code === 'ArrowRight' || e.code === 'KeyD') this.bi = (this.bi + 1) % BOSSES.length;
+        else if ((e.code === 'ArrowDown' || e.code === 'KeyS') && this.bi + this.perRow < BOSSES.length) this.bi += this.perRow;
+        else if ((e.code === 'ArrowUp' || e.code === 'KeyW') && this.bi - this.perRow >= 0) this.bi -= this.perRow;
         else if (e.code === 'Enter' || e.code === 'KeyJ') {
           const b = BOSSES[this.bi];
           this.ctx.startPractice([ROSTER[this.ci]], b.def, b.level);
