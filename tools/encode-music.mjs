@@ -7,7 +7,10 @@
 // music does not need that headroom, so the runtime copies are re-encoded at
 // 128 kbps. To go back to master-quality tracks, raise BITRATE and re-run.
 //
-// Run: node tools/encode-music.mjs    (needs ffmpeg on PATH)
+// Run: node tools/encode-music.mjs              (all tracks; needs ffmpeg on PATH)
+//      node tools/encode-music.mjs thanatos.mp3 (only the named runtime tracks:
+//      adding a level's track does not rewrite the others, whose bytes can
+//      differ across ffmpeg versions)
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,8 +30,17 @@ const TRACKS = {
   'Biolab 001.mp3': 'biolab.mp3',
   'Sunken Sun Temple 001.mp3': 'pyramid.mp3',
   'Niflheim map 001.mp3': 'niflheim.mp3',
+  'Thanatos Tower 001.mp3': 'thanatos.mp3',
   'Intro Menu 001.mp3': 'menu.mp3',
 };
+
+const only = process.argv.slice(2);
+for (const name of only) {
+  if (!Object.values(TRACKS).includes(name)) {
+    console.error(`unknown runtime track: ${name} (known: ${Object.values(TRACKS).join(', ')})`);
+    process.exit(1);
+  }
+}
 
 const mb = (n) => (n / 1e6).toFixed(2);
 const duration = (file) => Number(execFileSync('ffprobe', [
@@ -37,6 +49,7 @@ const duration = (file) => Number(execFileSync('ffprobe', [
 
 let before = 0, after = 0, failed = 0;
 for (const [master, out] of Object.entries(TRACKS)) {
+  if (only.length && !only.includes(out)) continue;
   const src = path.join(SRC, master);
   const dst = path.join(OUT, out);
   if (!fs.existsSync(src)) {

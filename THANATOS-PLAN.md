@@ -9,8 +9,8 @@
 >     - `src/levels/level8.js` tiene los 8 mobs y las fases del nivel.
 >     - Se cablearon el atlas, los mapas, el render (forma por carta, ecos, curación y teletransporte), la barra del jefe con reloj, la práctica (en dos filas), los diálogos, la semilla y un chiptune provisorio.
 >   - **Tests:** 61/61 estáticos (8 nuevos para el nivel 8), 10/10 de blockers y netplay en lockstep. Se verificó en el navegador: oleadas, fragmentos, Thanatos, ecos, transformación y menú de práctica.
+>   - **Fase 3, música:** `Music/Thanatos Tower 001.mp3` (Suno, 3:24) está encodeado a `public/assets/music/thanatos.mp3` (128 kbps, 3,43 MB) y conectado como `MP3_TRACKS.level8`. El chiptune queda como respaldo si el archivo falta.
 > - **Pendiente:**
->   - La música: el mp3 de Suno. Cuando esté, falta el mapping en `encode-music.mjs` y `MP3_TRACKS.level8`.
 >   - La fase 7: balance jugando de verdad.
 >   - La fase 8: README, MASTERPLAN y commit.
 > Los prompts listos para usar están en [`art-clean/thanatos-gpt/prompts/`](art-clean/thanatos-gpt/prompts/).
