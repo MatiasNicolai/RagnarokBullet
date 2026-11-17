@@ -10,12 +10,12 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 
 | # | Nivel | Mid-boss | Jefe | Arte |
 |---|---|---|---|---|
-| 1 | Campos de Prontera → Plaza | Mastering | Orc Hero | hojas originales + Prontera V3 (GPT); jefe en Bosses V3 (Codex) |
+| 1 | Campos de Prontera → Plaza | Mastering | Orc Hero | hojas originales + Prontera V3 (GPT); jefe y mid-boss en Bosses V3 (Codex) |
 | 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | hojas originales; jefe y mid-boss en Bosses V3 (Codex) |
 | 3 | Glast Heim | Baphomet Jr. gigante | Baphomet | hojas originales; jefe en Bosses V3 (Codex) |
-| 4 | Juperos | Archdam | Vesper | hojas originales |
-| 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | hojas originales |
-| 6 | Pirámide del Sol | Osiris | Amon-Ra | GPT (`assets-v2/pyramid`) |
+| 4 | Juperos | Archdam | Vesper | hojas originales; jefe en Bosses V3 (Codex) |
+| 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | hojas originales; jefes en Bosses V3 (Codex) |
+| 6 | Pirámide del Sol | Osiris | Amon-Ra | GPT (`assets-v2/pyramid`); jefe en Bosses V3 (Codex) |
 | 7 | Reino de Niflheim | Loli Ruri | Lord of Death | GPT (`assets-v2/niflheim`) |
 | 8 | **Torre de Thanatos** (final) | 4 fragmentos en 2 parejas | **Thanatos** (2 formas) | GPT vía CLI de Codex (`assets-v2/thanatos`) |
 
@@ -27,14 +27,14 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 - **Mecánicas nuevas de motor:** `card.form`, `card.survive`, `card.transition`, el evento `bossForm`, y `echo`/`ttl` en los enemigos.
 - **Mobs** con curación (Lady Solace) y teletransporte (Void Mimic).
 
-**Bosses V3 (2026-11-16 y 11-17):** Orc Hero, Dark Lord, Baphomet y el mid-boss Doppelganger se rehicieron al estándar de Thanatos.
-- **Antes:** cuadros de ~65 px de la hoja original `Bosses.png`.
-- **Ahora:** cuadros de 340–418 px, siguiendo los sprites oficiales de RO por decisión del usuario.
-- **Herramienta:** `tools/slice-bosses-v3.py`, que escribe en `public/assets-v2/bosses-v3/` `bosses8` (los 3 jefes) y `monsters16` (el Doppelganger, que es un enemigo élite y se carga después de `monsters5`), cada uno con su manifest.
+**Bosses V3 (2026-11-16 y 11-17):** se rehicieron al estándar de Thanatos 6 jefes (Orc Hero, Dark Lord, Baphomet, Vesper, Seyren & Magaleta, Amon-Ra) y 2 mid-bosses (Mastering y Doppelganger).
+- **Antes:** cuadros de 56–162 px de las hojas originales (y de la Pirámide, en el caso de Amon-Ra).
+- **Ahora:** cuadros de 240–460 px, siguiendo los sprites oficiales de RO por decisión del usuario. Amon-Ra mantiene la referencia que dio el usuario: siempre sentado en el trono.
+- **Herramienta:** `tools/slice-bosses-v3.py`, que escribe en `public/assets-v2/bosses-v3/` `bosses8` y `bosses9` (jefes), y `monsters16` y `monsters17` (Doppelganger y Mastering, que son enemigos élite), cada uno con su manifest. Cada tanda va en hojas nuevas, así que lo ya publicado no cambia.
 - **Integración:** reemplazan por defecto las mismas claves del atlas, y la hoja original queda como respaldo.
-- **Escala:** el manifest trae `displayH` porque las figuras nuevas son altas y angostas; sin eso se verían más chicas que su hitbox.
+- **Escala:** el manifest trae `displayH`, que es la altura en pantalla de la pose idle. Todas las demás poses usan esa misma escala, así que las armas en alto sobresalen y el golpe de Mastering se ve aplastado. El arte viejo sin `displayH` sigue escalando cada pose a la misma altura, como antes.
 - **Gameplay:** sin cambios.
-- **Siguiente tanda posible:** Mastering, Vesper, Seyren/Magaleta y Amon-Ra (100–160 px), y los demás mid-bosses de hojas originales.
+- **Siguiente tanda posible:** los mid-bosses que siguen con arte de baja resolución (Baphomet Jr. gigante, Archdam, Experimento Fallido, Osiris).
 
 ### ▶ PRÓXIMOS PASOS (pendientes concretos)
 1. **Balance del Nivel 8 jugando de verdad.** Los números de densidad salen de un bot que no esquiva. Prioridades: la carta de supervivencia, "Último Aliento" y el mid-boss de dos parejas (2400 de vida en total), en Normal y Nightmare, solo y en co-op.

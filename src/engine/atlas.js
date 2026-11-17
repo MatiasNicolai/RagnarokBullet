@@ -168,9 +168,14 @@ export async function loadAtlas() {
   // monsters manifest), merged after monsters5 the same way.
   const bv3Json = (n) => fetch(`${bv3Dir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing Bosses V3 manifest: assets-v2/bosses-v3/${n}.json (original art kept)`); return null; });
   const bv3Png = (n) => Assets.load(`${bv3Dir}/${n}.png`).catch(() => { warn(`missing Bosses V3 sheet: assets-v2/bosses-v3/${n}.png (original art kept)`); return null; });
-  const [bossV3Manifest, bossV3Base, mon16Manifest, mon16Base] = await Promise.all([
+  // Second batch: bosses9 (Vesper, Seyren, Magaleta, Amon-Ra) and monsters17
+  // (the level 1 mid-boss Mastering), same override scheme.
+  const [bossV3Manifest, bossV3Base, mon16Manifest, mon16Base,
+    boss9Manifest, boss9Base, mon17Manifest, mon17Base] = await Promise.all([
     bv3Json('bosses8'), bv3Png('bosses8'),
     bv3Json('monsters16'), bv3Png('monsters16'),
+    bv3Json('bosses9'), bv3Png('bosses9'),
+    bv3Json('monsters17'), bv3Png('monsters17'),
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -215,6 +220,7 @@ export async function loadAtlas() {
   addMonsters(mon14Manifest, mon14Base); // Thanatos: Book of Death, Anger, Void Mimic, Crow Duke
   addMonsters(mon15Manifest, boss6Base); // Thanatos fragments: Odium, Despero, Maero, Dolor (rects live in bosses6.png)
   addMonsters(mon16Manifest, mon16Base); // Bosses V3: overrides the Doppelganger mid-boss (after monsters5)
+  addMonsters(mon17Manifest, mon17Base); // Bosses V3: overrides the Mastering mid-boss (after monsters2)
   addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
@@ -249,6 +255,7 @@ export async function loadAtlas() {
   addBosses(boss6Manifest, boss6Base); // Thanatos fragments (practice duels)
   addBosses(boss7Manifest, boss7Base); // Thanatos: 'thanatos' (form I) + 'thanatosAwake' (form II)
   addBosses(bossV3Manifest, bossV3Base); // Bosses V3: overrides orcHero / darkLord / baphomet (after bosses.json)
+  addBosses(boss9Manifest, boss9Base);   // Bosses V3: overrides vesper / seyren / magaleta / amonRa (after bosses2-4)
 
   // per-character skill icons: skills[charId] = [shot, focus, bomb, special]
   const skills = {};
