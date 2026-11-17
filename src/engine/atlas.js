@@ -164,9 +164,13 @@ export async function loadAtlas() {
   // Same atlas keys as bosses.json, merged after it; a missing file keeps the
   // original sheet, never a boot crash.
   const bv3Dir = `${BASE}assets-v2/bosses-v3`;
-  const [bossV3Manifest, bossV3Base] = await Promise.all([
-    fetch(`${bv3Dir}/bosses8.json`).then((r) => r.json()).catch(() => { warn('missing Bosses V3 manifest: assets-v2/bosses-v3/bosses8.json (original boss art kept)'); return null; }),
-    Assets.load(`${bv3Dir}/bosses8.png`).catch(() => { warn('missing Bosses V3 sheet: assets-v2/bosses-v3/bosses8.png (original boss art kept)'); return null; }),
+  // monsters16 is the level 2 mid-boss Doppelganger (an inline elite, so a
+  // monsters manifest), merged after monsters5 the same way.
+  const bv3Json = (n) => fetch(`${bv3Dir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing Bosses V3 manifest: assets-v2/bosses-v3/${n}.json (original art kept)`); return null; });
+  const bv3Png = (n) => Assets.load(`${bv3Dir}/${n}.png`).catch(() => { warn(`missing Bosses V3 sheet: assets-v2/bosses-v3/${n}.png (original art kept)`); return null; });
+  const [bossV3Manifest, bossV3Base, mon16Manifest, mon16Base] = await Promise.all([
+    bv3Json('bosses8'), bv3Png('bosses8'),
+    bv3Json('monsters16'), bv3Png('monsters16'),
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -191,6 +195,7 @@ export async function loadAtlas() {
       monsters[name] = {
         down: Object.fromEntries(Object.entries(m.down).map(([k, v]) => [k, toTex(v)])),
         up: Object.fromEntries(Object.entries(m.up).map(([k, v]) => [k, toTex(v)])),
+        displayH: m.displayH ?? null, // optional on-screen height (Bosses V3 art)
       };
     }
   };
@@ -209,6 +214,7 @@ export async function loadAtlas() {
   addMonsters(mon13Manifest, mon13Base); // Thanatos: Sentinel, Retribution, Shelter, Solace
   addMonsters(mon14Manifest, mon14Base); // Thanatos: Book of Death, Anger, Void Mimic, Crow Duke
   addMonsters(mon15Manifest, boss6Base); // Thanatos fragments: Odium, Despero, Maero, Dolor (rects live in bosses6.png)
+  addMonsters(mon16Manifest, mon16Base); // Bosses V3: overrides the Doppelganger mid-boss (after monsters5)
   addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and

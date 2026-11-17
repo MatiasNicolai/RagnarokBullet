@@ -334,7 +334,7 @@ export class Renderer {
         const bob = Math.sin(e.t / 12) * 2;
         s.position.set(e.x, e.y + bob);
         s.alpha = (e.hitFlash > 0 ? 0.85 : 1) * fade;
-        const scale = (e.r * 2.7) / tex.frame.height;
+        const scale = (mon.displayH ?? e.r * 2.7) / tex.frame.height;
         s.scale.set(scale, scale);
       } else {
         // procedural placeholder blob (drops / fabre / lunatic / mastering)

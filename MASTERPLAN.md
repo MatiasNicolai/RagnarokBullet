@@ -11,7 +11,7 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 | # | Nivel | Mid-boss | Jefe | Arte |
 |---|---|---|---|---|
 | 1 | Campos de Prontera → Plaza | Mastering | Orc Hero | hojas originales + Prontera V3 (GPT); jefe en Bosses V3 (Codex) |
-| 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | hojas originales; jefe en Bosses V3 (Codex) |
+| 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | hojas originales; jefe y mid-boss en Bosses V3 (Codex) |
 | 3 | Glast Heim | Baphomet Jr. gigante | Baphomet | hojas originales; jefe en Bosses V3 (Codex) |
 | 4 | Juperos | Archdam | Vesper | hojas originales |
 | 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | hojas originales |
@@ -27,14 +27,14 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 - **Mecánicas nuevas de motor:** `card.form`, `card.survive`, `card.transition`, el evento `bossForm`, y `echo`/`ttl` en los enemigos.
 - **Mobs** con curación (Lady Solace) y teletransporte (Void Mimic).
 
-**Bosses V3 (2026-11-16):** Orc Hero, Dark Lord y Baphomet se rehicieron al estándar de Thanatos.
+**Bosses V3 (2026-11-16 y 11-17):** Orc Hero, Dark Lord, Baphomet y el mid-boss Doppelganger se rehicieron al estándar de Thanatos.
 - **Antes:** cuadros de ~65 px de la hoja original `Bosses.png`.
-- **Ahora:** cuadros de 384–418 px, siguiendo los sprites oficiales de RO por decisión del usuario.
-- **Herramienta:** `tools/slice-bosses-v3.py`, que escribe `public/assets-v2/bosses-v3/bosses8.png` y su manifest.
+- **Ahora:** cuadros de 340–418 px, siguiendo los sprites oficiales de RO por decisión del usuario.
+- **Herramienta:** `tools/slice-bosses-v3.py`, que escribe en `public/assets-v2/bosses-v3/` `bosses8` (los 3 jefes) y `monsters16` (el Doppelganger, que es un enemigo élite y se carga después de `monsters5`), cada uno con su manifest.
 - **Integración:** reemplazan por defecto las mismas claves del atlas, y la hoja original queda como respaldo.
 - **Escala:** el manifest trae `displayH` porque las figuras nuevas son altas y angostas; sin eso se verían más chicas que su hitbox.
 - **Gameplay:** sin cambios.
-- **Siguiente tanda posible:** Doppelganger (73×56 px), y en segundo lugar Mastering, Vesper, Seyren/Magaleta y Amon-Ra (100–160 px).
+- **Siguiente tanda posible:** Mastering, Vesper, Seyren/Magaleta y Amon-Ra (100–160 px), y los demás mid-bosses de hojas originales.
 
 ### ▶ PRÓXIMOS PASOS (pendientes concretos)
 1. **Balance del Nivel 8 jugando de verdad.** Los números de densidad salen de un bot que no esquiva. Prioridades: la carta de supervivencia, "Último Aliento" y el mid-boss de dos parejas (2400 de vida en total), en Normal y Nightmare, solo y en co-op.
