@@ -1,0 +1,636 @@
+{
+  "slicer_core": {
+    "tools/slice-thanatos.py": "acd873bf235eb2c388a85f66c4e6fb94a61f4e40a5bb361c4c206c9496297661",
+    "tools/slice-niflheim.py": "a622eaf950ef31d0e60a4cc63dfcd14d0e9ae1e7aeca14b9fedc313a200c3c12"
+  },
+  "inputs": {
+    "orcHero": {
+      "file": "orc-hero-v1.png",
+      "sha256": "af578a2312bf62c34aa9dd2c5333ea1a8122259066c56bb591470ccfd2041d89",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        124,
+        124,
+        123
+      ],
+      "keyed": 971592
+    },
+    "darkLord": {
+      "file": "dark-lord-v1.png",
+      "sha256": "0ca60646b37e78f9d90c976a0156cc691fe397c844d145e8125e7e31012e5db9",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        124,
+        124,
+        124
+      ],
+      "keyed": 976116
+    },
+    "baphomet": {
+      "file": "baphomet-v1.png",
+      "sha256": "f0ff40af7059a5c10fe35263f9112d743753660b06ad8f115cdfe28d34152d23",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        125,
+        124,
+        124
+      ],
+      "keyed": 1051534
+    }
+  },
+  "warnings": [],
+  "decontamination": {
+    "frames": {
+      "orcHero.down.idle[0]": {
+        "removed": 57,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 62325,
+        "opaque_after": 62268,
+        "bn_after": 1264,
+        "border_bn": 0,
+        "w": 240,
+        "h": 414,
+        "bn_max": 110,
+        "bn_edge_max": 0
+      },
+      "orcHero.down.moveL[0]": {
+        "removed": 129,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 58676,
+        "opaque_after": 58547,
+        "bn_after": 1258,
+        "border_bn": 0,
+        "w": 264,
+        "h": 411,
+        "bn_max": 135,
+        "bn_edge_max": 0
+      },
+      "orcHero.down.moveR[0]": {
+        "removed": 251,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 57347,
+        "opaque_after": 57096,
+        "bn_after": 1747,
+        "border_bn": 0,
+        "w": 242,
+        "h": 418,
+        "bn_max": 138,
+        "bn_edge_max": 0
+      },
+      "orcHero.down.hit[0]": {
+        "removed": 91,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 61152,
+        "opaque_after": 61061,
+        "bn_after": 1199,
+        "border_bn": 0,
+        "w": 265,
+        "h": 400,
+        "bn_max": 210,
+        "bn_edge_max": 0
+      },
+      "orcHero.down.attack[0]": {
+        "removed": 335,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 66738,
+        "opaque_after": 66403,
+        "bn_after": 1868,
+        "border_bn": 0,
+        "w": 258,
+        "h": 422,
+        "bn_max": 444,
+        "bn_edge_max": 0
+      },
+      "orcHero.up.idle[0]": {
+        "removed": 95,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 59220,
+        "opaque_after": 59125,
+        "bn_after": 1198,
+        "border_bn": 0,
+        "w": 232,
+        "h": 413,
+        "bn_max": 140,
+        "bn_edge_max": 0
+      },
+      "orcHero.up.moveL[0]": {
+        "removed": 48,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 58299,
+        "opaque_after": 58251,
+        "bn_after": 1128,
+        "border_bn": 0,
+        "w": 255,
+        "h": 403,
+        "bn_max": 114,
+        "bn_edge_max": 0
+      },
+      "orcHero.up.moveR[0]": {
+        "removed": 128,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 55905,
+        "opaque_after": 55777,
+        "bn_after": 1171,
+        "border_bn": 0,
+        "w": 242,
+        "h": 415,
+        "bn_max": 54,
+        "bn_edge_max": 0
+      },
+      "orcHero.up.hit[0]": {
+        "removed": 99,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 58416,
+        "opaque_after": 58317,
+        "bn_after": 972,
+        "border_bn": 0,
+        "w": 260,
+        "h": 386,
+        "bn_max": 91,
+        "bn_edge_max": 0
+      },
+      "orcHero.up.attack[0]": {
+        "removed": 628,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 63194,
+        "opaque_after": 62566,
+        "bn_after": 1983,
+        "border_bn": 0,
+        "w": 249,
+        "h": 429,
+        "bn_max": 832,
+        "bn_edge_max": 0
+      },
+      "darkLord.down.idle[0]": {
+        "removed": 603,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 65404,
+        "opaque_after": 64801,
+        "bn_after": 2473,
+        "border_bn": 0,
+        "w": 282,
+        "h": 393,
+        "bn_max": 89,
+        "bn_edge_max": 0
+      },
+      "darkLord.down.moveL[0]": {
+        "removed": 636,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 58500,
+        "opaque_after": 57864,
+        "bn_after": 2234,
+        "border_bn": 0,
+        "w": 259,
+        "h": 384,
+        "bn_max": 63,
+        "bn_edge_max": 0
+      },
+      "darkLord.down.moveR[0]": {
+        "removed": 600,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 56443,
+        "opaque_after": 55843,
+        "bn_after": 2406,
+        "border_bn": 0,
+        "w": 265,
+        "h": 384,
+        "bn_max": 111,
+        "bn_edge_max": 0
+      },
+      "darkLord.down.hit[0]": {
+        "removed": 546,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 61328,
+        "opaque_after": 60782,
+        "bn_after": 2493,
+        "border_bn": 0,
+        "w": 278,
+        "h": 385,
+        "bn_max": 64,
+        "bn_edge_max": 0
+      },
+      "darkLord.down.attack[0]": {
+        "removed": 580,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 64786,
+        "opaque_after": 64206,
+        "bn_after": 2560,
+        "border_bn": 0,
+        "w": 279,
+        "h": 410,
+        "bn_max": 76,
+        "bn_edge_max": 0
+      },
+      "darkLord.up.idle[0]": {
+        "removed": 518,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 62113,
+        "opaque_after": 61595,
+        "bn_after": 1906,
+        "border_bn": 0,
+        "w": 271,
+        "h": 401,
+        "bn_max": 52,
+        "bn_edge_max": 0
+      },
+      "darkLord.up.moveL[0]": {
+        "removed": 389,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 54227,
+        "opaque_after": 53838,
+        "bn_after": 2091,
+        "border_bn": 0,
+        "w": 260,
+        "h": 380,
+        "bn_max": 145,
+        "bn_edge_max": 0
+      },
+      "darkLord.up.moveR[0]": {
+        "removed": 522,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 50747,
+        "opaque_after": 50225,
+        "bn_after": 2103,
+        "border_bn": 0,
+        "w": 261,
+        "h": 380,
+        "bn_max": 150,
+        "bn_edge_max": 0
+      },
+      "darkLord.up.hit[0]": {
+        "removed": 667,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 60115,
+        "opaque_after": 59448,
+        "bn_after": 1865,
+        "border_bn": 0,
+        "w": 283,
+        "h": 379,
+        "bn_max": 40,
+        "bn_edge_max": 0
+      },
+      "darkLord.up.attack[0]": {
+        "removed": 499,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 63085,
+        "opaque_after": 62586,
+        "bn_after": 2350,
+        "border_bn": 0,
+        "w": 269,
+        "h": 400,
+        "bn_max": 207,
+        "bn_edge_max": 0
+      },
+      "baphomet.down.idle[0]": {
+        "removed": 179,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 52027,
+        "opaque_after": 51848,
+        "bn_after": 2968,
+        "border_bn": 0,
+        "w": 263,
+        "h": 387,
+        "bn_max": 288,
+        "bn_edge_max": 0
+      },
+      "baphomet.down.moveL[0]": {
+        "removed": 67,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 47416,
+        "opaque_after": 47349,
+        "bn_after": 2435,
+        "border_bn": 0,
+        "w": 271,
+        "h": 385,
+        "bn_max": 112,
+        "bn_edge_max": 0
+      },
+      "baphomet.down.moveR[0]": {
+        "removed": 145,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 49236,
+        "opaque_after": 49091,
+        "bn_after": 2955,
+        "border_bn": 0,
+        "w": 216,
+        "h": 385,
+        "bn_max": 189,
+        "bn_edge_max": 0
+      },
+      "baphomet.down.hit[0]": {
+        "removed": 82,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 53526,
+        "opaque_after": 53444,
+        "bn_after": 2702,
+        "border_bn": 0,
+        "w": 267,
+        "h": 357,
+        "bn_max": 160,
+        "bn_edge_max": 0
+      },
+      "baphomet.down.attack[0]": {
+        "removed": 1062,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 57994,
+        "opaque_after": 56932,
+        "bn_after": 3031,
+        "border_bn": 0,
+        "w": 286,
+        "h": 428,
+        "bn_max": 83,
+        "bn_edge_max": 0
+      },
+      "baphomet.up.idle[0]": {
+        "removed": 233,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 49558,
+        "opaque_after": 49325,
+        "bn_after": 2261,
+        "border_bn": 0,
+        "w": 237,
+        "h": 378,
+        "bn_max": 96,
+        "bn_edge_max": 0
+      },
+      "baphomet.up.moveL[0]": {
+        "removed": 246,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 48313,
+        "opaque_after": 48067,
+        "bn_after": 2510,
+        "border_bn": 0,
+        "w": 259,
+        "h": 376,
+        "bn_max": 158,
+        "bn_edge_max": 0
+      },
+      "baphomet.up.moveR[0]": {
+        "removed": 120,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 49155,
+        "opaque_after": 49035,
+        "bn_after": 2879,
+        "border_bn": 0,
+        "w": 223,
+        "h": 381,
+        "bn_max": 160,
+        "bn_edge_max": 0
+      },
+      "baphomet.up.hit[0]": {
+        "removed": 198,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 52838,
+        "opaque_after": 52640,
+        "bn_after": 2706,
+        "border_bn": 0,
+        "w": 292,
+        "h": 352,
+        "bn_max": 104,
+        "bn_edge_max": 0
+      },
+      "baphomet.up.attack[0]": {
+        "removed": 1154,
+        "foreign": 0,
+        "foreign_kept": 0,
+        "opaque_before": 61267,
+        "opaque_after": 60113,
+        "bn_after": 2907,
+        "border_bn": 0,
+        "w": 271,
+        "h": 452,
+        "bn_max": 64,
+        "bn_edge_max": 0
+      }
+    },
+    "bg_sample": [
+      123,
+      123,
+      123
+    ]
+  },
+  "sprites": {
+    "orcHero.down.idle[0]": {
+      "x": 32,
+      "y": 20,
+      "w": 240,
+      "h": 414
+    },
+    "orcHero.down.moveL[0]": {
+      "x": 322,
+      "y": 25,
+      "w": 264,
+      "h": 411
+    },
+    "orcHero.down.moveR[0]": {
+      "x": 660,
+      "y": 17,
+      "w": 242,
+      "h": 418
+    },
+    "orcHero.down.hit[0]": {
+      "x": 942,
+      "y": 35,
+      "w": 265,
+      "h": 400
+    },
+    "orcHero.down.attack[0]": {
+      "x": 1258,
+      "y": 13,
+      "w": 258,
+      "h": 422
+    },
+    "orcHero.up.idle[0]": {
+      "x": 36,
+      "y": 537,
+      "w": 232,
+      "h": 413
+    },
+    "orcHero.up.moveL[0]": {
+      "x": 325,
+      "y": 545,
+      "w": 255,
+      "h": 403
+    },
+    "orcHero.up.moveR[0]": {
+      "x": 644,
+      "y": 536,
+      "w": 242,
+      "h": 415
+    },
+    "orcHero.up.hit[0]": {
+      "x": 938,
+      "y": 561,
+      "w": 260,
+      "h": 386
+    },
+    "orcHero.up.attack[0]": {
+      "x": 1244,
+      "y": 521,
+      "w": 249,
+      "h": 429
+    },
+    "darkLord.down.idle[0]": {
+      "x": 11,
+      "y": 1068,
+      "w": 282,
+      "h": 393
+    },
+    "darkLord.down.moveL[0]": {
+      "x": 338,
+      "y": 1077,
+      "w": 259,
+      "h": 384
+    },
+    "darkLord.down.moveR[0]": {
+      "x": 631,
+      "y": 1081,
+      "w": 265,
+      "h": 384
+    },
+    "darkLord.down.hit[0]": {
+      "x": 940,
+      "y": 1081,
+      "w": 278,
+      "h": 385
+    },
+    "darkLord.down.attack[0]": {
+      "x": 1246,
+      "y": 1058,
+      "w": 279,
+      "h": 410
+    },
+    "darkLord.up.idle[0]": {
+      "x": 14,
+      "y": 1575,
+      "w": 271,
+      "h": 401
+    },
+    "darkLord.up.moveL[0]": {
+      "x": 337,
+      "y": 1589,
+      "w": 260,
+      "h": 380
+    },
+    "darkLord.up.moveR[0]": {
+      "x": 630,
+      "y": 1592,
+      "w": 261,
+      "h": 380
+    },
+    "darkLord.up.hit[0]": {
+      "x": 930,
+      "y": 1593,
+      "w": 283,
+      "h": 379
+    },
+    "darkLord.up.attack[0]": {
+      "x": 1250,
+      "y": 1575,
+      "w": 269,
+      "h": 400
+    },
+    "baphomet.down.idle[0]": {
+      "x": 20,
+      "y": 2112,
+      "w": 263,
+      "h": 387
+    },
+    "baphomet.down.moveL[0]": {
+      "x": 319,
+      "y": 2118,
+      "w": 271,
+      "h": 385
+    },
+    "baphomet.down.moveR[0]": {
+      "x": 653,
+      "y": 2118,
+      "w": 216,
+      "h": 385
+    },
+    "baphomet.down.hit[0]": {
+      "x": 938,
+      "y": 2142,
+      "w": 267,
+      "h": 357
+    },
+    "baphomet.down.attack[0]": {
+      "x": 1221,
+      "y": 2071,
+      "w": 286,
+      "h": 428
+    },
+    "baphomet.up.idle[0]": {
+      "x": 29,
+      "y": 2630,
+      "w": 237,
+      "h": 378
+    },
+    "baphomet.up.moveL[0]": {
+      "x": 319,
+      "y": 2636,
+      "w": 259,
+      "h": 376
+    },
+    "baphomet.up.moveR[0]": {
+      "x": 642,
+      "y": 2634,
+      "w": 223,
+      "h": 381
+    },
+    "baphomet.up.hit[0]": {
+      "x": 913,
+      "y": 2653,
+      "w": 292,
+      "h": 352
+    },
+    "baphomet.up.attack[0]": {
+      "x": 1244,
+      "y": 2562,
+      "w": 271,
+      "h": 452
+    }
+  },
+  "outputs": {
+    "bosses8.json": "5e3f0d2aff8dc85bab749bb8df18be6482eb208b4c2105807a71011b13e45830",
+    "bosses8.png": "3579ed0d5f7c3ac908ccb308424fa688567cc576a135e84746f97d0831928196"
+  }
+}

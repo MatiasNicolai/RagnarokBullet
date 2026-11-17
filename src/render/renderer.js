@@ -303,7 +303,8 @@ export class Renderer {
         s.position.set(e.x, e.y + Math.sin(e.t / 14) * 3);
         const vis = Math.min(1, e.t / 20) * fade;
         s.alpha = (e.hitFlash > 0 ? 0.6 : 0.85) * vis;
-        const scale = (e.r * 2.7) / tex.frame.height;
+        // a smaller copy of the boss: same proportion of its displayH, if any
+        const scale = (echoArt.displayH ? echoArt.displayH * 0.62 : e.r * 2.7) / tex.frame.height;
         s.scale.set(scale, scale);
         // additive violet ghost on top: the "memory" glow
         if (!s.echoGlow) {
@@ -547,7 +548,7 @@ export class Renderer {
         tex = this.bossTex[key] ?? this.bossTex.orcHero; // procedural fallback
       }
       this.bossRenderX.set(b, b.x);
-      if (s.texture !== tex) { s.texture = tex; s.scale.set((b.r * 2.9) / tex.frame.height); }
+      if (s.texture !== tex) { s.texture = tex; s.scale.set((art?.displayH ?? b.r * 2.9) / tex.frame.height); }
       s.visible = true;
       s.alpha = b.hitFlash > 0 ? 0.7 : 1;
       const bob = Math.sin(sim.tick / 20 + i) * 3;

@@ -1928,5 +1928,56 @@ function stripComments(src) {
   }
 }
 
+// --- 20. Bosses V3: Orc Hero, Dark Lord and Baphomet redrawn at the Thanatos
+// standard and served as a default override with the original sheet as fallback ---
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const { createHash } = await import('node:crypto');
+  const sha = (p) => createHash('sha256').update(fs.readFileSync(path.join(ROOT, p))).digest('hex');
+  const POSES = ['idle', 'moveL', 'moveR', 'hit', 'attack'];
+  const v3 = JSON.parse(src('public/assets-v2/bosses-v3/bosses8.json'));
+  const orig = JSON.parse(src('public/assets/bosses.json'));
+  assert.deepEqual(v3.size, { w: 1536, h: 3072 }, 'three sheets stacked');
+  assert.deepEqual(Object.keys(v3.bosses), ['orcHero', 'darkLord', 'baphomet'], 'V3 keys');
+  for (const [i, key] of ['orcHero', 'darkLord', 'baphomet'].entries()) {
+    assert.ok(orig.bosses[key], `${key} also exists in the original sheet (fallback)`);
+    // tall V3 figures carry their own on-screen height; the old art does not,
+    // so the fallback keeps its r-based scale
+    assert.ok(v3.bosses[key].displayH >= 150 && v3.bosses[key].displayH <= 200, `${key} displayH ${v3.bosses[key].displayH}`);
+    assert.equal(orig.bosses[key].displayH, undefined, `original ${key} has no displayH`);
+    for (const side of ['down', 'up']) {
+      for (const p of POSES) {
+        const fr = v3.bosses[key][side][p];
+        assert.ok(Array.isArray(fr) && fr.length === 1, `${key}.${side}.${p} one-frame array`);
+        const r = fr[0];
+        assert.ok(r.y >= i * 1024 && r.y + r.h <= (i + 1) * 1024 && r.x >= 0 && r.x + r.w <= 1536,
+          `${key}.${side}.${p} inside its own third of the sheet`);
+        // the whole point: far more pixels than the old ~65 px frames
+        if (side === 'down' && p === 'idle') {
+          const old = orig.bosses[key].down.idle[0];
+          assert.ok(r.h >= 4 * old.h, `${key} idle is ${r.h}px tall vs ${old.h}px before`);
+        }
+      }
+    }
+  }
+  const report = JSON.parse(src('art-clean/bosses-v3-gpt/qa/report-bosses-v3.json'));
+  for (const inp of Object.values(report.inputs)) {
+    assert.equal(sha(`art-clean/bosses-v3-gpt/${inp.file}`), inp.sha256, `approved source ${inp.file} unchanged since slicing`);
+  }
+  for (const [f, h] of Object.entries(report.outputs)) {
+    assert.equal(sha(`public/assets-v2/bosses-v3/${f}`), h, `runtime ${f} matches the slicer report`);
+  }
+  const atlas = src('src/engine/atlas.js');
+  const iOrig = atlas.indexOf('addBosses(bossManifest, bossBase)');
+  const iV3 = atlas.indexOf('addBosses(bossV3Manifest, bossV3Base)');
+  assert.ok(iOrig > 0 && iV3 > iOrig, 'V3 bosses merge after the originals (override, original kept as fallback)');
+  assert.ok(atlas.includes("assets-v2/bosses-v3"), 'atlas loads the V3 tree');
+  assert.ok(atlas.includes('displayH: m.displayH ?? null'), 'atlas carries displayH');
+  assert.ok(src('src/render/renderer.js').includes('art?.displayH ?? b.r * 2.9'), 'renderer scales bosses by displayH when present');
+  const vite = src('vite.config.js');
+  assert.ok(!/'assets-v2\/bosses-v3'/.test(vite), 'the build does not prune Bosses V3');
+  ok('bosses V3 (orcHero/darkLord/baphomet override, >=4x taller frames, provenance, fallback order)');
+}
+
 console.log(`\nPASS — ${passed} static checks`);
 process.exit(0);

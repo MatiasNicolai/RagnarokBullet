@@ -187,13 +187,13 @@ def slice_panels(img, names, sheet_key, warnings, errors):
     return entries, debug
 
 
-def slice_boss_forms(img, warnings, errors):
+def slice_boss_forms(img, warnings, errors, forms=None, sheet_key='bosses7'):
     """Each stacked form -> {name: {down/up: {pose: [rect]}}} (single-frame
     arrays, like Niflheim bosses). Cells are fixed 5-way splits at the
     nearest empty gap; the box is the owned figure (whole components by pixel
     majority), so the cape and the raised club stay whole."""
     entries, debug = {}, []
-    for name, _file, oy in BOSS_FORMS:
+    for name, _file, oy in (forms or BOSS_FORMS):
         entry = {'down': {}, 'up': {}}
         for key, (s0, s1) in BOSS_SECTIONS.items():
             sy0, sy1 = s0 + oy, s1 + oy
@@ -210,7 +210,7 @@ def slice_boss_forms(img, warnings, errors):
                 tag = sn.frame_tag(name, key, POSES[ci], 0)
                 for m in c['members']:
                     home[m] = tag
-            sn.PANEL_HOME.setdefault('bosses7', {}).update(home)
+            sn.PANEL_HOME.setdefault(sheet_key, {}).update(home)
             for i, ((a, b), pose) in enumerate(zip(cells, POSES)):
                 tag = f'{name}.{key}.{pose}'
                 r = sn.figure_sprite(img, a, b, (sy0, sy1), 0, img.w - 1, tag, pools.get(i, []), errors)
