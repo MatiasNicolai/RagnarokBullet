@@ -122,7 +122,7 @@ Con el relay corriendo, "CO-OP ONLINE" funciona en la misma máquina (dos pesta�
 - `node tools/slice-monsters.mjs` · `slice-bosses.mjs` · `slice-skills.mjs` — recortan las hojas de mobs / jefes+mid-bosses / iconos de skill.
 - `python tools/slice-pyramid.py` · `slice-niflheim.py` · `slice-prontera-v3.py` · `slice-thanatos.py`: slicers deterministas del arte v2 hacia `public/assets-v2/`. Validan antes de escribir y dos corridas dan sha256 idéntico.
   - `slice-thanatos.py` reutiliza el núcleo de `slice-niflheim.py` y además quita las sombras del suelo.
-  - `python tools/slice-bosses-v3.py` genera el arte nuevo de Orc Hero, Dark Lord y Baphomet (`assets-v2/bosses-v3/`), que reemplaza por defecto al de la hoja original.
+  - `python tools/slice-bosses-v3.py` genera el arte nuevo de Orc Hero, Dark Lord, Baphomet (`bosses8`) y el mid-boss Doppelganger (`monsters16`) en `assets-v2/bosses-v3/`, que reemplaza por defecto al de las hojas originales.
   - Con `--qa-on-error` dibuja las hojas de contacto aunque falle un chequeo.
 - `npm run music`: regenera `public/assets/music/` desde los masters de `Music/` a 128 kbps (necesita `ffmpeg` en el PATH).
   - `node tools/encode-music.mjs thanatos.mp3` encodea solo las pistas nombradas, para no reescribir las demás con otra versión de ffmpeg.

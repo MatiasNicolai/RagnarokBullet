@@ -1967,7 +1967,29 @@ function stripComments(src) {
   for (const [f, h] of Object.entries(report.outputs)) {
     assert.equal(sha(`public/assets-v2/bosses-v3/${f}`), h, `runtime ${f} matches the slicer report`);
   }
+  // the level 2 mid-boss: an inline elite, so a monsters manifest
+  const m16 = JSON.parse(src('public/assets-v2/bosses-v3/monsters16.json'));
+  const m5 = JSON.parse(src('public/assets/monsters5.json'));
+  assert.deepEqual(Object.keys(m16.monsters), ['doppelganger'], 'monsters16 holds the Doppelganger');
+  assert.ok(m5.monsters.doppelganger, 'original Doppelganger kept as fallback');
+  const dop = m16.monsters.doppelganger;
+  assert.ok(dop.displayH >= 120 && dop.displayH <= 180, `doppelganger displayH ${dop.displayH}`);
+  for (const side of ['down', 'up']) {
+    for (const p of POSES) {
+      const fr = dop[side][p];
+      assert.ok(Array.isArray(fr) && fr.length === 1, `doppelganger.${side}.${p} one-frame array`);
+      assert.ok(fr[0].x >= 0 && fr[0].y >= 0 && fr[0].x + fr[0].w <= m16.size.w && fr[0].y + fr[0].h <= m16.size.h, `doppelganger.${side}.${p} in bounds`);
+    }
+  }
+  const oldDop = [].concat(m5.monsters.doppelganger.down.idle)[0];
+  assert.ok(dop.down.idle[0].h >= 4 * oldDop.h, `doppelganger idle ${dop.down.idle[0].h}px vs ${oldDop.h}px before`);
+  assert.ok(src('src/levels/level2.js').includes("skin: 'doppelganger'"), 'level 2 still spawns the doppelganger skin');
+
   const atlas = src('src/engine/atlas.js');
+  const iM5 = atlas.indexOf('addMonsters(mon5Manifest, bossBase)');
+  const iM16 = atlas.indexOf('addMonsters(mon16Manifest, mon16Base)');
+  assert.ok(iM5 > 0 && iM16 > iM5, 'V3 Doppelganger merges after monsters5 (override, fallback kept)');
+  assert.ok(src('src/render/renderer.js').includes('mon.displayH ?? e.r * 2.7'), 'renderer scales enemies by displayH when present');
   const iOrig = atlas.indexOf('addBosses(bossManifest, bossBase)');
   const iV3 = atlas.indexOf('addBosses(bossV3Manifest, bossV3Base)');
   assert.ok(iOrig > 0 && iV3 > iOrig, 'V3 bosses merge after the originals (override, original kept as fallback)');
@@ -1976,7 +1998,7 @@ function stripComments(src) {
   assert.ok(src('src/render/renderer.js').includes('art?.displayH ?? b.r * 2.9'), 'renderer scales bosses by displayH when present');
   const vite = src('vite.config.js');
   assert.ok(!/'assets-v2\/bosses-v3'/.test(vite), 'the build does not prune Bosses V3');
-  ok('bosses V3 (orcHero/darkLord/baphomet override, >=4x taller frames, provenance, fallback order)');
+  ok('bosses V3 (orcHero/darkLord/baphomet + doppelganger override, >=4x taller frames, provenance, fallback order)');
 }
 
 console.log(`\nPASS — ${passed} static checks`);

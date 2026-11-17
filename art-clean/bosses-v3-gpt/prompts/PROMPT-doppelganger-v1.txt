@@ -1,0 +1,12 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/bosses-v3-gpt/doppelganger-v1.png.
+
+A MID-BOSS sprite sheet with exactly ONE figure: DOPPELGANGER, the mirror-shadow swordsman MVP of the Geffen dungeon in Ragnarok Online and the mid-boss of the game's second level. Preserve the identity, silhouette and palette of the attached Ragnarok Online reference sprite (doppelganger-ro.png):
+a young swordsman in steel plate armor with rounded pauldrons, a breastplate, gauntlets and armored boots, messy light-brown hair falling over one eye, holding a long sword. The whole figure has the cold violet tint of the reference: he is a dark copy of a hero. One visible eye glows faintly red, and the sword's edge carries a thin streak of red.
+
+Mood: an unsettling reflection of the adventurer, quick and precise rather than bulky. Keep him clearly smaller and leaner than the full bosses, but drawn at the same quality.
+
+The figure fills most of each pose cell, and every pose is complete including the sword tip and the hair.
+
+SHEET LAYOUT RULES: exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature lunging sword slash). Exactly one complete figure per pose, never overlapping, never cropped by the image edge, with generous empty gutters between poses. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved boss sheets exactly: same rendering quality, outline weight, shading and scale): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouette at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.
