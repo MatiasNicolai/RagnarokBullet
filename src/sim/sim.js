@@ -87,7 +87,8 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
         // echo: boss-art key for a summoned memory (render only); ttl: ticks
         // until it dissolves (0 = lives until killed / off-screen). Reset on
         // every spawn so pooled objects never inherit them.
-        echo: null, ttl: 0,
+        // thanatosAdd: summoned by Thanatos (capped + dismissed together)
+        echo: null, ttl: 0, thanatosAdd: false,
       }, props);
       return e;
     },

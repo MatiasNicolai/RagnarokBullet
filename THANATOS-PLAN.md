@@ -91,20 +91,36 @@ Es la ID 1708: en iRO se llama "Memory of Thanatos" y en Divine Pride "Thanatos 
 **Aspecto (según su sprite de RO):** un héroe guerrero caído, de pelo plateado, con armadura de hueso adornada con calaveras y cadenas, capa carmesí y un garrote con calavera al hombro. No es un ángel.
 - **Forma II:** la misma figura desatada. La armadura se agrieta y deja salir luz blanco-violeta, la capa se vuelve jirones ardientes, el arma estalla en energía violeta y lleva fundidas las cuatro máscaras de los fragmentos.
 
-**Vida total de cartas: 10 500**, o sea **3,3× Lord of Death** (3200) y **3,4× Amon-Ra** (3050). Cumple el "al menos 3 veces". En co-op se multiplica por 1,7, igual que el resto.
+**Vida total de cartas: 21 000**, o sea **6,6× Lord of Death** (3200) y **6,9× Amon-Ra** (3050). Cumple el "al menos 3 veces". En co-op se multiplica por 1,7, igual que el resto.
+
+> **Rebalance tras el primer playtest (2026-11-16).** Con la versión inicial (10 500 de vida) el jugador ganó con holgura: Thanatos se quedaba quieto bajo el rayo enfocado de Aramir y las 3 primeras cartas caían en 10–13 s. Cambios:
+> - la vida se duplicó (los valores de la tabla de abajo ya están duplicados);
+> - **side-steps en todas las cartas**: cada 55–85 ticks se lanza 130–230 px, casi siempre alejándose del jugador más cercano (`sidestep()` en `src/sim/thanatos.js`);
+> - **adds en las cartas 1–3**:
+>   - carta 1: dos Baroness de guardia cada 7 s;
+>   - carta 2: un Anger cada ~3 s;
+>   - carta 3: un Book of Death cada 7 s, y los ecos pasan a cada 4 s (antes 5 s);
+>   - van con tope de 4 y se disuelven al transformarse.
+>
+> **Medición con bots:**
+>
+> | Bot | Antes | Ahora | Cartas 1–3 antes | Cartas 1–3 ahora |
+> |---|---|---|---|---|
+> | Persigue al jefe en foco | 113 s | 436 s | 11 / 13 / 10 s | 65 / 56 / 67 s |
+> | Quieto en el centro | 147 s | 271 s | — | — |
 
 | # | Forma | Carta | Vida | Idea |
 |---|---|---|---|---|
-| 1 | I · Memoria | **Juicio del Guardián** | 1400 | Anillos con hueco amplio y abanicos de espada. Calentamiento legible. |
-| 2 | I · Memoria | **Odio y Desesperación** | 1500 | Canaliza a los fragmentos y alterna cada 240 ticks entre ráfagas rojas (Odium) y lluvia púrpura con carriles (Despero). |
-| 3 | I · Memoria | **Memorias de Midgard** | 1700 | Invoca **ecos** de Orc Hero, Baphomet y Lord of Death: sprites originales teñidos de violeta y semitransparentes. Cada eco dispara su patrón firma durante ~4 s y se disuelve. Thanatos mantiene presión ligera. |
+| 1 | I · Memoria | **Juicio del Guardián** | 2800 | Anillos con hueco amplio y abanicos de espada. Calentamiento legible. |
+| 2 | I · Memoria | **Odio y Desesperación** | 3000 | Canaliza a los fragmentos y alterna cada 240 ticks entre ráfagas rojas (Odium) y lluvia púrpura con carriles (Despero). |
+| 3 | I · Memoria | **Memorias de Midgard** | 3400 | Invoca **ecos** de Orc Hero, Baphomet y Lord of Death: sprites originales teñidos de violeta y semitransparentes. Cada eco dispara su patrón firma durante ~4 s y se disuelve. Thanatos mantiene presión ligera. |
 | — | transformación | *(evento `bossForm`)* | — | Limpia la pantalla, flash, línea de diálogo. El sprite pasa a la Forma II. |
 | ★ | II · Despierto | **El Fin de la Memoria** *(supervivencia)* | — | **Carta de tiempo:** 30 s invulnerable, sobrevivir y ya. Muros laterales de lluvia que avanzan y se retiran, y una espiral central. |
-| 4 | II · Despierto | **Pena y Dolor** | 1800 | Espirales espejo cian y naranja, con Thanatos en movimiento. |
-| 5 | II · Despierto | **Réquiem de la Torre** | 2000 | La carta más densa: espiral, anillo con hueco hacia el jugador y lluvia. Bajo 35 %, abanicos de desesperación. |
-| 6 | II · Despierto | **Último Aliento** | 2100 | Escala en 3 etapas según la vida de la carta (100–66 / 66–33 / 33–0). Bajo el 15 %, ráfaga final con ventana de respiro garantizada. |
+| 4 | II · Despierto | **Pena y Dolor** | 3600 | Espirales espejo cian y naranja, con Thanatos en movimiento. |
+| 5 | II · Despierto | **Réquiem de la Torre** | 4000 | La carta más densa: espiral, anillo con hueco hacia el jugador y lluvia. Bajo 35 %, abanicos de desesperación. |
+| 6 | II · Despierto | **Último Aliento** | 4200 | Escala en 3 etapas según la vida de la carta (100–66 / 66–33 / 33–0). Bajo el 15 %, ráfaga final con ventana de respiro garantizada. |
 
-**Duración estimada en solo:** 10 500 / ~65 de DPS ≈ 160 s de pelea, más 30 s de supervivencia y las transiciones: **~3,5 min**. La pelea más larga del juego, como corresponde.
+**Duración:** con la vida duplicada y los side-steps, la pelea dura entre 4,5 y 7 min según cuánto daño sostenga el jugador (medido con bots, ver la tabla de arriba). Es la más larga del juego; si en el juego real resulta excesiva, lo primero que se ajusta es la vida de las cartas 4 a 6.
 
 ## 3. Trabajo de motor (lo que hoy no existe)
 
