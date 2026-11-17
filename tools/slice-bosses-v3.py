@@ -71,6 +71,19 @@ OUTPUTS = [
     {'sheet': 'monsters17', 'kind': 'monsters', 'gate_h': (100, 380), 'forms': [
         ('mastering', 'mastering-v1.png', 0),
     ]},
+    # third batch (2026-11-17): the remaining low-res mid-bosses. Rows measured
+    # on v1: Bapho Jr. 64-428 / 571-944, Archdam 78-422 / 585-928, Failed
+    # Experiment Alpha 26-422 / 533-930, Osiris 134-430 / 593-894. The level 5
+    # mid-boss gets its own skin (failedexp_alpha) so the small common
+    # 'failedexp' mobs keep their art and size.
+    # Osiris's attacks carry a wide claw-slash trail (350-364 px, checked on the
+    # contact sheet: one figure, no neighbor), so this sheet allows 380.
+    {'sheet': 'monsters18', 'kind': 'monsters', 'gate_h': (200, 470), 'gate_w': (100, 380), 'forms': [
+        ('bapho_jr_giant', 'bapho-jr-giant-v1.png', 0),
+        ('archdam', 'archdam-v1.png', 1024),
+        ('failedexp_alpha', 'failedexp-alpha-v1.png', 2048),
+        ('osiris', 'osiris-v1.png', 3072),
+    ]},
 ]
 # On-screen height (px). The renderer scales bosses by r * 2.9 and enemies by
 # r * 2.7 of the frame height, which suited the old near-square frames. The V3
@@ -83,6 +96,8 @@ DISPLAY_H = {
     # (bosses) and r*2.7 = 113 (Mastering). Mastering is wider than tall, so
     # his height goes DOWN to keep the giant poring about 120 px wide.
     'vesper': 180, 'seyren': 175, 'magaleta': 170, 'amonRa': 185, 'mastering': 105,
+    # third batch: old default heights r*2.7 = 103 / 108 / 108 / 113
+    'bapho_jr_giant': 130, 'archdam': 140, 'failedexp_alpha': 140, 'osiris': 135,
 }
 
 
@@ -115,12 +130,12 @@ def main():
             return 1
         sheet = sn.Img(imgs[0].w, sum(i.h for i in imgs), bytearray(b''.join(bytes(i.px) for i in imgs)))
         entries, debug = st.slice_boss_forms(sheet, warnings, errors, forms=o['forms'], sheet_key=o['sheet'])
-        if 'gate_h' in o:
+        if 'gate_h' in o or 'gate_w' in o:
             for name, e in entries.items():
                 for side in ('down', 'up'):
                     for pose in st.POSES:
                         for i, r in enumerate(e[side][pose]):
-                            sn.gate_rect(r, f'{name}.{side}.{pose}[{i}]', st.BOSS_W, o['gate_h'], errors)
+                            sn.gate_rect(r, f'{name}.{side}.{pose}[{i}]', o.get('gate_w', st.BOSS_W), o.get('gate_h', st.BOSS_H), errors)
         else:
             st.gate_bosses(entries, errors)
         rects = st.boss_rects(entries)

@@ -2016,6 +2016,40 @@ function stripComments(src) {
   assert.ok(mas.down.hit[0].h < mas.down.idle[0].h && mas.down.attack[0].h > mas.down.idle[0].h,
     'mastering squashes on hit and stretches on attack (kept by the one-scale rule)');
   assert.ok(src('src/levels/level1.js').includes("skin: 'mastering'"), 'level 1 still spawns the mastering skin');
+  // third batch: the remaining mid-bosses (monsters18)
+  const m18 = JSON.parse(src('public/assets-v2/bosses-v3/monsters18.json'));
+  assert.deepEqual(m18.size, { w: 1536, h: 4096 }, 'monsters18 stacks four sheets');
+  assert.deepEqual(Object.keys(m18.monsters), ['bapho_jr_giant', 'archdam', 'failedexp_alpha', 'osiris'], 'monsters18 keys');
+  const oldMid = {
+    bapho_jr_giant: JSON.parse(src('public/assets/monsters5.json')).monsters.bapho_jr_giant,
+    archdam: JSON.parse(src('public/assets/monsters7.json')).monsters.archdam,
+    failedexp_alpha: JSON.parse(src('public/assets/monsters8.json')).monsters.failedexp,
+    osiris: JSON.parse(src('public/assets-v2/pyramid/monsters10.json')).monsters.osiris,
+  };
+  for (const [i, key] of Object.keys(m18.monsters).entries()) {
+    const e = m18.monsters[key];
+    assert.ok(e.displayH >= 110 && e.displayH <= 170, `${key} displayH ${e.displayH}`);
+    for (const side of ['down', 'up']) {
+      for (const p of POSES) {
+        const r = e[side][p][0];
+        assert.ok(e[side][p].length === 1 && r.y >= i * 1024 && r.y + r.h <= (i + 1) * 1024, `${key}.${side}.${p} in its quarter`);
+      }
+    }
+    const old = [].concat(oldMid[key].down.idle)[0];
+    assert.ok(e.down.idle[0].h >= 2.5 * old.h, `${key} idle ${e.down.idle[0].h}px vs ${old.h}px before`);
+  }
+  // the level 5 mid-boss has its own skin; the small common mobs keep theirs
+  const l5 = src('src/levels/level5.js');
+  assert.ok(l5.includes("skin: 'failedexp_alpha', score: 18000"), 'level 5 mid-boss uses failedexp_alpha');
+  assert.ok(l5.includes("hp: 18, r: 15, skin: 'failedexp'"), 'level 5 common mob keeps failedexp');
+  assert.ok(!m18.monsters.failedexp, 'monsters18 does not override the common failedexp mob');
+  const atl = src('src/engine/atlas.js');
+  const iM18 = atl.indexOf('addMonsters(mon18Manifest, mon18Base)');
+  for (const prev of ['addMonsters(mon5Manifest, bossBase)', 'addMonsters(mon7Manifest, boss2Base)', 'addMonsters(mon10Manifest, boss4Base)']) {
+    assert.ok(atl.indexOf(prev) > 0 && iM18 > atl.indexOf(prev), `monsters18 merges after ${prev}`);
+  }
+  assert.ok(atl.includes('monsters.failedexp_alpha = monsters.failedexp'), 'failedexp_alpha falls back to the original sprite');
+
   // the published first batch never changes when later batches are added
   for (const f of ['bosses8.json', 'bosses8.png', 'monsters16.json', 'monsters16.png']) {
     assert.ok(report.outputs[f], `${f} still listed in the slicer report`);
@@ -2038,7 +2072,7 @@ function stripComments(src) {
   assert.ok(src('src/render/renderer.js').includes('art?.displayH ? art.displayH / idleHeight(art)'), 'renderer scales displayH bosses by their idle frame (one scale for every pose)');
   const vite = src('vite.config.js');
   assert.ok(!/'assets-v2\/bosses-v3'/.test(vite), 'the build does not prune Bosses V3');
-  ok('bosses V3 (8 bosses/mid-bosses override: frames 2.5-6x taller, provenance, fallback order, one-scale displayH)');
+  ok('bosses V3 (12 bosses/mid-bosses override: frames 2.5-6x taller, provenance, fallback order, one-scale displayH, own mid-boss skin)');
 }
 
 console.log(`\nPASS — ${passed} static checks`);
