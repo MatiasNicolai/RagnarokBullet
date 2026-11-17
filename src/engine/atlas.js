@@ -171,11 +171,14 @@ export async function loadAtlas() {
   // Second batch: bosses9 (Vesper, Seyren, Magaleta, Amon-Ra) and monsters17
   // (the level 1 mid-boss Mastering), same override scheme.
   const [bossV3Manifest, bossV3Base, mon16Manifest, mon16Base,
-    boss9Manifest, boss9Base, mon17Manifest, mon17Base] = await Promise.all([
+    boss9Manifest, boss9Base, mon17Manifest, mon17Base, mon18Manifest, mon18Base] = await Promise.all([
     bv3Json('bosses8'), bv3Png('bosses8'),
     bv3Json('monsters16'), bv3Png('monsters16'),
     bv3Json('bosses9'), bv3Png('bosses9'),
     bv3Json('monsters17'), bv3Png('monsters17'),
+    // third batch: mid-bosses Giant Baphomet Jr., Archdam, Failed Experiment
+    // Alpha (own skin, failedexp_alpha) and Osiris
+    bv3Json('monsters18'), bv3Png('monsters18'),
   ]);
 
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
@@ -221,6 +224,11 @@ export async function loadAtlas() {
   addMonsters(mon15Manifest, boss6Base); // Thanatos fragments: Odium, Despero, Maero, Dolor (rects live in bosses6.png)
   addMonsters(mon16Manifest, mon16Base); // Bosses V3: overrides the Doppelganger mid-boss (after monsters5)
   addMonsters(mon17Manifest, mon17Base); // Bosses V3: overrides the Mastering mid-boss (after monsters2)
+  addMonsters(mon18Manifest, mon18Base); // Bosses V3: overrides bapho_jr_giant / archdam / osiris, adds failedexp_alpha (after monsters5/7/10)
+  // failedexp_alpha has no original art: if monsters18 is missing, the level 5
+  // mid-boss falls back to the common Failed Experiment sprite (as before the
+  // split) instead of a procedural blob
+  if (!monsters.failedexp_alpha && monsters.failedexp) monsters.failedexp_alpha = monsters.failedexp;
   addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and

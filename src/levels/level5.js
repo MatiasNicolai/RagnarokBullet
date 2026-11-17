@@ -123,7 +123,9 @@ export function level5(sim) {
         L.midAlive = true;
         sim.spawnEnemy({
           x: FIELD_W / 2, y: -50, vx: 0, vy: 1.2, hp: 620, r: 40,
-          skin: 'failedexp', score: 18000, shoot: failedAlphaStep,
+          // own skin: the small common mobs keep 'failedexp' (Bosses V3 art
+          // for the mid-boss, original sheet as fallback, see renderer)
+          skin: 'failedexp_alpha', score: 18000, shoot: failedAlphaStep,
           onDeath: () => { sim.level.midAlive = false; }, drop: 'chest',
         });
       }

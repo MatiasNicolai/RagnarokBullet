@@ -1,0 +1,12 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/bosses-v3-gpt/bapho-jr-giant-v1.png.
+
+A MID-BOSS sprite sheet with exactly ONE figure: GIANT BAPHOMET JR., the oversized demon goat child of Glast Heim and the mid-boss of the game's third level (a little cousin of the approved Baphomet sheet). Preserve the identity, silhouette and palette of the attached reference (baphomet-jr-ro.png (official RO Baphomet Jr.) and the approved Baphomet V3 sheet (family resemblance)):
+a stocky, child-proportioned goat demon standing upright: cream and light-tan fluffy fur, a round head with small curved horns, big mischievous eyes, little hooves, and a scythe that is huge for his size, with a pale violet curved blade like his father Baphomet's.
+
+Mood: a cheeky, dangerous imp. Clearly smaller and rounder than the adult Baphomet, but at the same quality.
+
+The figure fills most of each pose cell; keep it a mid-boss, but drawn at the same quality as the bosses, and every pose is complete.
+
+SHEET LAYOUT RULES: exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (a spinning scythe swing). Exactly one complete figure per pose, never overlapping, never cropped by the image edge, with generous empty gutters between poses. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved boss sheets exactly: same rendering quality, outline weight, shading and scale): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouette at game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.
