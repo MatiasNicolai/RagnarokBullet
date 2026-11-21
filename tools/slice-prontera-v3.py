@@ -751,6 +751,131 @@ def draw_contact(img, rects, path, cols=6):
     encode_rgba(path, W, H, out)
 
 
+# ---------------- outline fringe + ground shadow (2026-11-21) ----------------
+# After keying, every V3 sprite still showed (a) a 1-2 px light gray/white rim
+# OUTSIDE its dark outline (the source's antialiasing against the light matte)
+# and (b) a soft gray ellipse under the feet. Both read as "white borders" on
+# the dark playfield.
+# (a) Fringe: an opaque pixel is removed when it touches transparency, is
+#     light and nearly neutral, and has dark outline ink within 2 px. The dark
+#     outline separates the rim from the body, so light bodies (Lunatic's white
+#     fur) are never reached. Two passes cover a 2 px rim.
+# (b) Shadow: flood from transparency through neutral, matte-toned pixels, only
+#     inside the foot strip (same method as tools/slice-thanatos.py).
+FRINGE_LUM_MIN = 150
+FRINGE_CHROMA_MAX = 30
+INK_LUM_MAX = 90
+SHADOW_STRIP = 40
+SHADOW_CHROMA = 12
+SPECK_MAX = 40          # detached foot-strip specks up to this size are shadow rim
+SPECK_CHROMA = 25
+SHADOW_LUM = (-105, -40) # relative to the keyed matte (209): shadows measure 110-150, i.e. -99..-59
+
+
+def clean_edges(img, r, bg):
+    W, H, X, Y, IW, d = r['w'], r['h'], r['x'], r['y'], img.w, img.px
+
+    def idx(x, y):
+        return ((Y + y) * IW + X + x) * 4
+
+    def opaque(x, y):
+        return 0 <= x < W and 0 <= y < H and d[idx(x, y) + 3] > 128
+
+    def lum_chroma(x, y):
+        i = idx(x, y)
+        R, G, B = d[i], d[i + 1], d[i + 2]
+        return (R + G + B) / 3, max(R, G, B) - min(R, G, B)
+
+    removed_fringe = 0
+    for _ in range(2):
+        kill = []
+        for y in range(H):
+            for x in range(W):
+                if not opaque(x, y):
+                    continue
+                if all(opaque(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    continue  # interior pixel
+                L, C = lum_chroma(x, y)
+                if L < FRINGE_LUM_MIN or C > FRINGE_CHROMA_MAX:
+                    continue
+                ink = False
+                for dy in range(-2, 3):
+                    for dx in range(-2, 3):
+                        if (dx or dy) and opaque(x + dx, y + dy) and lum_chroma(x + dx, y + dy)[0] < INK_LUM_MAX:
+                            ink = True
+                            break
+                    if ink:
+                        break
+                if ink:
+                    kill.append((x, y))
+        for (x, y) in kill:
+            d[idx(x, y) + 3] = 0
+        removed_fringe += len(kill)
+        if not kill:
+            break
+
+    bgl = sum(bg) / 3
+    y_top = max(0, H - SHADOW_STRIP)
+
+    def shadowy(x, y):
+        if not opaque(x, y):
+            return False
+        L, C = lum_chroma(x, y)
+        return C <= SHADOW_CHROMA and SHADOW_LUM[0] <= L - bgl <= SHADOW_LUM[1]
+
+    seen = bytearray(W * H)
+    q = deque()
+    for y in range(y_top, H):
+        for x in range(W):
+            if seen[y * W + x] or not shadowy(x, y):
+                continue
+            edge = x in (0, W - 1) or y == H - 1 or any(
+                not opaque(x + dx, y + dy) for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+            if edge:
+                seen[y * W + x] = 1
+                q.append((x, y))
+    removed_shadow = 0
+    while q:
+        x, y = q.popleft()
+        d[idx(x, y) + 3] = 0
+        removed_shadow += 1
+        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            if y_top <= ny < H and 0 <= nx < W and not seen[ny * W + nx] and shadowy(nx, ny):
+                seen[ny * W + nx] = 1
+                q.append((nx, ny))
+    # the shadow ellipse's darker rim survives as a dotted line: drop small,
+    # detached, neutral specks that lie entirely in the foot strip (colored
+    # crumbs like Pupa's pebbles have chroma and are kept)
+    comp = [0] * (W * H)
+    label = 0
+    for y in range(y_top, H):
+        for x in range(W):
+            if comp[y * W + x] or not opaque(x, y):
+                continue
+            label += 1
+            members, inside, neutral = [], True, True
+            qq = deque([(x, y)])
+            comp[y * W + x] = label
+            while qq:
+                cx, cy = qq.popleft()
+                members.append((cx, cy))
+                if cy < y_top:
+                    inside = False
+                if lum_chroma(cx, cy)[1] > SPECK_CHROMA:
+                    neutral = False
+                if len(members) > SPECK_MAX:
+                    inside = False
+                for nx, ny in ((cx - 1, cy), (cx + 1, cy), (cx, cy - 1), (cx, cy + 1)):
+                    if opaque(nx, ny) and not comp[ny * W + nx]:
+                        comp[ny * W + nx] = label
+                        qq.append((nx, ny))
+            if inside and neutral:
+                for (mx, my) in members:
+                    d[idx(mx, my) + 3] = 0
+                removed_shadow += len(members)
+    return removed_fringe, removed_shadow
+
+
 def main():
     if not os.path.exists(SRC):
         print(f'missing source: {SRC}')
@@ -797,6 +922,12 @@ def main():
              for n in IDS for s in SIDES for p in POSES if n in entries]
     stats = {}
     decontaminate(img, bg, rects, errors, stats)
+    fr_tot = sh_tot = 0
+    for (t, r, _h) in rects:
+        fr, sh = clean_edges(img, r, bg)
+        fr_tot += fr
+        sh_tot += sh
+    print(f'edges: outline fringe removed {fr_tot} px, ground shadow removed {sh_tot} px')
     validate_clean(stats, errors)
     if errors:
         print('ERRORS (gates rejected these crops — nothing was written):')
