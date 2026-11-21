@@ -159,6 +159,26 @@ export async function loadAtlas() {
   const [monV3Manifest, monV3Base] = await Promise.all([
     v3Json('monsters-v3'), v3Png('monsters-v3'),
   ]);
+  // Mobs V3 (default override, like Prontera V3): the common mobs of levels
+  // 2-5 redrawn at the Thanatos standard (tools/slice-mobs-v3.py). Same atlas
+  // keys as the original sheets and merged after them; a missing file keeps
+  // the original art, never a boot crash.
+  const mv3Dir = `${BASE}assets-v2/mobs-v3`;
+  const mv3Json = (n) => fetch(`${mv3Dir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing Mobs V3 manifest: assets-v2/mobs-v3/${n}.json (original art kept)`); return null; });
+  const mv3Png = (n) => Assets.load(`${mv3Dir}/${n}.png`).catch(() => { warn(`missing Mobs V3 sheet: assets-v2/mobs-v3/${n}.png (original art kept)`); return null; });
+  const [mon19Manifest, mon19Base, mon20Manifest, mon20Base,
+    mon21Manifest, mon21Base, mon22Manifest, mon22Base,
+    mon23Manifest, mon23Base, mon24Manifest, mon24Base,
+    mon25Manifest, mon25Base, mon26Manifest, mon26Base] = await Promise.all([
+    mv3Json('monsters19'), mv3Png('monsters19'), // Geffen: Willow, Zombie, Munak, Bongun
+    mv3Json('monsters20'), mv3Png('monsters20'), // Geffen: Nine Tails, Deviruchi, Marionette, Wraith
+    mv3Json('monsters21'), mv3Png('monsters21'), // Glast Heim: Evil Druid, Dark Priest, Raydric, Khalitzburg
+    mv3Json('monsters22'), mv3Png('monsters22'), // Glast Heim: Gargoyle, Ghoul, Whisper, Baphomet Jr.
+    mv3Json('monsters23'), mv3Png('monsters23'), // Juperos: Dimik, Venatu, Plasma, Guardian
+    mv3Json('monsters24'), mv3Png('monsters24'), // Juperos: Cell, Sentry, Repair Drone, Spark Beetle
+    mv3Json('monsters25'), mv3Png('monsters25'), // Biolab: Failed Experiment, Remover, Lab Drone, Test Subject
+    mv3Json('monsters26'), mv3Png('monsters26'), // Biolab: Spore Cloud, Mutant Hound, Serum Turret, Bio-Sludge
+  ]);
   // Bosses V3 (default override, like Prontera V3): Orc Hero, Dark Lord and
   // Baphomet redrawn at the Thanatos standard (tools/slice-bosses-v3.py).
   // Same atlas keys as bosses.json, merged after it; a missing file keeps the
@@ -230,6 +250,16 @@ export async function loadAtlas() {
   // split) instead of a procedural blob
   if (!monsters.failedexp_alpha && monsters.failedexp) monsters.failedexp_alpha = monsters.failedexp;
   addMonsters(monV3Manifest, monV3Base); // Prontera V3: Poring, Pupa, Picky, Chonchon, Orc Baby, Lunatic (default override; null-safe fallback)
+  addMonsters(mon19Manifest, mon19Base); // Mobs V3: overrides Geffen's Willow, Zombie, Munak, Bongun (after monsters3)
+  addMonsters(mon20Manifest, mon20Base); // Mobs V3: overrides Geffen's Nine Tails, Deviruchi, Marionette, Wraith (after monsters3)
+  addMonsters(mon21Manifest, mon21Base); // Mobs V3: overrides Glast Heim's Evil Druid, Dark Priest, Raydric, Khalitzburg (after monsters4)
+  addMonsters(mon22Manifest, mon22Base); // Mobs V3: overrides Glast Heim's Gargoyle, Ghoul, Whisper, Baphomet Jr. (after monsters4)
+  addMonsters(mon23Manifest, mon23Base); // Mobs V3: overrides Juperos' Dimik, Venatu, Plasma, Guardian (after monsters6)
+  addMonsters(mon24Manifest, mon24Base); // Mobs V3: overrides Juperos' Cell, Sentry, Repair Drone, Spark Beetle (after monsters6)
+  // Biolab: the common failedexp mob only; the level 5 mid-boss keeps its own
+  // failedexp_alpha skin from monsters18 (aliased above before this override)
+  addMonsters(mon25Manifest, mon25Base); // Mobs V3: overrides Biolab's Failed Experiment, Remover, Lab Drone, Test Subject (after monsters8)
+  addMonsters(mon26Manifest, mon26Base); // Mobs V3: overrides Biolab's Spore Cloud, Mutant Hound, Serum Turret, Bio-Sludge (after monsters8)
 
   // map backdrops keyed by set. Level 1 (prontera) is preloaded; geffen and
   // glastheim load lazily via ensureMapSet (kicked off in the background after

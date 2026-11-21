@@ -11,10 +11,10 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 | # | Nivel | Mid-boss | Jefe | Arte |
 |---|---|---|---|---|
 | 1 | Campos de Prontera → Plaza | Mastering | Orc Hero | hojas originales + Prontera V3 (GPT); jefe y mid-boss en Bosses V3 (Codex) |
-| 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | hojas originales; jefe y mid-boss en Bosses V3 (Codex) |
-| 3 | Glast Heim | Baphomet Jr. gigante | Baphomet | hojas originales; jefe y mid-boss en Bosses V3 (Codex) |
-| 4 | Juperos | Archdam | Vesper | hojas originales; jefe y mid-boss en Bosses V3 (Codex) |
-| 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | hojas originales; jefes y mid-boss en Bosses V3 (Codex) |
+| 2 | Mazmorra de Geffen → Geffenia | Doppelganger | Dark Lord | mobs en Mobs V3 (Codex, gpt-6-sol); jefe y mid-boss en Bosses V3 (Codex) |
+| 3 | Glast Heim | Baphomet Jr. gigante | Baphomet | mobs en Mobs V3 (Codex, gpt-6-sol); jefe y mid-boss en Bosses V3 (Codex) |
+| 4 | Juperos | Archdam | Vesper | mobs en Mobs V3 (Codex, gpt-6-sol); jefe y mid-boss en Bosses V3 (Codex) |
+| 5 | Laboratorio de Lighthalzen | Experimento Fallido | Seyren & Magaleta (duelo doble) | mobs en Mobs V3 (Codex, gpt-6-sol); jefes y mid-boss en Bosses V3 (Codex) |
 | 6 | Pirámide del Sol | Osiris | Amon-Ra | GPT (`assets-v2/pyramid`); jefe y mid-boss en Bosses V3 (Codex) |
 | 7 | Reino de Niflheim | Loli Ruri | Lord of Death | GPT (`assets-v2/niflheim`) |
 | 8 | **Torre de Thanatos** (final) | 4 fragmentos en 2 parejas | **Thanatos** (2 formas) | GPT vía CLI de Codex (`assets-v2/thanatos`) |
@@ -37,6 +37,14 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 - **Skin propia del mid-boss del nivel 5:** usa `failedexp_alpha` porque el nivel 5 también genera mobs comunes con `failedexp`; esos mobs conservan su arte y su tamaño. Si `monsters18` falta, la skin nueva usa el sprite original.
 - **Bug corregido de paso:** el Osiris anterior estaba mal recortado y solo se le veían las piernas.
 
+**Mobs V3 (2026-11-21):** se rehicieron al estándar de Thanatos los 32 mobs comunes de los niveles 2 a 5. Los que existen en RO siguen el sprite oficial; las criaturas propias del juego conservan el diseño de las hojas de `Monsters/`, redibujadas en mejor calidad.
+- **Hojas:** Geffen (`monsters19`/`20`), Glast Heim (`21`/`22`), Juperos (`23`/`24`) y Biolab (`25`/`26`), en `public/assets-v2/mobs-v3/`. Las poses en reposo de los niveles 2 a 4 pasaron de 56–91 px a 84–202 px. Las de Biolab eran recortes rotos, así que no se comparan.
+- **Cambios de diseño a RO:** Munak, Bongun, Nine Tail, Marionette, Evil Druid, Khalitzburg, Gargoyle, Whisper, Dimik, Venatu, Plasma y Remover (que antes era un sapo verde).
+- **Adds de jefes:** los `bapho_jr` de Baphomet y los `venatu` de Vesper también usan el arte nuevo.
+- **Generación:** `tools/codex-image.sh`, con gpt-6-sol en esfuerzo medio. El registro de procedencia está en `art-clean/mobs-v3-gpt/mobs-v3-gpt-image.prompt.md`.
+- **Recorte:** `tools/slice-mobs-v3.py` reutiliza `slice-thanatos.py` sin tocar el núcleo. Agrega un pase de sombras oscuras planas y rellena los huecos que el núcleo abría en arte gris (Ghoul, Marionette, el domo del Repair Drone).
+- **Integración:** mismas claves del atlas, cargadas después de las hojas originales, que quedan de respaldo. Los tests están en la sección 21 de `test-static`.
+
 ### ▶ PRÓXIMOS PASOS (pendientes concretos)
 1. **Balance del Nivel 8 jugando de verdad.** Los números de densidad salen de un bot que no esquiva. Prioridades: la carta de supervivencia, "Último Aliento" y el mid-boss de dos parejas (2400 de vida en total), en Normal y Nightmare, solo y en co-op.
 2. **Smoke test multi-nivel online:** una transición completa entre niveles con dos jugadores reales.
@@ -45,7 +53,7 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 
 ### Pipeline de arte GPT (niveles 6 a 8)
 1. **Referencias de RO**, solo para la identidad visual (Divine Pride / Spriters Resource), en `art-clean/<set>-gpt/references/`.
-2. **Generación con la CLI de Codex:** `codex exec --image=<ref> ... "<prompt>"`. Se usa la forma con `=`, porque `-i` se come el prompt. El sandbox de Codex en Windows no puede escribir en el repo, así que la imagen se copia desde `~/.codex/generated_images/<sesión>/`. Las fuentes aprobadas son inmutables y una corrección se genera como `-v2`. Para que combine con el resto del juego, siempre se adjunta la hoja aprobada de Niflheim como referencia de estilo.
+2. **Generación con la CLI de Codex:** siempre con `tools/codex-image.sh <prompt.txt> <salida.png> [refs...]`, que fija el modelo **gpt-6-sol con esfuerzo medio** (desde 2026-11-21; se puede cambiar con `CODEX_MODEL` / `CODEX_EFFORT`), corta si Codex no corrió con ese modelo, copia la imagen de la carpeta de su propia sesión y se niega a sobrescribir una fuente. Por debajo llama a `codex exec --image=<ref> ... "<prompt>"`. Se usa la forma con `=`, porque `-i` se come el prompt. El sandbox de Codex en Windows no puede escribir en el repo, así que la imagen se copia desde `~/.codex/generated_images/<sesión>/`. Las fuentes aprobadas son inmutables y una corrección se genera como `-v2`. Para que combine con el resto del juego, siempre se adjunta la hoja aprobada de Niflheim como referencia de estilo.
 3. **Slicer determinista** (`tools/slice-*.py`): solo usa la librería estándar, valida antes de escribir, genera hojas de contacto en `qa/` y un reporte con sha256. Se revisa en el Art Lab (`?artlab=1`).
 4. **Integración y tests** en `server/test-static.mjs`. Los JSON generados de la Torre están marcados `-text` en `.gitattributes`, para que el sha256 se mantenga en cualquier checkout.
 5. **Música:** el usuario la genera en Suno a partir de un prompt, el master va a `Music/` y se encodea con `node tools/encode-music.mjs <pista>.mp3`.

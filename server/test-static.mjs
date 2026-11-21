@@ -1472,6 +1472,14 @@ function stripComments(src) {
     ['public/assets-v2/niflheim/bosses5.png', 'public/assets-v2/niflheim/bosses5.json'],
     ['public/assets-v2/niflheim/monsters11.png', 'public/assets-v2/niflheim/monsters11.json'],
     ['public/assets-v2/prontera/monsters-v3.png', 'public/assets-v2/prontera/monsters-v3.json'],
+    ['public/assets-v2/mobs-v3/monsters19.png', 'public/assets-v2/mobs-v3/monsters19.json'],
+    ['public/assets-v2/mobs-v3/monsters20.png', 'public/assets-v2/mobs-v3/monsters20.json'],
+    ['public/assets-v2/mobs-v3/monsters21.png', 'public/assets-v2/mobs-v3/monsters21.json'],
+    ['public/assets-v2/mobs-v3/monsters22.png', 'public/assets-v2/mobs-v3/monsters22.json'],
+    ['public/assets-v2/mobs-v3/monsters23.png', 'public/assets-v2/mobs-v3/monsters23.json'],
+    ['public/assets-v2/mobs-v3/monsters24.png', 'public/assets-v2/mobs-v3/monsters24.json'],
+    ['public/assets-v2/mobs-v3/monsters25.png', 'public/assets-v2/mobs-v3/monsters25.json'],
+    ['public/assets-v2/mobs-v3/monsters26.png', 'public/assets-v2/mobs-v3/monsters26.json'],
   ];
   let frames = 0;
   for (const [pngRel, jsonRel] of SHEETS) {
@@ -1501,7 +1509,7 @@ function stripComments(src) {
       }
     }
   }
-  assert.equal(frames, 272, 'gate covers every V2 runtime frame');
+  assert.equal(frames, 592, 'gate covers every V2 runtime frame');
   ok(`V2 sheets: no residual opaque matte (${frames} frames, fill/border gated)`);
 }
 
@@ -2073,6 +2081,79 @@ function stripComments(src) {
   const vite = src('vite.config.js');
   assert.ok(!/'assets-v2\/bosses-v3'/.test(vite), 'the build does not prune Bosses V3');
   ok('bosses V3 (12 bosses/mid-bosses override: frames 2.5-6x taller, provenance, fallback order, one-scale displayH, own mid-boss skin)');
+}
+
+// --- 21. Mobs V3: the common mobs of levels 2-5 redrawn at the Thanatos
+// standard (approved GPT sheets via the Codex CLI, tools/slice-mobs-v3.py) and
+// served as a default override with the original sheets as fallback ---
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const { createHash } = await import('node:crypto');
+  const sha = (p) => createHash('sha256').update(fs.readFileSync(path.join(ROOT, p))).digest('hex');
+  const POSES = ['idle', 'moveL', 'moveR', 'hit', 'attack'];
+  const BATCHES = [
+    { level: 'src/levels/level2.js', orig: 'public/assets/monsters3.json', sheets: {
+      monsters19: ['willow', 'zombie', 'munak', 'bongun'],
+      monsters20: ['ninetails', 'deviruchi', 'marionette', 'wraith'] } },
+    { level: 'src/levels/level3.js', orig: 'public/assets/monsters4.json', sheets: {
+      monsters21: ['evildruid', 'darkpriest', 'raydric', 'khalitzburg'],
+      monsters22: ['gargoyle', 'ghoul', 'whisper', 'bapho_jr'] } },
+    { level: 'src/levels/level4.js', orig: 'public/assets/monsters6.json', sheets: {
+      monsters23: ['dimik', 'venatu', 'plasma', 'guardian'],
+      monsters24: ['cell', 'sentry', 'repairdrone', 'sparkbeetle'] } },
+    // grow: false — the original Biolab rects were mis-cut slivers that also held
+    // lasers and shadows (see the f7102d3 fix), so their heights don't measure the
+    // figure and can't be compared; the absolute floor below still applies
+    { level: 'src/levels/level5.js', orig: 'public/assets/monsters8.json', grow: false, sheets: {
+      monsters25: ['failedexp', 'remover', 'labdrone', 'testsubject'],
+      monsters26: ['sporecloud', 'mutanthound', 'serumturret', 'biosludge'] } },
+  ];
+  const report = JSON.parse(src('art-clean/mobs-v3-gpt/qa/report-mobs-v3.json'));
+  for (const inp of Object.values(report.inputs)) {
+    assert.equal(sha(`art-clean/mobs-v3-gpt/${inp.file}`), inp.sha256, `approved source ${inp.file} unchanged since slicing`);
+  }
+  for (const [f, h] of Object.entries(report.outputs)) {
+    assert.equal(sha(`public/assets-v2/mobs-v3/${f}`), h, `runtime ${f} matches the slicer report`);
+  }
+  const atlas = src('src/engine/atlas.js');
+  let n = 0;
+  for (const b of BATCHES) {
+    const orig = JSON.parse(src(b.orig)).monsters;
+    const lvl = src(b.level);
+    const iOrig = atlas.indexOf(`addMonsters(mon${b.orig.match(/monsters(\d+)/)[1]}Manifest`);
+    for (const [key, names] of Object.entries(b.sheets)) {
+      const m = JSON.parse(src(`public/assets-v2/mobs-v3/${key}.json`));
+      assert.deepEqual(m.size, { w: 1536, h: 1024 }, `${key} is one 1536x1024 sheet`);
+      assert.deepEqual(Object.keys(m.monsters).sort(), [...names].sort(), `${key} keys`);
+      assert.ok(report.outputs[`${key}.png`] && report.outputs[`${key}.json`], `${key} listed in the slicer report`);
+      const iNew = atlas.indexOf(`addMonsters(mon${key.slice(8)}Manifest, mon${key.slice(8)}Base)`);
+      assert.ok(iOrig > 0 && iNew > iOrig, `${key} merges after ${b.orig} (override, original kept as fallback)`);
+      for (const name of names) {
+        assert.ok(orig[name], `original ${name} kept as fallback`);
+        assert.ok(lvl.includes(`skin: '${name}'`), `${b.level} still spawns ${name}`);
+        const e = m.monsters[name];
+        assert.equal(e.displayH, undefined, `${name} scales like the other common mobs (no displayH)`);
+        for (const side of ['down', 'up']) {
+          for (const p of POSES) {
+            const r = e[side][p];
+            assert.ok(r && !Array.isArray(r) && r.x >= 0 && r.y >= 0 && r.x + r.w <= 1536 && r.y + r.h <= 1024, `${name}.${side}.${p} single rect in bounds`);
+            n++;
+          }
+        }
+        // every V3 idle frame carries real detail (smallest: Lab Drone, 76 px)
+        assert.ok(e.down.idle.h >= 70, `${name} idle ${e.down.idle.h}px tall`);
+        if (b.grow !== false) {
+          const old = [].concat(orig[name].down.idle)[0];
+          // 1.25x floor: Whisper is a tiny sheet ghost in RO too (66 -> 84 px) and
+          // Repair Drone a small dome (71 -> 93); the rest grew 1.5-2.9x
+          assert.ok(e.down.idle.h >= 1.25 * old.h, `${name} idle ${e.down.idle.h}px vs ${old.h}px before`);
+        }
+      }
+    }
+  }
+  assert.ok(atlas.includes('assets-v2/mobs-v3'), 'atlas loads the Mobs V3 tree');
+  assert.ok(!/'assets-v2\/mobs-v3'/.test(src('vite.config.js')), 'the build does not prune Mobs V3');
+  ok(`mobs V3 (${n} frames override the original level 2-5 mobs: provenance, fallback order, larger frames)`);
 }
 
 console.log(`\nPASS — ${passed} static checks`);

@@ -1,0 +1,6345 @@
+{
+  "slicer_core": {
+    "tools/slice-thanatos.py": "fbd734ba57426c96781c8d07de13aff0f4663d97d9c51f0e4b0a295cbfdb905d",
+    "tools/slice-niflheim.py": "a622eaf950ef31d0e60a4cc63dfcd14d0e9ae1e7aeca14b9fedc313a200c3c12"
+  },
+  "inputs": {
+    "monsters19": {
+      "file": "geffen-a-v1.png",
+      "sha256": "3db60e4c3ba0fae7ce5c957e5dba3951bd1672f072447a3416f9c92b2fad9508",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        128,
+        128,
+        127
+      ],
+      "keyed": 1143454
+    },
+    "monsters20": {
+      "file": "geffen-b-v1.png",
+      "sha256": "8a73f818c16a851f0da5dfb3266dadeb10d43985b552f738b75542e581f86382",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        129,
+        129,
+        129
+      ],
+      "keyed": 1147853
+    },
+    "monsters21": {
+      "file": "glastheim-a-v1.png",
+      "sha256": "ae78c2b37e08e2a295ec1727f2d8e258a8b22365dbaca1c5acee58bdc1acabfe",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        129,
+        129,
+        129
+      ],
+      "keyed": 1062368
+    },
+    "monsters22": {
+      "file": "glastheim-b-v1.png",
+      "sha256": "93153c0cdf180a78e1ffbee123ec5dbaa3505985e448568c0956f932e556ffaf",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        128,
+        128,
+        128
+      ],
+      "keyed": 1276018
+    },
+    "monsters23": {
+      "file": "juperos-a-v1.png",
+      "sha256": "ef789b1affc2e10ceb4917c9ffeb4a03cbce1984b1104a6e9a92036859174c59",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        125,
+        125,
+        124
+      ],
+      "keyed": 1220002
+    },
+    "monsters24": {
+      "file": "juperos-b-v1.png",
+      "sha256": "048856cdb602f6490109028f27074719a02a3b799bc5ec3b17b62e9aeaa5415b",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        128,
+        127,
+        127
+      ],
+      "keyed": 1267251
+    },
+    "monsters25": {
+      "file": "biolab-a-v1.png",
+      "sha256": "0d36a9d71611ead44bd410f27a5ddc69cd7f559bfd5ceb87dda713de3d2fc7a2",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        127,
+        126,
+        126
+      ],
+      "keyed": 1282772
+    },
+    "monsters26": {
+      "file": "biolab-b-v1.png",
+      "sha256": "e0c09d3e2b5f672d83c0a92a736dd437a3c329ff49b7e64cdb89a9383eccfdca",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        127,
+        125,
+        125
+      ],
+      "keyed": 1209218
+    }
+  },
+  "warnings": [],
+  "ground_shadow_removed": {
+    "monsters19": {
+      "light": 2316,
+      "dark_flat": 1,
+      "specks": 0
+    },
+    "monsters20": {
+      "light": 6436,
+      "dark_flat": 28,
+      "specks": 13
+    },
+    "monsters21": {
+      "light": 9117,
+      "dark_flat": 2943,
+      "specks": 295
+    },
+    "monsters22": {
+      "light": 2841,
+      "dark_flat": 1235,
+      "specks": 72
+    },
+    "monsters23": {
+      "light": 17224,
+      "dark_flat": 43,
+      "specks": 88
+    },
+    "monsters24": {
+      "light": 10939,
+      "dark_flat": 5,
+      "specks": 688
+    },
+    "monsters25": {
+      "light": 2298,
+      "dark_flat": 0,
+      "specks": 4
+    },
+    "monsters26": {
+      "light": 19662,
+      "dark_flat": 26,
+      "specks": 8
+    }
+  },
+  "decontamination": {
+    "monsters19": {
+      "frames": {
+        "willow.down.idle": {
+          "removed": 116,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12321,
+          "opaque_after": 12205,
+          "bn_after": 730,
+          "border_bn": 0,
+          "w": 134,
+          "h": 140,
+          "bn_max": 26,
+          "bn_edge_max": 0
+        },
+        "willow.down.moveL": {
+          "removed": 23,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11282,
+          "opaque_after": 11259,
+          "bn_after": 685,
+          "border_bn": 1,
+          "w": 124,
+          "h": 140,
+          "bn_max": 58,
+          "bn_edge_max": 1
+        },
+        "willow.down.moveR": {
+          "removed": 41,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11433,
+          "opaque_after": 11392,
+          "bn_after": 628,
+          "border_bn": 0,
+          "w": 127,
+          "h": 140,
+          "bn_max": 23,
+          "bn_edge_max": 0
+        },
+        "willow.down.hit": {
+          "removed": 50,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11455,
+          "opaque_after": 11405,
+          "bn_after": 548,
+          "border_bn": 1,
+          "w": 127,
+          "h": 140,
+          "bn_max": 23,
+          "bn_edge_max": 1
+        },
+        "willow.down.attack": {
+          "removed": 343,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12568,
+          "opaque_after": 12225,
+          "bn_after": 932,
+          "border_bn": 1,
+          "w": 129,
+          "h": 140,
+          "bn_max": 133,
+          "bn_edge_max": 1
+        },
+        "willow.up.idle": {
+          "removed": 75,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12304,
+          "opaque_after": 12229,
+          "bn_after": 788,
+          "border_bn": 1,
+          "w": 138,
+          "h": 145,
+          "bn_max": 63,
+          "bn_edge_max": 1
+        },
+        "willow.up.moveL": {
+          "removed": 16,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10307,
+          "opaque_after": 10291,
+          "bn_after": 624,
+          "border_bn": 0,
+          "w": 122,
+          "h": 145,
+          "bn_max": 67,
+          "bn_edge_max": 0
+        },
+        "willow.up.moveR": {
+          "removed": 105,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10781,
+          "opaque_after": 10676,
+          "bn_after": 663,
+          "border_bn": 1,
+          "w": 130,
+          "h": 145,
+          "bn_max": 18,
+          "bn_edge_max": 3
+        },
+        "willow.up.hit": {
+          "removed": 50,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11827,
+          "opaque_after": 11777,
+          "bn_after": 788,
+          "border_bn": 4,
+          "w": 134,
+          "h": 145,
+          "bn_max": 48,
+          "bn_edge_max": 6
+        },
+        "willow.up.attack": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12627,
+          "opaque_after": 12593,
+          "bn_after": 1035,
+          "border_bn": 0,
+          "w": 125,
+          "h": 145,
+          "bn_max": 204,
+          "bn_edge_max": 0
+        },
+        "zombie.down.idle": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10213,
+          "opaque_after": 10203,
+          "bn_after": 964,
+          "border_bn": 3,
+          "w": 90,
+          "h": 161,
+          "bn_max": 158,
+          "bn_edge_max": 2
+        },
+        "zombie.down.moveL": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9507,
+          "opaque_after": 9489,
+          "bn_after": 833,
+          "border_bn": 0,
+          "w": 104,
+          "h": 161,
+          "bn_max": 80,
+          "bn_edge_max": 0
+        },
+        "zombie.down.moveR": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9665,
+          "opaque_after": 9648,
+          "bn_after": 937,
+          "border_bn": 0,
+          "w": 96,
+          "h": 161,
+          "bn_max": 111,
+          "bn_edge_max": 0
+        },
+        "zombie.down.hit": {
+          "removed": 104,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10293,
+          "opaque_after": 10189,
+          "bn_after": 983,
+          "border_bn": 5,
+          "w": 109,
+          "h": 161,
+          "bn_max": 71,
+          "bn_edge_max": 1
+        },
+        "zombie.down.attack": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11237,
+          "opaque_after": 11231,
+          "bn_after": 946,
+          "border_bn": 0,
+          "w": 145,
+          "h": 158,
+          "bn_max": 42,
+          "bn_edge_max": 0
+        },
+        "zombie.up.idle": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10481,
+          "opaque_after": 10477,
+          "bn_after": 754,
+          "border_bn": 0,
+          "w": 101,
+          "h": 161,
+          "bn_max": 43,
+          "bn_edge_max": 0
+        },
+        "zombie.up.moveL": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9624,
+          "opaque_after": 9614,
+          "bn_after": 659,
+          "border_bn": 0,
+          "w": 100,
+          "h": 161,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "zombie.up.moveR": {
+          "removed": 8,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9079,
+          "opaque_after": 9071,
+          "bn_after": 609,
+          "border_bn": 3,
+          "w": 97,
+          "h": 161,
+          "bn_max": 41,
+          "bn_edge_max": 2
+        },
+        "zombie.up.hit": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9784,
+          "opaque_after": 9775,
+          "bn_after": 739,
+          "border_bn": 1,
+          "w": 108,
+          "h": 161,
+          "bn_max": 90,
+          "bn_edge_max": 1
+        },
+        "zombie.up.attack": {
+          "removed": 13,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10521,
+          "opaque_after": 10508,
+          "bn_after": 818,
+          "border_bn": 0,
+          "w": 131,
+          "h": 161,
+          "bn_max": 25,
+          "bn_edge_max": 0
+        },
+        "munak.down.idle": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10512,
+          "opaque_after": 10508,
+          "bn_after": 178,
+          "border_bn": 0,
+          "w": 90,
+          "h": 173,
+          "bn_max": 11,
+          "bn_edge_max": 0
+        },
+        "munak.down.moveL": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9988,
+          "opaque_after": 9983,
+          "bn_after": 189,
+          "border_bn": 1,
+          "w": 103,
+          "h": 173,
+          "bn_max": 12,
+          "bn_edge_max": 1
+        },
+        "munak.down.moveR": {
+          "removed": 7,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10175,
+          "opaque_after": 10168,
+          "bn_after": 183,
+          "border_bn": 0,
+          "w": 99,
+          "h": 173,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "munak.down.hit": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10401,
+          "opaque_after": 10396,
+          "bn_after": 195,
+          "border_bn": 0,
+          "w": 107,
+          "h": 173,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "munak.down.attack": {
+          "removed": 3,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10789,
+          "opaque_after": 10786,
+          "bn_after": 303,
+          "border_bn": 0,
+          "w": 128,
+          "h": 169,
+          "bn_max": 33,
+          "bn_edge_max": 0
+        },
+        "munak.up.idle": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10917,
+          "opaque_after": 10908,
+          "bn_after": 288,
+          "border_bn": 0,
+          "w": 95,
+          "h": 178,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "munak.up.moveL": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9842,
+          "opaque_after": 9836,
+          "bn_after": 255,
+          "border_bn": 0,
+          "w": 101,
+          "h": 178,
+          "bn_max": 47,
+          "bn_edge_max": 0
+        },
+        "munak.up.moveR": {
+          "removed": 2,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9818,
+          "opaque_after": 9816,
+          "bn_after": 301,
+          "border_bn": 2,
+          "w": 94,
+          "h": 178,
+          "bn_max": 32,
+          "bn_edge_max": 2
+        },
+        "munak.up.hit": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10369,
+          "opaque_after": 10364,
+          "bn_after": 295,
+          "border_bn": 4,
+          "w": 101,
+          "h": 178,
+          "bn_max": 50,
+          "bn_edge_max": 5
+        },
+        "munak.up.attack": {
+          "removed": 1,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10342,
+          "opaque_after": 10341,
+          "bn_after": 285,
+          "border_bn": 0,
+          "w": 123,
+          "h": 177,
+          "bn_max": 15,
+          "bn_edge_max": 0
+        },
+        "bongun.down.idle": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10444,
+          "opaque_after": 10440,
+          "bn_after": 416,
+          "border_bn": 1,
+          "w": 87,
+          "h": 174,
+          "bn_max": 12,
+          "bn_edge_max": 1
+        },
+        "bongun.down.moveL": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10073,
+          "opaque_after": 10068,
+          "bn_after": 433,
+          "border_bn": 0,
+          "w": 102,
+          "h": 174,
+          "bn_max": 14,
+          "bn_edge_max": 0
+        },
+        "bongun.down.moveR": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9996,
+          "opaque_after": 9991,
+          "bn_after": 487,
+          "border_bn": 0,
+          "w": 99,
+          "h": 174,
+          "bn_max": 32,
+          "bn_edge_max": 0
+        },
+        "bongun.down.hit": {
+          "removed": 1,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10406,
+          "opaque_after": 10405,
+          "bn_after": 582,
+          "border_bn": 2,
+          "w": 108,
+          "h": 174,
+          "bn_max": 36,
+          "bn_edge_max": 2
+        },
+        "bongun.down.attack": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10986,
+          "opaque_after": 10980,
+          "bn_after": 506,
+          "border_bn": 1,
+          "w": 126,
+          "h": 174,
+          "bn_max": 22,
+          "bn_edge_max": 1
+        },
+        "bongun.up.idle": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10950,
+          "opaque_after": 10946,
+          "bn_after": 449,
+          "border_bn": 5,
+          "w": 93,
+          "h": 178,
+          "bn_max": 33,
+          "bn_edge_max": 5
+        },
+        "bongun.up.moveL": {
+          "removed": 2,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9685,
+          "opaque_after": 9683,
+          "bn_after": 455,
+          "border_bn": 2,
+          "w": 100,
+          "h": 178,
+          "bn_max": 49,
+          "bn_edge_max": 1
+        },
+        "bongun.up.moveR": {
+          "removed": 2,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9622,
+          "opaque_after": 9620,
+          "bn_after": 382,
+          "border_bn": 2,
+          "w": 93,
+          "h": 178,
+          "bn_max": 13,
+          "bn_edge_max": 1
+        },
+        "bongun.up.hit": {
+          "removed": 7,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10177,
+          "opaque_after": 10170,
+          "bn_after": 429,
+          "border_bn": 0,
+          "w": 98,
+          "h": 178,
+          "bn_max": 30,
+          "bn_edge_max": 0
+        },
+        "bongun.up.attack": {
+          "removed": 8,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10232,
+          "opaque_after": 10224,
+          "bn_after": 384,
+          "border_bn": 1,
+          "w": 126,
+          "h": 176,
+          "bn_max": 11,
+          "bn_edge_max": 1
+        }
+      },
+      "bg_sample": [
+        128,
+        128,
+        127
+      ],
+      "small_holes_refilled": 305
+    },
+    "monsters20": {
+      "frames": {
+        "ninetails.down.idle": {
+          "removed": 89,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11451,
+          "opaque_after": 11362,
+          "bn_after": 287,
+          "border_bn": 0,
+          "w": 131,
+          "h": 132,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "ninetails.down.moveL": {
+          "removed": 155,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11267,
+          "opaque_after": 11112,
+          "bn_after": 345,
+          "border_bn": 2,
+          "w": 134,
+          "h": 132,
+          "bn_max": 39,
+          "bn_edge_max": 2
+        },
+        "ninetails.down.moveR": {
+          "removed": 92,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10687,
+          "opaque_after": 10595,
+          "bn_after": 350,
+          "border_bn": 0,
+          "w": 128,
+          "h": 132,
+          "bn_max": 84,
+          "bn_edge_max": 0
+        },
+        "ninetails.down.hit": {
+          "removed": 108,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10411,
+          "opaque_after": 10303,
+          "bn_after": 283,
+          "border_bn": 0,
+          "w": 132,
+          "h": 132,
+          "bn_max": 34,
+          "bn_edge_max": 0
+        },
+        "ninetails.down.attack": {
+          "removed": 101,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12638,
+          "opaque_after": 12537,
+          "bn_after": 344,
+          "border_bn": 0,
+          "w": 136,
+          "h": 132,
+          "bn_max": 38,
+          "bn_edge_max": 0
+        },
+        "ninetails.up.idle": {
+          "removed": 60,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10379,
+          "opaque_after": 10319,
+          "bn_after": 195,
+          "border_bn": 1,
+          "w": 141,
+          "h": 122,
+          "bn_max": 28,
+          "bn_edge_max": 2
+        },
+        "ninetails.up.moveL": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9741,
+          "opaque_after": 9724,
+          "bn_after": 247,
+          "border_bn": 0,
+          "w": 131,
+          "h": 122,
+          "bn_max": 20,
+          "bn_edge_max": 0
+        },
+        "ninetails.up.moveR": {
+          "removed": 28,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9715,
+          "opaque_after": 9687,
+          "bn_after": 173,
+          "border_bn": 0,
+          "w": 127,
+          "h": 122,
+          "bn_max": 23,
+          "bn_edge_max": 0
+        },
+        "ninetails.up.hit": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9806,
+          "opaque_after": 9792,
+          "bn_after": 143,
+          "border_bn": 0,
+          "w": 128,
+          "h": 122,
+          "bn_max": 13,
+          "bn_edge_max": 0
+        },
+        "ninetails.up.attack": {
+          "removed": 32,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11524,
+          "opaque_after": 11492,
+          "bn_after": 323,
+          "border_bn": 0,
+          "w": 148,
+          "h": 122,
+          "bn_max": 60,
+          "bn_edge_max": 0
+        },
+        "deviruchi.down.idle": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5523,
+          "opaque_after": 5496,
+          "bn_after": 248,
+          "border_bn": 0,
+          "w": 117,
+          "h": 96,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "deviruchi.down.moveL": {
+          "removed": 45,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5460,
+          "opaque_after": 5415,
+          "bn_after": 212,
+          "border_bn": 3,
+          "w": 121,
+          "h": 96,
+          "bn_max": 43,
+          "bn_edge_max": 43
+        },
+        "deviruchi.down.moveR": {
+          "removed": 67,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5371,
+          "opaque_after": 5304,
+          "bn_after": 173,
+          "border_bn": 0,
+          "w": 117,
+          "h": 96,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "deviruchi.down.hit": {
+          "removed": 37,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5069,
+          "opaque_after": 5032,
+          "bn_after": 153,
+          "border_bn": 0,
+          "w": 123,
+          "h": 96,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "deviruchi.down.attack": {
+          "removed": 57,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6486,
+          "opaque_after": 6429,
+          "bn_after": 282,
+          "border_bn": 2,
+          "w": 129,
+          "h": 96,
+          "bn_max": 50,
+          "bn_edge_max": 8
+        },
+        "deviruchi.up.idle": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5553,
+          "opaque_after": 5522,
+          "bn_after": 247,
+          "border_bn": 0,
+          "w": 111,
+          "h": 108,
+          "bn_max": 42,
+          "bn_edge_max": 0
+        },
+        "deviruchi.up.moveL": {
+          "removed": 58,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5553,
+          "opaque_after": 5495,
+          "bn_after": 216,
+          "border_bn": 0,
+          "w": 107,
+          "h": 108,
+          "bn_max": 44,
+          "bn_edge_max": 0
+        },
+        "deviruchi.up.moveR": {
+          "removed": 28,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5858,
+          "opaque_after": 5830,
+          "bn_after": 184,
+          "border_bn": 0,
+          "w": 118,
+          "h": 108,
+          "bn_max": 38,
+          "bn_edge_max": 0
+        },
+        "deviruchi.up.hit": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5548,
+          "opaque_after": 5514,
+          "bn_after": 222,
+          "border_bn": 2,
+          "w": 120,
+          "h": 108,
+          "bn_max": 39,
+          "bn_edge_max": 1
+        },
+        "deviruchi.up.attack": {
+          "removed": 74,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7109,
+          "opaque_after": 7035,
+          "bn_after": 330,
+          "border_bn": 0,
+          "w": 124,
+          "h": 108,
+          "bn_max": 55,
+          "bn_edge_max": 0
+        },
+        "marionette.down.idle": {
+          "removed": 482,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10019,
+          "opaque_after": 9537,
+          "bn_after": 1345,
+          "border_bn": 3,
+          "w": 113,
+          "h": 179,
+          "bn_max": 240,
+          "bn_edge_max": 1
+        },
+        "marionette.down.moveL": {
+          "removed": 1099,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10251,
+          "opaque_after": 9152,
+          "bn_after": 1011,
+          "border_bn": 4,
+          "w": 111,
+          "h": 179,
+          "bn_max": 98,
+          "bn_edge_max": 4
+        },
+        "marionette.down.moveR": {
+          "removed": 170,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9913,
+          "opaque_after": 9743,
+          "bn_after": 1648,
+          "border_bn": 4,
+          "w": 110,
+          "h": 179,
+          "bn_max": 232,
+          "bn_edge_max": 11
+        },
+        "marionette.down.hit": {
+          "removed": 292,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9814,
+          "opaque_after": 9522,
+          "bn_after": 1467,
+          "border_bn": 0,
+          "w": 114,
+          "h": 179,
+          "bn_max": 298,
+          "bn_edge_max": 0
+        },
+        "marionette.down.attack": {
+          "removed": 1150,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12058,
+          "opaque_after": 10908,
+          "bn_after": 1420,
+          "border_bn": 3,
+          "w": 135,
+          "h": 179,
+          "bn_max": 303,
+          "bn_edge_max": 14
+        },
+        "marionette.up.idle": {
+          "removed": 1026,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10745,
+          "opaque_after": 9719,
+          "bn_after": 1101,
+          "border_bn": 4,
+          "w": 115,
+          "h": 175,
+          "bn_max": 190,
+          "bn_edge_max": 3
+        },
+        "marionette.up.moveL": {
+          "removed": 959,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10729,
+          "opaque_after": 9770,
+          "bn_after": 1131,
+          "border_bn": 9,
+          "w": 119,
+          "h": 175,
+          "bn_max": 127,
+          "bn_edge_max": 60
+        },
+        "marionette.up.moveR": {
+          "removed": 860,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10491,
+          "opaque_after": 9631,
+          "bn_after": 1119,
+          "border_bn": 3,
+          "w": 110,
+          "h": 175,
+          "bn_max": 171,
+          "bn_edge_max": 2
+        },
+        "marionette.up.hit": {
+          "removed": 842,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10328,
+          "opaque_after": 9486,
+          "bn_after": 1138,
+          "border_bn": 6,
+          "w": 116,
+          "h": 175,
+          "bn_max": 113,
+          "bn_edge_max": 8
+        },
+        "marionette.up.attack": {
+          "removed": 1525,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13164,
+          "opaque_after": 11639,
+          "bn_after": 1388,
+          "border_bn": 4,
+          "w": 141,
+          "h": 175,
+          "bn_max": 162,
+          "bn_edge_max": 4
+        },
+        "wraith.down.idle": {
+          "removed": 55,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14096,
+          "opaque_after": 14041,
+          "bn_after": 1592,
+          "border_bn": 10,
+          "w": 130,
+          "h": 163,
+          "bn_max": 110,
+          "bn_edge_max": 10
+        },
+        "wraith.down.moveL": {
+          "removed": 58,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13984,
+          "opaque_after": 13926,
+          "bn_after": 1599,
+          "border_bn": 1,
+          "w": 133,
+          "h": 163,
+          "bn_max": 50,
+          "bn_edge_max": 1
+        },
+        "wraith.down.moveR": {
+          "removed": 40,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12679,
+          "opaque_after": 12639,
+          "bn_after": 1642,
+          "border_bn": 3,
+          "w": 127,
+          "h": 163,
+          "bn_max": 76,
+          "bn_edge_max": 1
+        },
+        "wraith.down.hit": {
+          "removed": 44,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13673,
+          "opaque_after": 13629,
+          "bn_after": 1430,
+          "border_bn": 16,
+          "w": 142,
+          "h": 163,
+          "bn_max": 45,
+          "bn_edge_max": 31
+        },
+        "wraith.down.attack": {
+          "removed": 215,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 15461,
+          "opaque_after": 15246,
+          "bn_after": 1450,
+          "border_bn": 11,
+          "w": 139,
+          "h": 163,
+          "bn_max": 105,
+          "bn_edge_max": 105
+        },
+        "wraith.up.idle": {
+          "removed": 69,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14773,
+          "opaque_after": 14704,
+          "bn_after": 2828,
+          "border_bn": 9,
+          "w": 139,
+          "h": 165,
+          "bn_max": 219,
+          "bn_edge_max": 179
+        },
+        "wraith.up.moveL": {
+          "removed": 52,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13855,
+          "opaque_after": 13803,
+          "bn_after": 2363,
+          "border_bn": 0,
+          "w": 131,
+          "h": 165,
+          "bn_max": 236,
+          "bn_edge_max": 0
+        },
+        "wraith.up.moveR": {
+          "removed": 103,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13538,
+          "opaque_after": 13435,
+          "bn_after": 2593,
+          "border_bn": 3,
+          "w": 128,
+          "h": 165,
+          "bn_max": 273,
+          "bn_edge_max": 6
+        },
+        "wraith.up.hit": {
+          "removed": 70,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13437,
+          "opaque_after": 13367,
+          "bn_after": 2418,
+          "border_bn": 0,
+          "w": 145,
+          "h": 165,
+          "bn_max": 161,
+          "bn_edge_max": 0
+        },
+        "wraith.up.attack": {
+          "removed": 222,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 15228,
+          "opaque_after": 15006,
+          "bn_after": 2648,
+          "border_bn": 14,
+          "w": 143,
+          "h": 165,
+          "bn_max": 282,
+          "bn_edge_max": 210
+        }
+      },
+      "bg_sample": [
+        128,
+        128,
+        128
+      ],
+      "small_holes_refilled": 931
+    },
+    "monsters21": {
+      "frames": {
+        "evildruid.down.idle": {
+          "removed": 68,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 17358,
+          "opaque_after": 17290,
+          "bn_after": 976,
+          "border_bn": 0,
+          "w": 155,
+          "h": 202,
+          "bn_max": 44,
+          "bn_edge_max": 0
+        },
+        "evildruid.down.moveL": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 16024,
+          "opaque_after": 15993,
+          "bn_after": 791,
+          "border_bn": 0,
+          "w": 137,
+          "h": 202,
+          "bn_max": 37,
+          "bn_edge_max": 0
+        },
+        "evildruid.down.moveR": {
+          "removed": 42,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14415,
+          "opaque_after": 14373,
+          "bn_after": 739,
+          "border_bn": 0,
+          "w": 124,
+          "h": 202,
+          "bn_max": 87,
+          "bn_edge_max": 0
+        },
+        "evildruid.down.hit": {
+          "removed": 47,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 15909,
+          "opaque_after": 15862,
+          "bn_after": 873,
+          "border_bn": 1,
+          "w": 136,
+          "h": 202,
+          "bn_max": 66,
+          "bn_edge_max": 1
+        },
+        "evildruid.down.attack": {
+          "removed": 54,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 16749,
+          "opaque_after": 16695,
+          "bn_after": 873,
+          "border_bn": 1,
+          "w": 142,
+          "h": 202,
+          "bn_max": 52,
+          "bn_edge_max": 2
+        },
+        "evildruid.up.idle": {
+          "removed": 50,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 15896,
+          "opaque_after": 15846,
+          "bn_after": 980,
+          "border_bn": 5,
+          "w": 134,
+          "h": 197,
+          "bn_max": 75,
+          "bn_edge_max": 58
+        },
+        "evildruid.up.moveL": {
+          "removed": 71,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 16369,
+          "opaque_after": 16298,
+          "bn_after": 860,
+          "border_bn": 0,
+          "w": 141,
+          "h": 197,
+          "bn_max": 105,
+          "bn_edge_max": 0
+        },
+        "evildruid.up.moveR": {
+          "removed": 67,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14442,
+          "opaque_after": 14375,
+          "bn_after": 699,
+          "border_bn": 5,
+          "w": 120,
+          "h": 197,
+          "bn_max": 76,
+          "bn_edge_max": 8
+        },
+        "evildruid.up.hit": {
+          "removed": 196,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14749,
+          "opaque_after": 14553,
+          "bn_after": 795,
+          "border_bn": 0,
+          "w": 131,
+          "h": 197,
+          "bn_max": 72,
+          "bn_edge_max": 0
+        },
+        "evildruid.up.attack": {
+          "removed": 156,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 16570,
+          "opaque_after": 16414,
+          "bn_after": 912,
+          "border_bn": 0,
+          "w": 143,
+          "h": 197,
+          "bn_max": 89,
+          "bn_edge_max": 0
+        },
+        "darkpriest.down.idle": {
+          "removed": 30,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10262,
+          "opaque_after": 10232,
+          "bn_after": 599,
+          "border_bn": 8,
+          "w": 92,
+          "h": 166,
+          "bn_max": 50,
+          "bn_edge_max": 50
+        },
+        "darkpriest.down.moveL": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10051,
+          "opaque_after": 10045,
+          "bn_after": 605,
+          "border_bn": 0,
+          "w": 89,
+          "h": 166,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "darkpriest.down.moveR": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9357,
+          "opaque_after": 9348,
+          "bn_after": 616,
+          "border_bn": 2,
+          "w": 86,
+          "h": 166,
+          "bn_max": 63,
+          "bn_edge_max": 2
+        },
+        "darkpriest.down.hit": {
+          "removed": 28,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11302,
+          "opaque_after": 11274,
+          "bn_after": 816,
+          "border_bn": 0,
+          "w": 114,
+          "h": 166,
+          "bn_max": 55,
+          "bn_edge_max": 0
+        },
+        "darkpriest.down.attack": {
+          "removed": 173,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12982,
+          "opaque_after": 12809,
+          "bn_after": 1044,
+          "border_bn": 0,
+          "w": 132,
+          "h": 166,
+          "bn_max": 131,
+          "bn_edge_max": 0
+        },
+        "darkpriest.up.idle": {
+          "removed": 36,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10906,
+          "opaque_after": 10870,
+          "bn_after": 1041,
+          "border_bn": 1,
+          "w": 94,
+          "h": 170,
+          "bn_max": 298,
+          "bn_edge_max": 13
+        },
+        "darkpriest.up.moveL": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10132,
+          "opaque_after": 10118,
+          "bn_after": 935,
+          "border_bn": 4,
+          "w": 97,
+          "h": 170,
+          "bn_max": 94,
+          "bn_edge_max": 2
+        },
+        "darkpriest.up.moveR": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9911,
+          "opaque_after": 9901,
+          "bn_after": 850,
+          "border_bn": 0,
+          "w": 87,
+          "h": 170,
+          "bn_max": 193,
+          "bn_edge_max": 0
+        },
+        "darkpriest.up.hit": {
+          "removed": 62,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12050,
+          "opaque_after": 11988,
+          "bn_after": 888,
+          "border_bn": 1,
+          "w": 116,
+          "h": 170,
+          "bn_max": 168,
+          "bn_edge_max": 1
+        },
+        "darkpriest.up.attack": {
+          "removed": 779,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 14454,
+          "opaque_after": 13675,
+          "bn_after": 1093,
+          "border_bn": 8,
+          "w": 143,
+          "h": 170,
+          "bn_max": 112,
+          "bn_edge_max": 8
+        },
+        "raydric.down.idle": {
+          "removed": 12,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9278,
+          "opaque_after": 9266,
+          "bn_after": 237,
+          "border_bn": 1,
+          "w": 85,
+          "h": 177,
+          "bn_max": 12,
+          "bn_edge_max": 1
+        },
+        "raydric.down.moveL": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9633,
+          "opaque_after": 9599,
+          "bn_after": 322,
+          "border_bn": 0,
+          "w": 98,
+          "h": 177,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "raydric.down.moveR": {
+          "removed": 207,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9199,
+          "opaque_after": 8992,
+          "bn_after": 249,
+          "border_bn": 0,
+          "w": 91,
+          "h": 177,
+          "bn_max": 25,
+          "bn_edge_max": 0
+        },
+        "raydric.down.hit": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10906,
+          "opaque_after": 10892,
+          "bn_after": 536,
+          "border_bn": 0,
+          "w": 115,
+          "h": 177,
+          "bn_max": 107,
+          "bn_edge_max": 0
+        },
+        "raydric.down.attack": {
+          "removed": 682,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11665,
+          "opaque_after": 10983,
+          "bn_after": 439,
+          "border_bn": 0,
+          "w": 121,
+          "h": 177,
+          "bn_max": 82,
+          "bn_edge_max": 0
+        },
+        "raydric.up.idle": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10322,
+          "opaque_after": 10313,
+          "bn_after": 286,
+          "border_bn": 1,
+          "w": 85,
+          "h": 183,
+          "bn_max": 53,
+          "bn_edge_max": 1
+        },
+        "raydric.up.moveL": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9888,
+          "opaque_after": 9878,
+          "bn_after": 359,
+          "border_bn": 0,
+          "w": 94,
+          "h": 183,
+          "bn_max": 108,
+          "bn_edge_max": 0
+        },
+        "raydric.up.moveR": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9776,
+          "opaque_after": 9770,
+          "bn_after": 360,
+          "border_bn": 0,
+          "w": 83,
+          "h": 183,
+          "bn_max": 119,
+          "bn_edge_max": 0
+        },
+        "raydric.up.hit": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9325,
+          "opaque_after": 9320,
+          "bn_after": 205,
+          "border_bn": 1,
+          "w": 109,
+          "h": 183,
+          "bn_max": 13,
+          "bn_edge_max": 1
+        },
+        "raydric.up.attack": {
+          "removed": 11,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11919,
+          "opaque_after": 11908,
+          "bn_after": 311,
+          "border_bn": 0,
+          "w": 133,
+          "h": 183,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.down.idle": {
+          "removed": 108,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11335,
+          "opaque_after": 11227,
+          "bn_after": 712,
+          "border_bn": 2,
+          "w": 106,
+          "h": 183,
+          "bn_max": 191,
+          "bn_edge_max": 3
+        },
+        "khalitzburg.down.moveL": {
+          "removed": 627,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11687,
+          "opaque_after": 11060,
+          "bn_after": 499,
+          "border_bn": 0,
+          "w": 104,
+          "h": 183,
+          "bn_max": 44,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.down.moveR": {
+          "removed": 437,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10517,
+          "opaque_after": 10080,
+          "bn_after": 464,
+          "border_bn": 1,
+          "w": 90,
+          "h": 183,
+          "bn_max": 44,
+          "bn_edge_max": 1
+        },
+        "khalitzburg.down.hit": {
+          "removed": 761,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12520,
+          "opaque_after": 11759,
+          "bn_after": 527,
+          "border_bn": 4,
+          "w": 128,
+          "h": 183,
+          "bn_max": 74,
+          "bn_edge_max": 6
+        },
+        "khalitzburg.down.attack": {
+          "removed": 846,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 13748,
+          "opaque_after": 12902,
+          "bn_after": 803,
+          "border_bn": 0,
+          "w": 149,
+          "h": 183,
+          "bn_max": 91,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.up.idle": {
+          "removed": 668,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12360,
+          "opaque_after": 11692,
+          "bn_after": 545,
+          "border_bn": 2,
+          "w": 95,
+          "h": 187,
+          "bn_max": 88,
+          "bn_edge_max": 2
+        },
+        "khalitzburg.up.moveL": {
+          "removed": 739,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12394,
+          "opaque_after": 11655,
+          "bn_after": 611,
+          "border_bn": 0,
+          "w": 101,
+          "h": 187,
+          "bn_max": 135,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.up.moveR": {
+          "removed": 397,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10896,
+          "opaque_after": 10499,
+          "bn_after": 436,
+          "border_bn": 0,
+          "w": 88,
+          "h": 187,
+          "bn_max": 53,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.up.hit": {
+          "removed": 1104,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12292,
+          "opaque_after": 11188,
+          "bn_after": 484,
+          "border_bn": 0,
+          "w": 117,
+          "h": 187,
+          "bn_max": 36,
+          "bn_edge_max": 0
+        },
+        "khalitzburg.up.attack": {
+          "removed": 1279,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 15802,
+          "opaque_after": 14523,
+          "bn_after": 1148,
+          "border_bn": 0,
+          "w": 137,
+          "h": 187,
+          "bn_max": 190,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        129,
+        129,
+        128
+      ],
+      "small_holes_refilled": 842
+    },
+    "monsters22": {
+      "frames": {
+        "gargoyle.down.idle": {
+          "removed": 12,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8513,
+          "opaque_after": 8501,
+          "bn_after": 596,
+          "border_bn": 1,
+          "w": 139,
+          "h": 107,
+          "bn_max": 22,
+          "bn_edge_max": 1
+        },
+        "gargoyle.down.moveL": {
+          "removed": 15,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8293,
+          "opaque_after": 8278,
+          "bn_after": 566,
+          "border_bn": 1,
+          "w": 128,
+          "h": 107,
+          "bn_max": 23,
+          "bn_edge_max": 1
+        },
+        "gargoyle.down.moveR": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8063,
+          "opaque_after": 8045,
+          "bn_after": 742,
+          "border_bn": 0,
+          "w": 130,
+          "h": 107,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "gargoyle.down.hit": {
+          "removed": 20,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7974,
+          "opaque_after": 7954,
+          "bn_after": 687,
+          "border_bn": 3,
+          "w": 116,
+          "h": 107,
+          "bn_max": 43,
+          "bn_edge_max": 16
+        },
+        "gargoyle.down.attack": {
+          "removed": 20,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7986,
+          "opaque_after": 7966,
+          "bn_after": 633,
+          "border_bn": 2,
+          "w": 136,
+          "h": 107,
+          "bn_max": 30,
+          "bn_edge_max": 1
+        },
+        "gargoyle.up.idle": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8448,
+          "opaque_after": 8430,
+          "bn_after": 1126,
+          "border_bn": 1,
+          "w": 135,
+          "h": 110,
+          "bn_max": 169,
+          "bn_edge_max": 1
+        },
+        "gargoyle.up.moveL": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7722,
+          "opaque_after": 7688,
+          "bn_after": 781,
+          "border_bn": 1,
+          "w": 123,
+          "h": 110,
+          "bn_max": 77,
+          "bn_edge_max": 1
+        },
+        "gargoyle.up.moveR": {
+          "removed": 23,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7904,
+          "opaque_after": 7881,
+          "bn_after": 880,
+          "border_bn": 1,
+          "w": 130,
+          "h": 110,
+          "bn_max": 74,
+          "bn_edge_max": 1
+        },
+        "gargoyle.up.hit": {
+          "removed": 16,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7845,
+          "opaque_after": 7829,
+          "bn_after": 733,
+          "border_bn": 1,
+          "w": 119,
+          "h": 110,
+          "bn_max": 46,
+          "bn_edge_max": 24
+        },
+        "gargoyle.up.attack": {
+          "removed": 29,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8398,
+          "opaque_after": 8369,
+          "bn_after": 918,
+          "border_bn": 1,
+          "w": 134,
+          "h": 110,
+          "bn_max": 139,
+          "bn_edge_max": 1
+        },
+        "ghoul.down.idle": {
+          "removed": 115,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7721,
+          "opaque_after": 7606,
+          "bn_after": 1124,
+          "border_bn": 1,
+          "w": 80,
+          "h": 132,
+          "bn_max": 88,
+          "bn_edge_max": 1
+        },
+        "ghoul.down.moveL": {
+          "removed": 141,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7847,
+          "opaque_after": 7706,
+          "bn_after": 1231,
+          "border_bn": 1,
+          "w": 93,
+          "h": 132,
+          "bn_max": 139,
+          "bn_edge_max": 1
+        },
+        "ghoul.down.moveR": {
+          "removed": 127,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7519,
+          "opaque_after": 7392,
+          "bn_after": 979,
+          "border_bn": 4,
+          "w": 91,
+          "h": 132,
+          "bn_max": 56,
+          "bn_edge_max": 4
+        },
+        "ghoul.down.hit": {
+          "removed": 281,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8196,
+          "opaque_after": 7915,
+          "bn_after": 1032,
+          "border_bn": 2,
+          "w": 109,
+          "h": 132,
+          "bn_max": 39,
+          "bn_edge_max": 3
+        },
+        "ghoul.down.attack": {
+          "removed": 1245,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9491,
+          "opaque_after": 8246,
+          "bn_after": 1120,
+          "border_bn": 0,
+          "w": 123,
+          "h": 132,
+          "bn_max": 63,
+          "bn_edge_max": 0
+        },
+        "ghoul.up.idle": {
+          "removed": 126,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8221,
+          "opaque_after": 8095,
+          "bn_after": 1209,
+          "border_bn": 1,
+          "w": 82,
+          "h": 135,
+          "bn_max": 120,
+          "bn_edge_max": 1
+        },
+        "ghoul.up.moveL": {
+          "removed": 106,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7310,
+          "opaque_after": 7204,
+          "bn_after": 910,
+          "border_bn": 0,
+          "w": 91,
+          "h": 135,
+          "bn_max": 59,
+          "bn_edge_max": 0
+        },
+        "ghoul.up.moveR": {
+          "removed": 128,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7424,
+          "opaque_after": 7296,
+          "bn_after": 1099,
+          "border_bn": 0,
+          "w": 91,
+          "h": 135,
+          "bn_max": 156,
+          "bn_edge_max": 0
+        },
+        "ghoul.up.hit": {
+          "removed": 145,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8172,
+          "opaque_after": 8027,
+          "bn_after": 1082,
+          "border_bn": 0,
+          "w": 97,
+          "h": 135,
+          "bn_max": 144,
+          "bn_edge_max": 0
+        },
+        "ghoul.up.attack": {
+          "removed": 1510,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9366,
+          "opaque_after": 7856,
+          "bn_after": 899,
+          "border_bn": 0,
+          "w": 127,
+          "h": 135,
+          "bn_max": 67,
+          "bn_edge_max": 0
+        },
+        "whisper.down.idle": {
+          "removed": 8,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4461,
+          "opaque_after": 4453,
+          "bn_after": 259,
+          "border_bn": 2,
+          "w": 83,
+          "h": 84,
+          "bn_max": 57,
+          "bn_edge_max": 1
+        },
+        "whisper.down.moveL": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4789,
+          "opaque_after": 4783,
+          "bn_after": 281,
+          "border_bn": 1,
+          "w": 88,
+          "h": 84,
+          "bn_max": 80,
+          "bn_edge_max": 2
+        },
+        "whisper.down.moveR": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4537,
+          "opaque_after": 4528,
+          "bn_after": 240,
+          "border_bn": 1,
+          "w": 83,
+          "h": 84,
+          "bn_max": 46,
+          "bn_edge_max": 1
+        },
+        "whisper.down.hit": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4114,
+          "opaque_after": 4109,
+          "bn_after": 296,
+          "border_bn": 0,
+          "w": 73,
+          "h": 84,
+          "bn_max": 74,
+          "bn_edge_max": 0
+        },
+        "whisper.down.attack": {
+          "removed": 3,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4949,
+          "opaque_after": 4946,
+          "bn_after": 251,
+          "border_bn": 0,
+          "w": 94,
+          "h": 84,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "whisper.up.idle": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4526,
+          "opaque_after": 4521,
+          "bn_after": 101,
+          "border_bn": 0,
+          "w": 84,
+          "h": 83,
+          "bn_max": 14,
+          "bn_edge_max": 0
+        },
+        "whisper.up.moveL": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4624,
+          "opaque_after": 4620,
+          "bn_after": 92,
+          "border_bn": 4,
+          "w": 86,
+          "h": 83,
+          "bn_max": 7,
+          "bn_edge_max": 1
+        },
+        "whisper.up.moveR": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4622,
+          "opaque_after": 4616,
+          "bn_after": 81,
+          "border_bn": 3,
+          "w": 86,
+          "h": 83,
+          "bn_max": 7,
+          "bn_edge_max": 1
+        },
+        "whisper.up.hit": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4238,
+          "opaque_after": 4229,
+          "bn_after": 91,
+          "border_bn": 1,
+          "w": 73,
+          "h": 83,
+          "bn_max": 4,
+          "bn_edge_max": 1
+        },
+        "whisper.up.attack": {
+          "removed": 7,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 4598,
+          "opaque_after": 4591,
+          "bn_after": 95,
+          "border_bn": 2,
+          "w": 88,
+          "h": 83,
+          "bn_max": 6,
+          "bn_edge_max": 1
+        },
+        "bapho_jr.down.idle": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8036,
+          "opaque_after": 8026,
+          "bn_after": 424,
+          "border_bn": 3,
+          "w": 120,
+          "h": 126,
+          "bn_max": 11,
+          "bn_edge_max": 2
+        },
+        "bapho_jr.down.moveL": {
+          "removed": 25,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7862,
+          "opaque_after": 7837,
+          "bn_after": 439,
+          "border_bn": 0,
+          "w": 126,
+          "h": 126,
+          "bn_max": 12,
+          "bn_edge_max": 0
+        },
+        "bapho_jr.down.moveR": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7872,
+          "opaque_after": 7862,
+          "bn_after": 537,
+          "border_bn": 2,
+          "w": 115,
+          "h": 126,
+          "bn_max": 24,
+          "bn_edge_max": 3
+        },
+        "bapho_jr.down.hit": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7541,
+          "opaque_after": 7514,
+          "bn_after": 432,
+          "border_bn": 4,
+          "w": 113,
+          "h": 126,
+          "bn_max": 40,
+          "bn_edge_max": 6
+        },
+        "bapho_jr.down.attack": {
+          "removed": 1461,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10815,
+          "opaque_after": 9354,
+          "bn_after": 626,
+          "border_bn": 0,
+          "w": 143,
+          "h": 126,
+          "bn_max": 23,
+          "bn_edge_max": 0
+        },
+        "bapho_jr.up.idle": {
+          "removed": 15,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7816,
+          "opaque_after": 7801,
+          "bn_after": 384,
+          "border_bn": 3,
+          "w": 122,
+          "h": 123,
+          "bn_max": 22,
+          "bn_edge_max": 2
+        },
+        "bapho_jr.up.moveL": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7389,
+          "opaque_after": 7379,
+          "bn_after": 367,
+          "border_bn": 0,
+          "w": 129,
+          "h": 123,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "bapho_jr.up.moveR": {
+          "removed": 7,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6875,
+          "opaque_after": 6868,
+          "bn_after": 448,
+          "border_bn": 0,
+          "w": 117,
+          "h": 123,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "bapho_jr.up.hit": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7415,
+          "opaque_after": 7406,
+          "bn_after": 392,
+          "border_bn": 3,
+          "w": 119,
+          "h": 123,
+          "bn_max": 16,
+          "bn_edge_max": 1
+        },
+        "bapho_jr.up.attack": {
+          "removed": 1053,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9262,
+          "opaque_after": 8209,
+          "bn_after": 568,
+          "border_bn": 0,
+          "w": 126,
+          "h": 123,
+          "bn_max": 32,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        127,
+        127,
+        127
+      ],
+      "small_holes_refilled": 1174
+    },
+    "monsters23": {
+      "frames": {
+        "dimik.down.idle": {
+          "removed": 717,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10268,
+          "opaque_after": 9551,
+          "bn_after": 648,
+          "border_bn": 1,
+          "w": 116,
+          "h": 120,
+          "bn_max": 73,
+          "bn_edge_max": 1
+        },
+        "dimik.down.moveL": {
+          "removed": 723,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9301,
+          "opaque_after": 8578,
+          "bn_after": 631,
+          "border_bn": 4,
+          "w": 116,
+          "h": 120,
+          "bn_max": 31,
+          "bn_edge_max": 4
+        },
+        "dimik.down.moveR": {
+          "removed": 741,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9231,
+          "opaque_after": 8490,
+          "bn_after": 676,
+          "border_bn": 1,
+          "w": 111,
+          "h": 120,
+          "bn_max": 76,
+          "bn_edge_max": 1
+        },
+        "dimik.down.hit": {
+          "removed": 132,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8226,
+          "opaque_after": 8094,
+          "bn_after": 726,
+          "border_bn": 7,
+          "w": 97,
+          "h": 120,
+          "bn_max": 187,
+          "bn_edge_max": 7
+        },
+        "dimik.down.attack": {
+          "removed": 748,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10235,
+          "opaque_after": 9487,
+          "bn_after": 549,
+          "border_bn": 4,
+          "w": 125,
+          "h": 120,
+          "bn_max": 31,
+          "bn_edge_max": 4
+        },
+        "dimik.up.idle": {
+          "removed": 818,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10420,
+          "opaque_after": 9602,
+          "bn_after": 829,
+          "border_bn": 0,
+          "w": 118,
+          "h": 121,
+          "bn_max": 60,
+          "bn_edge_max": 0
+        },
+        "dimik.up.moveL": {
+          "removed": 54,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8440,
+          "opaque_after": 8386,
+          "bn_after": 732,
+          "border_bn": 1,
+          "w": 104,
+          "h": 121,
+          "bn_max": 95,
+          "bn_edge_max": 1
+        },
+        "dimik.up.moveR": {
+          "removed": 92,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8529,
+          "opaque_after": 8437,
+          "bn_after": 683,
+          "border_bn": 0,
+          "w": 107,
+          "h": 121,
+          "bn_max": 76,
+          "bn_edge_max": 0
+        },
+        "dimik.up.hit": {
+          "removed": 72,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8399,
+          "opaque_after": 8327,
+          "bn_after": 837,
+          "border_bn": 0,
+          "w": 100,
+          "h": 121,
+          "bn_max": 184,
+          "bn_edge_max": 0
+        },
+        "dimik.up.attack": {
+          "removed": 722,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10356,
+          "opaque_after": 9634,
+          "bn_after": 742,
+          "border_bn": 0,
+          "w": 125,
+          "h": 121,
+          "bn_max": 49,
+          "bn_edge_max": 0
+        },
+        "venatu.down.idle": {
+          "removed": 827,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6817,
+          "opaque_after": 5990,
+          "bn_after": 339,
+          "border_bn": 1,
+          "w": 86,
+          "h": 121,
+          "bn_max": 56,
+          "bn_edge_max": 1
+        },
+        "venatu.down.moveL": {
+          "removed": 827,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7097,
+          "opaque_after": 6270,
+          "bn_after": 365,
+          "border_bn": 0,
+          "w": 96,
+          "h": 121,
+          "bn_max": 93,
+          "bn_edge_max": 0
+        },
+        "venatu.down.moveR": {
+          "removed": 1140,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7246,
+          "opaque_after": 6106,
+          "bn_after": 346,
+          "border_bn": 0,
+          "w": 97,
+          "h": 121,
+          "bn_max": 58,
+          "bn_edge_max": 0
+        },
+        "venatu.down.hit": {
+          "removed": 1193,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7578,
+          "opaque_after": 6385,
+          "bn_after": 379,
+          "border_bn": 1,
+          "w": 106,
+          "h": 121,
+          "bn_max": 110,
+          "bn_edge_max": 1
+        },
+        "venatu.down.attack": {
+          "removed": 960,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7118,
+          "opaque_after": 6158,
+          "bn_after": 408,
+          "border_bn": 1,
+          "w": 88,
+          "h": 121,
+          "bn_max": 89,
+          "bn_edge_max": 1
+        },
+        "venatu.up.idle": {
+          "removed": 943,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7028,
+          "opaque_after": 6085,
+          "bn_after": 470,
+          "border_bn": 0,
+          "w": 87,
+          "h": 121,
+          "bn_max": 68,
+          "bn_edge_max": 0
+        },
+        "venatu.up.moveL": {
+          "removed": 508,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7058,
+          "opaque_after": 6550,
+          "bn_after": 483,
+          "border_bn": 0,
+          "w": 90,
+          "h": 121,
+          "bn_max": 104,
+          "bn_edge_max": 0
+        },
+        "venatu.up.moveR": {
+          "removed": 1513,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7619,
+          "opaque_after": 6106,
+          "bn_after": 405,
+          "border_bn": 1,
+          "w": 109,
+          "h": 121,
+          "bn_max": 62,
+          "bn_edge_max": 1
+        },
+        "venatu.up.hit": {
+          "removed": 525,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7212,
+          "opaque_after": 6687,
+          "bn_after": 391,
+          "border_bn": 3,
+          "w": 91,
+          "h": 121,
+          "bn_max": 28,
+          "bn_edge_max": 3
+        },
+        "venatu.up.attack": {
+          "removed": 914,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7170,
+          "opaque_after": 6256,
+          "bn_after": 458,
+          "border_bn": 0,
+          "w": 90,
+          "h": 121,
+          "bn_max": 70,
+          "bn_edge_max": 0
+        },
+        "plasma.down.idle": {
+          "removed": 432,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7028,
+          "opaque_after": 6596,
+          "bn_after": 374,
+          "border_bn": 7,
+          "w": 115,
+          "h": 107,
+          "bn_max": 34,
+          "bn_edge_max": 34
+        },
+        "plasma.down.moveL": {
+          "removed": 460,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6451,
+          "opaque_after": 5991,
+          "bn_after": 263,
+          "border_bn": 1,
+          "w": 111,
+          "h": 107,
+          "bn_max": 14,
+          "bn_edge_max": 1
+        },
+        "plasma.down.moveR": {
+          "removed": 49,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5719,
+          "opaque_after": 5670,
+          "bn_after": 298,
+          "border_bn": 0,
+          "w": 108,
+          "h": 107,
+          "bn_max": 81,
+          "bn_edge_max": 0
+        },
+        "plasma.down.hit": {
+          "removed": 566,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6878,
+          "opaque_after": 6312,
+          "bn_after": 444,
+          "border_bn": 2,
+          "w": 111,
+          "h": 107,
+          "bn_max": 130,
+          "bn_edge_max": 1
+        },
+        "plasma.down.attack": {
+          "removed": 223,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7237,
+          "opaque_after": 7014,
+          "bn_after": 816,
+          "border_bn": 2,
+          "w": 112,
+          "h": 107,
+          "bn_max": 455,
+          "bn_edge_max": 2
+        },
+        "plasma.up.idle": {
+          "removed": 483,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7005,
+          "opaque_after": 6522,
+          "bn_after": 301,
+          "border_bn": 0,
+          "w": 116,
+          "h": 113,
+          "bn_max": 19,
+          "bn_edge_max": 0
+        },
+        "plasma.up.moveL": {
+          "removed": 330,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6018,
+          "opaque_after": 5688,
+          "bn_after": 312,
+          "border_bn": 0,
+          "w": 113,
+          "h": 113,
+          "bn_max": 31,
+          "bn_edge_max": 0
+        },
+        "plasma.up.moveR": {
+          "removed": 228,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6337,
+          "opaque_after": 6109,
+          "bn_after": 303,
+          "border_bn": 0,
+          "w": 112,
+          "h": 113,
+          "bn_max": 39,
+          "bn_edge_max": 0
+        },
+        "plasma.up.hit": {
+          "removed": 244,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5665,
+          "opaque_after": 5421,
+          "bn_after": 256,
+          "border_bn": 3,
+          "w": 110,
+          "h": 113,
+          "bn_max": 11,
+          "bn_edge_max": 2
+        },
+        "plasma.up.attack": {
+          "removed": 432,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6888,
+          "opaque_after": 6456,
+          "bn_after": 363,
+          "border_bn": 0,
+          "w": 114,
+          "h": 113,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "guardian.down.idle": {
+          "removed": 464,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11762,
+          "opaque_after": 11298,
+          "bn_after": 660,
+          "border_bn": 1,
+          "w": 137,
+          "h": 140,
+          "bn_max": 65,
+          "bn_edge_max": 1
+        },
+        "guardian.down.moveL": {
+          "removed": 201,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9328,
+          "opaque_after": 9127,
+          "bn_after": 449,
+          "border_bn": 2,
+          "w": 125,
+          "h": 140,
+          "bn_max": 40,
+          "bn_edge_max": 2
+        },
+        "guardian.down.moveR": {
+          "removed": 445,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9628,
+          "opaque_after": 9183,
+          "bn_after": 449,
+          "border_bn": 2,
+          "w": 119,
+          "h": 140,
+          "bn_max": 30,
+          "bn_edge_max": 2
+        },
+        "guardian.down.hit": {
+          "removed": 43,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9067,
+          "opaque_after": 9024,
+          "bn_after": 426,
+          "border_bn": 0,
+          "w": 101,
+          "h": 140,
+          "bn_max": 31,
+          "bn_edge_max": 0
+        },
+        "guardian.down.attack": {
+          "removed": 561,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11936,
+          "opaque_after": 11375,
+          "bn_after": 716,
+          "border_bn": 0,
+          "w": 142,
+          "h": 140,
+          "bn_max": 64,
+          "bn_edge_max": 0
+        },
+        "guardian.up.idle": {
+          "removed": 440,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10118,
+          "opaque_after": 9678,
+          "bn_after": 493,
+          "border_bn": 0,
+          "w": 114,
+          "h": 135,
+          "bn_max": 49,
+          "bn_edge_max": 0
+        },
+        "guardian.up.moveL": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8537,
+          "opaque_after": 8506,
+          "bn_after": 342,
+          "border_bn": 0,
+          "w": 100,
+          "h": 135,
+          "bn_max": 25,
+          "bn_edge_max": 0
+        },
+        "guardian.up.moveR": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8353,
+          "opaque_after": 8322,
+          "bn_after": 308,
+          "border_bn": 2,
+          "w": 95,
+          "h": 135,
+          "bn_max": 16,
+          "bn_edge_max": 2
+        },
+        "guardian.up.hit": {
+          "removed": 358,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9299,
+          "opaque_after": 8941,
+          "bn_after": 392,
+          "border_bn": 1,
+          "w": 94,
+          "h": 135,
+          "bn_max": 21,
+          "bn_edge_max": 10
+        },
+        "guardian.up.attack": {
+          "removed": 308,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11200,
+          "opaque_after": 10892,
+          "bn_after": 718,
+          "border_bn": 1,
+          "w": 149,
+          "h": 135,
+          "bn_max": 211,
+          "bn_edge_max": 1
+        }
+      },
+      "bg_sample": [
+        124,
+        124,
+        124
+      ],
+      "small_holes_refilled": 1271
+    },
+    "monsters24": {
+      "frames": {
+        "cell.down.idle": {
+          "removed": 26,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7374,
+          "opaque_after": 7348,
+          "bn_after": 99,
+          "border_bn": 0,
+          "w": 93,
+          "h": 108,
+          "bn_max": 26,
+          "bn_edge_max": 0
+        },
+        "cell.down.moveL": {
+          "removed": 23,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7554,
+          "opaque_after": 7531,
+          "bn_after": 130,
+          "border_bn": 0,
+          "w": 97,
+          "h": 108,
+          "bn_max": 14,
+          "bn_edge_max": 0
+        },
+        "cell.down.moveR": {
+          "removed": 40,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7485,
+          "opaque_after": 7445,
+          "bn_after": 217,
+          "border_bn": 0,
+          "w": 98,
+          "h": 108,
+          "bn_max": 44,
+          "bn_edge_max": 0
+        },
+        "cell.down.hit": {
+          "removed": 35,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7750,
+          "opaque_after": 7715,
+          "bn_after": 154,
+          "border_bn": 1,
+          "w": 100,
+          "h": 108,
+          "bn_max": 23,
+          "bn_edge_max": 1
+        },
+        "cell.down.attack": {
+          "removed": 35,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7569,
+          "opaque_after": 7534,
+          "bn_after": 166,
+          "border_bn": 3,
+          "w": 95,
+          "h": 108,
+          "bn_max": 40,
+          "bn_edge_max": 3
+        },
+        "cell.up.idle": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7627,
+          "opaque_after": 7593,
+          "bn_after": 120,
+          "border_bn": 5,
+          "w": 91,
+          "h": 107,
+          "bn_max": 25,
+          "bn_edge_max": 4
+        },
+        "cell.up.moveL": {
+          "removed": 26,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7508,
+          "opaque_after": 7482,
+          "bn_after": 79,
+          "border_bn": 5,
+          "w": 94,
+          "h": 107,
+          "bn_max": 6,
+          "bn_edge_max": 5
+        },
+        "cell.up.moveR": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7405,
+          "opaque_after": 7386,
+          "bn_after": 80,
+          "border_bn": 6,
+          "w": 91,
+          "h": 107,
+          "bn_max": 6,
+          "bn_edge_max": 6
+        },
+        "cell.up.hit": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7609,
+          "opaque_after": 7592,
+          "bn_after": 107,
+          "border_bn": 10,
+          "w": 92,
+          "h": 107,
+          "bn_max": 12,
+          "bn_edge_max": 9
+        },
+        "cell.up.attack": {
+          "removed": 26,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7705,
+          "opaque_after": 7679,
+          "bn_after": 105,
+          "border_bn": 2,
+          "w": 91,
+          "h": 107,
+          "bn_max": 14,
+          "bn_edge_max": 2
+        },
+        "sentry.down.idle": {
+          "removed": 522,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8354,
+          "opaque_after": 7832,
+          "bn_after": 241,
+          "border_bn": 0,
+          "w": 116,
+          "h": 114,
+          "bn_max": 32,
+          "bn_edge_max": 0
+        },
+        "sentry.down.moveL": {
+          "removed": 600,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8762,
+          "opaque_after": 8162,
+          "bn_after": 217,
+          "border_bn": 0,
+          "w": 121,
+          "h": 114,
+          "bn_max": 25,
+          "bn_edge_max": 0
+        },
+        "sentry.down.moveR": {
+          "removed": 608,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8879,
+          "opaque_after": 8271,
+          "bn_after": 250,
+          "border_bn": 0,
+          "w": 122,
+          "h": 114,
+          "bn_max": 49,
+          "bn_edge_max": 0
+        },
+        "sentry.down.hit": {
+          "removed": 839,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8025,
+          "opaque_after": 7186,
+          "bn_after": 253,
+          "border_bn": 0,
+          "w": 106,
+          "h": 114,
+          "bn_max": 19,
+          "bn_edge_max": 0
+        },
+        "sentry.down.attack": {
+          "removed": 534,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8265,
+          "opaque_after": 7731,
+          "bn_after": 289,
+          "border_bn": 0,
+          "w": 115,
+          "h": 114,
+          "bn_max": 26,
+          "bn_edge_max": 0
+        },
+        "sentry.up.idle": {
+          "removed": 357,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7506,
+          "opaque_after": 7149,
+          "bn_after": 180,
+          "border_bn": 0,
+          "w": 116,
+          "h": 108,
+          "bn_max": 15,
+          "bn_edge_max": 0
+        },
+        "sentry.up.moveL": {
+          "removed": 340,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7645,
+          "opaque_after": 7305,
+          "bn_after": 197,
+          "border_bn": 0,
+          "w": 113,
+          "h": 108,
+          "bn_max": 17,
+          "bn_edge_max": 0
+        },
+        "sentry.up.moveR": {
+          "removed": 383,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7487,
+          "opaque_after": 7104,
+          "bn_after": 178,
+          "border_bn": 0,
+          "w": 113,
+          "h": 108,
+          "bn_max": 13,
+          "bn_edge_max": 0
+        },
+        "sentry.up.hit": {
+          "removed": 403,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7993,
+          "opaque_after": 7590,
+          "bn_after": 281,
+          "border_bn": 1,
+          "w": 116,
+          "h": 108,
+          "bn_max": 55,
+          "bn_edge_max": 4
+        },
+        "sentry.up.attack": {
+          "removed": 341,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7287,
+          "opaque_after": 6946,
+          "bn_after": 217,
+          "border_bn": 6,
+          "w": 116,
+          "h": 108,
+          "bn_max": 24,
+          "bn_edge_max": 3
+        },
+        "repairdrone.down.idle": {
+          "removed": 53,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6445,
+          "opaque_after": 6392,
+          "bn_after": 569,
+          "border_bn": 1,
+          "w": 106,
+          "h": 93,
+          "bn_max": 184,
+          "bn_edge_max": 1
+        },
+        "repairdrone.down.moveL": {
+          "removed": 103,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6445,
+          "opaque_after": 6342,
+          "bn_after": 522,
+          "border_bn": 15,
+          "w": 103,
+          "h": 93,
+          "bn_max": 62,
+          "bn_edge_max": 14
+        },
+        "repairdrone.down.moveR": {
+          "removed": 178,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6489,
+          "opaque_after": 6311,
+          "bn_after": 588,
+          "border_bn": 5,
+          "w": 106,
+          "h": 93,
+          "bn_max": 90,
+          "bn_edge_max": 3
+        },
+        "repairdrone.down.hit": {
+          "removed": 141,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6417,
+          "opaque_after": 6276,
+          "bn_after": 487,
+          "border_bn": 0,
+          "w": 104,
+          "h": 93,
+          "bn_max": 64,
+          "bn_edge_max": 0
+        },
+        "repairdrone.down.attack": {
+          "removed": 143,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7104,
+          "opaque_after": 6961,
+          "bn_after": 723,
+          "border_bn": 3,
+          "w": 127,
+          "h": 93,
+          "bn_max": 101,
+          "bn_edge_max": 5
+        },
+        "repairdrone.up.idle": {
+          "removed": 254,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6585,
+          "opaque_after": 6331,
+          "bn_after": 793,
+          "border_bn": 0,
+          "w": 106,
+          "h": 91,
+          "bn_max": 275,
+          "bn_edge_max": 0
+        },
+        "repairdrone.up.moveL": {
+          "removed": 236,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6541,
+          "opaque_after": 6305,
+          "bn_after": 753,
+          "border_bn": 2,
+          "w": 103,
+          "h": 91,
+          "bn_max": 340,
+          "bn_edge_max": 1
+        },
+        "repairdrone.up.moveR": {
+          "removed": 298,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6462,
+          "opaque_after": 6164,
+          "bn_after": 768,
+          "border_bn": 0,
+          "w": 106,
+          "h": 91,
+          "bn_max": 294,
+          "bn_edge_max": 0
+        },
+        "repairdrone.up.hit": {
+          "removed": 363,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6541,
+          "opaque_after": 6178,
+          "bn_after": 658,
+          "border_bn": 1,
+          "w": 103,
+          "h": 91,
+          "bn_max": 197,
+          "bn_edge_max": 1
+        },
+        "repairdrone.up.attack": {
+          "removed": 247,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6912,
+          "opaque_after": 6665,
+          "bn_after": 883,
+          "border_bn": 0,
+          "w": 133,
+          "h": 91,
+          "bn_max": 313,
+          "bn_edge_max": 0
+        },
+        "sparkbeetle.down.idle": {
+          "removed": 64,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6552,
+          "opaque_after": 6488,
+          "bn_after": 376,
+          "border_bn": 0,
+          "w": 115,
+          "h": 85,
+          "bn_max": 78,
+          "bn_edge_max": 0
+        },
+        "sparkbeetle.down.moveL": {
+          "removed": 104,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7008,
+          "opaque_after": 6904,
+          "bn_after": 314,
+          "border_bn": 2,
+          "w": 122,
+          "h": 85,
+          "bn_max": 60,
+          "bn_edge_max": 1
+        },
+        "sparkbeetle.down.moveR": {
+          "removed": 164,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6879,
+          "opaque_after": 6715,
+          "bn_after": 324,
+          "border_bn": 1,
+          "w": 121,
+          "h": 85,
+          "bn_max": 47,
+          "bn_edge_max": 3
+        },
+        "sparkbeetle.down.hit": {
+          "removed": 87,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6725,
+          "opaque_after": 6638,
+          "bn_after": 347,
+          "border_bn": 0,
+          "w": 122,
+          "h": 85,
+          "bn_max": 108,
+          "bn_edge_max": 0
+        },
+        "sparkbeetle.down.attack": {
+          "removed": 46,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6643,
+          "opaque_after": 6597,
+          "bn_after": 324,
+          "border_bn": 1,
+          "w": 118,
+          "h": 85,
+          "bn_max": 67,
+          "bn_edge_max": 1
+        },
+        "sparkbeetle.up.idle": {
+          "removed": 111,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6997,
+          "opaque_after": 6886,
+          "bn_after": 214,
+          "border_bn": 2,
+          "w": 113,
+          "h": 90,
+          "bn_max": 33,
+          "bn_edge_max": 1
+        },
+        "sparkbeetle.up.moveL": {
+          "removed": 130,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7204,
+          "opaque_after": 7074,
+          "bn_after": 181,
+          "border_bn": 0,
+          "w": 115,
+          "h": 90,
+          "bn_max": 11,
+          "bn_edge_max": 0
+        },
+        "sparkbeetle.up.moveR": {
+          "removed": 89,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6707,
+          "opaque_after": 6618,
+          "bn_after": 195,
+          "border_bn": 0,
+          "w": 110,
+          "h": 90,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "sparkbeetle.up.hit": {
+          "removed": 99,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7274,
+          "opaque_after": 7175,
+          "bn_after": 228,
+          "border_bn": 4,
+          "w": 119,
+          "h": 90,
+          "bn_max": 56,
+          "bn_edge_max": 4
+        },
+        "sparkbeetle.up.attack": {
+          "removed": 145,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7343,
+          "opaque_after": 7198,
+          "bn_after": 176,
+          "border_bn": 2,
+          "w": 118,
+          "h": 90,
+          "bn_max": 24,
+          "bn_edge_max": 5
+        }
+      },
+      "bg_sample": [
+        129,
+        128,
+        128
+      ],
+      "small_holes_refilled": 2023
+    },
+    "monsters25": {
+      "frames": {
+        "failedexp.down.idle": {
+          "removed": 15,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9289,
+          "opaque_after": 9274,
+          "bn_after": 98,
+          "border_bn": 0,
+          "w": 116,
+          "h": 123,
+          "bn_max": 4,
+          "bn_edge_max": 0
+        },
+        "failedexp.down.moveL": {
+          "removed": 11,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7582,
+          "opaque_after": 7571,
+          "bn_after": 82,
+          "border_bn": 0,
+          "w": 95,
+          "h": 123,
+          "bn_max": 4,
+          "bn_edge_max": 0
+        },
+        "failedexp.down.moveR": {
+          "removed": 16,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7909,
+          "opaque_after": 7893,
+          "bn_after": 97,
+          "border_bn": 2,
+          "w": 105,
+          "h": 123,
+          "bn_max": 9,
+          "bn_edge_max": 2
+        },
+        "failedexp.down.hit": {
+          "removed": 11,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7977,
+          "opaque_after": 7966,
+          "bn_after": 108,
+          "border_bn": 0,
+          "w": 114,
+          "h": 113,
+          "bn_max": 10,
+          "bn_edge_max": 0
+        },
+        "failedexp.down.attack": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11977,
+          "opaque_after": 11958,
+          "bn_after": 176,
+          "border_bn": 1,
+          "w": 134,
+          "h": 123,
+          "bn_max": 10,
+          "bn_edge_max": 1
+        },
+        "failedexp.up.idle": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9710,
+          "opaque_after": 9704,
+          "bn_after": 79,
+          "border_bn": 0,
+          "w": 118,
+          "h": 124,
+          "bn_max": 7,
+          "bn_edge_max": 0
+        },
+        "failedexp.up.moveL": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7750,
+          "opaque_after": 7736,
+          "bn_after": 90,
+          "border_bn": 0,
+          "w": 97,
+          "h": 124,
+          "bn_max": 7,
+          "bn_edge_max": 0
+        },
+        "failedexp.up.moveR": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8001,
+          "opaque_after": 7987,
+          "bn_after": 91,
+          "border_bn": 1,
+          "w": 103,
+          "h": 124,
+          "bn_max": 11,
+          "bn_edge_max": 1
+        },
+        "failedexp.up.hit": {
+          "removed": 11,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8093,
+          "opaque_after": 8082,
+          "bn_after": 95,
+          "border_bn": 0,
+          "w": 112,
+          "h": 123,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "failedexp.up.attack": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11618,
+          "opaque_after": 11599,
+          "bn_after": 203,
+          "border_bn": 0,
+          "w": 129,
+          "h": 124,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "remover.down.idle": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9053,
+          "opaque_after": 9039,
+          "bn_after": 141,
+          "border_bn": 0,
+          "w": 101,
+          "h": 136,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "remover.down.moveL": {
+          "removed": 15,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8718,
+          "opaque_after": 8703,
+          "bn_after": 195,
+          "border_bn": 0,
+          "w": 102,
+          "h": 136,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "remover.down.moveR": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8290,
+          "opaque_after": 8273,
+          "bn_after": 168,
+          "border_bn": 0,
+          "w": 96,
+          "h": 134,
+          "bn_max": 24,
+          "bn_edge_max": 0
+        },
+        "remover.down.hit": {
+          "removed": 12,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8702,
+          "opaque_after": 8690,
+          "bn_after": 182,
+          "border_bn": 0,
+          "w": 107,
+          "h": 136,
+          "bn_max": 15,
+          "bn_edge_max": 0
+        },
+        "remover.down.attack": {
+          "removed": 33,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 10377,
+          "opaque_after": 10344,
+          "bn_after": 278,
+          "border_bn": 0,
+          "w": 147,
+          "h": 136,
+          "bn_max": 26,
+          "bn_edge_max": 0
+        },
+        "remover.up.idle": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8371,
+          "opaque_after": 8354,
+          "bn_after": 181,
+          "border_bn": 0,
+          "w": 91,
+          "h": 136,
+          "bn_max": 15,
+          "bn_edge_max": 0
+        },
+        "remover.up.moveL": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8385,
+          "opaque_after": 8358,
+          "bn_after": 201,
+          "border_bn": 0,
+          "w": 95,
+          "h": 136,
+          "bn_max": 10,
+          "bn_edge_max": 0
+        },
+        "remover.up.moveR": {
+          "removed": 26,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8144,
+          "opaque_after": 8118,
+          "bn_after": 163,
+          "border_bn": 0,
+          "w": 95,
+          "h": 136,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "remover.up.hit": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7803,
+          "opaque_after": 7793,
+          "bn_after": 208,
+          "border_bn": 0,
+          "w": 105,
+          "h": 132,
+          "bn_max": 16,
+          "bn_edge_max": 0
+        },
+        "remover.up.attack": {
+          "removed": 54,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8952,
+          "opaque_after": 8898,
+          "bn_after": 242,
+          "border_bn": 2,
+          "w": 118,
+          "h": 136,
+          "bn_max": 16,
+          "bn_edge_max": 1
+        },
+        "labdrone.down.idle": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3646,
+          "opaque_after": 3629,
+          "bn_after": 270,
+          "border_bn": 4,
+          "w": 79,
+          "h": 76,
+          "bn_max": 29,
+          "bn_edge_max": 2
+        },
+        "labdrone.down.moveL": {
+          "removed": 17,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3450,
+          "opaque_after": 3433,
+          "bn_after": 266,
+          "border_bn": 2,
+          "w": 72,
+          "h": 76,
+          "bn_max": 44,
+          "bn_edge_max": 1
+        },
+        "labdrone.down.moveR": {
+          "removed": 25,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3437,
+          "opaque_after": 3412,
+          "bn_after": 277,
+          "border_bn": 6,
+          "w": 73,
+          "h": 76,
+          "bn_max": 29,
+          "bn_edge_max": 19
+        },
+        "labdrone.down.hit": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3591,
+          "opaque_after": 3582,
+          "bn_after": 307,
+          "border_bn": 0,
+          "w": 79,
+          "h": 76,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "labdrone.down.attack": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3645,
+          "opaque_after": 3614,
+          "bn_after": 303,
+          "border_bn": 2,
+          "w": 78,
+          "h": 76,
+          "bn_max": 32,
+          "bn_edge_max": 1
+        },
+        "labdrone.up.idle": {
+          "removed": 32,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3670,
+          "opaque_after": 3638,
+          "bn_after": 296,
+          "border_bn": 4,
+          "w": 80,
+          "h": 75,
+          "bn_max": 49,
+          "bn_edge_max": 7
+        },
+        "labdrone.up.moveL": {
+          "removed": 37,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3548,
+          "opaque_after": 3511,
+          "bn_after": 318,
+          "border_bn": 5,
+          "w": 77,
+          "h": 75,
+          "bn_max": 21,
+          "bn_edge_max": 19
+        },
+        "labdrone.up.moveR": {
+          "removed": 43,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3459,
+          "opaque_after": 3416,
+          "bn_after": 309,
+          "border_bn": 7,
+          "w": 76,
+          "h": 75,
+          "bn_max": 29,
+          "bn_edge_max": 29
+        },
+        "labdrone.up.hit": {
+          "removed": 22,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3413,
+          "opaque_after": 3391,
+          "bn_after": 357,
+          "border_bn": 7,
+          "w": 78,
+          "h": 75,
+          "bn_max": 50,
+          "bn_edge_max": 17
+        },
+        "labdrone.up.attack": {
+          "removed": 38,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 3553,
+          "opaque_after": 3515,
+          "bn_after": 362,
+          "border_bn": 1,
+          "w": 79,
+          "h": 75,
+          "bn_max": 48,
+          "bn_edge_max": 1
+        },
+        "testsubject.down.idle": {
+          "removed": 23,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6951,
+          "opaque_after": 6928,
+          "bn_after": 403,
+          "border_bn": 0,
+          "w": 78,
+          "h": 128,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "testsubject.down.moveL": {
+          "removed": 13,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6373,
+          "opaque_after": 6360,
+          "bn_after": 294,
+          "border_bn": 0,
+          "w": 74,
+          "h": 128,
+          "bn_max": 38,
+          "bn_edge_max": 0
+        },
+        "testsubject.down.moveR": {
+          "removed": 26,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5995,
+          "opaque_after": 5969,
+          "bn_after": 243,
+          "border_bn": 1,
+          "w": 79,
+          "h": 127,
+          "bn_max": 32,
+          "bn_edge_max": 1
+        },
+        "testsubject.down.hit": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6715,
+          "opaque_after": 6697,
+          "bn_after": 362,
+          "border_bn": 0,
+          "w": 95,
+          "h": 128,
+          "bn_max": 35,
+          "bn_edge_max": 0
+        },
+        "testsubject.down.attack": {
+          "removed": 91,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7233,
+          "opaque_after": 7142,
+          "bn_after": 370,
+          "border_bn": 3,
+          "w": 92,
+          "h": 125,
+          "bn_max": 25,
+          "bn_edge_max": 18
+        },
+        "testsubject.up.idle": {
+          "removed": 30,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7185,
+          "opaque_after": 7155,
+          "bn_after": 335,
+          "border_bn": 2,
+          "w": 83,
+          "h": 129,
+          "bn_max": 33,
+          "bn_edge_max": 2
+        },
+        "testsubject.up.moveL": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6346,
+          "opaque_after": 6332,
+          "bn_after": 289,
+          "border_bn": 3,
+          "w": 75,
+          "h": 129,
+          "bn_max": 37,
+          "bn_edge_max": 2
+        },
+        "testsubject.up.moveR": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6391,
+          "opaque_after": 6364,
+          "bn_after": 260,
+          "border_bn": 0,
+          "w": 80,
+          "h": 129,
+          "bn_max": 20,
+          "bn_edge_max": 0
+        },
+        "testsubject.up.hit": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6886,
+          "opaque_after": 6872,
+          "bn_after": 407,
+          "border_bn": 0,
+          "w": 91,
+          "h": 129,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "testsubject.up.attack": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7145,
+          "opaque_after": 7114,
+          "bn_after": 331,
+          "border_bn": 1,
+          "w": 86,
+          "h": 129,
+          "bn_max": 38,
+          "bn_edge_max": 1
+        }
+      },
+      "bg_sample": [
+        127,
+        127,
+        127
+      ],
+      "small_holes_refilled": 269
+    },
+    "monsters26": {
+      "frames": {
+        "sporecloud.down.idle": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9505,
+          "opaque_after": 9499,
+          "bn_after": 49,
+          "border_bn": 1,
+          "w": 122,
+          "h": 118,
+          "bn_max": 2,
+          "bn_edge_max": 1
+        },
+        "sporecloud.down.moveL": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9818,
+          "opaque_after": 9812,
+          "bn_after": 60,
+          "border_bn": 0,
+          "w": 123,
+          "h": 118,
+          "bn_max": 5,
+          "bn_edge_max": 0
+        },
+        "sporecloud.down.moveR": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9037,
+          "opaque_after": 9033,
+          "bn_after": 60,
+          "border_bn": 0,
+          "w": 121,
+          "h": 118,
+          "bn_max": 4,
+          "bn_edge_max": 0
+        },
+        "sporecloud.down.hit": {
+          "removed": 1,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8445,
+          "opaque_after": 8444,
+          "bn_after": 58,
+          "border_bn": 0,
+          "w": 116,
+          "h": 115,
+          "bn_max": 5,
+          "bn_edge_max": 0
+        },
+        "sporecloud.down.attack": {
+          "removed": 3,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 12433,
+          "opaque_after": 12430,
+          "bn_after": 53,
+          "border_bn": 0,
+          "w": 140,
+          "h": 118,
+          "bn_max": 4,
+          "bn_edge_max": 0
+        },
+        "sporecloud.up.idle": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9399,
+          "opaque_after": 9393,
+          "bn_after": 43,
+          "border_bn": 1,
+          "w": 119,
+          "h": 119,
+          "bn_max": 4,
+          "bn_edge_max": 1
+        },
+        "sporecloud.up.moveL": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9818,
+          "opaque_after": 9813,
+          "bn_after": 65,
+          "border_bn": 0,
+          "w": 124,
+          "h": 119,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "sporecloud.up.moveR": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9242,
+          "opaque_after": 9242,
+          "bn_after": 76,
+          "border_bn": 0,
+          "w": 117,
+          "h": 119,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "sporecloud.up.hit": {
+          "removed": 1,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8083,
+          "opaque_after": 8082,
+          "bn_after": 62,
+          "border_bn": 0,
+          "w": 114,
+          "h": 115,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "sporecloud.up.attack": {
+          "removed": 2,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 11927,
+          "opaque_after": 11925,
+          "bn_after": 52,
+          "border_bn": 0,
+          "w": 142,
+          "h": 119,
+          "bn_max": 5,
+          "bn_edge_max": 0
+        },
+        "mutanthound.down.idle": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8602,
+          "opaque_after": 8583,
+          "bn_after": 480,
+          "border_bn": 0,
+          "w": 97,
+          "h": 123,
+          "bn_max": 33,
+          "bn_edge_max": 0
+        },
+        "mutanthound.down.moveL": {
+          "removed": 38,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9533,
+          "opaque_after": 9495,
+          "bn_after": 558,
+          "border_bn": 0,
+          "w": 121,
+          "h": 123,
+          "bn_max": 63,
+          "bn_edge_max": 0
+        },
+        "mutanthound.down.moveR": {
+          "removed": 14,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8886,
+          "opaque_after": 8872,
+          "bn_after": 616,
+          "border_bn": 0,
+          "w": 110,
+          "h": 123,
+          "bn_max": 50,
+          "bn_edge_max": 0
+        },
+        "mutanthound.down.hit": {
+          "removed": 37,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9320,
+          "opaque_after": 9283,
+          "bn_after": 629,
+          "border_bn": 0,
+          "w": 118,
+          "h": 123,
+          "bn_max": 54,
+          "bn_edge_max": 0
+        },
+        "mutanthound.down.attack": {
+          "removed": 64,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9434,
+          "opaque_after": 9370,
+          "bn_after": 602,
+          "border_bn": 0,
+          "w": 117,
+          "h": 123,
+          "bn_max": 44,
+          "bn_edge_max": 0
+        },
+        "mutanthound.up.idle": {
+          "removed": 56,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8796,
+          "opaque_after": 8740,
+          "bn_after": 589,
+          "border_bn": 0,
+          "w": 98,
+          "h": 132,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "mutanthound.up.moveL": {
+          "removed": 93,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8603,
+          "opaque_after": 8510,
+          "bn_after": 518,
+          "border_bn": 0,
+          "w": 111,
+          "h": 132,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        },
+        "mutanthound.up.moveR": {
+          "removed": 83,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8443,
+          "opaque_after": 8360,
+          "bn_after": 414,
+          "border_bn": 0,
+          "w": 98,
+          "h": 132,
+          "bn_max": 26,
+          "bn_edge_max": 0
+        },
+        "mutanthound.up.hit": {
+          "removed": 116,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8808,
+          "opaque_after": 8692,
+          "bn_after": 722,
+          "border_bn": 0,
+          "w": 100,
+          "h": 132,
+          "bn_max": 106,
+          "bn_edge_max": 0
+        },
+        "mutanthound.up.attack": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8837,
+          "opaque_after": 8827,
+          "bn_after": 560,
+          "border_bn": 0,
+          "w": 93,
+          "h": 132,
+          "bn_max": 59,
+          "bn_edge_max": 0
+        },
+        "serumturret.down.idle": {
+          "removed": 23,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8297,
+          "opaque_after": 8274,
+          "bn_after": 414,
+          "border_bn": 1,
+          "w": 97,
+          "h": 138,
+          "bn_max": 47,
+          "bn_edge_max": 1
+        },
+        "serumturret.down.moveL": {
+          "removed": 32,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7823,
+          "opaque_after": 7791,
+          "bn_after": 407,
+          "border_bn": 0,
+          "w": 98,
+          "h": 138,
+          "bn_max": 30,
+          "bn_edge_max": 0
+        },
+        "serumturret.down.moveR": {
+          "removed": 16,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7750,
+          "opaque_after": 7734,
+          "bn_after": 343,
+          "border_bn": 0,
+          "w": 94,
+          "h": 138,
+          "bn_max": 24,
+          "bn_edge_max": 0
+        },
+        "serumturret.down.hit": {
+          "removed": 100,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7746,
+          "opaque_after": 7646,
+          "bn_after": 399,
+          "border_bn": 4,
+          "w": 95,
+          "h": 138,
+          "bn_max": 39,
+          "bn_edge_max": 3
+        },
+        "serumturret.down.attack": {
+          "removed": 52,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 9166,
+          "opaque_after": 9114,
+          "bn_after": 478,
+          "border_bn": 2,
+          "w": 103,
+          "h": 138,
+          "bn_max": 43,
+          "bn_edge_max": 2
+        },
+        "serumturret.up.idle": {
+          "removed": 49,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8715,
+          "opaque_after": 8666,
+          "bn_after": 413,
+          "border_bn": 0,
+          "w": 103,
+          "h": 138,
+          "bn_max": 29,
+          "bn_edge_max": 0
+        },
+        "serumturret.up.moveL": {
+          "removed": 111,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8245,
+          "opaque_after": 8134,
+          "bn_after": 347,
+          "border_bn": 0,
+          "w": 105,
+          "h": 138,
+          "bn_max": 38,
+          "bn_edge_max": 0
+        },
+        "serumturret.up.moveR": {
+          "removed": 37,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8143,
+          "opaque_after": 8106,
+          "bn_after": 355,
+          "border_bn": 0,
+          "w": 100,
+          "h": 138,
+          "bn_max": 43,
+          "bn_edge_max": 0
+        },
+        "serumturret.up.hit": {
+          "removed": 28,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8146,
+          "opaque_after": 8118,
+          "bn_after": 431,
+          "border_bn": 0,
+          "w": 99,
+          "h": 138,
+          "bn_max": 74,
+          "bn_edge_max": 0
+        },
+        "serumturret.up.attack": {
+          "removed": 43,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 8512,
+          "opaque_after": 8469,
+          "bn_after": 440,
+          "border_bn": 1,
+          "w": 98,
+          "h": 138,
+          "bn_max": 35,
+          "bn_edge_max": 1
+        },
+        "biosludge.down.idle": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6471,
+          "opaque_after": 6467,
+          "bn_after": 32,
+          "border_bn": 0,
+          "w": 120,
+          "h": 86,
+          "bn_max": 5,
+          "bn_edge_max": 0
+        },
+        "biosludge.down.moveL": {
+          "removed": 9,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6761,
+          "opaque_after": 6752,
+          "bn_after": 30,
+          "border_bn": 0,
+          "w": 128,
+          "h": 86,
+          "bn_max": 2,
+          "bn_edge_max": 0
+        },
+        "biosludge.down.moveR": {
+          "removed": 4,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6635,
+          "opaque_after": 6631,
+          "bn_after": 41,
+          "border_bn": 0,
+          "w": 124,
+          "h": 86,
+          "bn_max": 3,
+          "bn_edge_max": 0
+        },
+        "biosludge.down.hit": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5598,
+          "opaque_after": 5598,
+          "bn_after": 47,
+          "border_bn": 0,
+          "w": 118,
+          "h": 84,
+          "bn_max": 11,
+          "bn_edge_max": 0
+        },
+        "biosludge.down.attack": {
+          "removed": 8,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 7112,
+          "opaque_after": 7104,
+          "bn_after": 33,
+          "border_bn": 0,
+          "w": 123,
+          "h": 86,
+          "bn_max": 6,
+          "bn_edge_max": 0
+        },
+        "biosludge.up.idle": {
+          "removed": 5,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6687,
+          "opaque_after": 6682,
+          "bn_after": 34,
+          "border_bn": 1,
+          "w": 120,
+          "h": 86,
+          "bn_max": 3,
+          "bn_edge_max": 1
+        },
+        "biosludge.up.moveL": {
+          "removed": 3,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6631,
+          "opaque_after": 6628,
+          "bn_after": 33,
+          "border_bn": 1,
+          "w": 126,
+          "h": 86,
+          "bn_max": 3,
+          "bn_edge_max": 1
+        },
+        "biosludge.up.moveR": {
+          "removed": 1,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6615,
+          "opaque_after": 6614,
+          "bn_after": 43,
+          "border_bn": 0,
+          "w": 124,
+          "h": 86,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "biosludge.up.hit": {
+          "removed": 0,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 5556,
+          "opaque_after": 5556,
+          "bn_after": 34,
+          "border_bn": 0,
+          "w": 118,
+          "h": 83,
+          "bn_max": 4,
+          "bn_edge_max": 0
+        },
+        "biosludge.up.attack": {
+          "removed": 3,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 6645,
+          "opaque_after": 6642,
+          "bn_after": 34,
+          "border_bn": 0,
+          "w": 123,
+          "h": 86,
+          "bn_max": 3,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        126,
+        125,
+        125
+      ],
+      "small_holes_refilled": 372
+    }
+  },
+  "sprites": {
+    "monsters19:willow.down.idle": {
+      "x": 32,
+      "y": 75,
+      "w": 134,
+      "h": 140
+    },
+    "monsters19:willow.down.moveL": {
+      "x": 184,
+      "y": 75,
+      "w": 124,
+      "h": 140
+    },
+    "monsters19:willow.down.moveR": {
+      "x": 323,
+      "y": 75,
+      "w": 127,
+      "h": 140
+    },
+    "monsters19:willow.down.hit": {
+      "x": 463,
+      "y": 75,
+      "w": 127,
+      "h": 140
+    },
+    "monsters19:willow.down.attack": {
+      "x": 611,
+      "y": 75,
+      "w": 129,
+      "h": 140
+    },
+    "monsters19:willow.up.idle": {
+      "x": 26,
+      "y": 274,
+      "w": 138,
+      "h": 145
+    },
+    "monsters19:willow.up.moveL": {
+      "x": 185,
+      "y": 274,
+      "w": 122,
+      "h": 145
+    },
+    "monsters19:willow.up.moveR": {
+      "x": 322,
+      "y": 274,
+      "w": 130,
+      "h": 145
+    },
+    "monsters19:willow.up.hit": {
+      "x": 466,
+      "y": 274,
+      "w": 134,
+      "h": 145
+    },
+    "monsters19:willow.up.attack": {
+      "x": 618,
+      "y": 274,
+      "w": 125,
+      "h": 145
+    },
+    "monsters19:zombie.down.idle": {
+      "x": 824,
+      "y": 56,
+      "w": 90,
+      "h": 161
+    },
+    "monsters19:zombie.down.moveL": {
+      "x": 954,
+      "y": 56,
+      "w": 104,
+      "h": 161
+    },
+    "monsters19:zombie.down.moveR": {
+      "x": 1098,
+      "y": 56,
+      "w": 96,
+      "h": 161
+    },
+    "monsters19:zombie.down.hit": {
+      "x": 1233,
+      "y": 56,
+      "w": 109,
+      "h": 161
+    },
+    "monsters19:zombie.down.attack": {
+      "x": 1363,
+      "y": 59,
+      "w": 145,
+      "h": 158
+    },
+    "monsters19:zombie.up.idle": {
+      "x": 815,
+      "y": 268,
+      "w": 101,
+      "h": 161
+    },
+    "monsters19:zombie.up.moveL": {
+      "x": 957,
+      "y": 268,
+      "w": 100,
+      "h": 161
+    },
+    "monsters19:zombie.up.moveR": {
+      "x": 1097,
+      "y": 268,
+      "w": 97,
+      "h": 161
+    },
+    "monsters19:zombie.up.hit": {
+      "x": 1228,
+      "y": 268,
+      "w": 108,
+      "h": 161
+    },
+    "monsters19:zombie.up.attack": {
+      "x": 1373,
+      "y": 268,
+      "w": 131,
+      "h": 161
+    },
+    "monsters19:munak.down.idle": {
+      "x": 51,
+      "y": 553,
+      "w": 90,
+      "h": 173
+    },
+    "monsters19:munak.down.moveL": {
+      "x": 186,
+      "y": 553,
+      "w": 103,
+      "h": 173
+    },
+    "monsters19:munak.down.moveR": {
+      "x": 338,
+      "y": 553,
+      "w": 99,
+      "h": 173
+    },
+    "monsters19:munak.down.hit": {
+      "x": 470,
+      "y": 553,
+      "w": 107,
+      "h": 173
+    },
+    "monsters19:munak.down.attack": {
+      "x": 610,
+      "y": 553,
+      "w": 128,
+      "h": 169
+    },
+    "monsters19:munak.up.idle": {
+      "x": 48,
+      "y": 778,
+      "w": 95,
+      "h": 178
+    },
+    "monsters19:munak.up.moveL": {
+      "x": 188,
+      "y": 778,
+      "w": 101,
+      "h": 178
+    },
+    "monsters19:munak.up.moveR": {
+      "x": 339,
+      "y": 778,
+      "w": 94,
+      "h": 178
+    },
+    "monsters19:munak.up.hit": {
+      "x": 478,
+      "y": 778,
+      "w": 101,
+      "h": 178
+    },
+    "monsters19:munak.up.attack": {
+      "x": 613,
+      "y": 778,
+      "w": 123,
+      "h": 177
+    },
+    "monsters19:bongun.down.idle": {
+      "x": 820,
+      "y": 551,
+      "w": 87,
+      "h": 174
+    },
+    "monsters19:bongun.down.moveL": {
+      "x": 955,
+      "y": 551,
+      "w": 102,
+      "h": 174
+    },
+    "monsters19:bongun.down.moveR": {
+      "x": 1107,
+      "y": 551,
+      "w": 99,
+      "h": 174
+    },
+    "monsters19:bongun.down.hit": {
+      "x": 1239,
+      "y": 551,
+      "w": 108,
+      "h": 174
+    },
+    "monsters19:bongun.down.attack": {
+      "x": 1379,
+      "y": 551,
+      "w": 126,
+      "h": 174
+    },
+    "monsters19:bongun.up.idle": {
+      "x": 818,
+      "y": 779,
+      "w": 93,
+      "h": 178
+    },
+    "monsters19:bongun.up.moveL": {
+      "x": 957,
+      "y": 779,
+      "w": 100,
+      "h": 178
+    },
+    "monsters19:bongun.up.moveR": {
+      "x": 1107,
+      "y": 779,
+      "w": 93,
+      "h": 178
+    },
+    "monsters19:bongun.up.hit": {
+      "x": 1248,
+      "y": 779,
+      "w": 98,
+      "h": 178
+    },
+    "monsters19:bongun.up.attack": {
+      "x": 1380,
+      "y": 779,
+      "w": 126,
+      "h": 176
+    },
+    "monsters20:ninetails.down.idle": {
+      "x": 31,
+      "y": 68,
+      "w": 131,
+      "h": 132
+    },
+    "monsters20:ninetails.down.moveL": {
+      "x": 174,
+      "y": 68,
+      "w": 134,
+      "h": 132
+    },
+    "monsters20:ninetails.down.moveR": {
+      "x": 320,
+      "y": 68,
+      "w": 128,
+      "h": 132
+    },
+    "monsters20:ninetails.down.hit": {
+      "x": 459,
+      "y": 68,
+      "w": 132,
+      "h": 132
+    },
+    "monsters20:ninetails.down.attack": {
+      "x": 601,
+      "y": 68,
+      "w": 136,
+      "h": 132
+    },
+    "monsters20:ninetails.up.idle": {
+      "x": 22,
+      "y": 259,
+      "w": 141,
+      "h": 122
+    },
+    "monsters20:ninetails.up.moveL": {
+      "x": 172,
+      "y": 259,
+      "w": 131,
+      "h": 122
+    },
+    "monsters20:ninetails.up.moveR": {
+      "x": 325,
+      "y": 259,
+      "w": 127,
+      "h": 122
+    },
+    "monsters20:ninetails.up.hit": {
+      "x": 459,
+      "y": 259,
+      "w": 128,
+      "h": 122
+    },
+    "monsters20:ninetails.up.attack": {
+      "x": 593,
+      "y": 259,
+      "w": 148,
+      "h": 122
+    },
+    "monsters20:deviruchi.down.idle": {
+      "x": 814,
+      "y": 100,
+      "w": 117,
+      "h": 96
+    },
+    "monsters20:deviruchi.down.moveL": {
+      "x": 951,
+      "y": 100,
+      "w": 121,
+      "h": 96
+    },
+    "monsters20:deviruchi.down.moveR": {
+      "x": 1097,
+      "y": 100,
+      "w": 117,
+      "h": 96
+    },
+    "monsters20:deviruchi.down.hit": {
+      "x": 1233,
+      "y": 100,
+      "w": 123,
+      "h": 96
+    },
+    "monsters20:deviruchi.down.attack": {
+      "x": 1380,
+      "y": 100,
+      "w": 129,
+      "h": 96
+    },
+    "monsters20:deviruchi.up.idle": {
+      "x": 813,
+      "y": 255,
+      "w": 111,
+      "h": 108
+    },
+    "monsters20:deviruchi.up.moveL": {
+      "x": 952,
+      "y": 255,
+      "w": 107,
+      "h": 108
+    },
+    "monsters20:deviruchi.up.moveR": {
+      "x": 1092,
+      "y": 255,
+      "w": 118,
+      "h": 108
+    },
+    "monsters20:deviruchi.up.hit": {
+      "x": 1233,
+      "y": 255,
+      "w": 120,
+      "h": 108
+    },
+    "monsters20:deviruchi.up.attack": {
+      "x": 1378,
+      "y": 255,
+      "w": 124,
+      "h": 108
+    },
+    "monsters20:marionette.down.idle": {
+      "x": 31,
+      "y": 531,
+      "w": 113,
+      "h": 179
+    },
+    "monsters20:marionette.down.moveL": {
+      "x": 175,
+      "y": 531,
+      "w": 111,
+      "h": 179
+    },
+    "monsters20:marionette.down.moveR": {
+      "x": 322,
+      "y": 531,
+      "w": 110,
+      "h": 179
+    },
+    "monsters20:marionette.down.hit": {
+      "x": 463,
+      "y": 531,
+      "w": 114,
+      "h": 179
+    },
+    "monsters20:marionette.down.attack": {
+      "x": 605,
+      "y": 531,
+      "w": 135,
+      "h": 179
+    },
+    "monsters20:marionette.up.idle": {
+      "x": 41,
+      "y": 751,
+      "w": 115,
+      "h": 175
+    },
+    "monsters20:marionette.up.moveL": {
+      "x": 180,
+      "y": 751,
+      "w": 119,
+      "h": 175
+    },
+    "monsters20:marionette.up.moveR": {
+      "x": 326,
+      "y": 751,
+      "w": 110,
+      "h": 175
+    },
+    "monsters20:marionette.up.hit": {
+      "x": 468,
+      "y": 751,
+      "w": 116,
+      "h": 175
+    },
+    "monsters20:marionette.up.attack": {
+      "x": 593,
+      "y": 751,
+      "w": 141,
+      "h": 175
+    },
+    "monsters20:wraith.down.idle": {
+      "x": 792,
+      "y": 538,
+      "w": 130,
+      "h": 163
+    },
+    "monsters20:wraith.down.moveL": {
+      "x": 939,
+      "y": 538,
+      "w": 133,
+      "h": 163
+    },
+    "monsters20:wraith.down.moveR": {
+      "x": 1087,
+      "y": 538,
+      "w": 127,
+      "h": 163
+    },
+    "monsters20:wraith.down.hit": {
+      "x": 1223,
+      "y": 538,
+      "w": 142,
+      "h": 163
+    },
+    "monsters20:wraith.down.attack": {
+      "x": 1381,
+      "y": 538,
+      "w": 139,
+      "h": 163
+    },
+    "monsters20:wraith.up.idle": {
+      "x": 792,
+      "y": 756,
+      "w": 139,
+      "h": 165
+    },
+    "monsters20:wraith.up.moveL": {
+      "x": 940,
+      "y": 756,
+      "w": 131,
+      "h": 165
+    },
+    "monsters20:wraith.up.moveR": {
+      "x": 1087,
+      "y": 756,
+      "w": 128,
+      "h": 165
+    },
+    "monsters20:wraith.up.hit": {
+      "x": 1224,
+      "y": 756,
+      "w": 145,
+      "h": 165
+    },
+    "monsters20:wraith.up.attack": {
+      "x": 1376,
+      "y": 756,
+      "w": 143,
+      "h": 165
+    },
+    "monsters21:evildruid.down.idle": {
+      "x": 18,
+      "y": 33,
+      "w": 155,
+      "h": 202
+    },
+    "monsters21:evildruid.down.moveL": {
+      "x": 182,
+      "y": 33,
+      "w": 137,
+      "h": 202
+    },
+    "monsters21:evildruid.down.moveR": {
+      "x": 338,
+      "y": 33,
+      "w": 124,
+      "h": 202
+    },
+    "monsters21:evildruid.down.hit": {
+      "x": 470,
+      "y": 33,
+      "w": 136,
+      "h": 202
+    },
+    "monsters21:evildruid.down.attack": {
+      "x": 605,
+      "y": 33,
+      "w": 142,
+      "h": 202
+    },
+    "monsters21:evildruid.up.idle": {
+      "x": 34,
+      "y": 270,
+      "w": 134,
+      "h": 197
+    },
+    "monsters21:evildruid.up.moveL": {
+      "x": 181,
+      "y": 270,
+      "w": 141,
+      "h": 197
+    },
+    "monsters21:evildruid.up.moveR": {
+      "x": 345,
+      "y": 270,
+      "w": 120,
+      "h": 197
+    },
+    "monsters21:evildruid.up.hit": {
+      "x": 481,
+      "y": 270,
+      "w": 131,
+      "h": 197
+    },
+    "monsters21:evildruid.up.attack": {
+      "x": 613,
+      "y": 270,
+      "w": 143,
+      "h": 197
+    },
+    "monsters21:darkpriest.down.idle": {
+      "x": 816,
+      "y": 64,
+      "w": 92,
+      "h": 166
+    },
+    "monsters21:darkpriest.down.moveL": {
+      "x": 965,
+      "y": 64,
+      "w": 89,
+      "h": 166
+    },
+    "monsters21:darkpriest.down.moveR": {
+      "x": 1106,
+      "y": 64,
+      "w": 86,
+      "h": 166
+    },
+    "monsters21:darkpriest.down.hit": {
+      "x": 1233,
+      "y": 64,
+      "w": 114,
+      "h": 166
+    },
+    "monsters21:darkpriest.down.attack": {
+      "x": 1383,
+      "y": 64,
+      "w": 132,
+      "h": 166
+    },
+    "monsters21:darkpriest.up.idle": {
+      "x": 820,
+      "y": 291,
+      "w": 94,
+      "h": 170
+    },
+    "monsters21:darkpriest.up.moveL": {
+      "x": 968,
+      "y": 291,
+      "w": 97,
+      "h": 170
+    },
+    "monsters21:darkpriest.up.moveR": {
+      "x": 1104,
+      "y": 291,
+      "w": 87,
+      "h": 170
+    },
+    "monsters21:darkpriest.up.hit": {
+      "x": 1233,
+      "y": 291,
+      "w": 116,
+      "h": 170
+    },
+    "monsters21:darkpriest.up.attack": {
+      "x": 1378,
+      "y": 291,
+      "w": 143,
+      "h": 170
+    },
+    "monsters21:raydric.down.idle": {
+      "x": 48,
+      "y": 546,
+      "w": 85,
+      "h": 177
+    },
+    "monsters21:raydric.down.moveL": {
+      "x": 196,
+      "y": 546,
+      "w": 98,
+      "h": 177
+    },
+    "monsters21:raydric.down.moveR": {
+      "x": 339,
+      "y": 546,
+      "w": 91,
+      "h": 177
+    },
+    "monsters21:raydric.down.hit": {
+      "x": 464,
+      "y": 546,
+      "w": 115,
+      "h": 177
+    },
+    "monsters21:raydric.down.attack": {
+      "x": 616,
+      "y": 546,
+      "w": 121,
+      "h": 177
+    },
+    "monsters21:raydric.up.idle": {
+      "x": 53,
+      "y": 777,
+      "w": 85,
+      "h": 183
+    },
+    "monsters21:raydric.up.moveL": {
+      "x": 193,
+      "y": 777,
+      "w": 94,
+      "h": 183
+    },
+    "monsters21:raydric.up.moveR": {
+      "x": 338,
+      "y": 777,
+      "w": 83,
+      "h": 183
+    },
+    "monsters21:raydric.up.hit": {
+      "x": 454,
+      "y": 777,
+      "w": 109,
+      "h": 183
+    },
+    "monsters21:raydric.up.attack": {
+      "x": 613,
+      "y": 777,
+      "w": 133,
+      "h": 183
+    },
+    "monsters21:khalitzburg.down.idle": {
+      "x": 803,
+      "y": 544,
+      "w": 106,
+      "h": 183
+    },
+    "monsters21:khalitzburg.down.moveL": {
+      "x": 951,
+      "y": 544,
+      "w": 104,
+      "h": 183
+    },
+    "monsters21:khalitzburg.down.moveR": {
+      "x": 1108,
+      "y": 544,
+      "w": 90,
+      "h": 183
+    },
+    "monsters21:khalitzburg.down.hit": {
+      "x": 1222,
+      "y": 544,
+      "w": 128,
+      "h": 183
+    },
+    "monsters21:khalitzburg.down.attack": {
+      "x": 1366,
+      "y": 544,
+      "w": 149,
+      "h": 183
+    },
+    "monsters21:khalitzburg.up.idle": {
+      "x": 817,
+      "y": 780,
+      "w": 95,
+      "h": 187
+    },
+    "monsters21:khalitzburg.up.moveL": {
+      "x": 963,
+      "y": 780,
+      "w": 101,
+      "h": 187
+    },
+    "monsters21:khalitzburg.up.moveR": {
+      "x": 1111,
+      "y": 780,
+      "w": 88,
+      "h": 187
+    },
+    "monsters21:khalitzburg.up.hit": {
+      "x": 1222,
+      "y": 780,
+      "w": 117,
+      "h": 187
+    },
+    "monsters21:khalitzburg.up.attack": {
+      "x": 1383,
+      "y": 780,
+      "w": 137,
+      "h": 187
+    },
+    "monsters22:gargoyle.down.idle": {
+      "x": 33,
+      "y": 103,
+      "w": 139,
+      "h": 107
+    },
+    "monsters22:gargoyle.down.moveL": {
+      "x": 185,
+      "y": 103,
+      "w": 128,
+      "h": 107
+    },
+    "monsters22:gargoyle.down.moveR": {
+      "x": 323,
+      "y": 103,
+      "w": 130,
+      "h": 107
+    },
+    "monsters22:gargoyle.down.hit": {
+      "x": 472,
+      "y": 103,
+      "w": 116,
+      "h": 107
+    },
+    "monsters22:gargoyle.down.attack": {
+      "x": 601,
+      "y": 103,
+      "w": 136,
+      "h": 107
+    },
+    "monsters22:gargoyle.up.idle": {
+      "x": 36,
+      "y": 297,
+      "w": 135,
+      "h": 110
+    },
+    "monsters22:gargoyle.up.moveL": {
+      "x": 187,
+      "y": 297,
+      "w": 123,
+      "h": 110
+    },
+    "monsters22:gargoyle.up.moveR": {
+      "x": 324,
+      "y": 297,
+      "w": 130,
+      "h": 110
+    },
+    "monsters22:gargoyle.up.hit": {
+      "x": 467,
+      "y": 297,
+      "w": 119,
+      "h": 110
+    },
+    "monsters22:gargoyle.up.attack": {
+      "x": 601,
+      "y": 297,
+      "w": 134,
+      "h": 110
+    },
+    "monsters22:ghoul.down.idle": {
+      "x": 827,
+      "y": 86,
+      "w": 80,
+      "h": 132
+    },
+    "monsters22:ghoul.down.moveL": {
+      "x": 959,
+      "y": 86,
+      "w": 93,
+      "h": 132
+    },
+    "monsters22:ghoul.down.moveR": {
+      "x": 1106,
+      "y": 86,
+      "w": 91,
+      "h": 132
+    },
+    "monsters22:ghoul.down.hit": {
+      "x": 1231,
+      "y": 86,
+      "w": 109,
+      "h": 132
+    },
+    "monsters22:ghoul.down.attack": {
+      "x": 1376,
+      "y": 86,
+      "w": 123,
+      "h": 132
+    },
+    "monsters22:ghoul.up.idle": {
+      "x": 826,
+      "y": 277,
+      "w": 82,
+      "h": 135
+    },
+    "monsters22:ghoul.up.moveL": {
+      "x": 960,
+      "y": 277,
+      "w": 91,
+      "h": 135
+    },
+    "monsters22:ghoul.up.moveR": {
+      "x": 1101,
+      "y": 277,
+      "w": 91,
+      "h": 135
+    },
+    "monsters22:ghoul.up.hit": {
+      "x": 1235,
+      "y": 277,
+      "w": 97,
+      "h": 135
+    },
+    "monsters22:ghoul.up.attack": {
+      "x": 1372,
+      "y": 277,
+      "w": 127,
+      "h": 135
+    },
+    "monsters22:whisper.down.idle": {
+      "x": 65,
+      "y": 620,
+      "w": 83,
+      "h": 84
+    },
+    "monsters22:whisper.down.moveL": {
+      "x": 197,
+      "y": 620,
+      "w": 88,
+      "h": 84
+    },
+    "monsters22:whisper.down.moveR": {
+      "x": 339,
+      "y": 620,
+      "w": 83,
+      "h": 84
+    },
+    "monsters22:whisper.down.hit": {
+      "x": 490,
+      "y": 620,
+      "w": 73,
+      "h": 84
+    },
+    "monsters22:whisper.down.attack": {
+      "x": 621,
+      "y": 620,
+      "w": 94,
+      "h": 84
+    },
+    "monsters22:whisper.up.idle": {
+      "x": 58,
+      "y": 815,
+      "w": 84,
+      "h": 83
+    },
+    "monsters22:whisper.up.moveL": {
+      "x": 195,
+      "y": 815,
+      "w": 86,
+      "h": 83
+    },
+    "monsters22:whisper.up.moveR": {
+      "x": 338,
+      "y": 815,
+      "w": 86,
+      "h": 83
+    },
+    "monsters22:whisper.up.hit": {
+      "x": 486,
+      "y": 815,
+      "w": 73,
+      "h": 83
+    },
+    "monsters22:whisper.up.attack": {
+      "x": 615,
+      "y": 815,
+      "w": 88,
+      "h": 83
+    },
+    "monsters22:bapho_jr.down.idle": {
+      "x": 807,
+      "y": 585,
+      "w": 120,
+      "h": 126
+    },
+    "monsters22:bapho_jr.down.moveL": {
+      "x": 945,
+      "y": 585,
+      "w": 126,
+      "h": 126
+    },
+    "monsters22:bapho_jr.down.moveR": {
+      "x": 1100,
+      "y": 585,
+      "w": 115,
+      "h": 126
+    },
+    "monsters22:bapho_jr.down.hit": {
+      "x": 1231,
+      "y": 585,
+      "w": 113,
+      "h": 126
+    },
+    "monsters22:bapho_jr.down.attack": {
+      "x": 1357,
+      "y": 585,
+      "w": 143,
+      "h": 126
+    },
+    "monsters22:bapho_jr.up.idle": {
+      "x": 807,
+      "y": 791,
+      "w": 122,
+      "h": 123
+    },
+    "monsters22:bapho_jr.up.moveL": {
+      "x": 945,
+      "y": 791,
+      "w": 129,
+      "h": 123
+    },
+    "monsters22:bapho_jr.up.moveR": {
+      "x": 1101,
+      "y": 791,
+      "w": 117,
+      "h": 123
+    },
+    "monsters22:bapho_jr.up.hit": {
+      "x": 1234,
+      "y": 791,
+      "w": 119,
+      "h": 123
+    },
+    "monsters22:bapho_jr.up.attack": {
+      "x": 1373,
+      "y": 791,
+      "w": 126,
+      "h": 123
+    },
+    "monsters23:dimik.down.idle": {
+      "x": 61,
+      "y": 111,
+      "w": 116,
+      "h": 120
+    },
+    "monsters23:dimik.down.moveL": {
+      "x": 202,
+      "y": 111,
+      "w": 116,
+      "h": 120
+    },
+    "monsters23:dimik.down.moveR": {
+      "x": 349,
+      "y": 111,
+      "w": 111,
+      "h": 120
+    },
+    "monsters23:dimik.down.hit": {
+      "x": 482,
+      "y": 111,
+      "w": 97,
+      "h": 120
+    },
+    "monsters23:dimik.down.attack": {
+      "x": 609,
+      "y": 111,
+      "w": 125,
+      "h": 120
+    },
+    "monsters23:dimik.up.idle": {
+      "x": 63,
+      "y": 296,
+      "w": 118,
+      "h": 121
+    },
+    "monsters23:dimik.up.moveL": {
+      "x": 210,
+      "y": 296,
+      "w": 104,
+      "h": 121
+    },
+    "monsters23:dimik.up.moveR": {
+      "x": 348,
+      "y": 296,
+      "w": 107,
+      "h": 121
+    },
+    "monsters23:dimik.up.hit": {
+      "x": 477,
+      "y": 296,
+      "w": 100,
+      "h": 121
+    },
+    "monsters23:dimik.up.attack": {
+      "x": 608,
+      "y": 296,
+      "w": 125,
+      "h": 121
+    },
+    "monsters23:venatu.down.idle": {
+      "x": 823,
+      "y": 116,
+      "w": 86,
+      "h": 121
+    },
+    "monsters23:venatu.down.moveL": {
+      "x": 947,
+      "y": 116,
+      "w": 96,
+      "h": 121
+    },
+    "monsters23:venatu.down.moveR": {
+      "x": 1083,
+      "y": 116,
+      "w": 97,
+      "h": 121
+    },
+    "monsters23:venatu.down.hit": {
+      "x": 1214,
+      "y": 116,
+      "w": 106,
+      "h": 121
+    },
+    "monsters23:venatu.down.attack": {
+      "x": 1365,
+      "y": 116,
+      "w": 88,
+      "h": 121
+    },
+    "monsters23:venatu.up.idle": {
+      "x": 822,
+      "y": 300,
+      "w": 87,
+      "h": 121
+    },
+    "monsters23:venatu.up.moveL": {
+      "x": 948,
+      "y": 300,
+      "w": 90,
+      "h": 121
+    },
+    "monsters23:venatu.up.moveR": {
+      "x": 1087,
+      "y": 300,
+      "w": 109,
+      "h": 121
+    },
+    "monsters23:venatu.up.hit": {
+      "x": 1230,
+      "y": 300,
+      "w": 91,
+      "h": 121
+    },
+    "monsters23:venatu.up.attack": {
+      "x": 1367,
+      "y": 300,
+      "w": 90,
+      "h": 121
+    },
+    "monsters23:plasma.down.idle": {
+      "x": 58,
+      "y": 611,
+      "w": 115,
+      "h": 107
+    },
+    "monsters23:plasma.down.moveL": {
+      "x": 205,
+      "y": 611,
+      "w": 111,
+      "h": 107
+    },
+    "monsters23:plasma.down.moveR": {
+      "x": 345,
+      "y": 611,
+      "w": 108,
+      "h": 107
+    },
+    "monsters23:plasma.down.hit": {
+      "x": 481,
+      "y": 611,
+      "w": 111,
+      "h": 107
+    },
+    "monsters23:plasma.down.attack": {
+      "x": 614,
+      "y": 611,
+      "w": 112,
+      "h": 107
+    },
+    "monsters23:plasma.up.idle": {
+      "x": 59,
+      "y": 802,
+      "w": 116,
+      "h": 113
+    },
+    "monsters23:plasma.up.moveL": {
+      "x": 205,
+      "y": 802,
+      "w": 113,
+      "h": 113
+    },
+    "monsters23:plasma.up.moveR": {
+      "x": 346,
+      "y": 802,
+      "w": 112,
+      "h": 113
+    },
+    "monsters23:plasma.up.hit": {
+      "x": 478,
+      "y": 802,
+      "w": 110,
+      "h": 113
+    },
+    "monsters23:plasma.up.attack": {
+      "x": 612,
+      "y": 802,
+      "w": 114,
+      "h": 113
+    },
+    "monsters23:guardian.down.idle": {
+      "x": 788,
+      "y": 584,
+      "w": 137,
+      "h": 140
+    },
+    "monsters23:guardian.down.moveL": {
+      "x": 931,
+      "y": 584,
+      "w": 125,
+      "h": 140
+    },
+    "monsters23:guardian.down.moveR": {
+      "x": 1079,
+      "y": 584,
+      "w": 119,
+      "h": 140
+    },
+    "monsters23:guardian.down.hit": {
+      "x": 1217,
+      "y": 584,
+      "w": 101,
+      "h": 140
+    },
+    "monsters23:guardian.down.attack": {
+      "x": 1352,
+      "y": 584,
+      "w": 142,
+      "h": 140
+    },
+    "monsters23:guardian.up.idle": {
+      "x": 810,
+      "y": 787,
+      "w": 114,
+      "h": 135
+    },
+    "monsters23:guardian.up.moveL": {
+      "x": 952,
+      "y": 787,
+      "w": 100,
+      "h": 135
+    },
+    "monsters23:guardian.up.moveR": {
+      "x": 1096,
+      "y": 787,
+      "w": 95,
+      "h": 135
+    },
+    "monsters23:guardian.up.hit": {
+      "x": 1224,
+      "y": 787,
+      "w": 94,
+      "h": 135
+    },
+    "monsters23:guardian.up.attack": {
+      "x": 1351,
+      "y": 787,
+      "w": 149,
+      "h": 135
+    },
+    "monsters24:cell.down.idle": {
+      "x": 56,
+      "y": 111,
+      "w": 93,
+      "h": 108
+    },
+    "monsters24:cell.down.moveL": {
+      "x": 194,
+      "y": 111,
+      "w": 97,
+      "h": 108
+    },
+    "monsters24:cell.down.moveR": {
+      "x": 340,
+      "y": 111,
+      "w": 98,
+      "h": 108
+    },
+    "monsters24:cell.down.hit": {
+      "x": 476,
+      "y": 111,
+      "w": 100,
+      "h": 108
+    },
+    "monsters24:cell.down.attack": {
+      "x": 618,
+      "y": 111,
+      "w": 95,
+      "h": 108
+    },
+    "monsters24:cell.up.idle": {
+      "x": 56,
+      "y": 291,
+      "w": 91,
+      "h": 107
+    },
+    "monsters24:cell.up.moveL": {
+      "x": 193,
+      "y": 291,
+      "w": 94,
+      "h": 107
+    },
+    "monsters24:cell.up.moveR": {
+      "x": 341,
+      "y": 291,
+      "w": 91,
+      "h": 107
+    },
+    "monsters24:cell.up.hit": {
+      "x": 481,
+      "y": 291,
+      "w": 92,
+      "h": 107
+    },
+    "monsters24:cell.up.attack": {
+      "x": 622,
+      "y": 291,
+      "w": 91,
+      "h": 107
+    },
+    "monsters24:sentry.down.idle": {
+      "x": 811,
+      "y": 112,
+      "w": 116,
+      "h": 114
+    },
+    "monsters24:sentry.down.moveL": {
+      "x": 955,
+      "y": 112,
+      "w": 121,
+      "h": 114
+    },
+    "monsters24:sentry.down.moveR": {
+      "x": 1096,
+      "y": 112,
+      "w": 122,
+      "h": 114
+    },
+    "monsters24:sentry.down.hit": {
+      "x": 1246,
+      "y": 112,
+      "w": 106,
+      "h": 114
+    },
+    "monsters24:sentry.down.attack": {
+      "x": 1388,
+      "y": 112,
+      "w": 115,
+      "h": 114
+    },
+    "monsters24:sentry.up.idle": {
+      "x": 811,
+      "y": 291,
+      "w": 116,
+      "h": 108
+    },
+    "monsters24:sentry.up.moveL": {
+      "x": 957,
+      "y": 291,
+      "w": 113,
+      "h": 108
+    },
+    "monsters24:sentry.up.moveR": {
+      "x": 1098,
+      "y": 291,
+      "w": 113,
+      "h": 108
+    },
+    "monsters24:sentry.up.hit": {
+      "x": 1241,
+      "y": 291,
+      "w": 116,
+      "h": 108
+    },
+    "monsters24:sentry.up.attack": {
+      "x": 1387,
+      "y": 291,
+      "w": 116,
+      "h": 108
+    },
+    "monsters24:repairdrone.down.idle": {
+      "x": 47,
+      "y": 621,
+      "w": 106,
+      "h": 93
+    },
+    "monsters24:repairdrone.down.moveL": {
+      "x": 184,
+      "y": 621,
+      "w": 103,
+      "h": 93
+    },
+    "monsters24:repairdrone.down.moveR": {
+      "x": 334,
+      "y": 621,
+      "w": 106,
+      "h": 93
+    },
+    "monsters24:repairdrone.down.hit": {
+      "x": 469,
+      "y": 621,
+      "w": 104,
+      "h": 93
+    },
+    "monsters24:repairdrone.down.attack": {
+      "x": 602,
+      "y": 621,
+      "w": 127,
+      "h": 93
+    },
+    "monsters24:repairdrone.up.idle": {
+      "x": 47,
+      "y": 807,
+      "w": 106,
+      "h": 91
+    },
+    "monsters24:repairdrone.up.moveL": {
+      "x": 182,
+      "y": 807,
+      "w": 103,
+      "h": 91
+    },
+    "monsters24:repairdrone.up.moveR": {
+      "x": 329,
+      "y": 807,
+      "w": 106,
+      "h": 91
+    },
+    "monsters24:repairdrone.up.hit": {
+      "x": 470,
+      "y": 807,
+      "w": 103,
+      "h": 91
+    },
+    "monsters24:repairdrone.up.attack": {
+      "x": 599,
+      "y": 807,
+      "w": 133,
+      "h": 91
+    },
+    "monsters24:sparkbeetle.down.idle": {
+      "x": 811,
+      "y": 630,
+      "w": 115,
+      "h": 85
+    },
+    "monsters24:sparkbeetle.down.moveL": {
+      "x": 947,
+      "y": 630,
+      "w": 122,
+      "h": 85
+    },
+    "monsters24:sparkbeetle.down.moveR": {
+      "x": 1094,
+      "y": 630,
+      "w": 121,
+      "h": 85
+    },
+    "monsters24:sparkbeetle.down.hit": {
+      "x": 1235,
+      "y": 630,
+      "w": 122,
+      "h": 85
+    },
+    "monsters24:sparkbeetle.down.attack": {
+      "x": 1383,
+      "y": 630,
+      "w": 118,
+      "h": 85
+    },
+    "monsters24:sparkbeetle.up.idle": {
+      "x": 814,
+      "y": 813,
+      "w": 113,
+      "h": 90
+    },
+    "monsters24:sparkbeetle.up.moveL": {
+      "x": 953,
+      "y": 813,
+      "w": 115,
+      "h": 90
+    },
+    "monsters24:sparkbeetle.up.moveR": {
+      "x": 1099,
+      "y": 813,
+      "w": 110,
+      "h": 90
+    },
+    "monsters24:sparkbeetle.up.hit": {
+      "x": 1236,
+      "y": 813,
+      "w": 119,
+      "h": 90
+    },
+    "monsters24:sparkbeetle.up.attack": {
+      "x": 1384,
+      "y": 813,
+      "w": 118,
+      "h": 90
+    },
+    "monsters25:failedexp.down.idle": {
+      "x": 45,
+      "y": 110,
+      "w": 116,
+      "h": 123
+    },
+    "monsters25:failedexp.down.moveL": {
+      "x": 194,
+      "y": 110,
+      "w": 95,
+      "h": 123
+    },
+    "monsters25:failedexp.down.moveR": {
+      "x": 326,
+      "y": 110,
+      "w": 105,
+      "h": 123
+    },
+    "monsters25:failedexp.down.hit": {
+      "x": 456,
+      "y": 120,
+      "w": 114,
+      "h": 113
+    },
+    "monsters25:failedexp.down.attack": {
+      "x": 587,
+      "y": 110,
+      "w": 134,
+      "h": 123
+    },
+    "monsters25:failedexp.up.idle": {
+      "x": 45,
+      "y": 300,
+      "w": 118,
+      "h": 124
+    },
+    "monsters25:failedexp.up.moveL": {
+      "x": 193,
+      "y": 300,
+      "w": 97,
+      "h": 124
+    },
+    "monsters25:failedexp.up.moveR": {
+      "x": 326,
+      "y": 300,
+      "w": 103,
+      "h": 124
+    },
+    "monsters25:failedexp.up.hit": {
+      "x": 457,
+      "y": 301,
+      "w": 112,
+      "h": 123
+    },
+    "monsters25:failedexp.up.attack": {
+      "x": 591,
+      "y": 300,
+      "w": 129,
+      "h": 124
+    },
+    "monsters25:remover.down.idle": {
+      "x": 816,
+      "y": 106,
+      "w": 101,
+      "h": 136
+    },
+    "monsters25:remover.down.moveL": {
+      "x": 952,
+      "y": 106,
+      "w": 102,
+      "h": 136
+    },
+    "monsters25:remover.down.moveR": {
+      "x": 1098,
+      "y": 106,
+      "w": 96,
+      "h": 134
+    },
+    "monsters25:remover.down.hit": {
+      "x": 1229,
+      "y": 106,
+      "w": 107,
+      "h": 136
+    },
+    "monsters25:remover.down.attack": {
+      "x": 1352,
+      "y": 106,
+      "w": 147,
+      "h": 136
+    },
+    "monsters25:remover.up.idle": {
+      "x": 822,
+      "y": 297,
+      "w": 91,
+      "h": 136
+    },
+    "monsters25:remover.up.moveL": {
+      "x": 958,
+      "y": 297,
+      "w": 95,
+      "h": 136
+    },
+    "monsters25:remover.up.moveR": {
+      "x": 1096,
+      "y": 297,
+      "w": 95,
+      "h": 136
+    },
+    "monsters25:remover.up.hit": {
+      "x": 1235,
+      "y": 299,
+      "w": 105,
+      "h": 132
+    },
+    "monsters25:remover.up.attack": {
+      "x": 1380,
+      "y": 297,
+      "w": 118,
+      "h": 136
+    },
+    "monsters25:labdrone.down.idle": {
+      "x": 63,
+      "y": 643,
+      "w": 79,
+      "h": 76
+    },
+    "monsters25:labdrone.down.moveL": {
+      "x": 203,
+      "y": 643,
+      "w": 72,
+      "h": 76
+    },
+    "monsters25:labdrone.down.moveR": {
+      "x": 353,
+      "y": 643,
+      "w": 73,
+      "h": 76
+    },
+    "monsters25:labdrone.down.hit": {
+      "x": 477,
+      "y": 643,
+      "w": 79,
+      "h": 76
+    },
+    "monsters25:labdrone.down.attack": {
+      "x": 620,
+      "y": 643,
+      "w": 78,
+      "h": 76
+    },
+    "monsters25:labdrone.up.idle": {
+      "x": 63,
+      "y": 832,
+      "w": 80,
+      "h": 75
+    },
+    "monsters25:labdrone.up.moveL": {
+      "x": 199,
+      "y": 832,
+      "w": 77,
+      "h": 75
+    },
+    "monsters25:labdrone.up.moveR": {
+      "x": 344,
+      "y": 832,
+      "w": 76,
+      "h": 75
+    },
+    "monsters25:labdrone.up.hit": {
+      "x": 480,
+      "y": 832,
+      "w": 78,
+      "h": 75
+    },
+    "monsters25:labdrone.up.attack": {
+      "x": 620,
+      "y": 832,
+      "w": 79,
+      "h": 75
+    },
+    "monsters25:testsubject.down.idle": {
+      "x": 829,
+      "y": 610,
+      "w": 78,
+      "h": 128
+    },
+    "monsters25:testsubject.down.moveL": {
+      "x": 973,
+      "y": 610,
+      "w": 74,
+      "h": 128
+    },
+    "monsters25:testsubject.down.moveR": {
+      "x": 1109,
+      "y": 610,
+      "w": 79,
+      "h": 127
+    },
+    "monsters25:testsubject.down.hit": {
+      "x": 1244,
+      "y": 610,
+      "w": 95,
+      "h": 128
+    },
+    "monsters25:testsubject.down.attack": {
+      "x": 1389,
+      "y": 613,
+      "w": 92,
+      "h": 125
+    },
+    "monsters25:testsubject.up.idle": {
+      "x": 827,
+      "y": 803,
+      "w": 83,
+      "h": 129
+    },
+    "monsters25:testsubject.up.moveL": {
+      "x": 973,
+      "y": 803,
+      "w": 75,
+      "h": 129
+    },
+    "monsters25:testsubject.up.moveR": {
+      "x": 1109,
+      "y": 803,
+      "w": 80,
+      "h": 129
+    },
+    "monsters25:testsubject.up.hit": {
+      "x": 1244,
+      "y": 803,
+      "w": 91,
+      "h": 129
+    },
+    "monsters25:testsubject.up.attack": {
+      "x": 1390,
+      "y": 803,
+      "w": 86,
+      "h": 129
+    },
+    "monsters26:sporecloud.down.idle": {
+      "x": 41,
+      "y": 92,
+      "w": 122,
+      "h": 118
+    },
+    "monsters26:sporecloud.down.moveL": {
+      "x": 177,
+      "y": 92,
+      "w": 123,
+      "h": 118
+    },
+    "monsters26:sporecloud.down.moveR": {
+      "x": 325,
+      "y": 92,
+      "w": 121,
+      "h": 118
+    },
+    "monsters26:sporecloud.down.hit": {
+      "x": 461,
+      "y": 95,
+      "w": 116,
+      "h": 115
+    },
+    "monsters26:sporecloud.down.attack": {
+      "x": 587,
+      "y": 92,
+      "w": 140,
+      "h": 118
+    },
+    "monsters26:sporecloud.up.idle": {
+      "x": 41,
+      "y": 288,
+      "w": 119,
+      "h": 119
+    },
+    "monsters26:sporecloud.up.moveL": {
+      "x": 178,
+      "y": 288,
+      "w": 124,
+      "h": 119
+    },
+    "monsters26:sporecloud.up.moveR": {
+      "x": 325,
+      "y": 288,
+      "w": 117,
+      "h": 119
+    },
+    "monsters26:sporecloud.up.hit": {
+      "x": 464,
+      "y": 291,
+      "w": 114,
+      "h": 115
+    },
+    "monsters26:sporecloud.up.attack": {
+      "x": 588,
+      "y": 288,
+      "w": 142,
+      "h": 119
+    },
+    "monsters26:mutanthound.down.idle": {
+      "x": 815,
+      "y": 89,
+      "w": 97,
+      "h": 123
+    },
+    "monsters26:mutanthound.down.moveL": {
+      "x": 942,
+      "y": 89,
+      "w": 121,
+      "h": 123
+    },
+    "monsters26:mutanthound.down.moveR": {
+      "x": 1090,
+      "y": 89,
+      "w": 110,
+      "h": 123
+    },
+    "monsters26:mutanthound.down.hit": {
+      "x": 1234,
+      "y": 89,
+      "w": 118,
+      "h": 123
+    },
+    "monsters26:mutanthound.down.attack": {
+      "x": 1378,
+      "y": 89,
+      "w": 117,
+      "h": 123
+    },
+    "monsters26:mutanthound.up.idle": {
+      "x": 815,
+      "y": 284,
+      "w": 98,
+      "h": 132
+    },
+    "monsters26:mutanthound.up.moveL": {
+      "x": 952,
+      "y": 284,
+      "w": 111,
+      "h": 132
+    },
+    "monsters26:mutanthound.up.moveR": {
+      "x": 1105,
+      "y": 284,
+      "w": 98,
+      "h": 132
+    },
+    "monsters26:mutanthound.up.hit": {
+      "x": 1242,
+      "y": 284,
+      "w": 100,
+      "h": 132
+    },
+    "monsters26:mutanthound.up.attack": {
+      "x": 1391,
+      "y": 284,
+      "w": 93,
+      "h": 132
+    },
+    "monsters26:serumturret.down.idle": {
+      "x": 51,
+      "y": 571,
+      "w": 97,
+      "h": 138
+    },
+    "monsters26:serumturret.down.moveL": {
+      "x": 189,
+      "y": 571,
+      "w": 98,
+      "h": 138
+    },
+    "monsters26:serumturret.down.moveR": {
+      "x": 332,
+      "y": 571,
+      "w": 94,
+      "h": 138
+    },
+    "monsters26:serumturret.down.hit": {
+      "x": 465,
+      "y": 571,
+      "w": 95,
+      "h": 138
+    },
+    "monsters26:serumturret.down.attack": {
+      "x": 608,
+      "y": 571,
+      "w": 103,
+      "h": 138
+    },
+    "monsters26:serumturret.up.idle": {
+      "x": 48,
+      "y": 789,
+      "w": 103,
+      "h": 138
+    },
+    "monsters26:serumturret.up.moveL": {
+      "x": 195,
+      "y": 789,
+      "w": 105,
+      "h": 138
+    },
+    "monsters26:serumturret.up.moveR": {
+      "x": 335,
+      "y": 789,
+      "w": 100,
+      "h": 138
+    },
+    "monsters26:serumturret.up.hit": {
+      "x": 479,
+      "y": 789,
+      "w": 99,
+      "h": 138
+    },
+    "monsters26:serumturret.up.attack": {
+      "x": 616,
+      "y": 789,
+      "w": 98,
+      "h": 138
+    },
+    "monsters26:biosludge.down.idle": {
+      "x": 806,
+      "y": 609,
+      "w": 120,
+      "h": 86
+    },
+    "monsters26:biosludge.down.moveL": {
+      "x": 944,
+      "y": 609,
+      "w": 128,
+      "h": 86
+    },
+    "monsters26:biosludge.down.moveR": {
+      "x": 1089,
+      "y": 609,
+      "w": 124,
+      "h": 86
+    },
+    "monsters26:biosludge.down.hit": {
+      "x": 1233,
+      "y": 611,
+      "w": 118,
+      "h": 84
+    },
+    "monsters26:biosludge.down.attack": {
+      "x": 1374,
+      "y": 609,
+      "w": 123,
+      "h": 86
+    },
+    "monsters26:biosludge.up.idle": {
+      "x": 806,
+      "y": 822,
+      "w": 120,
+      "h": 86
+    },
+    "monsters26:biosludge.up.moveL": {
+      "x": 944,
+      "y": 822,
+      "w": 126,
+      "h": 86
+    },
+    "monsters26:biosludge.up.moveR": {
+      "x": 1089,
+      "y": 822,
+      "w": 124,
+      "h": 86
+    },
+    "monsters26:biosludge.up.hit": {
+      "x": 1234,
+      "y": 825,
+      "w": 118,
+      "h": 83
+    },
+    "monsters26:biosludge.up.attack": {
+      "x": 1374,
+      "y": 822,
+      "w": 123,
+      "h": 86
+    }
+  },
+  "outputs": {
+    "monsters19.json": "222e821c44bd25705020efc2dfc170af9c605c9ec4f71dc6c93c08e09946f6c8",
+    "monsters19.png": "f1679e611b646f77cf9faaf8a8b129b536d594fc49f45d5fad46cef3567fe6a4",
+    "monsters20.json": "a4423d25e33bca7a75980fa372c26ac65a3a1b1dc97cc8cfbc20e7447c556f6a",
+    "monsters20.png": "61963253273101b8efc9b370bd0c950e06bfe9b21f18fb3cca42eb62cac92f71",
+    "monsters21.json": "0db75ee381a0f2f9a6af86518dea6d7cf47eac4292b9a234df76705a49af2f82",
+    "monsters21.png": "ae90f022609e920f01b227df47f329dce2f9d1a85f29cdd404ed95a4487883d2",
+    "monsters22.json": "84b5a7fc04b8898bd761bc78ea43876b8495b262bbb14e10275cff5673d3793a",
+    "monsters22.png": "190a70cd10f3a38836a8359d043b20f8e755010c56c15ffdd0f688091e22273f",
+    "monsters23.json": "4c422b65ef0d09d56ad3ed9d1cb8d999a291f7dde517f898562265b49731b6ec",
+    "monsters23.png": "876e8c3d1a02727717cf088b760016c1415e3f03e26f753357a09042db41b7a0",
+    "monsters24.json": "b93c91746050ba4d7caa5bbe044387c960710c6ff3005331231c28e78d55017d",
+    "monsters24.png": "55b283918fe4531a3689070367b8a55ffc5355545d14c55acc2ad04fe03693b8",
+    "monsters25.json": "179964bd1f564a3c356c64f305ad74ae0d713987a664dfeadaa72e6c6a32d1a5",
+    "monsters25.png": "9f76b711a07d244bc54164a110d77475821d1a1efcb2119ec559ec270df090f8",
+    "monsters26.json": "a247ec90baece3c551afdc1a8d9fbac99f3877e024718cc25a52eaf0e08ae0a0",
+    "monsters26.png": "f896e4a9c9d81484b25ce795206291b5b8435f4a03008f9d59581394752eabba"
+  }
+}

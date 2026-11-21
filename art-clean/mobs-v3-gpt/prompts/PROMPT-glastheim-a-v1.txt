@@ -1,0 +1,16 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/mobs-v3-gpt/glastheim-a-v1.png.
+
+A monster sprite sheet with exactly FOUR species from Glast Heim (the game's third level, a haunted castle) in Ragnarok Online, arranged as a 2 column x 2 panel grid:
+top-left EVIL DRUID | top-right DARK PRIEST
+bottom-left RAYDRIC | bottom-right KHALITZBURG
+
+Preserve the identity, silhouette, outfit and palette of each attached official Ragnarok Online reference sprite (the reference file name tells you which monster it is):
+- Evil Druid (evil-druid-ro.png): a gaunt undead druid in a flowing crimson-red robe with long dark hair, holding a tall gnarled staff topped with deer antlers and an open floating spellbook.
+- Dark Priest (dark-priest-ro.png): a hunched pale undead priest with long silver-white hair, a dark brown-gray cassock and a thick belt, empty glaring eyes.
+- Raydric (raydric-ro.png): a hollow suit of pinkish-mauve plate armor with no body inside, a closed helm and a long sword, walking stiffly.
+- Khalitzburg (khalitzburg-ro.png): a tall skeletal knight in battered rust-red armor with a dark striped helm, bony limbs showing, swinging a long thin sword.
+If an attached reference contradicts these short descriptions, follow the reference. These are common enemies: keep them clearly smaller and simpler than a boss, but at the same rendering quality.
+
+SHEET LAYOUT RULES: each panel contains exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature move). Exactly one complete figure per pose, never overlapping, never cropped by the panel edge, with generous empty gutters between poses and between panels. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Thanatos Tower monster sheet exactly: same rendering quality, outline weight, shading, scale and 2x2 layout): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouettes at small game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.

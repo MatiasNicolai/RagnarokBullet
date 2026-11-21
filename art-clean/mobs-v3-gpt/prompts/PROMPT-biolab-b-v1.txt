@@ -1,0 +1,18 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/mobs-v3-gpt/biolab-b-v1.png.
+
+A monster sprite sheet with exactly FOUR species from the Lighthalzen Bio Laboratory (the game's fifth level: failed experiments, hazmat suits, green serum and sterile white machines), arranged as a 2 column x 2 panel grid:
+top-left SPORE CLOUD | top-right MUTANT HOUND
+bottom-left SERUM TURRET | bottom-right BIO-SLUDGE
+
+None of these has a Ragnarok Online reference: they are this game's own designs, shown in the attached original game sheet (panels "Spore Cloud", "Mutant Hound", "Serum Turret", "Bio-Sludge"):
+- Spore Cloud: a dense puffy olive-green spore cloud with a dark skull shape inside it. Draw it as one compact, solid, clearly outlined cloud mass, not loose particles.
+- Mutant Hound: a gray-skinned mutant dog with red eyes and bolted-on metal armor plates and spikes on its back; its attack is a snapping bite.
+- Serum Turret: a glass cylinder full of glowing green serum on a gray metal tripod with copper pipes; its attack sprays a compact green jet.
+- Bio-Sludge: a low wide puddle-blob of olive-green slime with bubbles and two small eyes; its attack rises into a short slime spike.
+These are common enemies: keep them clearly smaller and simpler than a boss, but at the same rendering quality.
+
+The attached ORIGINAL GAME SHEET (a labeled 8-panel sheet) shows the established design of every creature named below that has no Ragnarok Online reference: keep that creature's identity, silhouette, palette and materials, only redraw it at the new quality. Ignore that sheet's labels, frames, effect rows and layout.
+
+SHEET LAYOUT RULES: each panel contains exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature move). Exactly one complete figure per pose, never overlapping, never cropped by the panel edge, with generous empty gutters between poses and between panels. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Thanatos Tower monster sheet exactly: same rendering quality, outline weight, shading, scale and 2x2 layout): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouettes at small game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.
