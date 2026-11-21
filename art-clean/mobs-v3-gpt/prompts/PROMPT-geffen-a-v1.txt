@@ -1,0 +1,16 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/mobs-v3-gpt/geffen-a-v1.png.
+
+A monster sprite sheet with exactly FOUR species from the Geffen dungeon (the game's second level) in Ragnarok Online, arranged as a 2 column x 2 panel grid:
+top-left WILLOW | top-right ZOMBIE
+bottom-left MUNAK | bottom-right BONGUN
+
+Preserve the identity, silhouette, outfit and palette of each attached official Ragnarok Online reference sprite (the reference file name tells you which monster it is):
+- Willow (willow-ro.png): a haunted dead tree stump with a hollow screaming face, gnarled root feet and green vines wrapped around it.
+- Zombie (zombie-ro.png): a shambling purple-skinned zombie with messy red-brown hair, torn rags and a hunched gait.
+- Munak (munak-ro.png): a hopping jiangshi girl in a red Qing-dynasty robe and round red hat with a gold top, a paper talisman hanging over her face, arms stretched forward.
+- Bongun (bongun-ro.png): a hopping jiangshi boy in a dark blue Qing-dynasty robe and round blue hat with a gold top, a paper talisman over his face, arms stretched forward.
+If an attached reference contradicts these short descriptions, follow the reference. These are common enemies: keep them clearly smaller and simpler than a boss, but at the same rendering quality.
+
+SHEET LAYOUT RULES: each panel contains exactly ten isolated poses in two rows of five. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away. Left to right in both rows: idle, move-left, move-right, hit (recoiling), attack (signature move). Exactly one complete figure per pose, never overlapping, never cropped by the panel edge, with generous empty gutters between poses and between panels. Opaque solid interiors. Effects only compact and attached to the body (no loose particles, no floating projectiles, no ground shadows, no motion lines). Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no banners, no frame lines, no grid, no UI, no parchment, no watermark, no extra creatures.
+
+STYLE CONTRACT (match the attached approved Thanatos Tower monster sheet exactly: same rendering quality, outline weight, shading, scale and 2x2 layout): modernized 16-bit / painterly pixel-art in the spirit of classic Ragnarok Online sprites, crisp readable silhouettes at small game scale, warm top light and cool bottom shadow, rich but controlled palette, no blur, no photorealism, no 3D render look.
