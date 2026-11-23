@@ -17,7 +17,6 @@ import { createPauseState, pauseKey, isFrozen, MODE } from '../engine/pausecontr
 import { bossDialogue } from '../data/dialogue.js';
 import { audio } from '../engine/audio.js';
 import { music } from '../engine/music.js';
-import { BTN } from '../engine/input.js';
 import { qualifies, submitScore } from '../engine/scores.js';
 import { selectMapTextures, resolveLevelMaps } from '../engine/mapsets.js';
 import { FIELD_W, FIELD_H, TICK_RATE } from '../sim/constants.js';
@@ -196,6 +195,8 @@ export class GameScene {
     this.renderer.onEvent(ev);
     switch (ev.type) {
       case 'kill': audio.play('kill'); break;
+      case 'weaponSwap': audio.play('swap'); break;
+      case 'mineBlast': audio.play('mine'); this.shake = Math.max(this.shake, 5); break;
       case 'graze': audio.play('graze'); break;
       case 'item': audio.play('item'); break;
       case 'chest': audio.play('chest'); break;
@@ -268,14 +269,18 @@ export class GameScene {
     for (const ev of this.sim.events) this.handleEvent(ev);
     this.sim.events.length = 0;
 
-    // per-class shot blip while a player holds fire. Online: both players' fire
-    // is known from the sim (prevMask), so you hear your ally shooting too.
+    // One shot sound per actual volley (the sim records each player's last
+    // volley), voiced per hero, weapon and mode; heavy weapons also kick the
+    // camera. Read from the sim, so online you hear and feel your ally too.
     if (!this.sim.gameOver && !this.sim.levelComplete) {
-      const masks = this.online ? null : this.ctx.input.sample();
+      this.seenShot ??= [];
       this.sim.players.forEach((p, i) => {
-        if (!p || p.down) return;
-        const firing = this.online ? (p.prevMask & BTN.FIRE) : (masks[i] & BTN.FIRE);
-        if (firing) audio.playShot(p.char.id);
+        if (!p || p.down || p.lastShot === this.seenShot[i]) return;
+        this.seenShot[i] = p.lastShot;
+        if (this.sim.tick - p.lastShot > 3) return; // stale (level start / continue)
+        audio.playShot(p.char.id, p.weapon, p.lastShotFocus, i);
+        const k = p.char.weapons?.[p.weapon]?.shake[p.lastShotFocus ? 1 : 0] ?? 0;
+        if (k) this.shake = Math.max(this.shake, k);
       });
     }
 
@@ -443,7 +448,7 @@ export class GameScene {
   // campaign for the next level, carrying player state + score forward.
   nextCampaign() {
     const carry = this.sim.players.map((p) => p && ({
-      lives: Math.max(1, p.lives), bombs: Math.max(3, p.bombs), power: p.power, spheres: p.spheres,
+      lives: Math.max(1, p.lives), bombs: Math.max(3, p.bombs), power: p.power, spheres: p.spheres, weapon: p.weapon,
     }));
     const next = {
       chars: this.chars, levelIndex: this.levelIndex + 1,

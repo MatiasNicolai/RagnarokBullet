@@ -1,0 +1,25 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/weapons-gpt/weapons-fx-v1.png.
+
+A sheet of FOURTEEN game projectile sprites for a fantasy bullet-hell shooter in the style of the attached projectile examples (glowing, saturated, painterly effects). Arrange them in a grid of three rows: five in the first row, five in the second, four in the third, evenly spaced, each one isolated with generous empty gutters, never touching, never cropped.
+
+IMPORTANT ORIENTATION: every elongated projectile points to the RIGHT (its tip or head on the right side, any trail on the left), because the game rotates each sprite in its direction of travel.
+
+Row 1, left to right:
+1. Brandish Spear sweep: a wide golden crescent wave of light with a small spear-tip shape at its leading edge.
+2. Spiral Pierce: a long golden lance with a twisting spiral of white-gold light coiled along it.
+3. Venom Knife: a small throwing knife with a glowing poison-green blade.
+4. Soul Destroyer: a violet-magenta dagger with a long dark-pink energy trail.
+5. Fire Bolt: a small dense fireball bolt with a short flame tail.
+Row 2, left to right:
+6. Cold Bolt: a sharp ice-blue crystal shard with a frosty trail.
+7. Lightning Bolt: a short crackling yellow-white lightning bolt.
+8. Fire Wall flame: one tall flame tongue lying sideways, its tip pointing right.
+9. Holy Smite: a burst of golden holy light shaped like a flanged mace head impact, flaring to the right.
+10. Duple Light: two small white-gold light orbs side by side, linked by a thin glow.
+Row 3, left to right:
+11. Arbalest Bolt: a heavy crossbow bolt with a steel head and brass fletching, with a short orange spark trail.
+12. Blast Mine: a round dark-metal spiked mine with a glowing red core (no orientation needed).
+13. Finger Offensive: a glowing golden spirit sphere with a short trail.
+14. Investigate: an orange-white open-palm shockwave, the palm facing right.
+
+BACKGROUND: pure black (#000000) everywhere, perfectly flat. The game draws these with additive blending, so black means invisible: keep glows soft but let them fade to black, never to gray. No text, no labels, no numbers, no frames, no grid lines, no UI, no watermark.

@@ -7,7 +7,7 @@ import { Rng } from '../engine/rng.js';
 import { Pool } from '../engine/pool.js';
 import { SpatialHash, circleHit } from '../engine/spatialhash.js';
 import { BTN } from '../engine/input.js';
-import { FIELD_W, FIELD_H } from './constants.js';
+import { FIELD_W, FIELD_H, SWAP_COOLDOWN } from './constants.js';
 import { stepBoss, damageBoss } from './boss.js';
 import { DIFFICULTIES, DEFAULT_DIFF } from './difficulty.js';
 
@@ -63,6 +63,13 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
       b.pierce = props.pierce ?? 0;
       b.ttl = props.ttl ?? 0; // 0 = unlimited
       b.owner = p ? p.index : -1;
+      // weapon effects (see src/characters/index.js): 'poison' | 'chill' |
+      // 'invest' on hit; mines burst in an area; blockers eat enemy bullets.
+      // Always reset: bullets are pooled.
+      b.fx = props.fx ?? null;
+      b.mine = !!props.mine;
+      b.aoe = props.aoe ?? 0;
+      b.blocker = !!props.blocker;
       return b;
     },
 
@@ -83,7 +90,7 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
       Object.assign(e, {
         hp: 1, r: 16, vx: 0, vy: 1, skin: 'poring', hitFlash: 0, t: 0, tele: 0,
         score: 100, drop: null, shoot: null, onDeath: null, invuln: false,
-        frozen: 0, poison: 0, lastHitBy: -1, phase: 0,
+        frozen: 0, poison: 0, chill: 0, lastHitBy: -1, phase: 0,
         // echo: boss-art key for a summoned memory (render only); ttl: ticks
         // until it dissolves (0 = lives until killed / off-screen). Reset on
         // every spawn so pooled objects never inherit them.
@@ -138,6 +145,10 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
       focused: false,
       vx: 0, vy: 0,
       prevMask: 0,
+      // weapons: active index (0/1), swap cooldown, and the last volley
+      // (tick + basic/focus) for the render layer's attack pose and sound
+      weapon: 0, swapCd: 0, lastShot: -999, lastShotFocus: false,
+      boltCycle: 0, fingerCount: 0,
       // special-effect timers
       quicken: 0, cloak: 0, steel: 0, falcon: 0, meteor: 0,
       // temporary power-ups
@@ -147,6 +158,7 @@ export function createSim(seed, characters, carry = null, startScore = 0, diffIn
       const c2 = carry[i];
       const p = sim.players[i];
       p.lives = c2.lives; p.bombs = c2.bombs; p.power = c2.power; p.spheres = c2.spheres ?? 0;
+      p.weapon = c2.weapon === 1 && c.weapons?.length > 1 ? 1 : 0;
     }
   }
   return sim;
@@ -357,6 +369,42 @@ function doContinue(sim) {
   sim.events.push({ type: 'continue', count: sim.continues });
 }
 
+// Weapon effects on hit (tuned with the balance bot in test-static).
+const POISON_TICKS = 120;   // Venom Knife: 1 dmg every 15 ticks (see enemy loop)
+const CHILL_TICKS = 45;     // Cold Bolt: half movement speed
+const INVEST_SHARE = 0.04;  // Investigate: + 4% of the target's remaining hp...
+const INVEST_MAX = 12;      // ...capped, on enemies
+const INVEST_BOSS = 8;      // flat bonus on bosses (their hp pools are huge)
+
+// A Blast Mine bursts when any enemy or fighting boss touches it.
+function mineTriggered(sim, b) {
+  for (const e of sim.enemies.active) {
+    if (e.alive && e.hp > 0 && !e.invuln && circleHit(b, e, b.r, e.r)) return true;
+  }
+  for (const boss of sim.bosses) {
+    if (boss.intro || boss.introHold > 0 || boss.dying > 0) continue;
+    if (circleHit(b, boss, b.r, boss.r)) return true;
+  }
+  return false;
+}
+
+function mineBlast(sim, b) {
+  const r2 = b.aoe * b.aoe;
+  for (const e of sim.enemies.active) {
+    if (!e.alive || e.hp <= 0 || e.invuln) continue;
+    if ((e.x - b.x) ** 2 + (e.y - b.y) ** 2 > (b.aoe + e.r) ** 2) continue;
+    e.hp -= b.dmg;
+    e.hitFlash = 6;
+    e.lastHitBy = b.owner;
+  }
+  for (const boss of sim.bosses) {
+    if (boss.intro || boss.introHold > 0 || boss.dying > 0) continue;
+    if ((boss.x - b.x) ** 2 + (boss.y - b.y) ** 2 > r2 + boss.r * boss.r * 2) continue;
+    damageBoss(sim, b.dmg, boss);
+  }
+  sim.events.push({ type: 'mineBlast', x: b.x, y: b.y, r: b.aoe });
+}
+
 export function tickSim(sim, inputs, stage) {
   if (sim.gameOver) {
     // Continue on a FRESH press of FIRE from any seat (rising edge, so the
@@ -394,6 +442,14 @@ export function tickSim(sim, inputs, stage) {
     p.x = Math.min(FIELD_W - 16, Math.max(16, p.x + p.vx));
     p.y = Math.min(FIELD_H - 24, Math.max(24, p.y + p.vy));
     if (p.iframes > 0) p.iframes--;
+    if (p.swapCd > 0) p.swapCd--;
+    // weapon swap: fresh press only, with a cooldown so the two patterns
+    // can't be interleaved frame by frame
+    if ((mask & BTN.SWAP) && !(p.prevMask & BTN.SWAP) && p.swapCd <= 0 && p.char.weapons?.length > 1) {
+      p.weapon = p.weapon ? 0 : 1;
+      p.swapCd = SWAP_COOLDOWN;
+      sim.events.push({ type: 'weaponSwap', x: p.x, y: p.y, index: p.index, weapon: p.weapon, name: p.char.weapons[p.weapon].name, color: p.char.accent });
+    }
     updateSpecials(sim, p);
     if ((mask & BTN.FIRE) && p.steel <= 0) p.char.fire(sim, p);
     if ((mask & BTN.BOMB) && !(p.prevMask & BTN.BOMB) && p.bombs > 0) p.char.bomb(sim, p);
@@ -436,10 +492,13 @@ export function tickSim(sim, inputs, stage) {
     if (e.frozen > 0) {
       e.frozen--;
     } else {
-      e.x += e.vx;
-      e.y += e.vy;
+      // chilled (Cold Bolt): half movement speed, attacks unchanged
+      const k = e.chill > 0 ? 0.5 : 1;
+      e.x += e.vx * k;
+      e.y += e.vy * k;
       if (e.shoot) e.shoot(sim, e);
     }
+    if (e.chill > 0) e.chill--;
     if (e.poison > 0) {
       e.poison--;
       if (e.poison % 15 === 0) { e.hp -= 1; e.hitFlash = 2; }
@@ -463,11 +522,18 @@ export function tickSim(sim, inputs, stage) {
       continue;
     }
     let spent = false;
+    if (b.mine && mineTriggered(sim, b)) {
+      mineBlast(sim, b);
+      sim.bullets.killAt(i);
+      continue;
+    }
     sim.grid.query(b.x, b.y, (e) => {
       if (spent && b.pierce <= 0) return;
       if (!e.alive || e.hp <= 0 || e.invuln) return;
       if (!circleHit(b, e, b.r, e.r)) return;
-      e.hp -= b.dmg;
+      e.hp -= b.fx === 'invest' ? b.dmg + Math.min(INVEST_MAX, e.hp * INVEST_SHARE) : b.dmg;
+      if (b.fx === 'poison') e.poison = Math.max(e.poison, POISON_TICKS);
+      if (b.fx === 'chill') e.chill = Math.max(e.chill, CHILL_TICKS);
       e.hitFlash = 4;
       e.lastHitBy = b.owner;
       if (e.r >= 38) chargeSphereOnHit(sim, b.owner); // mid-bosses count as boss hits
@@ -480,7 +546,7 @@ export function tickSim(sim, inputs, stage) {
       if (spent && b.pierce <= 0) break;
       if (boss.intro || boss.introHold > 0 || boss.dying > 0) continue;
       if (!circleHit(b, boss, b.r, boss.r)) continue;
-      damageBoss(sim, b.dmg, boss);
+      damageBoss(sim, b.fx === 'invest' ? b.dmg + INVEST_BOSS : b.dmg, boss);
       chargeSphereOnHit(sim, b.owner);
       if (b.pierce > 0) b.pierce--;
       else spent = true;
@@ -497,10 +563,17 @@ export function tickSim(sim, inputs, stage) {
 
   // --- enemy bullets: move, graze, hit players ---
   const ebs = sim.enemyBullets.active;
+  // Fire Wall flames (player blockers) eat enemy bullets they touch
+  const blockers = [];
+  for (const pb of sim.bullets.active) if (pb.blocker) blockers.push(pb);
   for (let i = ebs.length - 1; i >= 0; i--) {
     const b = ebs[i];
     b.x += b.vx;
     b.y += b.vy;
+    if (blockers.length && blockers.some((pb) => circleHit(pb, b, pb.r, b.r))) {
+      sim.enemyBullets.killAt(i);
+      continue;
+    }
     if (b.bounce > 0) {
       if (b.x < b.r && b.vx < 0) { b.x = b.r; b.vx = -b.vx; b.bounce--; }
       else if (b.x > FIELD_W - b.r && b.vx > 0) { b.x = FIELD_W - b.r; b.vx = -b.vx; b.bounce--; }

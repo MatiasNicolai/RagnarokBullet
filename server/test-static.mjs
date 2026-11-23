@@ -2156,5 +2156,201 @@ function stripComments(src) {
   ok(`mobs V3 (${n} frames override the original level 2-5 mobs: provenance, fallback order, larger frames)`);
 }
 
+// --- 22. Second weapons (WEAPONS-PLAN.md): every hero carries two weapons and
+// swaps with SWAP. Weapon 1 is the original kit, untouched; weapon 2 changes
+// the shape of the fire (range, spread, effect), not the total power ---
+{
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const { createSim, tickSim } = await import('../src/sim/sim.js');
+  const { ROSTER, MAX_MINES, FINGER_PER_SPHERE } = await import('../src/characters/index.js');
+  const { BTN } = await import('../src/engine/input.js');
+  const { SWAP_COOLDOWN } = await import('../src/sim/constants.js');
+  const { simChecksum } = await import('../src/net/lockstep.js');
+
+  // roster shape
+  for (const h of ROSTER) {
+    assert.equal(h.weapons?.length, 2, `${h.id} carries two weapons`);
+    for (const w of h.weapons) {
+      assert.ok(w.name && w.skills?.length === 2 && typeof w.fire === 'function', `${h.id}.${w.id} shape`);
+      assert.ok(w.pose.length === 2 && w.shake.length === 2, `${h.id}.${w.id} pose/shake per mode`);
+    }
+    assert.deepEqual(h.weapons[0].skills, h.skills.slice(0, 2), `${h.id} weapon 1 is the kit shown by the base skill names`);
+    assert.notEqual(h.weapons[0].id, h.weapons[1].id, `${h.id} weapons differ`);
+  }
+  assert.equal(new Set(ROSTER.flatMap((h) => h.weapons.map((w) => w.name))).size, 12, 'twelve distinct weapon names');
+
+  // input: a ninth button on every device
+  const input = src('src/engine/input.js');
+  assert.equal(BTN.SWAP, 256, 'SWAP bit');
+  assert.ok(/KeyU: BTN\.SWAP/.test(input) && /Numpad4: BTN\.SWAP/.test(input) && /b\(4\)\) m \|= BTN\.SWAP/.test(input), 'SWAP on U / Numpad4 / LB');
+
+  // swap: fresh press only, cooldown, event, carried across levels
+  {
+    const sim = createSim(0x5a0b, [ROSTER[0]]);
+    const p = sim.players[0];
+    const run = (mask, n) => { for (let k = 0; k < n; k++) { p.iframes = 99; tickSim(sim, [mask], null); } };
+    run(BTN.SWAP, 5);
+    assert.equal(p.weapon, 1, 'holding SWAP swaps once');
+    assert.ok(sim.events.some((e) => e.type === 'weaponSwap' && e.name === 'Lanza'), 'swap event names the weapon');
+    run(0, 1); run(BTN.SWAP, 1);
+    assert.equal(p.weapon, 1, 'no second swap inside the cooldown');
+    run(0, SWAP_COOLDOWN); run(BTN.SWAP, 1);
+    assert.equal(p.weapon, 0, 'swaps back after the cooldown');
+    const sumA = simChecksum(sim); p.weapon = 1; const sumB = simChecksum(sim); p.weapon = 0;
+    assert.notEqual(sumA, sumB, 'the online checksum covers the active weapon');
+    const next = createSim(0x5a0b, [ROSTER[0]], [{ lives: 3, bombs: 3, power: 0, spheres: 0, weapon: 1 }]);
+    assert.equal(next.players[0].weapon, 1, 'the active weapon carries to the next level');
+    assert.ok(src('src/scenes/game.js').includes('weapon: p.weapon'), 'the scene carries it');
+  }
+
+  // a stationary target in front of the hero; returns [sim, player, target]
+  const range = (hero, weapon, opts = {}) => {
+    const sim = createSim(0x77e1, [hero]);
+    const p = sim.players[0];
+    p.weapon = weapon; p.spheres = opts.spheres ?? 0;
+    const e = sim.spawnEnemy({ x: p.x, y: p.y - (opts.dist ?? 150), vx: 0, vy: 0, hp: opts.hp ?? 1e6, r: opts.r ?? 40, skin: 'poring' });
+    e.alive = true;
+    return [sim, p, e];
+  };
+  const hold = (sim, p, e, mask, n, dist = 150) => {
+    for (let k = 0; k < n; k++) { p.iframes = 999; tickSim(sim, [mask], null); if (e) { e.x = p.x; e.y = p.y - dist; } }
+  };
+  const byId = Object.fromEntries(ROSTER.map((h) => [h.id, h]));
+
+  // effects
+  {
+    let [sim, p, e] = range(byId.zeos, 1);
+    hold(sim, p, e, BTN.FIRE, 40);
+    assert.ok(e.poison > 0, 'Venom Knife poisons');
+    [sim, p, e] = range(byId.eric, 1, { dist: 120 });
+    hold(sim, p, e, BTN.FIRE, 30, 120);
+    assert.ok(e.chill > 0, 'the rod cycles into Cold Bolt, which chills');
+    assert.ok(p.boltCycle >= 3, 'the rod rotates element every volley');
+    e.vy = 2; const y0 = e.y; sim.enemies.active.length && tickSim(sim, [0], null);
+    assert.ok(Math.abs((e.y - y0) - 1) < 1e-9, 'a chilled enemy moves at half speed');
+    // Fire Wall eats enemy bullets
+    [sim, p] = range(byId.eric, 1, { dist: 700 });
+    hold(sim, p, null, BTN.FIRE | BTN.FOCUS, 24); // one Fire Wall cadence
+    const wall = sim.bullets.active.find((b) => b.blocker);
+    assert.ok(wall, 'Fire Wall spawns blocking flames');
+    sim.spawnEnemyBullet({ x: wall.x, y: wall.y - 6, vx: 0, vy: 1, r: 5 });
+    tickSim(sim, [0], null);
+    assert.equal(sim.enemyBullets.active.length, 0, 'a flame eats the enemy bullet it touches');
+    // Blast Mine: capped, bursts in an area
+    [sim, p] = range(byId.chel_snip, 1, { dist: 2000 });
+    hold(sim, p, null, BTN.FIRE | BTN.FOCUS, 24 * (MAX_MINES + 2));
+    assert.equal(sim.bullets.active.filter((b) => b.mine).length, MAX_MINES, `at most ${MAX_MINES} mines on the field`);
+    const mine = sim.bullets.active.find((b) => b.mine);
+    const a = sim.spawnEnemy({ x: mine.x, y: mine.y, vx: 0, vy: 0, hp: 500, r: 14, skin: 'poring' });
+    const b = sim.spawnEnemy({ x: mine.x + mine.aoe - 10, y: mine.y, vx: 0, vy: 0, hp: 500, r: 14, skin: 'poring' });
+    a.alive = b.alive = true;
+    tickSim(sim, [0], null);
+    assert.ok(a.hp < 500 && b.hp < 500, 'the mine hits everything in its blast radius');
+    assert.ok(sim.events.some((ev) => ev.type === 'mineBlast'), 'mineBlast event');
+    // Investigate hits harder on tough targets
+    [sim, p, e] = range(byId.viri, 1, { dist: 100, hp: 1000 });
+    const [sim2, p2, e2] = range(byId.viri, 1, { dist: 100, hp: 40 });
+    hold(sim, p, e, BTN.FIRE | BTN.FOCUS, 40, 100); hold(sim2, p2, e2, BTN.FIRE | BTN.FOCUS, 40, 100);
+    assert.ok(1000 - e.hp > 40 - e2.hp, 'Investigate scales with the target\'s hp');
+    // Finger Offensive spends spirit spheres, then falls back
+    [sim, p, e] = range(byId.viri, 1, { spheres: 2 });
+    hold(sim, p, e, BTN.FIRE, 9 * FINGER_PER_SPHERE * 2 + 1);
+    assert.equal(p.spheres, 0, 'Finger Offensive burns one sphere every few volleys');
+    const before = p.lastShot;
+    hold(sim, p, e, BTN.FIRE, 9);
+    assert.ok(p.lastShot > before, 'with no spheres it still fires (weaker)');
+  }
+
+  // Aramir's Bowling Bash clears the field with either weapon: enemy bullets
+  // gone and every common mob on screen hit, even far from the ring
+  for (const weapon of [0, 1]) {
+    const sim = createSim(0xb0b, [byId.aramir]);
+    const p = sim.players[0];
+    p.weapon = weapon;
+    const far = [[40, 60], [560, 80], [300, 40], [80, 400]].map(([x, y]) => {
+      const e = sim.spawnEnemy({ x, y, vx: 0, vy: 0, hp: 10, r: 14, skin: 'poring' });
+      e.alive = true;
+      return e;
+    });
+    for (let k = 0; k < 20; k++) sim.spawnEnemyBullet({ x: 30 + k * 25, y: 300, vx: 0, vy: 0 });
+    p.iframes = 99;
+    tickSim(sim, [BTN.BOMB], null);
+    assert.equal(sim.enemyBullets.active.length, 0, `bomb clears enemy bullets (weapon ${weapon})`);
+    assert.ok(far.every((e) => e.hp <= 0) && sim.enemies.active.length === 0, `Bowling Bash reaches every mob on screen (weapon ${weapon})`);
+  }
+
+  // every volley is recorded for the attack pose / sound, per weapon
+  {
+    const [sim, p] = range(byId.aramir, 1, { dist: 2000 });
+    hold(sim, p, null, BTN.FIRE | BTN.FOCUS, 30);
+    assert.ok(sim.tick - p.lastShot < 14 && p.lastShotFocus === true, 'the last volley is recorded');
+  }
+
+  // balance: weapon 2's best DPS on a large target sits near weapon 1's. The
+  // floor is low on purpose for the two utility focus shots: Blast Mine (area
+  // damage) and Fire Wall (eats enemy bullets).
+  const best = (hero, w) => {
+    let m = 0;
+    for (const focus of [false, true]) {
+      for (const dist of [150, 400]) {
+        const [sim, p, e] = range(hero, w, { dist, spheres: 5 });
+        hold(sim, p, e, BTN.FIRE | (focus ? BTN.FOCUS : 0), 600, dist);
+        m = Math.max(m, (1e6 - e.hp) / 10);
+      }
+    }
+    return m;
+  };
+  const ratios = [];
+  for (const h of ROSTER) {
+    const r = best(h, 1) / best(h, 0);
+    ratios.push(`${h.id} ${r.toFixed(2)}`);
+    assert.ok(r >= 0.55 && r <= 1.2, `${h.id}: weapon 2 best DPS is ${r.toFixed(2)}x weapon 1`);
+  }
+
+  // every weapon-2 projectile key used by the weapons
+  const skins = [...src('src/characters/index.js').matchAll(/'wpn:(\w+)'/g)].map((m) => m[1]);
+
+  // weapon art (Codex, approved 2026-11-23): provenance, coverage, wiring
+  {
+    const { createHash } = await import('node:crypto');
+    const sha = (p) => createHash('sha256').update(fs.readFileSync(path.join(ROOT, p))).digest('hex');
+    const report = JSON.parse(src('art-clean/weapons-gpt/qa/report-weapons.json'));
+    for (const inp of Object.values(report.inputs)) {
+      assert.equal(sha(`art-clean/weapons-gpt/${inp.file}`), inp.sha256, `approved source ${inp.file} unchanged since slicing`);
+    }
+    for (const [f, h] of Object.entries(report.outputs)) {
+      assert.equal(sha(`public/assets-v2/weapons/${f}`), h, `runtime ${f} matches the slicer report`);
+    }
+    const heroes = JSON.parse(src('public/assets-v2/weapons/heroes.json'));
+    const heroesW1 = JSON.parse(src('public/assets-v2/weapons/heroes-w1.json'));
+    const fx = JSON.parse(src('public/assets-v2/weapons/fx.json'));
+    const icons = JSON.parse(src('public/assets-v2/weapons/icons.json'));
+    const POSE_KEYS = ['idle', 'moveL', 'moveR', 'attack', 'upIdle', 'upMoveL', 'upMoveR', 'upAttack'];
+    for (const h of ROSTER) {
+      for (const [set, n] of [[heroesW1, 1], [heroes, 2]]) {
+        assert.deepEqual(Object.keys(set.characters[h.id]?.poses ?? {}).sort(), [...POSE_KEYS].sort(), `${h.id} has a full weapon-${n} pose set`);
+        for (const r of Object.values(set.characters[h.id].poses)) {
+          assert.ok(r.x >= 0 && r.y >= 0 && r.x + r.w <= set.size.w && r.y + r.h <= set.size.h && r.h >= 60, `${h.id} weapon-${n} rect in bounds`);
+        }
+      }
+      assert.equal(icons.icons[h.id]?.length, 2, `${h.id} has two weapon-2 skill icons`);
+    }
+    assert.ok(heroes.size.h <= 4096 && heroesW1.size.h <= 4096, 'hero sheets fit a 4096 texture');
+    for (const k of new Set(skins)) assert.ok(fx.fx[k], `fx atlas has wpn:${k}`);
+    const atl = src('src/engine/atlas.js');
+    assert.ok(atl.includes("['weapon1', w1HeroManifest, w1HeroBase], ['weapon2', wHeroManifest, wHeroBase]") && atl.includes('weaponFx[k] = sub(wFxBase, r)'), 'atlas wires both weapon pose sets and FX');
+    assert.ok(src('src/ui/sidebar.js').includes('this.atlasRef?.weaponIcons?.[p.char.id]?.[ws.i]'), 'sidebar shows weapon-2 icons');
+    assert.ok(!/'assets-v2\/weapons'/.test(src('vite.config.js')), 'the build does not prune the weapon art');
+  }
+
+  // render: every weapon-2 projectile has a look, and attack poses follow the weapon
+  const rend = src('src/render/renderer.js');
+  for (const k of new Set(skins)) assert.ok(new RegExp(`\\b${k}: \\[`).test(rend), `renderer has a look for wpn:${k}`);
+  assert.ok(rend.includes('w.pose[p.lastShotFocus ? 1 : 0]'), 'attack pose held per weapon and mode');
+  assert.ok(rend.includes('p.weapon === 1 ? art.weapon2?.poses : art.weapon1?.poses'), 'each weapon uses its own sprite set when the atlas has it');
+  assert.ok(src('src/scenes/game.js').includes('audio.playShot(p.char.id, p.weapon, p.lastShotFocus, i)'), 'one sound per volley, voiced per weapon');
+  ok(`second weapons (12 weapons, SWAP + cooldown, effects, carry, checksum, balance ${ratios.join(' · ')})`);
+}
+
 console.log(`\nPASS — ${passed} static checks`);
 process.exit(0);

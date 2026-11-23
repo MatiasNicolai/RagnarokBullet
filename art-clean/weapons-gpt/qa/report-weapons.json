@@ -1,0 +1,1592 @@
+{
+  "slicer_core": {
+    "tools/slice-mobs-v3.py": "f1c4662e5f54ebeb186a490327559e4c0acb57baa0f645c2769f5c6c352c5168",
+    "tools/slice-thanatos.py": "fbd734ba57426c96781c8d07de13aff0f4663d97d9c51f0e4b0a295cbfdb905d",
+    "tools/slice-niflheim.py": "a622eaf950ef31d0e60a4cc63dfcd14d0e9ae1e7aeca14b9fedc313a200c3c12"
+  },
+  "inputs": {
+    "aramir-weapon2": {
+      "file": "aramir-weapon2-v1.png",
+      "sha256": "5ef1e77170be562908616908dcfa6eeacfda3f8b45753bc7cd55386d35d8838d",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        125,
+        125,
+        124
+      ],
+      "keyed": 1269022
+    },
+    "zeos-weapon2": {
+      "file": "zeos-weapon2-v1.png",
+      "sha256": "3356347a57d3b0813bb55de236f577c028aaf7a240e6547e5e2db2dff0fe933b",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        130,
+        129,
+        129
+      ],
+      "keyed": 1215002
+    },
+    "eric-weapon2": {
+      "file": "eric-weapon2-v1.png",
+      "sha256": "5b5f2bc9249d606962d4af6455535491932dbe554616134f701630a9af7fd673",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        126,
+        125
+      ],
+      "keyed": 1198291
+    },
+    "dposada-weapon2": {
+      "file": "dposada-weapon2-v1.png",
+      "sha256": "a386b5797b07b993a30c87e4d1117cd913d0805aae8d1b625809d5aa41893738",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        127,
+        127,
+        127
+      ],
+      "keyed": 1249935
+    },
+    "chel_snip-weapon2": {
+      "file": "chel_snip-weapon2-v1.png",
+      "sha256": "8d3236363f025e97da9098943076c6d565d964f33829bcf875209b31746c7968",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        126,
+        125
+      ],
+      "keyed": 1213590
+    },
+    "viri-weapon2": {
+      "file": "viri-weapon2-v1.png",
+      "sha256": "4e374f479dd3bfaf280fcadd146560c4d196e4bdb91abef8e21b8219ddea8cf1",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        126,
+        125
+      ],
+      "keyed": 1263331
+    },
+    "aramir-weapon1": {
+      "file": "aramir-weapon1-v1.png",
+      "sha256": "be075d0a7a3fbf55d6c301a20d285f72866e726bcbf081418302ae731253ed03",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        129,
+        128,
+        128
+      ],
+      "keyed": 1308082
+    },
+    "zeos-weapon1": {
+      "file": "zeos-weapon1-v1.png",
+      "sha256": "251856c9a715c7dc2d0d7496e39262b9852dcfe67a9807f23f05552742290fef",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        128,
+        127,
+        127
+      ],
+      "keyed": 1222687
+    },
+    "eric-weapon1": {
+      "file": "eric-weapon1-v1.png",
+      "sha256": "b4a09df444e9923a69044cec655bc250fe66720b3bfdf7175d3118ebf61ae5d7",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        125,
+        125
+      ],
+      "keyed": 1151232
+    },
+    "dposada-weapon1": {
+      "file": "dposada-weapon1-v1.png",
+      "sha256": "52ec8efa129b06fbf9312cc8b5efe82a3e0eff8ef6f5b8077b88147df0878173",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        126,
+        126,
+        125
+      ],
+      "keyed": 1238463
+    },
+    "chel_snip-weapon1": {
+      "file": "chel_snip-weapon1-v1.png",
+      "sha256": "2cc53c50630c5961c820cccdd9590c6feb27774f1547da022bd2a9afd3e50a77",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        128,
+        128,
+        127
+      ],
+      "keyed": 1185110
+    },
+    "viri-weapon1": {
+      "file": "viri-weapon1-v1.png",
+      "sha256": "73a368e39d7f40e50793709799e70d88887bbb7638056d57ddf83fca9ea1a204",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        127,
+        127,
+        126
+      ],
+      "keyed": 1246704
+    },
+    "fx": {
+      "file": "weapons-fx-v1.png",
+      "sha256": "d9050868d0ddc64f865f78f32efd51bcfffd38b8edfdb12ca8baffe63e569722",
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    "icons": {
+      "file": "weapons-icons-v1.png",
+      "sha256": "4eed0b1c5f404d1412146d84b370e1b96bbe75ae501b3605de107c3e412041e1",
+      "size": [
+        1536,
+        1024
+      ],
+      "gray": [
+        127,
+        127,
+        127
+      ],
+      "keyed": 971223
+    }
+  },
+  "warnings": [],
+  "decontamination": {
+    "aramir-weapon2": {
+      "frames": {
+        "aramir.down.idle": {
+          "removed": 734,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38907,
+          "opaque_after": 38173,
+          "bn_after": 410,
+          "border_bn": 0,
+          "w": 220,
+          "h": 325,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "aramir.down.moveL": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 36750,
+          "opaque_after": 36731,
+          "bn_after": 720,
+          "border_bn": 0,
+          "w": 284,
+          "h": 325,
+          "bn_max": 161,
+          "bn_edge_max": 0
+        },
+        "aramir.down.moveR": {
+          "removed": 30,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 35710,
+          "opaque_after": 35680,
+          "bn_after": 664,
+          "border_bn": 0,
+          "w": 282,
+          "h": 325,
+          "bn_max": 141,
+          "bn_edge_max": 0
+        },
+        "aramir.down.attack": {
+          "removed": 417,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40360,
+          "opaque_after": 39943,
+          "bn_after": 789,
+          "border_bn": 0,
+          "w": 420,
+          "h": 262,
+          "bn_max": 66,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upIdle": {
+          "removed": 1336,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40043,
+          "opaque_after": 38707,
+          "bn_after": 452,
+          "border_bn": 0,
+          "w": 194,
+          "h": 337,
+          "bn_max": 22,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upMoveL": {
+          "removed": 51,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 35380,
+          "opaque_after": 35329,
+          "bn_after": 515,
+          "border_bn": 0,
+          "w": 276,
+          "h": 330,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upMoveR": {
+          "removed": 10,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 35849,
+          "opaque_after": 35839,
+          "bn_after": 678,
+          "border_bn": 0,
+          "w": 274,
+          "h": 330,
+          "bn_max": 105,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upAttack": {
+          "removed": 505,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39539,
+          "opaque_after": 39034,
+          "bn_after": 766,
+          "border_bn": 0,
+          "w": 429,
+          "h": 266,
+          "bn_max": 62,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        125,
+        124,
+        124
+      ],
+      "shadow_removed": 793,
+      "holes_refilled": 97
+    },
+    "zeos-weapon2": {
+      "frames": {
+        "zeos.down.idle": {
+          "removed": 470,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 46048,
+          "opaque_after": 45578,
+          "bn_after": 3378,
+          "border_bn": 6,
+          "w": 232,
+          "h": 334,
+          "bn_max": 233,
+          "bn_edge_max": 6
+        },
+        "zeos.down.moveL": {
+          "removed": 447,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42837,
+          "opaque_after": 42390,
+          "bn_after": 3264,
+          "border_bn": 0,
+          "w": 245,
+          "h": 331,
+          "bn_max": 142,
+          "bn_edge_max": 0
+        },
+        "zeos.down.moveR": {
+          "removed": 388,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42272,
+          "opaque_after": 41884,
+          "bn_after": 3218,
+          "border_bn": 0,
+          "w": 253,
+          "h": 331,
+          "bn_max": 314,
+          "bn_edge_max": 0
+        },
+        "zeos.down.attack": {
+          "removed": 342,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47379,
+          "opaque_after": 47037,
+          "bn_after": 3571,
+          "border_bn": 0,
+          "w": 341,
+          "h": 336,
+          "bn_max": 362,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upIdle": {
+          "removed": 566,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45979,
+          "opaque_after": 45413,
+          "bn_after": 4113,
+          "border_bn": 0,
+          "w": 231,
+          "h": 328,
+          "bn_max": 832,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upMoveL": {
+          "removed": 601,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42524,
+          "opaque_after": 41923,
+          "bn_after": 3817,
+          "border_bn": 0,
+          "w": 235,
+          "h": 333,
+          "bn_max": 575,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upMoveR": {
+          "removed": 577,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42918,
+          "opaque_after": 42341,
+          "bn_after": 3540,
+          "border_bn": 0,
+          "w": 245,
+          "h": 330,
+          "bn_max": 332,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upAttack": {
+          "removed": 616,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47542,
+          "opaque_after": 46926,
+          "bn_after": 4130,
+          "border_bn": 0,
+          "w": 346,
+          "h": 331,
+          "bn_max": 313,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        129,
+        129,
+        128
+      ],
+      "shadow_removed": 320,
+      "holes_refilled": 3430
+    },
+    "eric-weapon2": {
+      "frames": {
+        "eric.down.idle": {
+          "removed": 82,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 46765,
+          "opaque_after": 46683,
+          "bn_after": 905,
+          "border_bn": 1,
+          "w": 217,
+          "h": 338,
+          "bn_max": 12,
+          "bn_edge_max": 1
+        },
+        "eric.down.moveL": {
+          "removed": 353,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47463,
+          "opaque_after": 47110,
+          "bn_after": 1093,
+          "border_bn": 0,
+          "w": 221,
+          "h": 345,
+          "bn_max": 24,
+          "bn_edge_max": 0
+        },
+        "eric.down.moveR": {
+          "removed": 111,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44696,
+          "opaque_after": 44585,
+          "bn_after": 1085,
+          "border_bn": 22,
+          "w": 212,
+          "h": 345,
+          "bn_max": 22,
+          "bn_edge_max": 22
+        },
+        "eric.down.attack": {
+          "removed": 101,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48829,
+          "opaque_after": 48728,
+          "bn_after": 1258,
+          "border_bn": 20,
+          "w": 249,
+          "h": 340,
+          "bn_max": 156,
+          "bn_edge_max": 19
+        },
+        "eric.up.upIdle": {
+          "removed": 337,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47035,
+          "opaque_after": 46698,
+          "bn_after": 763,
+          "border_bn": 0,
+          "w": 212,
+          "h": 336,
+          "bn_max": 48,
+          "bn_edge_max": 0
+        },
+        "eric.up.upMoveL": {
+          "removed": 932,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45500,
+          "opaque_after": 44568,
+          "bn_after": 853,
+          "border_bn": 0,
+          "w": 218,
+          "h": 343,
+          "bn_max": 60,
+          "bn_edge_max": 0
+        },
+        "eric.up.upMoveR": {
+          "removed": 606,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45073,
+          "opaque_after": 44467,
+          "bn_after": 826,
+          "border_bn": 10,
+          "w": 202,
+          "h": 343,
+          "bn_max": 41,
+          "bn_edge_max": 7
+        },
+        "eric.up.upAttack": {
+          "removed": 43,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48522,
+          "opaque_after": 48479,
+          "bn_after": 1018,
+          "border_bn": 0,
+          "w": 272,
+          "h": 337,
+          "bn_max": 105,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        125,
+        125,
+        125
+      ],
+      "shadow_removed": 663,
+      "holes_refilled": 328
+    },
+    "dposada-weapon2": {
+      "frames": {
+        "dposada.down.idle": {
+          "removed": 99,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40021,
+          "opaque_after": 39922,
+          "bn_after": 1077,
+          "border_bn": 0,
+          "w": 232,
+          "h": 308,
+          "bn_max": 47,
+          "bn_edge_max": 0
+        },
+        "dposada.down.moveL": {
+          "removed": 102,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39045,
+          "opaque_after": 38943,
+          "bn_after": 1219,
+          "border_bn": 0,
+          "w": 233,
+          "h": 303,
+          "bn_max": 122,
+          "bn_edge_max": 0
+        },
+        "dposada.down.moveR": {
+          "removed": 46,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38007,
+          "opaque_after": 37961,
+          "bn_after": 1010,
+          "border_bn": 0,
+          "w": 226,
+          "h": 303,
+          "bn_max": 36,
+          "bn_edge_max": 0
+        },
+        "dposada.down.attack": {
+          "removed": 126,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43950,
+          "opaque_after": 43824,
+          "bn_after": 1932,
+          "border_bn": 23,
+          "w": 250,
+          "h": 308,
+          "bn_max": 425,
+          "bn_edge_max": 425
+        },
+        "dposada.up.upIdle": {
+          "removed": 119,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38878,
+          "opaque_after": 38759,
+          "bn_after": 1219,
+          "border_bn": 0,
+          "w": 227,
+          "h": 308,
+          "bn_max": 59,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upMoveL": {
+          "removed": 114,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 37851,
+          "opaque_after": 37737,
+          "bn_after": 1106,
+          "border_bn": 0,
+          "w": 225,
+          "h": 308,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upMoveR": {
+          "removed": 120,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38954,
+          "opaque_after": 38834,
+          "bn_after": 1194,
+          "border_bn": 0,
+          "w": 223,
+          "h": 313,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upAttack": {
+          "removed": 92,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45704,
+          "opaque_after": 45612,
+          "bn_after": 2073,
+          "border_bn": 19,
+          "w": 248,
+          "h": 317,
+          "bn_max": 826,
+          "bn_edge_max": 826
+        }
+      },
+      "bg_sample": [
+        127,
+        127,
+        127
+      ],
+      "shadow_removed": 472,
+      "holes_refilled": 798
+    },
+    "chel_snip-weapon2": {
+      "frames": {
+        "chel_snip.down.idle": {
+          "removed": 413,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45859,
+          "opaque_after": 45446,
+          "bn_after": 1153,
+          "border_bn": 0,
+          "w": 228,
+          "h": 336,
+          "bn_max": 204,
+          "bn_edge_max": 0
+        },
+        "chel_snip.down.moveL": {
+          "removed": 345,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43712,
+          "opaque_after": 43367,
+          "bn_after": 1104,
+          "border_bn": 1,
+          "w": 223,
+          "h": 337,
+          "bn_max": 132,
+          "bn_edge_max": 1
+        },
+        "chel_snip.down.moveR": {
+          "removed": 949,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44522,
+          "opaque_after": 43573,
+          "bn_after": 1054,
+          "border_bn": 0,
+          "w": 236,
+          "h": 340,
+          "bn_max": 35,
+          "bn_edge_max": 0
+        },
+        "chel_snip.down.attack": {
+          "removed": 1147,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47603,
+          "opaque_after": 46456,
+          "bn_after": 1186,
+          "border_bn": 0,
+          "w": 302,
+          "h": 329,
+          "bn_max": 68,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upIdle": {
+          "removed": 334,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44435,
+          "opaque_after": 44101,
+          "bn_after": 842,
+          "border_bn": 0,
+          "w": 220,
+          "h": 330,
+          "bn_max": 269,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upMoveL": {
+          "removed": 799,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42532,
+          "opaque_after": 41733,
+          "bn_after": 723,
+          "border_bn": 0,
+          "w": 237,
+          "h": 337,
+          "bn_max": 28,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upMoveR": {
+          "removed": 384,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42751,
+          "opaque_after": 42367,
+          "bn_after": 941,
+          "border_bn": 0,
+          "w": 238,
+          "h": 337,
+          "bn_max": 328,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upAttack": {
+          "removed": 874,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47303,
+          "opaque_after": 46429,
+          "bn_after": 817,
+          "border_bn": 0,
+          "w": 306,
+          "h": 326,
+          "bn_max": 43,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        126,
+        125,
+        125
+      ],
+      "shadow_removed": 534,
+      "holes_refilled": 479
+    },
+    "viri-weapon2": {
+      "frames": {
+        "viri.down.idle": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39645,
+          "opaque_after": 39618,
+          "bn_after": 742,
+          "border_bn": 0,
+          "w": 248,
+          "h": 316,
+          "bn_max": 31,
+          "bn_edge_max": 0
+        },
+        "viri.down.moveL": {
+          "removed": 115,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 37327,
+          "opaque_after": 37212,
+          "bn_after": 737,
+          "border_bn": 0,
+          "w": 252,
+          "h": 316,
+          "bn_max": 19,
+          "bn_edge_max": 0
+        },
+        "viri.down.moveR": {
+          "removed": 34,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 36209,
+          "opaque_after": 36175,
+          "bn_after": 687,
+          "border_bn": 0,
+          "w": 234,
+          "h": 316,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "viri.down.attack": {
+          "removed": 27,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 42153,
+          "opaque_after": 42126,
+          "bn_after": 806,
+          "border_bn": 0,
+          "w": 338,
+          "h": 316,
+          "bn_max": 30,
+          "bn_edge_max": 0
+        },
+        "viri.up.upIdle": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39209,
+          "opaque_after": 39191,
+          "bn_after": 720,
+          "border_bn": 0,
+          "w": 248,
+          "h": 319,
+          "bn_max": 13,
+          "bn_edge_max": 0
+        },
+        "viri.up.upMoveL": {
+          "removed": 49,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 37665,
+          "opaque_after": 37616,
+          "bn_after": 679,
+          "border_bn": 0,
+          "w": 260,
+          "h": 315,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        },
+        "viri.up.upMoveR": {
+          "removed": 20,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 36292,
+          "opaque_after": 36272,
+          "bn_after": 587,
+          "border_bn": 0,
+          "w": 236,
+          "h": 319,
+          "bn_max": 18,
+          "bn_edge_max": 0
+        },
+        "viri.up.upAttack": {
+          "removed": 25,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40373,
+          "opaque_after": 40348,
+          "bn_after": 646,
+          "border_bn": 0,
+          "w": 333,
+          "h": 314,
+          "bn_max": 11,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        126,
+        126,
+        126
+      ],
+      "shadow_removed": 556,
+      "holes_refilled": 92
+    },
+    "aramir-weapon1": {
+      "frames": {
+        "aramir.down.idle": {
+          "removed": 15,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 30738,
+          "opaque_after": 30723,
+          "bn_after": 294,
+          "border_bn": 1,
+          "w": 186,
+          "h": 270,
+          "bn_max": 24,
+          "bn_edge_max": 1
+        },
+        "aramir.down.moveL": {
+          "removed": 18,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 31048,
+          "opaque_after": 31030,
+          "bn_after": 457,
+          "border_bn": 1,
+          "w": 229,
+          "h": 270,
+          "bn_max": 135,
+          "bn_edge_max": 1
+        },
+        "aramir.down.moveR": {
+          "removed": 25,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 30714,
+          "opaque_after": 30689,
+          "bn_after": 350,
+          "border_bn": 0,
+          "w": 229,
+          "h": 270,
+          "bn_max": 7,
+          "bn_edge_max": 0
+        },
+        "aramir.down.attack": {
+          "removed": 22,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39290,
+          "opaque_after": 39268,
+          "bn_after": 829,
+          "border_bn": 0,
+          "w": 360,
+          "h": 261,
+          "bn_max": 87,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upIdle": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 31730,
+          "opaque_after": 31699,
+          "bn_after": 271,
+          "border_bn": 0,
+          "w": 184,
+          "h": 281,
+          "bn_max": 8,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upMoveL": {
+          "removed": 19,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 30982,
+          "opaque_after": 30963,
+          "bn_after": 417,
+          "border_bn": 0,
+          "w": 236,
+          "h": 281,
+          "bn_max": 43,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upMoveR": {
+          "removed": 31,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 30818,
+          "opaque_after": 30787,
+          "bn_after": 377,
+          "border_bn": 0,
+          "w": 230,
+          "h": 281,
+          "bn_max": 9,
+          "bn_edge_max": 0
+        },
+        "aramir.up.upAttack": {
+          "removed": 42,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38953,
+          "opaque_after": 38911,
+          "bn_after": 866,
+          "border_bn": 0,
+          "w": 376,
+          "h": 263,
+          "bn_max": 105,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        128,
+        128,
+        127
+      ],
+      "shadow_removed": 442,
+      "holes_refilled": 37
+    },
+    "zeos-weapon1": {
+      "frames": {
+        "zeos.down.idle": {
+          "removed": 346,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47288,
+          "opaque_after": 46942,
+          "bn_after": 3911,
+          "border_bn": 11,
+          "w": 232,
+          "h": 335,
+          "bn_max": 606,
+          "bn_edge_max": 11
+        },
+        "zeos.down.moveL": {
+          "removed": 377,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43970,
+          "opaque_after": 43593,
+          "bn_after": 3629,
+          "border_bn": 0,
+          "w": 261,
+          "h": 332,
+          "bn_max": 261,
+          "bn_edge_max": 0
+        },
+        "zeos.down.moveR": {
+          "removed": 426,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43186,
+          "opaque_after": 42760,
+          "bn_after": 3400,
+          "border_bn": 0,
+          "w": 263,
+          "h": 331,
+          "bn_max": 350,
+          "bn_edge_max": 0
+        },
+        "zeos.down.attack": {
+          "removed": 630,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40846,
+          "opaque_after": 40216,
+          "bn_after": 3021,
+          "border_bn": 5,
+          "w": 224,
+          "h": 337,
+          "bn_max": 266,
+          "bn_edge_max": 4
+        },
+        "zeos.up.upIdle": {
+          "removed": 490,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47443,
+          "opaque_after": 46953,
+          "bn_after": 4816,
+          "border_bn": 2,
+          "w": 233,
+          "h": 332,
+          "bn_max": 1587,
+          "bn_edge_max": 1
+        },
+        "zeos.up.upMoveL": {
+          "removed": 530,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43383,
+          "opaque_after": 42853,
+          "bn_after": 4288,
+          "border_bn": 0,
+          "w": 246,
+          "h": 335,
+          "bn_max": 1327,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upMoveR": {
+          "removed": 484,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44038,
+          "opaque_after": 43554,
+          "bn_after": 4514,
+          "border_bn": 0,
+          "w": 261,
+          "h": 330,
+          "bn_max": 1370,
+          "bn_edge_max": 0
+        },
+        "zeos.up.upAttack": {
+          "removed": 450,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39662,
+          "opaque_after": 39212,
+          "bn_after": 4052,
+          "border_bn": 0,
+          "w": 223,
+          "h": 333,
+          "bn_max": 1498,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        128,
+        127,
+        127
+      ],
+      "shadow_removed": 319,
+      "holes_refilled": 3069
+    },
+    "eric-weapon1": {
+      "frames": {
+        "eric.down.idle": {
+          "removed": 835,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 53777,
+          "opaque_after": 52942,
+          "bn_after": 1456,
+          "border_bn": 0,
+          "w": 251,
+          "h": 339,
+          "bn_max": 85,
+          "bn_edge_max": 0
+        },
+        "eric.down.moveL": {
+          "removed": 1538,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 55058,
+          "opaque_after": 53520,
+          "bn_after": 1537,
+          "border_bn": 0,
+          "w": 266,
+          "h": 344,
+          "bn_max": 108,
+          "bn_edge_max": 0
+        },
+        "eric.down.moveR": {
+          "removed": 430,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 52008,
+          "opaque_after": 51578,
+          "bn_after": 1441,
+          "border_bn": 0,
+          "w": 254,
+          "h": 344,
+          "bn_max": 52,
+          "bn_edge_max": 0
+        },
+        "eric.down.attack": {
+          "removed": 476,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 55077,
+          "opaque_after": 54601,
+          "bn_after": 1671,
+          "border_bn": 0,
+          "w": 303,
+          "h": 340,
+          "bn_max": 237,
+          "bn_edge_max": 0
+        },
+        "eric.up.upIdle": {
+          "removed": 1112,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 51748,
+          "opaque_after": 50636,
+          "bn_after": 1036,
+          "border_bn": 0,
+          "w": 240,
+          "h": 336,
+          "bn_max": 75,
+          "bn_edge_max": 0
+        },
+        "eric.up.upMoveL": {
+          "removed": 1538,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 50923,
+          "opaque_after": 49385,
+          "bn_after": 1344,
+          "border_bn": 0,
+          "w": 238,
+          "h": 342,
+          "bn_max": 70,
+          "bn_edge_max": 0
+        },
+        "eric.up.upMoveR": {
+          "removed": 1356,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 49971,
+          "opaque_after": 48615,
+          "bn_after": 1183,
+          "border_bn": 3,
+          "w": 232,
+          "h": 342,
+          "bn_max": 47,
+          "bn_edge_max": 2
+        },
+        "eric.up.upAttack": {
+          "removed": 6,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 52363,
+          "opaque_after": 52357,
+          "bn_after": 1169,
+          "border_bn": 0,
+          "w": 294,
+          "h": 337,
+          "bn_max": 181,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        126,
+        125,
+        125
+      ],
+      "shadow_removed": 668,
+      "holes_refilled": 328
+    },
+    "dposada-weapon1": {
+      "frames": {
+        "dposada.down.idle": {
+          "removed": 42,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 41259,
+          "opaque_after": 41217,
+          "bn_after": 1178,
+          "border_bn": 0,
+          "w": 233,
+          "h": 307,
+          "bn_max": 62,
+          "bn_edge_max": 0
+        },
+        "dposada.down.moveL": {
+          "removed": 80,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39629,
+          "opaque_after": 39549,
+          "bn_after": 1170,
+          "border_bn": 0,
+          "w": 233,
+          "h": 303,
+          "bn_max": 69,
+          "bn_edge_max": 0
+        },
+        "dposada.down.moveR": {
+          "removed": 207,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39507,
+          "opaque_after": 39300,
+          "bn_after": 1036,
+          "border_bn": 0,
+          "w": 224,
+          "h": 303,
+          "bn_max": 51,
+          "bn_edge_max": 0
+        },
+        "dposada.down.attack": {
+          "removed": 75,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43714,
+          "opaque_after": 43639,
+          "bn_after": 1713,
+          "border_bn": 21,
+          "w": 246,
+          "h": 320,
+          "bn_max": 643,
+          "bn_edge_max": 643
+        },
+        "dposada.up.upIdle": {
+          "removed": 377,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 41852,
+          "opaque_after": 41475,
+          "bn_after": 1638,
+          "border_bn": 0,
+          "w": 228,
+          "h": 307,
+          "bn_max": 286,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upMoveL": {
+          "removed": 521,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40730,
+          "opaque_after": 40209,
+          "bn_after": 1393,
+          "border_bn": 0,
+          "w": 224,
+          "h": 310,
+          "bn_max": 320,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upMoveR": {
+          "removed": 287,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 41428,
+          "opaque_after": 41141,
+          "bn_after": 1796,
+          "border_bn": 0,
+          "w": 226,
+          "h": 313,
+          "bn_max": 332,
+          "bn_edge_max": 0
+        },
+        "dposada.up.upAttack": {
+          "removed": 81,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45830,
+          "opaque_after": 45749,
+          "bn_after": 1793,
+          "border_bn": 24,
+          "w": 246,
+          "h": 326,
+          "bn_max": 651,
+          "bn_edge_max": 651
+        }
+      },
+      "bg_sample": [
+        126,
+        126,
+        125
+      ],
+      "shadow_removed": 428,
+      "holes_refilled": 555
+    },
+    "chel_snip-weapon1": {
+      "frames": {
+        "chel_snip.down.idle": {
+          "removed": 59,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 46352,
+          "opaque_after": 46293,
+          "bn_after": 1339,
+          "border_bn": 0,
+          "w": 225,
+          "h": 334,
+          "bn_max": 436,
+          "bn_edge_max": 0
+        },
+        "chel_snip.down.moveL": {
+          "removed": 273,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44568,
+          "opaque_after": 44295,
+          "bn_after": 1260,
+          "border_bn": 0,
+          "w": 226,
+          "h": 335,
+          "bn_max": 344,
+          "bn_edge_max": 0
+        },
+        "chel_snip.down.moveR": {
+          "removed": 820,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47081,
+          "opaque_after": 46261,
+          "bn_after": 1225,
+          "border_bn": 0,
+          "w": 230,
+          "h": 338,
+          "bn_max": 384,
+          "bn_edge_max": 0
+        },
+        "chel_snip.down.attack": {
+          "removed": 8920,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 58628,
+          "opaque_after": 49708,
+          "bn_after": 1077,
+          "border_bn": 0,
+          "w": 312,
+          "h": 326,
+          "bn_max": 30,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upIdle": {
+          "removed": 99,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 44804,
+          "opaque_after": 44705,
+          "bn_after": 850,
+          "border_bn": 2,
+          "w": 201,
+          "h": 331,
+          "bn_max": 166,
+          "bn_edge_max": 1
+        },
+        "chel_snip.up.upMoveL": {
+          "removed": 1596,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 43917,
+          "opaque_after": 42321,
+          "bn_after": 830,
+          "border_bn": 0,
+          "w": 209,
+          "h": 336,
+          "bn_max": 206,
+          "bn_edge_max": 0
+        },
+        "chel_snip.up.upMoveR": {
+          "removed": 1852,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 45317,
+          "opaque_after": 43465,
+          "bn_after": 777,
+          "border_bn": 2,
+          "w": 218,
+          "h": 336,
+          "bn_max": 180,
+          "bn_edge_max": 1
+        },
+        "chel_snip.up.upAttack": {
+          "removed": 7673,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 56476,
+          "opaque_after": 48803,
+          "bn_after": 832,
+          "border_bn": 0,
+          "w": 292,
+          "h": 325,
+          "bn_max": 27,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        128,
+        127,
+        127
+      ],
+      "shadow_removed": 573,
+      "holes_refilled": 190
+    },
+    "viri-weapon1": {
+      "frames": {
+        "viri.down.idle": {
+          "removed": 57,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 37897,
+          "opaque_after": 37840,
+          "bn_after": 974,
+          "border_bn": 0,
+          "w": 188,
+          "h": 316,
+          "bn_max": 83,
+          "bn_edge_max": 0
+        },
+        "viri.down.moveL": {
+          "removed": 69,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 36767,
+          "opaque_after": 36698,
+          "bn_after": 909,
+          "border_bn": 0,
+          "w": 200,
+          "h": 316,
+          "bn_max": 36,
+          "bn_edge_max": 0
+        },
+        "viri.down.moveR": {
+          "removed": 69,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 36904,
+          "opaque_after": 36835,
+          "bn_after": 938,
+          "border_bn": 1,
+          "w": 194,
+          "h": 316,
+          "bn_max": 36,
+          "bn_edge_max": 1
+        },
+        "viri.down.attack": {
+          "removed": 58,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 48795,
+          "opaque_after": 48737,
+          "bn_after": 1120,
+          "border_bn": 0,
+          "w": 292,
+          "h": 315,
+          "bn_max": 60,
+          "bn_edge_max": 0
+        },
+        "viri.up.upIdle": {
+          "removed": 43,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 40153,
+          "opaque_after": 40110,
+          "bn_after": 989,
+          "border_bn": 3,
+          "w": 201,
+          "h": 319,
+          "bn_max": 98,
+          "bn_edge_max": 5
+        },
+        "viri.up.upMoveL": {
+          "removed": 102,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 39003,
+          "opaque_after": 38901,
+          "bn_after": 1012,
+          "border_bn": 0,
+          "w": 203,
+          "h": 316,
+          "bn_max": 93,
+          "bn_edge_max": 0
+        },
+        "viri.up.upMoveR": {
+          "removed": 153,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 38389,
+          "opaque_after": 38236,
+          "bn_after": 1024,
+          "border_bn": 0,
+          "w": 196,
+          "h": 319,
+          "bn_max": 143,
+          "bn_edge_max": 0
+        },
+        "viri.up.upAttack": {
+          "removed": 57,
+          "foreign": 0,
+          "foreign_kept": 0,
+          "opaque_before": 47665,
+          "opaque_after": 47608,
+          "bn_after": 892,
+          "border_bn": 0,
+          "w": 298,
+          "h": 313,
+          "bn_max": 104,
+          "bn_edge_max": 0
+        }
+      },
+      "bg_sample": [
+        127,
+        127,
+        127
+      ],
+      "shadow_removed": 531,
+      "holes_refilled": 397
+    }
+  },
+  "outputs": {
+    "fx.json": "8399654402faf2a1a364f59861644f6fbbd6c7285f4323750a58080ab6f54b87",
+    "fx.png": "8d5d6a7330ad277cd7451a139b8a3d2e0d69e3f09e3684f6df6ecab02a61873d",
+    "heroes-w1.json": "0afa25b1857291d328fd7965c801b2e3e5ee83d1dfebd2b2095e349cbde91ca1",
+    "heroes-w1.png": "59d8c1b67df4b13bbb7c3e2d2f23adab64645afca28aeb63225a934c782239af",
+    "heroes.json": "04ca1296a02b375cfb824a0a9c6b973e2706cb32d39c6526cd2294fb63f0cdb8",
+    "heroes.png": "df9d182dc4141de67a816f8a7cb3596dbbd1825453a00789d288d328abdbbbc6",
+    "icons.json": "a8cae1cdf77d440647ede490bdedbbce0092f5519b36e64e88ec3ff0c8d250e0",
+    "icons.png": "dea01a68486e715fb69deb6d1e61fe246e32740e35cb6bd6c5d71f269941e66c"
+  }
+}

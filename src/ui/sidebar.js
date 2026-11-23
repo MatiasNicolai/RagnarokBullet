@@ -180,8 +180,19 @@ export class Sidebar {
     }
     y += 26;
 
-    // skills 2x2
+    // active weapon (SWAP changes it; see WEAPONS-PLAN.md)
+    const weaponText = new Text({
+      text: '',
+      style: { fill: char.accent, fontSize: 12, fontFamily: 'monospace', fontWeight: 'bold' },
+    });
+    weaponText.anchor.set(0.5, 0);
+    weaponText.position.set(cx, y - 4);
+    this.root.addChild(weaponText);
+    y += 16;
+
+    // skills 2x2 (J/K follow the active weapon)
     const keys = ['J', 'K', 'L', 'I'];
+    const weaponSlots = [];
     const bombPips = [];
     let meter = null;
     for (let i = 0; i < 4; i++) {
@@ -204,6 +215,7 @@ export class Sidebar {
       nm.anchor.set(0.5, 0);
       nm.position.set(50, 44);
       slot.addChild(nm);
+      if (i < 2) weaponSlots.push({ slot, icon, nm, i });
       if (i === 2) {
         const bar = new Graphics();
         bar.roundRect(4, 60, 92, 8, 3).fill(0x0d1220).stroke({ color: GOLD_DARK, width: 1 });
@@ -254,7 +266,8 @@ export class Sidebar {
       y += 20;
     }
 
-    this.playerUI.push({ hearts, bombPips, meter, sub, maxHearts: char.lives });
+    this.atlasRef = atlas;
+    this.playerUI.push({ hearts, bombPips, meter, sub, maxHearts: char.lives, weaponText, weaponSlots, shownWeapon: 0 });
   }
 
   // --- duo layout (compact block per player) ---
@@ -297,6 +310,7 @@ export class Sidebar {
       });
       cls.position.set(84, 34);
       block.addChild(cls);
+      const duoClass = cls;
 
       const hearts = [];
       const maxHearts = char.lives + 2;
@@ -344,9 +358,29 @@ export class Sidebar {
       downText.visible = false;
       block.addChild(downText);
 
-      this.playerUI.push({ hearts, bombPips, meter, sub, downText, block, maxHearts: char.lives });
+      this.playerUI.push({ hearts, bombPips, meter, sub, downText, block, maxHearts: char.lives, duoClass });
       y += 172;
     });
+  }
+
+  // Swap the J/K skill slots to the active weapon: icons from the weapon atlas
+  // (assets-v2/weapons) when present, else the base sheet for weapon 1 and the
+  // procedural glyph for weapon 2.
+  showWeaponSkills(ui, p) {
+    const wi = p.weapon | 0;
+    const w = p.char.weapons[wi];
+    for (const ws of ui.weaponSlots) {
+      const tex = wi === 0
+        ? this.atlasRef?.skills?.[p.char.id]?.[ws.i]
+        : this.atlasRef?.weaponIcons?.[p.char.id]?.[ws.i];
+      const icon = skillIcon(ws.i, p.char.accent, tex);
+      icon.x = ws.icon.x;
+      ws.slot.addChildAt(icon, ws.slot.getChildIndex(ws.icon));
+      ws.icon.destroy();
+      ws.icon = icon;
+      ws.nm.text = w.skills[ws.i];
+    }
+    ui.shownWeapon = wi;
   }
 
   update(sim) {
@@ -361,6 +395,10 @@ export class Sidebar {
         const active = p.quicken > 0 || p.cloak > 0 || p.steel > 0 || p.falcon > 0 || p.meteor > 0;
         this.drawMeter(ui.meter, p.meter, active || (sim.tick & 8));
       }
+      const w = p.char.weapons?.[p.weapon | 0];
+      if (w && ui.weaponText) ui.weaponText.text = `⚔ ${w.name.toUpperCase()}  ·  U cambia`;
+      if (w && ui.duoClass) ui.duoClass.text = `${p.char.className} · ${w.name}`;
+      if (ui.weaponSlots && ui.shownWeapon !== (p.weapon | 0)) this.showWeaponSkills(ui, p);
       const spheres = p.char.id === 'viri' ? ` · ✊${p.spheres}` : '';
       ui.sub.text = `GRAZE ${p.graze} · POWER ${p.power + 1}${spheres}`;
       if (ui.downText) ui.downText.visible = p.down;

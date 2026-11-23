@@ -9,3 +9,5 @@ public/assets-v2/mobs-v3/*.json -text
 art-clean/mobs-v3-gpt/qa/report-mobs-v3.json -text
 # Shell scripts run under Git Bash, which chokes on CRLF.
 *.sh text eol=lf
+public/assets-v2/weapons/*.json -text
+art-clean/weapons-gpt/qa/report-weapons.json -text

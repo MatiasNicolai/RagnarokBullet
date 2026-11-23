@@ -1,0 +1,9 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/weapons-gpt/aramir-weapon2-v1.png.
+
+A character sprite sheet of ONE playable hero: Aramir, the Lord Knight, exactly the character shown in the attached reference sheet (it shows, left to right: front idle, front attack, back idle, back attack, with the hero's current weapon, a short sword).
+
+Redraw this same hero wielding a different weapon instead: a long knight's lance (a polearm about one and a half times his height) with a golden leaf-shaped spearhead, a gold-and-red grip and a small red pennant below the head. Pose notes: idle holds the lance upright at his side; the attack is a powerful two-handed forward thrust with the lance level, a short twist of golden light coiled around the spearhead.
+
+SHEET LAYOUT RULES: exactly eight isolated poses of the SAME hero in two rows of four, evenly spaced. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away from the camera. Left to right in both rows: idle, move-left, move-right, attack. Exactly one complete figure per pose, never overlapping, never cropped, generous empty gutters between poses. The weapon must be clearly visible and readable in every pose, including the back view. Effects only compact and attached to the weapon (no loose particles, no projectiles flying away, no motion lines). No ground shadow. Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no frame lines, no grid, no UI, no watermark, no other characters.
+
+STYLE CONTRACT: match the attached reference sheet of this hero EXACTLY: the same chibi Ragnarok Online-style sprite proportions (big head, small body), the same face, hair, outfit, colours and accessories, the same soft painterly shading with a thin dark outline. Only the weapon and the poses change. Crisp, readable at small game scale, no blur, no photorealism, no 3D render look.
