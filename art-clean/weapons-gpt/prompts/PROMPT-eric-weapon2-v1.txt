@@ -1,0 +1,9 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/weapons-gpt/eric-weapon2-v1.png.
+
+A character sprite sheet of ONE playable hero: Eric., the High Wizard, exactly the character shown in the attached reference sheet (it shows, left to right: front idle, front attack, back idle, back attack, with the hero's current weapon, empty-handed spellcasting with a blue magic circle).
+
+Redraw this same hero wielding a different weapon instead: a slim black magic rod (a short wand) with a three-colour elemental crystal at its tip (red, ice-blue and yellow facets). Pose notes: idle holds the rod in one hand against the chest; the attack points the rod straight forward with a small compact burst of fire at its tip.
+
+SHEET LAYOUT RULES: exactly eight isolated poses of the SAME hero in two rows of four, evenly spaced. Top row = FRONT view facing down toward the camera. Bottom row = BACK view facing up/away from the camera. Left to right in both rows: idle, move-left, move-right, attack. Exactly one complete figure per pose, never overlapping, never cropped, generous empty gutters between poses. The weapon must be clearly visible and readable in every pose, including the back view. Effects only compact and attached to the weapon (no loose particles, no projectiles flying away, no motion lines). No ground shadow. Uniform flat medium-gray background (#808080) everywhere: no gradient, no texture, no vignette. No text, no labels, no numbers, no frame lines, no grid, no UI, no watermark, no other characters.
+
+STYLE CONTRACT: match the attached reference sheet of this hero EXACTLY: the same chibi Ragnarok Online-style sprite proportions (big head, small body), the same face, hair, outfit, colours and accessories, the same soft painterly shading with a thin dark outline. Only the weapon and the poses change. Crisp, readable at small game scale, no blur, no photorealism, no 3D render look.

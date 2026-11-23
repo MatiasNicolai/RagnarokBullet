@@ -32,6 +32,7 @@ Ambos abren la URL de arriba, luego en el título → **🌐 CO-OP ONLINE**:
 | Foco (lento + hitbox visible) | K | Numpad 2 | X / RB / RT |
 | Bomba temática (3 cargas) | L | Numpad 3 | B |
 | Especial (medidor lleno) | I | Numpad 0 | Y |
+| Cambiar de arma | U | Numpad 4 | LB |
 | Pausa | P | P | |
 | Menús | Flechas/WASD + ENTER · ESC volver | | |
 
@@ -78,6 +79,7 @@ Extras: cartas de monstruo coleccionables (drop raro) y potenciadores de los cof
 
 - **Título**: JUGAR · PRÁCTICA DE JEFES · RÉCORDS · 🎯 ELEGIR NIVEL (jugar cualquier nivel suelto con cualquier personaje, sin avanzar la campaña) · 🌐 CO-OP ONLINE, con selector de dificultad (Novice / Normal / Nightmare).
 - **Personajes** con iconos de skill ilustrados en la selección y en el HUD.
+- **Dos armas por héroe** (cambia con U / Numpad 4 / LB): cada una con su patrón de disparo, pose de ataque, sonido y efectos (por ejemplo, la Lanza de Aramir barre corto y atraviesa; las Dagas de Zeos envenenan). Detalle en [WEAPONS-PLAN.md](WEAPONS-PLAN.md).
 - **Música mp3** en menú y los 8 niveles, con fallback chiptune si una pista falla; Pirámide, Niflheim y la Torre de Thanatos conservan su tema durante sus jefes, y victoria usa chiptune.
 - **SFX** por clase, **récords locales** con iniciales arcade.
 - **Práctica de jefes**: los jefes de los 8 niveles, más Loli Ruri y los dos duelos de fragmentos. Las tarjetas van en dos filas: ←→ recorre la lista y ↑↓ cambia de fila.

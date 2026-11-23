@@ -45,6 +45,16 @@ Bullet hell 2D estilo Touhou, vista top-down (scroll vertical), estética Ragnar
 - **Recorte:** `tools/slice-mobs-v3.py` reutiliza `slice-thanatos.py` sin tocar el núcleo. Agrega un pase de sombras oscuras planas y rellena los huecos que el núcleo abría en arte gris (Ghoul, Marionette, el domo del Repair Drone).
 - **Integración:** mismas claves del atlas, cargadas después de las hojas originales, que quedan de respaldo. Los tests están en la sección 21 de `test-static`.
 
+**Segunda arma (2026-11-23):** cada héroe alterna entre dos armas con `U` / `Numpad4` / `LB`:
+- Aramir: Espada / Lanza;
+- Zeos: Katar / Dagas;
+- Eric: Báculo / Vara;
+- Dposada: Báculo sagrado / Maza;
+- Chel_Snip: Arco / Ballesta;
+- Viri: Nudillos / Bastón.
+
+Cada arma tiene su propio patrón, pose de ataque, sonido y efectos (veneno, ralentizar, muro de fuego que come balas, minas en área, Investigate y gasto de esferas). Cada arma tiene su propio set de sprites (se ve en todas las poses), y el arma 2 suma sus proyectiles e íconos, todo hecho con Codex. Todo el detalle está en [WEAPONS-PLAN.md](WEAPONS-PLAN.md). De paso, la bomba de Aramir ahora le pega a toda la pantalla.
+
 ### ▶ PRÓXIMOS PASOS (pendientes concretos)
 1. **Balance del Nivel 8 jugando de verdad.** Los números de densidad salen de un bot que no esquiva. Prioridades: la carta de supervivencia, "Último Aliento" y el mid-boss de dos parejas (2400 de vida en total), en Normal y Nightmare, solo y en co-op.
 2. **Smoke test multi-nivel online:** una transición completa entre niveles con dos jugadores reales.

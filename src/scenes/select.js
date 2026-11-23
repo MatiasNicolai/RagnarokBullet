@@ -169,7 +169,7 @@ export class SelectScene {
     const s = ch.stats;
     this.info.text =
       `${ch.name} — ${ch.className}   ATK ${s.atk} · DEF ${s.def} · SPD ${s.spd} · HP ${s.hp}\n` +
-      `${ch.skills[0]} / ${ch.skills[1]} · Bomba: ${ch.skills[2]} · Especial: ${ch.skills[3]}`;
+      `Armas: ${ch.weapons.map((w) => w.name).join(' / ')} (U cambia) · Bomba: ${ch.skills[2]} · Especial: ${ch.skills[3]}`;
     this.hint.text = this.stage === 'p1'
       ? 'P1: FLECHAS/WASD elegir · ENTER confirmar · ESC volver'
       : this.stage === 'join'

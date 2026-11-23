@@ -14,6 +14,26 @@ import {
 
 const PLAYER_HEIGHT = 64;
 
+// Second-weapon projectiles: [stand-in 'char:idx', stand-in tint, stand-in
+// height px, art longest side px]. The tinted stand-in shows until the weapon
+// FX atlas (assets-v2/weapons/fx) provides the real art under the same key.
+const WPN_FALLBACK = {
+  spearArc: ['aramir:3', 0xfff0b8, 34, 46],        // Brandish Spear sweep
+  spiral: ['aramir:1', 0xfff6d0, 52, 76],          // Spiral Pierce lance
+  venom: ['zeos:1', 0x6dff5a, 24, 30],             // Venom Knife
+  soulDestroyer: ['zeos:2', 0xff5ad1, 40, 58],     // Soul Destroyer
+  fireBolt: ['eric:1', 0xff7a3a, 22, 30],
+  coldBolt: ['eric:1', 0x9fe8ff, 22, 30],
+  lightningBolt: ['eric:1', 0xfff26a, 22, 34],
+  fireWall: ['viri:1', 0xff8a2a, 34, 44],
+  mace: ['dposada:1', 0xffe9a0, 34, 42],           // Holy Smite
+  dupleLight: ['dposada:2', 0xffffff, 26, 34],
+  arbalest: ['chel_snip:2', 0xffc070, 34, 48],
+  mine: ['chel_snip:0', 0xff4040, 26, 30],         // Blast Mine
+  finger: ['viri:1', 0xffe08a, 26, 32],            // Finger Offensive sphere
+  investigate: ['viri:3', 0xffc0a0, 36, 46],
+};
+
 const BOSS_TEX = {
   'Orc Hero': 'orcHero', 'Dark Lord': 'darkLord', 'Baphomet': 'baphomet', 'Vesper': 'vesper', 'Seyren Windsor': 'seyren', 'Magaleta': 'magaleta', 'Amon-Ra': 'amonRa', 'Loli Ruri': 'loliRuri', 'Lord of Death': 'lordOfDeath',
   'Thanatos': 'thanatos',
@@ -188,6 +208,11 @@ export class Renderer {
         break;
       }
       case 'special': this.burst(ev.x, ev.y, 0xffffff, 16, 4); break;
+      case 'weaponSwap':
+        this.burst(ev.x, ev.y, ev.color ?? 0xffffff, 12, 3);
+        this.spawnFloat(ev.x, ev.y - 26, ev.name.toUpperCase(), ev.color ?? 0xffffff);
+        break;
+      case 'mineBlast': this.burst(ev.x, ev.y, 0xff8a3a, 26, (ev.r ?? 70) / 12); break;
       case 'meteor': this.burst(ev.x, ev.y, 0xff9430, 14, 4); break;
       case 'falcon': this.burst(ev.x, ev.y, 0x8fb5ff, 3, 2); break;
       case 'stormgust': this.burst(ev.x, ev.y, 0x9fd8ff, 18, 5); this.storms.push({ x: ev.x, y: ev.y, t: 0 }); break;
@@ -224,19 +249,63 @@ export class Renderer {
     }
   }
 
-  bulletTexture(skin) {
+  // Player bullet look: { tex, tint, size } for a skin. 'char:idx' reads the
+  // character sheet; 'wpn:name' (second weapons) reads the weapon FX atlas and,
+  // until that art exists, a tinted stand-in from the character sheets.
+  bulletLook(skin) {
+    this._bulletLooks ??= new Map();
+    let look = this._bulletLooks.get(skin);
+    if (look) return look;
+    const [head, key] = skin.split(':');
+    if (head === 'wpn') {
+      const fb = WPN_FALLBACK[key] ?? ['aramir:1', 0xffffff, 28];
+      const art = this.atlas.weaponFx?.[key];
+      // the generated art is sized by its longest side (it includes the trail);
+      // the stand-ins by height, like the base projectiles
+      look = art
+        ? { tex: art, tint: 0xffffff, scale: fb[3] / Math.max(art.frame.width, art.frame.height) }
+        : { tex: this.charProjectile(fb[0]), tint: fb[1], scale: fb[2] / this.charProjectile(fb[0]).frame.height };
+    } else {
+      const tex = this.charProjectile(skin);
+      look = { tex, tint: 0xffffff, scale: 28 / tex.frame.height };
+    }
+    this._bulletLooks.set(skin, look);
+    return look;
+  }
+
+  charProjectile(skin) {
     const [charName, idx] = skin.split(':');
     const c = this.atlas.characters[charName];
     return c?.projectiles[Math.min(+idx, c.projectiles.length - 1)] ?? Texture.WHITE;
   }
 
-  playerPose(p) {
-    const poses = this.atlas.characters[p.char.id].poses;
+  bulletTexture(skin) {
+    return this.bulletLook(skin).tex;
+  }
+
+  // Pose set of the active weapon: each weapon has its own sprites (the hero
+  // holding it in every pose) when the atlas has them, otherwise the hero's
+  // base set.
+  weaponPoses(p) {
+    const art = this.atlas.characters[p.char.id];
+    return (p.weapon === 1 ? art.weapon2?.poses : art.weapon1?.poses) || art.poses;
+  }
+
+  playerPose(p, tick = 0) {
+    const poses = this.weaponPoses(p);
     // Default facing is UP (the way the field scrolls) — you fly forward into
     // the level, showing your back. The down-facing poses only appear while
     // actively descending, so a still or advancing character never looks like
     // it's walking backwards against the scroll.
     const down = p.vy > 0.01;
+    // Attack pose after each volley, held as long as the weapon says: a lance
+    // thrust lingers, a dagger flurry flickers. That is what makes each weapon
+    // look (and feel) different in hand.
+    const w = p.char.weapons?.[p.weapon | 0];
+    const hold = w ? w.pose[p.lastShotFocus ? 1 : 0] : 0;
+    if (hold && tick - p.lastShot < hold && poses.attack && poses.upAttack) {
+      return down ? poses.attack : poses.upAttack;
+    }
     if (Math.abs(p.vx) > 0.01) {
       if (down) return p.vx < 0 ? poses.moveL : poses.moveR;
       return p.vx < 0 ? poses.upMoveL : poses.upMoveR;
@@ -260,8 +329,10 @@ export class Renderer {
         continue;
       }
       const s = this.spriteFor(p, this.playerLayer);
-      const tex = this.playerPose(p);
-      if (s.texture !== tex) { s.texture = tex; s.scale.set(PLAYER_HEIGHT / tex.frame.height); }
+      const tex = this.playerPose(p, sim.tick);
+      // one scale per pose set, taken from its idle frame, so a swing that
+      // reaches past the head isn't squashed back to the idle height
+      if (s.texture !== tex) { s.texture = tex; s.scale.set(PLAYER_HEIGHT / this.weaponPoses(p).idle.frame.height); }
       s.position.set(p.x, p.y);
       s.alpha = p.iframes > 0 && (sim.tick & 4) ? 0.35 : 1;
       if (p.cloak > 0) s.alpha = 0.4;
@@ -369,10 +440,23 @@ export class Renderer {
 
     for (const b of sim.bullets.active) {
       const s = this.spriteFor(b, this.bulletLayer);
-      const tex = this.bulletTexture(b.skin);
-      if (s.texture !== tex) { s.texture = tex; s.blendMode = 'add'; s.scale.set(28 / tex.frame.height); }
+      // keyed by skin, not texture: several stand-ins share a texture and
+      // differ only in tint (pooled bullets change skin between lives)
+      if (s.skinKey !== b.skin) {
+        const look = this.bulletLook(b.skin);
+        s.skinKey = b.skin;
+        s.texture = look.tex; s.tint = look.tint; s.blendMode = 'add';
+        s.baseScale = look.scale;
+        s.scale.set(s.baseScale);
+      }
       s.position.set(b.x, b.y);
-      s.rotation = Math.atan2(b.vy, b.vx);
+      if (b.mine) {
+        // armed mine: no travel direction, a slow pulse instead
+        s.rotation = 0;
+        s.scale.set(s.baseScale * (1 + Math.sin(sim.tick / 5) * 0.15));
+      } else {
+        s.rotation = Math.atan2(b.vy, b.vx);
+      }
     }
 
     for (const b of sim.enemyBullets.active) {

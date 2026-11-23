@@ -201,6 +201,21 @@ export async function loadAtlas() {
     bv3Json('monsters18'), bv3Png('monsters18'),
   ]);
 
+  // Second weapons (WEAPONS-PLAN.md, tools/slice-weapons.py): each hero's
+  // weapon-2 pose set, the weapon-2 projectiles and skill icons. Null-safe:
+  // without them the game keeps the base poses, tinted stand-in projectiles
+  // and procedural icons.
+  const wpnDir = `${BASE}assets-v2/weapons`;
+  const wpnJson = (n) => fetch(`${wpnDir}/${n}.json`).then((r) => r.json()).catch(() => { warn(`missing weapons manifest: assets-v2/weapons/${n}.json (stand-ins kept)`); return null; });
+  const wpnPng = (n) => Assets.load(`${wpnDir}/${n}.png`).catch(() => { warn(`missing weapons sheet: assets-v2/weapons/${n}.png (stand-ins kept)`); return null; });
+  const [wHeroManifest, wHeroBase, wFxManifest, wFxBase, wIconManifest, wIconBase,
+    w1HeroManifest, w1HeroBase] = await Promise.all([
+    wpnJson('heroes'), wpnPng('heroes'),
+    wpnJson('fx'), wpnPng('fx'),
+    wpnJson('icons'), wpnPng('icons'),
+    wpnJson('heroes-w1'), wpnPng('heroes-w1'), // weapon-1 pose sets, same style as weapon 2
+  ]);
+
   const sub = (src, r) => new Texture({ source: src.source, frame: new Rectangle(r.x, r.y, r.w, r.h) });
 
   const characters = {};
@@ -210,6 +225,25 @@ export async function loadAtlas() {
       projectiles: c.projectiles.map((r) => sub(base, r)),
       banner: sub(base, c.banner),
     };
+  }
+  // in-game pose sets per weapon (the base set stays for portraits and the
+  // select screen, and as the fallback when a set is missing)
+  for (const [slot, mf, src] of [['weapon1', w1HeroManifest, w1HeroBase], ['weapon2', wHeroManifest, wHeroBase]]) {
+    if (!mf || !src) continue;
+    for (const [name, c] of Object.entries(mf.characters)) {
+      if (!characters[name]) continue;
+      characters[name][slot] = {
+        poses: Object.fromEntries(Object.entries(c.poses).map(([k, r]) => [k, sub(src, r)])),
+      };
+    }
+  }
+  const weaponFx = {};
+  if (wFxManifest && wFxBase) {
+    for (const [k, r] of Object.entries(wFxManifest.fx)) weaponFx[k] = sub(wFxBase, r);
+  }
+  const weaponIcons = {};
+  if (wIconManifest && wIconBase) {
+    for (const [id, rs] of Object.entries(wIconManifest.icons)) weaponIcons[id] = rs.map((r) => sub(wIconBase, r));
   }
 
   // real animated monster sprites, merged from all monster sheets. A pose value
@@ -321,5 +355,5 @@ export async function loadAtlas() {
     }
   }
 
-  return { characters, monsters, maps, startMenu, bosses, skills, items, bombs, ensureMapSet };
+  return { characters, monsters, maps, startMenu, bosses, skills, items, bombs, weaponFx, weaponIcons, ensureMapSet };
 }

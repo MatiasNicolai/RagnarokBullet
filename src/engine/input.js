@@ -4,15 +4,16 @@
 export const BTN = {
   UP: 1, DOWN: 2, LEFT: 4, RIGHT: 8,
   FIRE: 16, FOCUS: 32, BOMB: 64, SPECIAL: 128,
+  SWAP: 256, // change weapon (see WEAPONS-PLAN.md)
 };
 
 const P1_KEYS = {
   KeyW: BTN.UP, KeyS: BTN.DOWN, KeyA: BTN.LEFT, KeyD: BTN.RIGHT,
-  KeyJ: BTN.FIRE, KeyK: BTN.FOCUS, KeyL: BTN.BOMB, KeyI: BTN.SPECIAL,
+  KeyJ: BTN.FIRE, KeyK: BTN.FOCUS, KeyL: BTN.BOMB, KeyI: BTN.SPECIAL, KeyU: BTN.SWAP,
 };
 const P2_KEYS = {
   ArrowUp: BTN.UP, ArrowDown: BTN.DOWN, ArrowLeft: BTN.LEFT, ArrowRight: BTN.RIGHT,
-  Numpad1: BTN.FIRE, Numpad2: BTN.FOCUS, Numpad3: BTN.BOMB, Numpad0: BTN.SPECIAL,
+  Numpad1: BTN.FIRE, Numpad2: BTN.FOCUS, Numpad3: BTN.BOMB, Numpad0: BTN.SPECIAL, Numpad4: BTN.SWAP,
 };
 
 // Standard-mapping gamepad -> mask. Pad 0 drives P1, pad 1 drives P2
@@ -30,6 +31,7 @@ function gamepadMask(gp) {
   if (b(2) || b(5) || b(7)) m |= BTN.FOCUS;   // X / RB / RT
   if (b(1)) m |= BTN.BOMB;                    // B / Círculo
   if (b(3)) m |= BTN.SPECIAL;                 // Y / Triángulo
+  if (b(4)) m |= BTN.SWAP;                    // LB / L1: change weapon
   return m;
 }
 

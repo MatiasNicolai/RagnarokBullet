@@ -23,7 +23,7 @@ export function simChecksum(sim) {
   mix(sim.score);
   for (const p of sim.players) {
     if (!p) { mix(0xdead); continue; }
-    mix(p.x * 8); mix(p.y * 8); mix(p.lives); mix(p.bombs); mix(p.down ? 1 : 0); mix(p.meter);
+    mix(p.x * 8); mix(p.y * 8); mix(p.lives); mix(p.bombs); mix(p.down ? 1 : 0); mix(p.meter); mix(p.weapon);
   }
   if (sim.boss) { mix(sim.boss.hp); mix(sim.boss.cardIndex ?? 0); mix(sim.boss.x * 8); mix(sim.boss.y * 8); }
   let e = 0;

@@ -91,17 +91,43 @@ class Audio {
     return true;
   }
 
-  // Per-class shot timbre — a light, rate-limited blip while firing.
-  playShot(charId) {
-    if (!this.gate('shot', 0.06)) return;
-    const S = {
+  // One blip per actual volley (the game calls this when a player's lastShot
+  // changes), with a timbre per hero, weapon and basic/focus mode. Weapon 1
+  // keeps each class's original voice; weapon 2 sounds deliberately different
+  // (heavy weapons thud, flurries tick). `seat` keeps the two players' rate
+  // limits apart.
+  playShot(charId, weapon = 0, focus = false, seat = 0) {
+    if (!this.gate(`shot${seat}`, 0.04)) return;
+    const W1 = {
       aramir: { type: 'square', f0: 620, f1: 900, gain: 0.05 },      // sword swipe
-      zeos: { type: 'square', f0: 1100, f1: 1500, gain: 0.035 },     // fast daggers
+      zeos: { type: 'square', f0: 1100, f1: 1500, gain: 0.035 },     // katar
       eric: { type: 'sine', f0: 760, f1: 1180, gain: 0.05 },         // arcane orb
       dposada: { type: 'triangle', f0: 980, f1: 1320, gain: 0.045 }, // holy light
       chel_snip: { type: 'sawtooth', f0: 1300, f1: 1700, gain: 0.035 }, // arrow
       viri: { type: 'square', f0: 480, f1: 700, gain: 0.055 },       // fist
-    }[charId] ?? { type: 'square', f0: 880, f1: 1200, gain: 0.05 };
+    };
+    // weapon 2: [basic, focus]; `thud` adds a short noise burst for weight
+    const W2 = {
+      aramir: [{ type: 'triangle', f0: 520, f1: 300, dur: 0.07, gain: 0.06 },
+        { type: 'sawtooth', f0: 220, f1: 90, dur: 0.12, gain: 0.08, thud: 0.08 }],      // sweep / Spiral Pierce
+      zeos: [{ type: 'square', f0: 1700, f1: 2200, dur: 0.03, gain: 0.03 },
+        { type: 'sawtooth', f0: 900, f1: 300, dur: 0.1, gain: 0.06 }],                  // knives / Soul Destroyer
+      eric: [{ type: 'square', f0: 1400, f1: 700, dur: 0.04, gain: 0.035 },
+        { type: 'sawtooth', f0: 180, f1: 120, dur: 0.15, gain: 0.07, thud: 0.12 }],     // bolts / Fire Wall
+      dposada: [{ type: 'triangle', f0: 300, f1: 120, dur: 0.1, gain: 0.09, thud: 0.05 },
+        { type: 'sine', f0: 1400, f1: 1900, dur: 0.06, gain: 0.05 }],                   // mace / Duple Light
+      chel_snip: [{ type: 'sawtooth', f0: 400, f1: 150, dur: 0.08, gain: 0.07, thud: 0.04 },
+        { type: 'square', f0: 600, f1: 300, dur: 0.08, gain: 0.06 }],                   // arbalest / mine
+      viri: [{ type: 'sine', f0: 900, f1: 600, dur: 0.07, gain: 0.06 },
+        { type: 'square', f0: 240, f1: 90, dur: 0.12, gain: 0.08, thud: 0.06 }],        // Finger Offensive / Investigate
+    };
+    if (weapon === 1 && W2[charId]) {
+      const { thud, ...t } = W2[charId][focus ? 1 : 0];
+      this.tone(t);
+      if (thud) this.noise({ dur: thud, gain: 0.09 });
+      return;
+    }
+    const S = W1[charId] ?? { type: 'square', f0: 880, f1: 1200, gain: 0.05 };
     this.tone({ ...S, dur: 0.05 });
   }
 
@@ -119,6 +145,8 @@ class Audio {
       case 'bossDown': for (let i = 0; i < 5; i++) this.noise({ dur: 0.3, gain: 0.22, delay: i * 0.12 }); break;
       case 'clear': [523, 659, 784, 1047].forEach((f, i) => this.tone({ type: 'square', f0: f, dur: 0.22, gain: 0.2, delay: i * 0.13 })); break;
       case 'select': this.tone({ type: 'square', f0: 700, f1: 1000, dur: 0.06, gain: 0.14 }); break;
+      case 'swap': this.tone({ type: 'square', f0: 500, f1: 800, dur: 0.05, gain: 0.12 }); this.tone({ type: 'square', f0: 800, f1: 1250, dur: 0.06, gain: 0.12, delay: 0.06 }); break;
+      case 'mine': this.noise({ dur: 0.28, gain: 0.22 }); this.tone({ type: 'sawtooth', f0: 220, f1: 60, dur: 0.28, gain: 0.16 }); break;
       default: break;
     }
   }

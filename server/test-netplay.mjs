@@ -37,6 +37,8 @@ function scriptedInput(slot) {
     if (s & 8) mask |= BTN.DOWN;
     if (s & 16) mask |= BTN.FIRE;   // fire most of the time-ish
     if ((s & 0xff) < 8) mask |= BTN.BOMB;
+    if (s & 32) mask |= BTN.FOCUS;
+    if (((s >>> 8) & 0x3f) < 3) mask |= BTN.SWAP; // swap weapons now and then (both peers)
     return mask;
   };
 }

@@ -1,0 +1,20 @@
+Generate ONE image, 1536x1024 pixels, landscape, and save it as art-clean/weapons-gpt/weapons-icons-v1.png.
+
+A sheet of TWELVE square skill icons in EXACTLY the style of the attached skill icon sheet: the same square format, the same ornate dark-gold beveled frame with a small gem at the top, the same rich glowing painterly illustration inside, the same colour language per character. Arrange them in two rows of six, evenly spaced, each icon isolated with generous gutters, all the same size.
+
+Row 1, left to right:
+1. Brandish Spear: a golden lance sweeping a wide crescent of light (red-gold palette, like Aramir's icons).
+2. Spiral Pierce: a lance thrusting forward wrapped in a spiral of golden light (red-gold).
+3. Venom Knife: throwing knives with poison-green blades flying in a fan (purple-green palette, like Zeos's icons).
+4. Soul Destroyer: a single violet dagger tearing forward with a magenta energy trail (purple).
+5. Bolts: three elemental bolts together, one of fire, one of ice, one of lightning (blue palette, like Eric's icons).
+6. Fire Wall: a row of tall flames forming a wall (blue frame palette, orange flames).
+Row 2, left to right:
+7. Holy Smite: a golden holy mace striking with a burst of light (gold-white palette, like Dposada's icons).
+8. Duple Light: two bright holy light orbs (gold-white).
+9. Arbalest Bolt: a heavy crossbow firing a steel bolt (green-gold palette, like Chel_Snip's icons).
+10. Blast Mine: a spiked mine bursting into an orange explosion (green-gold).
+11. Finger Offensive: a monk's staff launching golden spirit spheres (red-orange palette, like Viri's icons).
+12. Investigate: an open palm striking with an orange shockwave (red-orange).
+
+No text, no labels, no numbers, no captions under the icons (unlike the reference). Flat medium-gray background (#808080) between and around the icons. No watermark.
